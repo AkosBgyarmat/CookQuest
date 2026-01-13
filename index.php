@@ -1,6 +1,6 @@
 <?php include "head.php";?>
 
-<body>
+
 
     <!-- hero seciton -->
     <div class="relative w-full h-[320px]" id="home">
@@ -315,20 +315,8 @@
         </footer>
     </section>
 
+    <?php include("footer.php") ?>?>
 
-
-
-
-
-    <!-- Scriptek -->
-    <script>
-        document.getElementById("hamburger").onclick = function toggleMenu() {
-            const navToggle = document.getElementsByClassName("toggle");
-            for (let i = 0; i < navToggle.length; i++) {
-                navToggle.item(i).classList.toggle("hidden");
-            }
-        };
-    </script>
 </body>
 
 </html>

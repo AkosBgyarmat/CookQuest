@@ -129,3 +129,5 @@
     box-shadow: 0 0 0 2px rgba(64, 63, 72, 0.3);
   }
 </style>
+
+<?php include("footer.php") ?>?>
