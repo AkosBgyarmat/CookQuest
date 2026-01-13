@@ -1,147 +1,131 @@
-<!DOCTYPE html>
-<html lang="hu">
-<head>
-  <meta charset="UTF-8">
-  <title>Bejelentkezés / Regisztráció</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<?php include "head.php"; ?>
 
-  <!-- Tailwind CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
+<container class="bg-bg min-h-screen flex items-center justify-center text-dark">
 
-  <!-- Egyedi színpaletta -->
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            bg: '#95A792',
-            primary: '#596C68',
-            secondary: '#E3D9CA',
-            dark: '#403F48'
-          }
+  <div
+    x-data="authPage()"
+    class="w-full max-w-md bg-secondary p-8 rounded-2xl shadow-xl">
+
+    <!-- CÍM -->
+    <h1 class="text-2xl font-bold text-center mb-2 text-primary"
+      x-text="isLogin ? 'Bejelentkezés' : 'Regisztráció'">
+    </h1>
+
+    <p class="text-center text-sm mb-6 text-dark">
+      <span x-text="isLogin ? 'Lépj be a fiókodba' : 'Hozd létre a saját fiókodat'"></span>
+    </p>
+
+    <!-- ŰRLAP -->
+    <form @submit.prevent="handleSubmit" class="space-y-4">
+
+      <!-- VEZETÉKNÉV + KERESZTNÉV -->
+      <div x-show="!isLogin" class="grid grid-cols-2 gap-4">
+        <input type="text" placeholder="Vezetéknév" x-model="vezeteknev" class="input-style">
+        <input type="text" placeholder="Keresztnév" x-model="keresztnev" class="input-style">
+      </div>
+
+      <!-- FELHASZNÁLÓNÉV -->
+      <input x-show="!isLogin" type="text" placeholder="Felhasználónév"
+        x-model="felhasznalonev" class="input-style">
+
+      <!-- EMAIL -->
+      <input type="email" placeholder="Email cím"
+        x-model="email" class="input-style">
+
+      <!-- JELSZÓ -->
+      <input type="password" placeholder="Jelszó"
+        x-model="password" class="input-style">
+
+      <!-- JELSZÓ MÉGEGYSZER -->
+      <input x-show="!isLogin" type="password"
+        placeholder="Jelszó megerősítése"
+        x-model="confirmPassword" class="input-style">
+
+      <!-- SZÜLETÉSI ÉV -->
+      <input x-show="!isLogin" type="number"
+        min="1900" max="2025"
+        placeholder="Születési év"
+        x-model="szuletesiEv" class="input-style">
+
+      <!-- ORSZÁG -->
+      <select x-show="!isLogin" x-model="orszagId" class="input-style">
+        <option value="">Válassz országot</option>
+        <option value="1">Magyarország</option> <!--Javítás: Az ország táblához fog csatlakozni onnan töltődik be az adat, egyenlőre  -->
+        <option value="2">Szlovákia</option>
+        <option value="3">Ausztria</option>
+      </select>
+
+      <!-- GOMB -->
+      <button type="submit"
+        class="w-full bg-primary text-white py-2 rounded-lg
+                   font-semibold hover:bg-dark transition">
+        <span x-text="isLogin ? 'Bejelentkezés' : 'Regisztráció'"></span>
+      </button>
+    </form>
+
+    <!-- VÁLTÁS -->
+    <p class="mt-6 text-center text-sm text-dark">
+      <span x-text="isLogin ? 'Még nincs fiókod?' : 'Már van fiókod?'"></span>
+      <button class="ml-1 text-primary font-semibold hover:text-dark transition"
+        @click="isLogin = !isLogin">
+        <span x-text="isLogin ? 'Regisztrálj!' : 'Jelentkezz be!'"></span>
+      </button>
+    </p>
+
+  </div>
+</container>
+
+<script>
+  function authPage() {
+    return {
+      isLogin: true,
+      vezeteknev: '',
+      keresztnev: '',
+      felhasznalonev: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+      szuletesiEv: '',
+      orszagId: '',
+
+      handleSubmit() {
+        alert(this.isLogin ?
+          'Frontend: bejelentkezés elküldve' :
+          'Frontend: regisztráció elküldve');
+      }
+    }
+  }
+</script>
+
+<!-- Egyedi színpaletta -->
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          bg: '#95A792',
+          primary: '#596C68',
+          secondary: '#E3D9CA',
+          dark: '#403F48'
         }
       }
     }
-  </script>
-
-  <!-- Alpine.js -->
-  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-</head>
-
-<body class="bg-bg min-h-screen flex items-center justify-center text-dark">
-
-<div
-  x-data="authPage()"
-  class="w-full max-w-md bg-secondary p-8 rounded-2xl shadow-xl"
->
-
-  <!-- CÍM -->
-  <h1 class="text-2xl font-bold text-center mb-2 text-primary"
-      x-text="isLogin ? 'Bejelentkezés' : 'Regisztráció'">
-  </h1>
-
-  <p class="text-center text-sm mb-6 text-dark">
-    <span x-text="isLogin ? 'Lépj be a fiókodba' : 'Hozd létre a saját fiókodat'"></span>
-  </p>
-
-  <!-- ŰRLAP -->
-  <form @submit.prevent="handleSubmit" class="space-y-4">
-
-    <!-- VEZETÉKNÉV + KERESZTNÉV -->
-    <div x-show="!isLogin" class="grid grid-cols-2 gap-4">
-      <input type="text" placeholder="Vezetéknév" x-model="vezeteknev" class="input-style">
-      <input type="text" placeholder="Keresztnév" x-model="keresztnev" class="input-style">
-    </div>
-
-    <!-- FELHASZNÁLÓNÉV -->
-    <input x-show="!isLogin" type="text" placeholder="Felhasználónév"
-           x-model="felhasznalonev" class="input-style">
-
-    <!-- EMAIL -->
-    <input type="email" placeholder="Email cím"
-           x-model="email" class="input-style">
-
-    <!-- JELSZÓ -->
-    <input type="password" placeholder="Jelszó"
-           x-model="password" class="input-style">
-
-    <!-- JELSZÓ MÉGEGYSZER -->
-    <input x-show="!isLogin" type="password"
-           placeholder="Jelszó megerősítése"
-           x-model="confirmPassword" class="input-style">
-
-    <!-- SZÜLETÉSI ÉV -->
-    <input x-show="!isLogin" type="number"
-           min="1900" max="2025"
-           placeholder="Születési év"
-           x-model="szuletesiEv" class="input-style">
-
-    <!-- ORSZÁG -->
-    <select x-show="!isLogin" x-model="orszagId" class="input-style">
-      <option value="">Válassz országot</option>
-      <option value="1">Magyarország</option>
-      <option value="2">Szlovákia</option>
-      <option value="3">Ausztria</option>
-    </select>
-
-    <!-- GOMB -->
-    <button type="submit"
-            class="w-full bg-primary text-white py-2 rounded-lg
-                   font-semibold hover:bg-dark transition">
-      <span x-text="isLogin ? 'Bejelentkezés' : 'Regisztráció'"></span>
-    </button>
-  </form>
-
-  <!-- VÁLTÁS -->
-  <p class="mt-6 text-center text-sm text-dark">
-    <span x-text="isLogin ? 'Még nincs fiókod?' : 'Már van fiókod?'"></span>
-    <button class="ml-1 text-primary font-semibold hover:text-dark transition"
-            @click="isLogin = !isLogin">
-      <span x-text="isLogin ? 'Regisztrálj!' : 'Jelentkezz be!'"></span>
-    </button>
-  </p>
-
-</div>
-
-<!-- Alpine логika -->
-<script>
-function authPage() {
-  return {
-    isLogin: true,
-    vezeteknev: '',
-    keresztnev: '',
-    felhasznalonev: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    szuletesiEv: '',
-    orszagId: '',
-
-    handleSubmit() {
-      alert(this.isLogin
-        ? 'Frontend: bejelentkezés elküldve'
-        : 'Frontend: regisztráció elküldve');
-    }
   }
-}
 </script>
 
-<!-- Input közös stílus -->
 <style>
-.input-style {
-  width: 100%;
-  padding: 0.5rem 1rem;
-  border: 1px solid #596C68;
-  border-radius: 0.5rem;
-  background-color: #E3D9CA;
-  color: #403F48;
-}
-.input-style:focus {
-  outline: none;
-  border-color: #403F48;
-  box-shadow: 0 0 0 2px rgba(64,63,72,0.3);
-}
-</style>
+  .input-style {
+    width: 100%;
+    padding: 0.5rem 1rem;
+    border: 1px solid #596C68;
+    border-radius: 0.5rem;
+    background-color: #E3D9CA;
+    color: #403F48;
+  }
 
-</body>
-</html>
+  .input-style:focus {
+    outline: none;
+    border-color: #403F48;
+    box-shadow: 0 0 0 2px rgba(64, 63, 72, 0.3);
+  }
+</style>
