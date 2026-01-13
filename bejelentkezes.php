@@ -1,6 +1,9 @@
 <?php include "head.php"; ?>
 
-<container class="bg-bg min-h-screen flex items-center justify-center text-dark">
+
+
+<div class="bg-bg h-screen flex items-center justify-center text-dark">
+
 
   <div
     x-data="authPage()"
@@ -73,7 +76,7 @@
     </p>
 
   </div>
-</container>
+</div>
 
 <script>
   function authPage() {
@@ -129,5 +132,12 @@
     box-shadow: 0 0 0 2px rgba(64, 63, 72, 0.3);
   }
 </style>
+<<<<<<< HEAD
 
 <?php include("footer.php") ?>?>
+=======
+<script>
+  document.documentElement.style.overflow = 'hidden';
+  document.body.style.overflow = 'hidden';
+</script>
+>>>>>>> e26f69ac33b32a2a710a443992709df0bb4b1f96
