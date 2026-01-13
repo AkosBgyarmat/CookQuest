@@ -1,7 +1,6 @@
 <?php include "head.php";?>
 
 <body>
-
     <!-- hero seciton -->
     <div class="relative w-full h-[320px]" id="home">
         <div class="absolute inset-0 opacity-70">
