@@ -114,12 +114,10 @@
   }
 </script>
 
-<<<<<<< HEAD
 
-<?php include("footer.php") ?>?>
-=======
+<?php include("footer.php") ?>
+
 <script>
   document.documentElement.style.overflow = 'hidden';
   document.body.style.overflow = 'hidden';
 </script>
->>>>>>> e26f69ac33b32a2a710a443992709df0bb4b1f96

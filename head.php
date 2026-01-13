@@ -28,6 +28,6 @@
     <title>CookQuest</title>
 </head>
 
-<body>
+<body class="min-h-screen flex flex-col m-0">
     
     <?php include 'navbar.php'; ?>
