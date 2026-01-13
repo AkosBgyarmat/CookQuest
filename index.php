@@ -1,11 +1,7 @@
 <?php include "head.php";?>
 
-<<<<<<< HEAD
 
 
-=======
-<body>
->>>>>>> e26f69ac33b32a2a710a443992709df0bb4b1f96
     <!-- hero seciton -->
     <div class="relative w-full h-[320px]" id="home">
         <div class="absolute inset-0 opacity-70">
@@ -319,7 +315,7 @@
         </footer>
     </section>
 
-    <?php include("footer.php") ?>?>
+    <?php include("footer.php") ?>
 
 </body>
 
