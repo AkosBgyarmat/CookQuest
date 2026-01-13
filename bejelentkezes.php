@@ -1,7 +1,5 @@
 <?php include "head.php"; ?>
 
-
-
 <div class="bg-bg h-screen flex items-center justify-center text-dark">
 
 
@@ -116,22 +114,6 @@
   }
 </script>
 
-<style>
-  .input-style {
-    width: 100%;
-    padding: 0.5rem 1rem;
-    border: 1px solid #596C68;
-    border-radius: 0.5rem;
-    background-color: #E3D9CA;
-    color: #403F48;
-  }
-
-  .input-style:focus {
-    outline: none;
-    border-color: #403F48;
-    box-shadow: 0 0 0 2px rgba(64, 63, 72, 0.3);
-  }
-</style>
 <<<<<<< HEAD
 
 <?php include("footer.php") ?>?>

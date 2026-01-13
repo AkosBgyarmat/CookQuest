@@ -8,7 +8,9 @@
 
     <!-- CSS -->
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css\bejelenkezes.css">
 
+    
     <!-- Tailwind -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="https://cdn.tailwindcss.com"></script>
