@@ -1,0 +1,171 @@
+CREATE TABLE IF NOT EXISTS `Recept` (
+	`ReceptID` INTEGER NOT NULL AUTO_INCREMENT UNIQUE,
+	`Nev` VARCHAR(150) NOT NULL,
+	`Kep` VARCHAR(255) NOT NULL,
+	`ElkeszitesiIdo` TIME NOT NULL,
+	`NehezsegiSzintID` INTEGER NOT NULL,
+	`BegyujthetoPontok` INTEGER NOT NULL,
+	`Adag` INTEGER NOT NULL,
+	`Elkeszitesi_leiras` TEXT(65535) NOT NULL,
+	`ElkeszitesiModID` INTEGER NOT NULL,
+	`Koltseg` INTEGER NOT NULL,
+	`AlkategoriaID` INTEGER NOT NULL,
+	`Kaloria` DECIMAL NOT NULL,
+	PRIMARY KEY(`ReceptID`)
+);
+
+
+CREATE TABLE IF NOT EXISTS `Recept_Hozzavalo` (
+	`ReceptID` INTEGER NOT NULL,
+	`HozzavaloID` INTEGER NOT NULL,
+	`Mennyiseg` DECIMAL NOT NULL,
+	`MertekegysegID` INTEGER NOT NULL,
+	PRIMARY KEY(`ReceptID`, `HozzavaloID`)
+);
+
+
+CREATE TABLE IF NOT EXISTS `Hozzavalo` (
+	`HozzavaloID` INTEGER NOT NULL AUTO_INCREMENT UNIQUE,
+	`Elnevezes` VARCHAR(50) NOT NULL,
+	`Kep` VARCHAR(255),
+	PRIMARY KEY(`HozzavaloID`)
+);
+
+
+CREATE TABLE IF NOT EXISTS `KonyhaiFelszereles` (
+	`KonyhaiFelszerelesID` INTEGER NOT NULL AUTO_INCREMENT UNIQUE,
+	`Nev` VARCHAR(100) NOT NULL,
+	`Kep` VARCHAR(255),
+	`Leiras` TEXT(65535) NOT NULL,
+	PRIMARY KEY(`KonyhaiFelszerelesID`)
+);
+
+
+CREATE TABLE IF NOT EXISTS `Recept_KonyhaiFelszereles` (
+	`ReceptID` INTEGER NOT NULL,
+	`KonyhaiFelszerelesID` INTEGER NOT NULL,
+	PRIMARY KEY(`ReceptID`, `KonyhaiFelszerelesID`)
+);
+
+
+CREATE TABLE IF NOT EXISTS `Felhasznalo_Recept` (
+	`ReceptID` INTEGER NOT NULL,
+	`FelhasznaloID` INTEGER NOT NULL,
+	`Elkeszitette` BOOLEAN,
+	`KedvencReceptek` BOOLEAN,
+	PRIMARY KEY(`ReceptID`, `FelhasznaloID`)
+);
+
+
+CREATE TABLE IF NOT EXISTS `Felhasznalo` (
+	`FelhasznaloID` INTEGER NOT NULL AUTO_INCREMENT UNIQUE,
+	`Vezeteknev` VARCHAR(50) NOT NULL,
+	`Keresztnev` VARCHAR(50) NOT NULL,
+	`Felhasznalonev` VARCHAR(30) NOT NULL,
+	`Emailcim` VARCHAR(254) NOT NULL,
+	`Jelszo` VARCHAR(30) NOT NULL,
+	`SzuletesiEv` YEAR NOT NULL,
+	`Profilkep` VARCHAR(255) NOT NULL,
+	`OrszagID` INTEGER NOT NULL,
+	`RegisztracioEve` YEAR NOT NULL,
+	`MegszerzettPontok` INTEGER NOT NULL,
+	PRIMARY KEY(`FelhasznaloID`)
+);
+
+
+CREATE TABLE IF NOT EXISTS `Felhasznalo_Hozzavalo` (
+	`FelhasznaloID` INTEGER NOT NULL UNIQUE,
+	`HozzavaloID` INTEGER NOT NULL,
+	`Mennyiseg` DECIMAL NOT NULL,
+	`MertekegysegID` INTEGER NOT NULL,
+	PRIMARY KEY(`FelhasznaloID`, `HozzavaloID`)
+) COMMENT='Hűtő';
+
+
+CREATE TABLE IF NOT EXISTS `NehezsegiSzint` (
+	`NehezsegiSzintID` INTEGER NOT NULL AUTO_INCREMENT UNIQUE,
+	`Szint` INTEGER NOT NULL,
+	PRIMARY KEY(`NehezsegiSzintID`)
+);
+
+
+CREATE TABLE IF NOT EXISTS `Alkategoria` (
+	`AlkategoriaID` INTEGER NOT NULL AUTO_INCREMENT UNIQUE,
+	`KategoriaID` INTEGER NOT NULL,
+	`Alkategoria` VARCHAR(255) NOT NULL,
+	PRIMARY KEY(`AlkategoriaID`)
+);
+
+
+CREATE TABLE IF NOT EXISTS `Kategoria` (
+	`KategoriaID` INTEGER NOT NULL AUTO_INCREMENT UNIQUE,
+	`Kategoria` VARCHAR(255) NOT NULL,
+	PRIMARY KEY(`KategoriaID`)
+);
+
+
+CREATE TABLE IF NOT EXISTS `Mertekegyseg` (
+	`MertekegysegID` INTEGER NOT NULL AUTO_INCREMENT UNIQUE,
+	`Elnevezes` VARCHAR(255) NOT NULL,
+	PRIMARY KEY(`MertekegysegID`)
+);
+
+
+CREATE TABLE IF NOT EXISTS `Orszag` (
+	`OrszagID` INTEGER NOT NULL AUTO_INCREMENT UNIQUE,
+	`Elnevezes` VARCHAR(255) NOT NULL,
+	PRIMARY KEY(`OrszagID`)
+);
+
+
+CREATE TABLE IF NOT EXISTS `ElkeszitesiMod` (
+	`ElkeszitesiModID` INTEGER NOT NULL AUTO_INCREMENT UNIQUE,
+	`ElkeszitesiMod` VARCHAR(255) NOT NULL,
+	`Hofok` INTEGER,
+	`Funkcio` VARCHAR(50),
+	PRIMARY KEY(`ElkeszitesiModID`)
+);
+
+
+ALTER TABLE `Recept`
+ADD FOREIGN KEY(`ReceptID`) REFERENCES `Recept_Hozzavalo`(`ReceptID`)
+ON UPDATE NO ACTION ON DELETE NO ACTION;
+ALTER TABLE `Hozzavalo`
+ADD FOREIGN KEY(`HozzavaloID`) REFERENCES `Recept_Hozzavalo`(`HozzavaloID`)
+ON UPDATE NO ACTION ON DELETE NO ACTION;
+ALTER TABLE `Recept_KonyhaiFelszereles`
+ADD FOREIGN KEY(`ReceptID`) REFERENCES `Recept`(`ReceptID`)
+ON UPDATE NO ACTION ON DELETE NO ACTION;
+ALTER TABLE `Recept_KonyhaiFelszereles`
+ADD FOREIGN KEY(`KonyhaiFelszerelesID`) REFERENCES `KonyhaiFelszereles`(`KonyhaiFelszerelesID`)
+ON UPDATE NO ACTION ON DELETE NO ACTION;
+ALTER TABLE `Felhasznalo_Recept`
+ADD FOREIGN KEY(`ReceptID`) REFERENCES `Recept`(`ReceptID`)
+ON UPDATE NO ACTION ON DELETE NO ACTION;
+ALTER TABLE `Felhasznalo`
+ADD FOREIGN KEY(`FelhasznaloID`) REFERENCES `Felhasznalo_Recept`(`FelhasznaloID`)
+ON UPDATE NO ACTION ON DELETE NO ACTION;
+ALTER TABLE `Felhasznalo`
+ADD FOREIGN KEY(`FelhasznaloID`) REFERENCES `Felhasznalo_Hozzavalo`(`FelhasznaloID`)
+ON UPDATE NO ACTION ON DELETE NO ACTION;
+ALTER TABLE `Felhasznalo_Hozzavalo`
+ADD FOREIGN KEY(`HozzavaloID`) REFERENCES `Hozzavalo`(`HozzavaloID`)
+ON UPDATE NO ACTION ON DELETE NO ACTION;
+ALTER TABLE `NehezsegiSzint`
+ADD FOREIGN KEY(`NehezsegiSzintID`) REFERENCES `Recept`(`NehezsegiSzintID`)
+ON UPDATE NO ACTION ON DELETE NO ACTION;
+ALTER TABLE `Recept_Hozzavalo`
+ADD FOREIGN KEY(`MertekegysegID`) REFERENCES `Mertekegyseg`(`MertekegysegID`)
+ON UPDATE NO ACTION ON DELETE NO ACTION;
+ALTER TABLE `Felhasznalo`
+ADD FOREIGN KEY(`OrszagID`) REFERENCES `Orszag`(`OrszagID`)
+ON UPDATE NO ACTION ON DELETE NO ACTION;
+ALTER TABLE `Recept`
+ADD FOREIGN KEY(`ElkeszitesiModID`) REFERENCES `ElkeszitesiMod`(`ElkeszitesiModID`)
+ON UPDATE NO ACTION ON DELETE NO ACTION;
+ALTER TABLE `Recept`
+ADD FOREIGN KEY(`AlkategoriaID`) REFERENCES `Alkategoria`(`AlkategoriaID`)
+ON UPDATE NO ACTION ON DELETE NO ACTION;
+ALTER TABLE `Kategoria`
+ADD FOREIGN KEY(`KategoriaID`) REFERENCES `Alkategoria`(`KategoriaID`)
+ON UPDATE NO ACTION ON DELETE NO ACTION;
