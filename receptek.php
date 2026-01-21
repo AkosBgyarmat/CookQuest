@@ -1,2 +1,7 @@
 <?php include "head.php"; ?>
-<?php include("footer.php") ?>
+
+
+<!-- Ide jönne a tartalom -->
+
+
+<?php include "footer.php"; ?>

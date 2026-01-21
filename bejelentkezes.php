@@ -18,7 +18,7 @@
         <!-- FEJLÉC -->
         <div class="mb-4">
           <h1 class="text-2xl font-bold text-center text-primary"
-              x-text="isLogin ? 'Bejelentkezés' : 'Regisztráció'"></h1>
+            x-text="isLogin ? 'Bejelentkezés' : 'Regisztráció'"></h1>
           <p class="text-center text-sm text-dark mt-1">
             <span x-text="isLogin ? 'Lépj be a fiókodba' : 'Hozd létre a saját fiókodat'"></span>
           </p>
@@ -26,7 +26,7 @@
 
         <!-- FORM -->
         <form @submit.prevent="handleSubmit"
-              class="space-y-3 overflow-auto pr-1">
+          class="space-y-3 overflow-auto pr-1">
 
           <!-- VEZETÉKNÉV + KERESZTNÉV -->
           <div x-show="!isLogin" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -36,39 +36,39 @@
 
           <!-- FELHASZNÁLÓNÉV -->
           <input x-show="!isLogin" type="text"
-                 placeholder="Felhasználónév"
-                 x-model="felhasznalonev"
-                 class="input-style">
+            placeholder="Felhasználónév"
+            x-model="felhasznalonev"
+            class="input-style">
 
           <!-- EMAIL -->
           <input type="email"
-                 placeholder="Email cím"
-                 x-model="email"
-                 class="input-style">
+            placeholder="Email cím"
+            x-model="email"
+            class="input-style">
 
           <!-- JELSZÓ -->
           <input type="password"
-                 placeholder="Jelszó"
-                 x-model="password"
-                 class="input-style">
+            placeholder="Jelszó"
+            x-model="password"
+            class="input-style">
 
           <!-- JELSZÓ MÉGEGYSZER -->
           <input x-show="!isLogin" type="password"
-                 placeholder="Jelszó megerősítése"
-                 x-model="confirmPassword"
-                 class="input-style">
+            placeholder="Jelszó megerősítése"
+            x-model="confirmPassword"
+            class="input-style">
 
           <!-- SZÜLETÉSI ÉV -->
           <input x-show="!isLogin" type="number"
-                 min="1900" max="2025"
-                 placeholder="Születési év"
-                 x-model="szuletesiEv"
-                 class="input-style">
+            min="1900" max="2025"
+            placeholder="Születési év"
+            x-model="szuletesiEv"
+            class="input-style">
 
           <!-- ORSZÁG -->
           <select x-show="!isLogin"
-                  x-model="orszagId"
-                  class="input-style">
+            x-model="orszagId"
+            class="input-style">
             <option value="">Válassz országot</option>
             <option value="1">Magyarország</option>
             <option value="2">Szlovákia</option>
@@ -87,7 +87,7 @@
         <p class="mt-4 text-center text-sm text-dark">
           <span x-text="isLogin ? 'Még nincs fiókod?' : 'Már van fiókod?'"></span>
           <button class="ml-1 text-primary font-semibold hover:text-dark transition"
-                  @click="isLogin = !isLogin">
+            @click="isLogin = !isLogin">
             <span x-text="isLogin ? 'Regisztrálj!' : 'Jelentkezz be!'"></span>
           </button>
         </p>
@@ -100,41 +100,3 @@
 
   </main>
 </div>
-
-<script>
-  function authPage() {
-    return {
-      isLogin: true,
-      vezeteknev: '',
-      keresztnev: '',
-      felhasznalonev: '',
-      email: '',
-      password: '',
-      confirmPassword: '',
-      szuletesiEv: '',
-      orszagId: '',
-      handleSubmit() {
-        alert(this.isLogin
-          ? 'Frontend: bejelentkezés elküldve'
-          : 'Frontend: regisztráció elküldve');
-      }
-    }
-  }
-</script>
-
-<script>
-  tailwind.config = {
-    theme: {
-      extend: {
-        colors: {
-          bg: '#95A792',
-          primary: '#596C68',
-          secondary: '#E3D9CA',
-          dark: '#403F48'
-        }
-      }
-    }
-  }
-</script>
-
-
