@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <?php
 include "head.php";
 
