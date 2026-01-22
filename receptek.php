@@ -105,7 +105,7 @@ if ($receptId) {
 
                             <a href="receptek.php?id=<?= $r['ReceptID'] ?>"
                                class="text-[#596C68] font-semibold hover:underline">
-                                Megnézem →
+                                Megnézem a receptet →
                             </a>
                         </div>
                     </div>
