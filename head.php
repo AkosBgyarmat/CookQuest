@@ -16,7 +16,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     
     <!-- Favicon -->
-    <link rel="shortcut icon" href="kepek/favicon/favicon-16x16.png" type="image/x-icon">
+    <link rel="shortcut icon" href="kepek/favicon/favicon-32x32.png" type="image/x-icon">
     
     <!-- Alpine.js -->
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
