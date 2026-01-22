@@ -1,40 +1,56 @@
-input[type="password"]::-ms-reveal,
-input[type="password"]::-ms-clear {
-      display: none;
-}   
-
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
-        body { font-family: 'Inter', sans-serif; }
+body{
+  scroll-behavior: smooth;
+}
 
 /* Footer */
 @keyframes blob3 {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
 
-        0%,
-        100% {
-            transform: translate(0, 0) scale(1);
-        }
+  50% {
+    transform: translate(20px, -20px) scale(1.1);
+  }
+}
 
-        50% {
-            transform: translate(20px, -20px) scale(1.1);
-        }
-    }
+@keyframes blob4 {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
 
-    @keyframes blob4 {
+  50% {
+    transform: translate(-15px, 25px) scale(0.9);
+  }
+}
 
-        0%,
-        100% {
-            transform: translate(0, 0) scale(1);
-        }
+.animate-blob3 {
+  animation: blob3 30s infinite ease-in-out;
+}
 
-        50% {
-            transform: translate(-15px, 25px) scale(0.9);
-        }
-    }
+.animate-blob4 {
+  animation: blob4 35s infinite ease-in-out;
+}
 
-    .animate-blob3 {
-        animation: blob3 30s infinite ease-in-out;
-    }
 
-    .animate-blob4 {
-        animation: blob4 35s infinite ease-in-out;
-    }
+/* Bejelentkezés */
+.input-style {
+  width: 100%;
+  padding: 0.5rem 1rem;
+  border: 1px solid #596c68;
+  border-radius: 0.5rem;
+  background-color: #e3d9ca;
+  color: #403f48;
+}
+
+.input-style:focus {
+  outline: none;
+  border-color: #403f48;
+  box-shadow: 0 0 0 2px rgba(64, 63, 72, 0.3);
+}
+
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+  display: none;
+}

@@ -13,14 +13,10 @@
     </div>
 
     <div class=" toggle hidden w-full md:w-auto md:flex text-right text-bold mt-5 md:mt-0 md:border-none">
-        <a href="index.php" class="block md:inline-block hover:text-[#5A7863] px-3 py-3 md:border-none">Főoldal
-        </a>
-        <a href="receptek.php" class="block md:inline-block hover:text-[#5A7863] px-3 py-3 md:border-none">Receptek
-        </a>
-        <a href="konyhaiEszkozok.php" class="block md:inline-block hover:text-[#5A7863] px-3 py-3 md:border-none">Konyhai eszközök
-        </a>
-        <a href="bejelentkezes.php" class="block md:inline-block hover:text-[#5A7863] px-3 py-3 md:border-none">Bejelentkezés
-        </a>
+        <a href="index.php" class="block md:inline-block hover:text-[#5A7863] px-3 py-3 md:border-none">Főoldal</a>
+        <a href="receptek.php" class="block md:inline-block hover:text-[#5A7863] px-3 py-3 md:border-none">Receptek</a>
+        <a href="konyhaiEszkozok.php" class="block md:inline-block hover:text-[#5A7863] px-3 py-3 md:border-none">Konyhai eszközök</a>
+        <a href="bejelentkezes.php" class="block md:inline-block hover:text-[#5A7863] px-3 py-3 md:border-none">Bejelentkezés</a>
     </div>
 
     <!-- Kereső -->
