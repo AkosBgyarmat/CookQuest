@@ -1,7 +1,7 @@
 <!-- Navbar -->
 <nav class="flex flex-wrap items-center justify-between p-3 bg-[#EBF4DD] font-bold text-lg">
 
-    <a href="index.php"><img src="images/Untitled26_20260112101444-removebg-preview.png" class="w-16"></img></a>
+    <a href="index.php"><img src="kepek/Monogram.png" class="w-16"></img></a>
 
     <div class="flex md:hidden">
         <button id="hamburger">

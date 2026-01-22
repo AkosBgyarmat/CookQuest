@@ -13,11 +13,10 @@
 
     
     <!-- Tailwind -->
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-
+    
     <!-- Favicon -->
-    <link rel="shortcut icon" href="images/favicon/favicon-16x16.png" type="image/x-icon">
+    <link rel="shortcut icon" href="kepek/favicon/favicon-16x16.png" type="image/x-icon">
     
     <!-- Alpine.js -->
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
