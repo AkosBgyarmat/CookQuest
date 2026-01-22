@@ -181,11 +181,4 @@ if ($receptId) {
 
 <?php include "footer.php"; ?>
 =======
-<?php include "head.php"; ?>
 
-
-<!-- Ide jönne a tartalom -->
-
-
-<?php include "footer.php"; ?>
->>>>>>> 87a0534c556a760a8de009cf556539fd2dd471f8
