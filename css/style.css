@@ -5,3 +5,36 @@ input[type="password"]::-ms-clear {
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
         body { font-family: 'Inter', sans-serif; }
+
+/* Footer */
+@keyframes blob3 {
+
+        0%,
+        100% {
+            transform: translate(0, 0) scale(1);
+        }
+
+        50% {
+            transform: translate(20px, -20px) scale(1.1);
+        }
+    }
+
+    @keyframes blob4 {
+
+        0%,
+        100% {
+            transform: translate(0, 0) scale(1);
+        }
+
+        50% {
+            transform: translate(-15px, 25px) scale(0.9);
+        }
+    }
+
+    .animate-blob3 {
+        animation: blob3 30s infinite ease-in-out;
+    }
+
+    .animate-blob4 {
+        animation: blob4 35s infinite ease-in-out;
+    }
