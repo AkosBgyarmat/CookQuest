@@ -1,9 +1,8 @@
 <?php include "head.php"; ?>
 
-<div class="bg-bg h-screen flex flex-col text-dark overflow-hidden">
-
+<div class="bg-bg min-h-screen flex flex-col text-dark">
   <!-- MAIN -->
-  <main class="flex-1 flex flex-col px-4 overflow-hidden">
+  <main class="flex-1 flex justify-center align-center min-h-[calc(100vh-4rem)] px-4">
 
     <!-- KÁRTYA KÖZÉPEN -->
     <div class="flex-1 flex items-center justify-center">
@@ -77,7 +76,7 @@
 
           <!-- GOMB -->
           <button type="submit"
-                  class="w-full bg-primary text-white py-2 rounded-lg
+            class="w-full bg-primary text-white py-2 rounded-lg
                          font-semibold hover:bg-dark transition">
             <span x-text="isLogin ? 'Bejelentkezés' : 'Regisztráció'"></span>
           </button>
@@ -95,8 +94,10 @@
       </div>
     </div>
 
-    <!-- FOOTER – MAIN ALJÁN -->
-    <?php include("footer.php"); ?>
-
+    
   </main>
+  
+  <!-- FOOTER -->
+  <?php include("footer.php"); ?>
+
 </div>
