@@ -69,7 +69,7 @@ if ($receptId) {
                     class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#596C68] focus:border-transparent text-sm">
             </div>
 
-            <div class="h-[calc(100vh-280px)] lg:max-h-[600px] overflow-y-auto pr-2 space-y-1 scrollbar-thin scrollbar-thumb-[#596C68] scrollbar-track-gray-200">
+            <div class="h-[calc(100vh-280px)] lg:max-h-[600px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-[#596C68] scrollbar-track-gray-200">
                 <?php foreach ($receptek as $r): ?>
                     <a
                         href="receptek.php?id=<?= $r['ReceptID'] ?>"
@@ -80,7 +80,13 @@ if ($receptId) {
                         data-name="<?= strtolower(htmlspecialchars($r['Nev'])) ?>">
                         <div class="font-semibold text-sm"><?= htmlspecialchars($r['Nev']) ?></div>
                         <div class="text-xs mt-1 <?= ($receptId == $r['ReceptID']) ? 'text-white/80' : 'text-gray-500' ?>">
-                            <?= $r['Szint'] ?>. szint • <?= substr($r['ElkeszitesiIdo'], 0, 5) ?> perc
+                            <?= $r['Szint'] ?>. szint • <?php
+                                                        $ido = $r['ElkeszitesiIdo']; // TIME
+                                                        list($ora, $perc) = explode(':', $ido);
+
+                                                        $osszPerc = ((int)$ora * 60) + (int)$perc;
+                                                        ?>
+                            <span><?= $osszPerc ?> perc</span>
                         </div>
                     </a>
                 <?php endforeach; ?>
@@ -124,7 +130,13 @@ if ($receptId) {
                                         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                                             <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
                                         </svg>
-                                        <span><?= substr($r['ElkeszitesiIdo'], 0, 5) ?> perc</span>
+                                        <span><?php
+                                                $ido = $r['ElkeszitesiIdo']; // TIME
+                                                list($ora, $perc) = explode(':', $ido);
+
+                                                $osszPerc = ((int)$ora * 60) + (int)$perc;
+                                                ?>
+                                            <span><?= $osszPerc ?> perc</span>
                                     </div>
                                 </div>
 
@@ -162,7 +174,14 @@ if ($receptId) {
                                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                                         <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
                                     </svg>
-                                    <span><?= substr($recept['ElkeszitesiIdo'], 0, 5) ?> perc</span>
+                                    <?php
+                                    $ido = $r['ElkeszitesiIdo']; // TIME
+                                    list($ora, $perc) = explode(':', $ido);
+
+                                    $osszPerc = ((int)$ora * 60) + (int)$perc;
+                                    ?>
+                                    <span><?= $osszPerc ?> perc</span>
+
                                 </div>
                                 <div class="flex items-center gap-2 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full">
                                     <span>⭐</span>

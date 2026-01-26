@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2026. Jan 22. 12:44
+-- Létrehozás ideje: 2026. Jan 26. 10:54
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -39,7 +39,8 @@ CREATE TABLE `alkategoria` (
 
 INSERT INTO `alkategoria` (`AlkategoriaID`, `KategoriaID`, `Alkategoria`) VALUES
 (1, 1, 'Reggeli'),
-(2, 1, 'Desszert');
+(2, 1, 'Desszert'),
+(3, 1, 'Leves');
 
 -- --------------------------------------------------------
 
@@ -61,7 +62,8 @@ CREATE TABLE `elkeszitesimod` (
 INSERT INTO `elkeszitesimod` (`ElkeszitesiModID`, `ElkeszitesiMod`, `Hofok`, `Funkcio`) VALUES
 (1, 'Serpenyőben sütés', NULL, 'tűzhely'),
 (2, 'Nem sütős desszert', NULL, 'nincs'),
-(3, 'Kenyérpirító', NULL, 'pirítás');
+(3, 'Kenyérpirító', NULL, 'pirítás'),
+(4, 'Főzés', NULL, 'tűzhely');
 
 -- --------------------------------------------------------
 
@@ -138,7 +140,17 @@ INSERT INTO `hozzavalo` (`HozzavaloID`, `Elnevezes`, `Kep`) VALUES
 (26, 'joghurt', NULL),
 (27, 'gyümölcs', NULL),
 (28, 'méz', NULL),
-(29, 'zabpehely', NULL);
+(29, 'zabpehely', NULL),
+(30, 'kenyér', NULL),
+(31, 'sárgarépa', NULL),
+(32, 'fehérrépa', NULL),
+(33, 'karalábé', NULL),
+(34, 'zellergumó', NULL),
+(35, 'vöröshagyma', NULL),
+(36, 'petrezselyem', NULL),
+(37, 'babérlevél', NULL),
+(38, 'egész bors', NULL),
+(39, 'víz', NULL);
 
 -- --------------------------------------------------------
 
@@ -195,7 +207,11 @@ CREATE TABLE `nehezsegiszint` (
 --
 
 INSERT INTO `nehezsegiszint` (`NehezsegiSzintID`, `Szint`) VALUES
-(1, 1);
+(1, 1),
+(2, 2),
+(3, 3),
+(4, 4),
+(5, 5);
 
 -- --------------------------------------------------------
 
@@ -247,7 +263,8 @@ INSERT INTO `recept` (`ReceptID`, `Nev`, `Kep`, `ElkeszitesiIdo`, `NehezsegiSzin
 (11, 'Pirítós vajjal vagy lekvárral', 'kepek/etelek/PiritosKenyer.webp', '00:05:00', 1, 15, 1, 'Tedd a kenyereket kenyérpirítóba és pirítsd meg (vagy serpenyőben 1–2 perc oldalanként közepes lángon, vaj nélkül).\r\nAmint kész, kend meg vékonyan vajjal (vagy vastagabban lekvárral).\r\nAzonnal fogyaszd, amíg ropogós.\r\n', 1, 120, 1, 200.00),
 (12, 'Gyümölcsös joghurtos pohárkrém', 'kepek/etelek/GyumolcsosPohardesszert.webp', '00:05:00', 1, 10, 1, 'A gyümölcsöt mosd meg, ha szükséges, vágd kisebb darabokra (fagyasztottat hagyd kicsit felengedni).\r\nEgy átlátszó pohárba rétegezd: alul egy kis joghurt, rá gyümölcs, majd ismét joghurt – így szép lesz réteges.\r\nVégül csurgasd rá a mézet.\r\nTedd hűtőbe 10–15 percre, hogy az ízek összeérjenek (de azonnal is fogyasztható).\r\n', 2, 400, 2, 220.00),
 (13, 'Zabpelyhes-mézes pohárdesszert', 'kepek/etelek/ZabpelyhesMezesPohardesszert.webp', '00:05:00', 1, 10, 1, 'Egy pohárba rétegezd: alul egy kevés joghurt, rá zabpehely, majd ismét joghurt – összesen 2–3 réteg.\r\nCsurgasd rá a mézet a tetejére.\r\nTedd hűtőbe 5–10 percre (vagy akár 30 percre), hogy a zab kissé megpuhuljon és az ízek összeérjenek.\r\nKeverd át evés előtt, ha krémesebb állagot szeretnél.\r\n', 2, 250, 2, 300.00),
-(14, 'Palacsinta', 'kepek/etelek/Palacsinta.webp', '00:05:00', 1, 10, 1, 'Egy nagy tálban verd fel a tojásokat a cukorral/sóval.\r\nAdd hozzá a lisztet, tejet, szódát és olajat. Keverd simára botmixerrel vagy kézi habverővel – a tészta legyen híg palacsinta tészta állagú (kicsit legyen hígabb mint a tejföl). Ha csomós, szűrd át.\r\nHevíts egy palacsintasütőt vagy tapadásmentes serpenyőt közepes lángon, kenj ki vékonyan olajjal (papírtörlővel).\r\nMerj bele egy merőkanál tésztát, döntsd meg a serpenyőt, hogy vékonyan elterüljön.\r\nSüsd kb. 1–1,5 percig, amíg a széle elválik és a teteje már nem folyós – akkor fordítsd meg.\r\nA másik oldalát is süsd 30–60 másodpercig.\r\nA kész palacsintákat tányérra rakd, fedd le, hogy ne száradjanak ki. \r\n\r\nSós verzióhoz, hagyjuk el a cukrot belőle, és mehet bele 2 csipet só.\r\n', 1, 400, 2, 220.00);
+(14, 'Palacsinta', 'kepek/etelek/Palacsinta.webp', '00:05:00', 1, 10, 1, 'Egy nagy tálban verd fel a tojásokat a cukorral/sóval.\r\nAdd hozzá a lisztet, tejet, szódát és olajat. Keverd simára botmixerrel vagy kézi habverővel – a tészta legyen híg palacsinta tészta állagú (kicsit legyen hígabb mint a tejföl). Ha csomós, szűrd át.\r\nHevíts egy palacsintasütőt vagy tapadásmentes serpenyőt közepes lángon, kenj ki vékonyan olajjal (papírtörlővel).\r\nMerj bele egy merőkanál tésztát, döntsd meg a serpenyőt, hogy vékonyan elterüljön.\r\nSüsd kb. 1–1,5 percig, amíg a széle elválik és a teteje már nem folyós – akkor fordítsd meg.\r\nA másik oldalát is süsd 30–60 másodpercig.\r\nA kész palacsintákat tányérra rakd, fedd le, hogy ne száradjanak ki. \r\n\r\nSós verzióhoz, hagyjuk el a cukrot belőle, és mehet bele 2 csipet só.\r\n', 1, 400, 2, 220.00),
+(15, 'Zöldségleves', 'kepek/etelek/ZoldsegLeves.webp', '01:00:00', 2, 15, 4, 'A zöldségeket (sárgarépa, fehérrépa, karalábé, zeller, hagyma) tisztítsd meg és vágd egyforma méretűre (kb. 1–2 cm-es kockákra vagy karikákra), hogy egyszerre puhuljanak. A hagymát hagyd egészben vagy félbe vágva.\r\nEgy nagyobb lábasban melegítsd fel az olajat közepes lángon (ne füstöljön!).\r\nTedd bele a hagymát és a keményebb gyökérzöldségeket (répa, zeller, fehérrépa). Párold 8–12 percig, időnként megkeverve, amíg a hagyma üveges lesz és a zöldségek enyhén megpuhulnak – ez nagyon fontos lépés, mert itt mélyülnek az ízek.\r\nÖntsd fel kb. 3 liter hideg vízzel (hideg víz = tisztább leves).\r\nAdd hozzá a petrezselyem szárát (csokorba kötve, hogy könnyű legyen később kivenni), a babérleveleket, egész borsot és sót ízlés szerint, ha van tea tojásod, akkor abba tedd bele a borsot, így nem fog zavarni evés közben.\r\nForrald fel, majd vedd vissza a lángot alacsonyra, hogy csak gyöngyözzön (ne forrjon nagyon). Fedő nélkül vagy félig fedve főzd kb. 20–25 percig.\r\nAmikor a gyökérzöldségek már majdnem puhák (villával könnyen átszúrhatók), a karalábét.\r\nFőzd tovább még 10–15 percig, amíg minden zöldség tökéletesen puha, de nem esik szét.\r\nVedd ki a petrezselyem szárát, babérlevelet és hagymát (ha egészben hagytad).\r\nSzórd meg friss aprított petrezselyemmel, kóstold meg, szükség szerint utánízesítsd, és forrón tálald.\r\n', 4, 1200, 3, 100.00);
 
 -- --------------------------------------------------------
 
@@ -276,8 +293,10 @@ INSERT INTO `recept_hozzavalo` (`ReceptID`, `HozzavaloID`, `Mennyiseg`, `Merteke
 (10, 17, 2.00, 1),
 (10, 21, 50.00, 2),
 (10, 22, 1.00, 4),
+(10, 30, 2.00, 1),
 (11, 24, 10.00, 3),
 (11, 25, 30.00, 3),
+(11, 30, 2.00, 1),
 (12, 26, 150.00, 3),
 (12, 27, 100.00, 3),
 (12, 28, 20.00, 3),
@@ -289,7 +308,18 @@ INSERT INTO `recept_hozzavalo` (`ReceptID`, `HozzavaloID`, `Mennyiseg`, `Merteke
 (14, 19, 250.00, 2),
 (14, 20, 30.00, 3),
 (14, 21, 50.00, 2),
-(14, 23, 250.00, 2);
+(14, 23, 250.00, 2),
+(15, 21, 45.00, 2),
+(15, 22, 1.00, 4),
+(15, 31, 300.00, 3),
+(15, 32, 200.00, 3),
+(15, 33, 250.00, 3),
+(15, 34, 200.00, 3),
+(15, 35, 150.00, 3),
+(15, 36, 30.00, 3),
+(15, 37, 2.00, 1),
+(15, 38, 5.00, 3),
+(15, 39, 3000.00, 2);
 
 --
 -- Indexek a kiírt táblákhoz
@@ -385,13 +415,13 @@ ALTER TABLE `recept_hozzavalo`
 -- AUTO_INCREMENT a táblához `alkategoria`
 --
 ALTER TABLE `alkategoria`
-  MODIFY `AlkategoriaID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `AlkategoriaID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT a táblához `elkeszitesimod`
 --
 ALTER TABLE `elkeszitesimod`
-  MODIFY `ElkeszitesiModID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `ElkeszitesiModID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT a táblához `felhasznalo`
@@ -403,7 +433,7 @@ ALTER TABLE `felhasznalo`
 -- AUTO_INCREMENT a táblához `hozzavalo`
 --
 ALTER TABLE `hozzavalo`
-  MODIFY `HozzavaloID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `HozzavaloID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT a táblához `kategoria`
@@ -421,7 +451,7 @@ ALTER TABLE `mertekegyseg`
 -- AUTO_INCREMENT a táblához `nehezsegiszint`
 --
 ALTER TABLE `nehezsegiszint`
-  MODIFY `NehezsegiSzintID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `NehezsegiSzintID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT a táblához `orszag`
@@ -433,7 +463,7 @@ ALTER TABLE `orszag`
 -- AUTO_INCREMENT a táblához `recept`
 --
 ALTER TABLE `recept`
-  MODIFY `ReceptID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `ReceptID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- Megkötések a kiírt táblákhoz
