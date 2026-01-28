@@ -23,6 +23,7 @@ $receptek = $pdo->query("
         r.Kep,
         r.ElkeszitesiIdo,
         r.BegyujthetoPontok,
+        r.Koltseg,
         n.Szint
     FROM Recept r
     JOIN NehezsegiSzint n ON r.NehezsegiSzintID = n.NehezsegiSzintID
@@ -33,8 +34,8 @@ $receptek = $pdo->query("
 if ($receptId) {
     $stmt = $pdo->prepare("
         SELECT r.*, n.Szint
-        FROM Recept r
-        JOIN NehezsegiSzint n ON r.NehezsegiSzintID = n.NehezsegiSzintID
+        FROM recept r
+        JOIN nehezsegiszint n ON r.NehezsegiSzintID = n.NehezsegiSzintID
         WHERE r.ReceptID = ?
     ");
     $stmt->execute([$receptId]);
@@ -42,9 +43,9 @@ if ($receptId) {
 
     $stmt = $pdo->prepare("
         SELECT h.Elnevezes, rh.Mennyiseg, m.Elnevezes AS Mertekegyseg
-        FROM Recept_Hozzavalo rh
-        JOIN Hozzavalo h ON rh.HozzavaloID = h.HozzavaloID
-        JOIN Mertekegyseg m ON rh.MertekegysegID = m.MertekegysegID
+        FROM recept_hozzavalo rh
+        JOIN hozzavalo h ON rh.HozzavaloID = h.HozzavaloID
+        JOIN mertekegyseg m ON rh.MertekegysegID = m.MertekegysegID
         WHERE rh.ReceptID = ?
     ");
     $stmt->execute([$receptId]);
@@ -55,38 +56,25 @@ if ($receptId) {
 <main class="min-h-screen bg-gradient-to-br from-[#95A792] to-[#7a8d78] py-8 px-4">
     <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-4 gap-6">
 
-        <!--  SIDEBAR  -->
+        <!-- ===== SIDEBAR ===== -->
         <aside class="bg-white rounded-2xl shadow-lg p-6 lg:col-span-1 h-fit lg:sticky lg:top-6">
-            <div class="flex items-center gap-2 mb-6">
-                <svg class="w-6 h-6 text-[#596C68]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
-                </svg>
-                <h2 class="font-bold text-xl text-[#403F48]">Receptkönyv</h2>
-            </div>
+            <h2 class="font-bold text-xl mb-4">Receptkönyv</h2>
 
-            <div class="mb-4">
-                <input type="text" id="searchRecipes" placeholder="Keresés a receptek között..."
-                    class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#596C68] focus:border-transparent text-sm">
-            </div>
+            <input type="text" id="searchRecipes" placeholder="Keresés..."
+                class="w-full px-4 py-2 rounded-lg border mb-4">
 
-            <div class="h-[calc(100vh-280px)] lg:max-h-[600px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-[#596C68] scrollbar-track-gray-200">
+            <div class="overflow-y-auto max-h-[600px] space-y-2">
                 <?php foreach ($receptek as $r): ?>
-                    <a
-                        href="receptek.php?id=<?= $r['ReceptID'] ?>"
-                        class="recipe-item block px-4 py-3 rounded-lg transition-all duration-200
-                        <?= ($receptId == $r['ReceptID'])
-                            ? 'bg-[#596C68] text-white shadow-md'
-                            : 'hover:bg-[#E3D9CA] text-[#403F48] hover:shadow-sm' ?>"
-                        data-name="<?= strtolower(htmlspecialchars($r['Nev'])) ?>">
-                        <div class="font-semibold text-sm"><?= htmlspecialchars($r['Nev']) ?></div>
-                        <div class="text-xs mt-1 <?= ($receptId == $r['ReceptID']) ? 'text-white/80' : 'text-gray-500' ?>">
-                            <?= $r['Szint'] ?>. szint • <?php
-                                                        $ido = $r['ElkeszitesiIdo']; // TIME
-                                                        list($ora, $perc) = explode(':', $ido);
-
-                                                        $osszPerc = ((int)$ora * 60) + (int)$perc;
-                                                        ?>
-                            <span><?= $osszPerc ?> perc</span>
+                    <?php
+                    list($ora, $perc) = explode(':', $r['ElkeszitesiIdo']);
+                    $osszPerc = ((int)$ora * 60) + (int)$perc;
+                    ?>
+                    <a href="receptek.php?id=<?= $r['ReceptID'] ?>"
+                        class="block p-3 rounded-lg <?= $receptId == $r['ReceptID'] ? 'bg-[#596C68] text-white' : 'hover:bg-[#E3D9CA]' ?>"
+                        data-name="<?= strtolower($r['Nev']) ?>">
+                        <div class="font-semibold"><?= htmlspecialchars($r['Nev']) ?></div>
+                        <div class="text-xs opacity-80">
+                            <?= $r['Szint'] ?>. szint • <?= $osszPerc ?> perc
                         </div>
                     </a>
                 <?php endforeach; ?>
@@ -118,7 +106,13 @@ if ($receptId) {
                                 <div class="flex items-center gap-2 mb-2">
                                     <span class="text-xs font-semibold px-3 py-1 bg-[#E3D9CA] text-[#596C68] rounded-full">
                                         <?= $r['Szint'] ?>. SZINT
+                                        
                                     </span>
+                                    <span>
+                                                                            💰 <?= number_format($r['Koltseg'], 0, ',', ' ') ?> Ft
+
+                                    </span>
+                                    
                                 </div>
 
                                 <h3 class="font-bold text-xl mt-2 text-[#403F48] group-hover:text-[#596C68] transition-colors line-clamp-2 min-h-[3.5rem]">
@@ -189,6 +183,10 @@ if ($receptId) {
                                 </div>
                                 <div class="flex items-center gap-2 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full">
                                     <span><?= $recept['Szint'] ?>. szint</span>
+                                </div>
+                                <div>
+                                                            <span>💰 <?= number_format($recept['Koltseg'], 0, ',', ' ') ?> Ft (<?= $recept['Adag'] ?> adag)</span>
+
                                 </div>
                             </div>
                         </div>
