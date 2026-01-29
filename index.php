@@ -2,124 +2,143 @@
 
 <!-- hero seciton -->
 <div class="relative w-full h-[320px]">
-    <div class="absolute inset-0 opacity-70">
-        <img src="https://image1.jdomni.in/banner/13062021/0A/52/CC/1AF5FC422867D96E06C4B7BD69_1623557926542.png"
-            alt="Background Image" class="object-cover object-center w-full h-full" />
 
+    <div class="absolute inset-0">
+        <img src="kepek/fooldalHero.jpg" alt="Konyha" class="object-cover object-center w-full h-full opacity-50" />
     </div>
+
     <div class="absolute inset-9 flex flex-col md:flex-row items-center justify-between">
         <div class="md:w-1/2 mb-4 md:mb-0">
-            <h1 class="text-grey-700 font-medium text-4xl md:text-5xl leading-tight mb-2">CookQuest</h1>
+            <h1 class="text-black font-medium text-4xl md:text-5xl leading-tight mb-2">CookQuest</h1>
             <p class="font-regular text-xl mb-8 mt-4">Meg szeretnél tanulni főzni? Itt a tökéletes alkalom, hogy lépésről lépésre elsajátíts mindent.</p>
             <a href="receptek.php"
-                class="px-6 py-3 bg-[#c8a876] text-white font-medium rounded-full hover:bg-[#c09858]  transition duration-200">Kezdj hozzá most!</a>
+                class="px-6 py-3 bg-[#5A7863] text-white font-medium rounded-full hover:bg-[#EBF4DD] hover:text-black transition duration-200">Kezdj hozzá most!</a>
         </div>
     </div>
 </div>
 
 <!-- Az első szint receptjei, ez bejelentkezés nélkül is megtekinthető de nem kapható érte pont. -->
-<section class="py-10">
+<section class="py-10 ">
     <div class="container mx-auto px-4">
-        <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center"></h2>
+        <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">Próbáld ki néhány receptünket</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                <img src="https://image3.jdomni.in/banner/13062021/42/5C/B1/45AC18B7F8EE562BC3DDB95D34_1623559815667.png?output-format=webp"
-                    alt="wheat flour grinding" class="w-full h-64 object-cover">
-                <div class="p-6 text-center">
-                    <h3 class="text-xl font-medium text-gray-800 mb-2">Wheat Flour Grinding</h3>
-                    <p class="text-gray-700 text-base">Our wheat flour grinding service provides fresh, high-quality
-                        flour to businesses and individuals in the area. We use state-of-the-art equipment to grind
-                        wheat into flour, and we offer a variety of flours to meet the needs of our customers.</p>
-                </div>
-            </div>
-            <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                <img src="https://images.unsplash.com/photo-1606854428728-5fe3eea23475?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8Z3JhbSUyMGZsb3VyfGVufDB8fDB8fHww"
-                    alt="Coffee" class="w-full h-64 object-cover">
-                <div class="p-6 text-center">
-                    <h3 class="text-xl font-medium text-gray-800 mb-2">Gram Flour Grinding</h3>
-                    <p class="text-gray-700 text-base">Our gram flour is perfect for a variety of uses, including
-                        baking, cooking, and making snacks. It is also a good source of protein and fiber.Our gram
-                        flour
-                        grinding service is a convenient and affordable way to get the freshest gram flour possible.
-                    </p>
-                </div>
-            </div>
-            <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                <img src="https://image2.jdomni.in/banner/13062021/D2/99/0D/48D7F4AFC48C041DC8D80432E9_1623562146900.png?output-format=webp"
-                    alt="Coffee" class="w-full h-64 object-cover">
-                <div class="p-6 text-center">
-                    <h3 class="text-xl font-medium text-gray-800 mb-2">Jowar Flour Grinding</h3>
-                    <p class="text-gray-700 text-base">Our jowar grinding service is a convenient and affordable way
-                        to
-                        get fresh, high-quality jowar flour. We use state-of-the-art equipment to grind jowar into a
-                        fine powder, which is perfect for making roti, bread, and other dishes.
-                    <details>
-                        <summary>Read More</summary>
-                        <p>Our jowar flour is also
-                            a good source of protein and fiber, making it a healthy choice for your family.</p>
-                    </details>
-                    </p>
 
-                </div>
-            </div>
-            <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                <img src="https://images.unsplash.com/photo-1607672632458-9eb56696346b?q=80&w=1914&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                    alt="Coffee" class="w-full h-64 object-cover">
-                <div class="p-6 text-center">
-                    <h3 class="text-xl font-medium text-gray-800 mb-2">Chilli pounding</h3>
-                    <p class="text-gray-700 text-base">We specializes in the production of high-quality chili
-                        powder.
-                        Our chili powder is made from the finest, freshest chilies, and we use traditional pounding
-                        methods to ensure that our chili powder retains its full flavor and aroma.
-                    <details>
-                        <summary>Read More</summary>
-                        <p> We offer a variety of chili powder products, including mild, medium, and hot. We also
-                            offer
-                            custom blends to meet the specific needs of our customers.</p>
-                    </details>
-                    </p>
-                </div>
-            </div>
-            <!-- special card -->
-            <div
-                class="bg-white rounded-lg bg-gradient-to-tr from-pink-300 to-blue-300 p-0.5 shadow-lg overflow-hidden min-h-full">
-                <div class="text-center text-white font-medium">Special product</div>
-                <img src="https://images.unsplash.com/photo-1556910110-a5a63dfd393c?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8cmF3JTIwc3BhZ2hldHRpfGVufDB8fDB8fHww"
-                    alt="Coffee" class="w-full h-64 object-cover rounded-t-lg">
-                <div class="p-6 bg-white text-center rounded-b-lg md:min-h-full">
-                    <h3 class="text-xl font-medium text-gray-800 mb-2">Flavoured Spaghetti</h3>
-                    <p class="text-gray-700 text-base"><span class="font-medium underline">Our speciality is</span>
-                        Bappa Flour Mill offers a variety of flavored spaghetti dishes that are sure to tantalize
-                        your
-                        taste
-                        buds. We use only the freshest ingredients Our
-                        flavors include: Mango, spinach
-                    </p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-1 gap-6">
+                <div class="bg-white rounded-2xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden group transform hover:-translate-y-1">
+                    <div class="relative overflow-hidden">
+                        <img src=""
+                            class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300"
+                            alt="">
+                        <div class="absolute top-3 right-3 bg-white/95 backdrop-blur-sm px-3 py-1.5 rounded-full shadow-lg">
+                            <span class="text-sm text-[#596C68] font-bold">⭐ </span>
+                        </div>
+                    </div>
+
+                    <div class="p-5">
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="text-xs font-semibold px-3 py-1 bg-[#E3D9CA] text-[#596C68] rounded-full">
+                                . SZINT
+                            </span>
+                        </div>
+
+                        <h3 class="font-bold text-xl mt-2 text-[#403F48] group-hover:text-[#596C68] transition-colors line-clamp-2 min-h-[3.5rem]">
+
+                        </h3>
+
+                        <div class="mt-4 flex items-center gap-4 text-sm text-gray-600">
+                            <div class="flex items-center gap-1">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span>
+                                    <span>perc</span>
+                            </div>
+                        </div>
+
+                        <a class="mt-4 block text-center w-full py-2.5 bg-[#596C68] text-white font-semibold rounded-lg hover:bg-[#4a5a56] transition-colors shadow-sm">
+                            Recept megtekintése
+                        </a>
+                    </div>
                 </div>
             </div>
 
-            <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                <img src="https://media.istockphoto.com/id/1265641298/photo/fried-papad.jpg?s=612x612&w=0&k=20&c=e_iEy4CTvU6Thn02zGgKt_TiSYAheCKmgfTF5j52ovU="
-                    alt="papad" class="w-full h-64 object-cover">
-                <div class="p-6 text-center">
-                    <h3 class="text-xl font-medium text-gray-800 mb-2">Rice Papad</h3>
-                    <p class="text-gray-700 text-base">Our company produces high-quality rice papad that is made
-                        with
-                        the finest ingredients. We use traditional methods to make our papad, which gives it a
-                        unique
-                        flavor and texture. Our papad is also gluten-free and vegan.
-                    <details>
-                        <summary>Read More</summary>
-                        <p> We offer a variety of rice papad flavors, including plain, salted, spicy, and flavored.
-                            We
-                            also
-                            offer a variety of sizes and shapes to choose from. Our papad is available in bulk or in
-                            individual packages.</p>
-                    </details>
-                    </p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-1 gap-6">
+                <div class="bg-white rounded-2xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden group transform hover:-translate-y-1">
+                    <div class="relative overflow-hidden">
+                        <img src=""
+                            class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300"
+                            alt="">
+                        <div class="absolute top-3 right-3 bg-white/95 backdrop-blur-sm px-3 py-1.5 rounded-full shadow-lg">
+                            <span class="text-sm text-[#596C68] font-bold">⭐ </span>
+                        </div>
+                    </div>
+
+                    <div class="p-5">
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="text-xs font-semibold px-3 py-1 bg-[#E3D9CA] text-[#596C68] rounded-full">
+                                . SZINT
+                            </span>
+                        </div>
+
+                        <h3 class="font-bold text-xl mt-2 text-[#403F48] group-hover:text-[#596C68] transition-colors line-clamp-2 min-h-[3.5rem]">
+
+                        </h3>
+
+                        <div class="mt-4 flex items-center gap-4 text-sm text-gray-600">
+                            <div class="flex items-center gap-1">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span>
+                                    <span>perc</span>
+                            </div>
+                        </div>
+
+                        <a class="mt-4 block text-center w-full py-2.5 bg-[#596C68] text-white font-semibold rounded-lg hover:bg-[#4a5a56] transition-colors shadow-sm">
+                            Recept megtekintése
+                        </a>
+                    </div>
                 </div>
             </div>
 
+            <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-1 gap-6">
+                <div class="bg-white rounded-2xl shadow-md hover:shadow-2xl overflow-hidden group">
+                    <div class="relative overflow-hidden">
+                        <img src="kepek/etelek/PiritosKenyer.webp"
+                            class="w-full h-48 object-cover"
+                            alt="">
+                        <div class="absolute top-3 right-3 bg-white/95 backdrop-blur-sm px-3 py-1.5 rounded-full shadow-lg">
+                            <span class="text-sm text-[#596C68] font-bold">⭐ </span>
+                        </div>
+                    </div>
+
+                    <div class="p-5">
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="text-xs font-semibold px-3 py-1 bg-[#E3D9CA] text-[#596C68] rounded-full">
+                                . SZINT
+                            </span>
+                        </div>
+
+                        <h3 class="font-bold text-xl mt-2 text-[#403F48] group-hover:text-[#596C68] transition-colors line-clamp-2 min-h-[3.5rem]">
+
+                        </h3>
+
+                        <div class="mt-4 flex items-center gap-4 text-sm text-gray-600">
+                            <div class="flex items-center gap-1">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span>
+                                    <span>perc</span>
+                            </div>
+                        </div>
+
+                        <a class="mt-4 block text-center w-full py-2.5 bg-[#596C68] text-white font-semibold rounded-lg hover:bg-[#4a5a56] transition-colors shadow-sm">
+                            Recept megtekintése
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </section>
@@ -146,18 +165,20 @@
     </div>
 </section>
 
-<!-- why us  -->
+<!-- Miért velünk tanulj?  -->
+<!--
 <section class="text-gray-700 body-font mt-10">
-    <div class="flex justify-center text-3xl font-bold text-gray-800 text-center">
+
+    <div class="flex justify-center text-3xl font-bold text-gray-800 text-center py-5">
         Miért velünk tanulj?
     </div>
-    <div class="container px-5 py-12 mx-auto">
+
+    <div class="container px-5 py-5 mx-auto">
         <div class="flex flex-wrap text-center justify-center">
             <div class="p-4 md:w-1/4 sm:w-1/2">
                 <div class="px-4 py-6 transform transition duration-500 hover:scale-110">
                     <div class="flex justify-center">
-                        <img src="https://image3.jdomni.in/banner/13062021/58/97/7C/E53960D1295621EFCB5B13F335_1623567851299.png?output-format=webp"
-                            class="w-32 mb-3">
+                        <img src="https://image3.jdomni.in/banner/13062021/58/97/7C/E53960D1295621EFCB5B13F335_1623567851299.png?output-format=webp" class="w-32 mb-3">
                     </div>
                     <h2 class="title-font font-regular text-2xl text-gray-900">Korszerű technológiák alkalmazása</h2>
                 </div>
@@ -166,10 +187,9 @@
             <div class="p-4 md:w-1/4 sm:w-1/2">
                 <div class="px-4 py-6 transform transition duration-500 hover:scale-110">
                     <div class="flex justify-center">
-                        <img src="https://image2.jdomni.in/banner/13062021/3E/57/E8/1D6E23DD7E12571705CAC761E7_1623567977295.png?output-format=webp"
-                            class="w-32 mb-3">
+                        <img src="https://image2.jdomni.in/banner/13062021/3E/57/E8/1D6E23DD7E12571705CAC761E7_1623567977295.png?output-format=webp" class="w-32 mb-3">
                     </div>
-                    <h2 class="title-font font-regular text-2xl text-gray-900">Reasonable Rates</h2>
+                    <h2 class="title-font font-regular text-2xl text-gray-900">Kölcséghatékony<br> receptek</h2>
                 </div>
             </div>
 
@@ -189,21 +209,21 @@
                         <img src="https://image3.jdomni.in/banner/13062021/EB/99/EE/8B46027500E987A5142ECC1CE1_1623567959360.png?output-format=webp"
                             class="w-32 mb-3">
                     </div>
-                    <h2 class="title-font font-regular text-2xl text-gray-900">Expertise in Industry</h2>
+                    <h2 class="title-font font-regular text-2xl text-gray-900">Megbízható források</h2>
                 </div>
             </div>
 
         </div>
     </div>
-</section>
+</section> -->
 
-<!-- gallery -->
-<section class="text-gray-700 body-font bg-[#EBF4DD]">
+<!-- Galéria -->
+<section class="text-gray-700 body-font">
     <div class="flex justify-center text-3xl font-bold text-gray-800 text-center py-10">
         Galéria
     </div>
 
-    <div class="grid grid-cols-1 place-items-center mb-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
+    <div class="grid grid-cols-1 place-items-center mb-10 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-6 gap-4 p-4">
 
         <div class="group relative">
             <img src="kepek/etelek/bundasKenyer.webp"
@@ -229,12 +249,19 @@
                 class="aspect-[2/3] h-80 object-cover rounded-lg transition-transform transform scale-100 group-hover:scale-105" />
         </div>
 
+        <div class="group relative">
+            <img src="kepek/etelek/TukorTojas.webp"
+                alt="Image 1"
+                class="aspect-[2/3] h-80 object-cover rounded-lg transition-transform transform scale-100 group-hover:scale-105" />
+        </div>
+
+        <div class="group relative">
+            <img src="kepek/etelek/GyumolcsosPohardesszert.webp"
+                alt="Image 1"
+                class="aspect-[2/3] h-80 object-cover rounded-lg transition-transform transform scale-100 group-hover:scale-105" />
+        </div>
     </div>
 
 </section>
 
 <?php include("footer.php") ?>
-
-</body>
-
-</html>
