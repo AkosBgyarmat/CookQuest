@@ -16,16 +16,3 @@ function authPage() {
       }
     }
 }
-
-tailwind.config = {
-    theme: {
-      extend: {
-        colors: {
-          bg: '#95A792',
-          primary: '#596C68',
-          secondary: '#E3D9CA',
-          dark: '#403F48'
-        }
-      }
-    }
-  }
