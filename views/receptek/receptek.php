@@ -12,6 +12,8 @@ $pdo = new PDO(
     ]
 );
 
+
+
 /*  ID  */
 $receptId = isset($_GET['id']) ? (int)$_GET['id'] : null;
 
@@ -53,7 +55,45 @@ if ($receptId) {
 }
 ?>
 
-<main class="min-h-screen bg-gradient-to-br from-[#95A792] to-[#7a8d78] py-8 px-4">
+</head>
+
+
+    <style>
+        /* Google Fonts Import: DM Serif Display a címeknek, Montserrat a szövegnek */
+        @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Montserrat:wght@300;400;600;700&display=swap');
+
+        /* Alapértelmezett szöveg (Montserrat) */
+        html, body {
+            font-family: 'Montserrat', sans-serif !important;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Elegáns, Serif típusú főcímek (DM Serif Display) */
+        h1, .recipe-main-title {
+            font-family: 'DM Serif Display', serif !important;
+            letter-spacing: 0.5px;
+        }
+
+        /* Alalcímek és kártyacímek */
+        h2, h3, .sidebar-title {
+            font-family: 'DM Serif Display', serif !important;
+            color: #403F48;
+        }
+
+        /* Sidebar és apróbb infók maradjanak tiszták */
+        aside, .text-xs, .text-sm {
+            font-family: 'Montserrat', sans-serif !important;
+            font-weight: 500;
+        }
+
+        /* Hozzávalók kiemelése */
+        .font-semibold {
+            font-weight: 600;
+        }
+    </style>
+
+
+<main class="min-h-screen bg-gradient-to-br from-[#95A792] to-[#7a8d78] py-8 px-4 font-[Jost]">
     <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-4 gap-6">
 
         <!-- ===== SIDEBAR ===== -->
@@ -109,8 +149,7 @@ if ($receptId) {
                                         
                                     </span>
                                     <span>
-                                                                            💰 <?= number_format($r['Koltseg'], 0, ',', ' ') ?> Ft
-
+                                        💰 <?= number_format($r['Koltseg'], 0, ',', ' ') ?> Ft
                                     </span>
                                     
                                 </div>
@@ -146,7 +185,7 @@ if ($receptId) {
             <?php else: ?>
                 <!--  RECEPT RÉSZLET  -->
                 <a href="receptek.php"
-                    class="inline-flex items-center gap-2 mb-6 px-4 py-2 bg-white/90 backdrop-blur-sm text-[#596C68] font-semibold rounded-lg hover:bg-white transition-all shadow-md">
+                    class="inline-flex items-center gap-2 mb-6 px-4 py-2 bg-white/90 backdrop-blur-sm text-[#596C08] font-semibold rounded-lg hover:bg-white transition-all shadow-md">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
                     </svg>
