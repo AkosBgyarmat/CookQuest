@@ -23,16 +23,16 @@
       <h3 class="text-xl font-semibold mb-4">Oldalaink</h3>
       <ul class="space-y-2">
         <li>
-          <a href="index.php" class="hover:text-purple-400 transition">Főoldal</a>
+          <a href="../index/index.php" class="hover:text-purple-400 transition">Főoldal</a>
         </li>
         <li>
-          <a href="receptek.php" class="hover:text-purple-400 transition">Receptek</a>
+          <a href="../receptek/receptek.php" class="hover:text-purple-400 transition">Receptek</a>
         </li>
         <li>
-          <a href="konyhaiEszkozok.php" class="hover:text-purple-400 transition">Konyhai eszközök</a>
+          <a href="../konyhaiEszkozok/konyhaiEszkozok.php" class="hover:text-purple-400 transition">Konyhai eszközök</a>
         </li>
         <li>
-          <a href="bejelentkezes.php" class="hover:text-purple-400 transition">Bejelentkezés</a>
+          <a href="../bejelentkezes/bejelentkezes.php" class="hover:text-purple-400 transition">Bejelentkezés</a>
         </li>
       </ul>
     </div>
@@ -61,8 +61,8 @@
   </button>
 
   <!-- Javascript -->
-  <script src="js\hamburger.js"></script>
-  <script src="js\bejelentkezes.js"></script>
-  <script src="js\top.js"></script>
+  <script src="../../assets/js/hamburger.js"></script>
+  <script src="../../assets/js/bejelentkezes.js"></script>
+  <script src="../../assets/js/top.js"></script>
 
 </footer>

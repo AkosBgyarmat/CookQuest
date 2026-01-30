@@ -1,7 +1,9 @@
 <!-- Navbar -->
 <nav class="flex flex-wrap items-center justify-between p-3 bg-[#EBF4DD] font-bold text-lg">
 
-    <a href="index.php"><img src="kepek/Monogram.png" class="w-16"></img></a>
+    <a href="../index/index.php">
+        <img src="../../assets/kepek/Monogram.png" class="w-16"></img>
+    </a>
 
     <div class="flex md:hidden">
         <button id="hamburger">
@@ -13,10 +15,10 @@
     </div>
 
     <div class=" toggle hidden w-full md:w-auto md:flex text-right text-bold mt-5 md:mt-0 md:border-none">
-        <a href="index.php" class="block md:inline-block hover:text-[#5A7863] px-3 py-3 md:border-none">Főoldal</a>
-        <a href="receptek.php" class="block md:inline-block hover:text-[#5A7863] px-3 py-3 md:border-none">Receptek</a>
-        <a href="konyhaiEszkozok.php" class="block md:inline-block hover:text-[#5A7863] px-3 py-3 md:border-none">Konyhai eszközök</a>
-        <a href="bejelentkezes.php" class="block md:inline-block hover:text-[#5A7863] px-3 py-3 md:border-none">Bejelentkezés</a>
+        <a href="../index/index.php" class="block md:inline-block hover:text-[#5A7863] px-3 py-3 md:border-none">Főoldal</a>
+        <a href="../receptek/receptek.php" class="block md:inline-block hover:text-[#5A7863] px-3 py-3 md:border-none">Receptek</a>
+        <a href="../konyhaiEszkozok/konyhaiEszkozok.php" class="block md:inline-block hover:text-[#5A7863] px-3 py-3 md:border-none">Konyhai eszközök</a>
+        <a href="../bejelentkezes/bejelentkezes.php" class="block md:inline-block hover:text-[#5A7863] px-3 py-3 md:border-none">Bejelentkezés</a>
     </div>
 
     <!-- Kereső -->

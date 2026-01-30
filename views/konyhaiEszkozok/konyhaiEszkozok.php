@@ -1,4 +1,4 @@
-<?php include "head.php"; ?>
+<?php include "../head.php"; ?>
 
 <section class=" mx-auto max-w-[2000px] min-w-[280px] py-8 px-4 
     sm:px-8 
@@ -16,7 +16,7 @@
             md:max-w-[360px] 
             lg:max-w-[400px] lg:ml-6 lg:order-2
             xl:max-w-[410px]"
-            src="kepek/KonyhaiEszközök.jpg" alt="Konyhai eszközök kép" title="Konyhai eszközök kép">
+            src="../../assets/kepek/KonyhaiEszközök.jpg" alt="Konyhai eszközök kép" title="Konyhai eszközök kép">
 
         <div class="text-center md:text-left">
 
@@ -82,19 +82,10 @@
                 <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold">Elnevezes</h1>
                 <p class="text-justify text-sm sm:text-base">Leiras</p>
             </div>
-            
+        
         </div>
-
     </div>
 </section>
 
 
-
-
-
-
-
-
-
-
-<?php include "footer.php"; ?>
+<?php include "../footer.php"; ?>

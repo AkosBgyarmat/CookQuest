@@ -1,5 +1,5 @@
 <?php
-include "head.php";
+include "../head.php";
 
 /*  ADATBÁZIS  */
 $pdo = new PDO(
@@ -11,8 +11,6 @@ $pdo = new PDO(
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
     ]
 );
-
-
 
 /*  ID  */
 $receptId = isset($_GET['id']) ? (int)$_GET['id'] : null;
@@ -324,4 +322,4 @@ if ($receptId) {
     });
 </script>
 
-<?php include "footer.php"; ?>
+<?php include "../footer.php"; ?>
