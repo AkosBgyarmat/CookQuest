@@ -1,18 +1,20 @@
-<?php include "head.php"; ?>
+<?php 
+    include "../head.php"; 
+?>
 
 <main>
     <!-- hero seciton -->
     <section class="relative w-full h-[320px]">
 
         <div class="absolute inset-0">
-            <img src="kepek/fooldalHero.jpg" alt="Konyha" class="object-cover object-center w-full h-full opacity-50" />
+            <img src="../../assets/kepek/fooldalHero.jpg" alt="Konyha" class="object-cover object-center w-full h-full opacity-50" />
         </div>
 
         <div class="absolute inset-9 flex flex-col md:flex-row items-center justify-between">
             <div class="md:w-1/2 mb-4 md:mb-0">
                 <h1 class="text-black font-medium text-4xl md:text-5xl leading-tight mb-2">CookQuest</h1>
                 <p class="font-regular text-xl mb-8 mt-4">Meg szeretnél tanulni főzni? Itt a tökéletes alkalom, hogy lépésről lépésre elsajátíts mindent.</p>
-                <a href="receptek.php"
+                <a href="../receptek/receptek.php"
                     class="px-6 py-3 bg-[#5A7863] text-white font-medium rounded-full hover:bg-[#EBF4DD] hover:text-black transition duration-200">Kezdj hozzá most!</a>
             </div>
         </div>
@@ -27,7 +29,7 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-1 gap-6">
                     <div class="bg-white rounded-2xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden group transform hover:-translate-y-1">
                         <div class="relative overflow-hidden">
-                            <img src=""
+                            <img src="../../assets/kepek/etelek/PiritosKenyer.webp"
                                 class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300"
                                 alt="">
                             <div class="absolute top-3 right-3 bg-white/95 backdrop-blur-sm px-3 py-1.5 rounded-full shadow-lg">
@@ -66,7 +68,7 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-1 gap-6">
                     <div class="bg-white rounded-2xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden group transform hover:-translate-y-1">
                         <div class="relative overflow-hidden">
-                            <img src=""
+                            <img src="../../assets/kepek/etelek/GyumolcsosPohardesszert.webp"
                                 class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300"
                                 alt="">
                             <div class="absolute top-3 right-3 bg-white/95 backdrop-blur-sm px-3 py-1.5 rounded-full shadow-lg">
@@ -105,7 +107,7 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-1 gap-6">
                     <div class="bg-white rounded-2xl shadow-md hover:shadow-2xl overflow-hidden group">
                         <div class="relative overflow-hidden">
-                            <img src="kepek/etelek/PiritosKenyer.webp"
+                            <img src="../../assets/kepek/etelek/PiritosKenyer.webp"
                                 class="w-full h-48 object-cover"
                                 alt="">
                             <div class="absolute top-3 right-3 bg-white/95 backdrop-blur-sm px-3 py-1.5 rounded-full shadow-lg">
@@ -227,37 +229,37 @@
         <div class="grid grid-cols-1 place-items-center mb-10 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-6 gap-4 p-4">
 
             <div class="group relative">
-                <img src="kepek/etelek/bundasKenyer.webp"
+                <img src="../../assets/kepek/etelek/bundasKenyer.webp"
                     alt="Image 1"
                     class="aspect-[2/3] h-80 object-cover rounded-lg transition-transform transform scale-100 group-hover:scale-105" />
             </div>
 
             <div class="group relative">
-                <img src="kepek/etelek/ZoldsegLeves.webp"
+                <img src="../../assets/kepek/etelek/ZoldsegLeves.webp"
                     alt="Image 1"
                     class="aspect-[2/3] h-80 object-cover rounded-lg transition-transform transform scale-100 group-hover:scale-105" />
             </div>
 
             <div class="group relative">
-                <img src="kepek/etelek/Palacsinta.webp"
+                <img src="../../assets/kepek/etelek/Palacsinta.webp"
                     alt="Image 1"
                     class="aspect-[2/3] h-80 object-cover rounded-lg transition-transform transform scale-100 group-hover:scale-105" />
             </div>
 
             <div class="group relative">
-                <img src="kepek/etelek/ZabpelyhesMezesPohardesszert.webp"
+                <img src="../../assets/kepek/etelek/ZabpelyhesMezesPohardesszert.webp"
                     alt="Image 1"
                     class="aspect-[2/3] h-80 object-cover rounded-lg transition-transform transform scale-100 group-hover:scale-105" />
             </div>
 
             <div class="group relative">
-                <img src="kepek/etelek/TukorTojas.webp"
+                <img src="../../assets/kepek/etelek/TukorTojas.webp"
                     alt="Image 1"
                     class="aspect-[2/3] h-80 object-cover rounded-lg transition-transform transform scale-100 group-hover:scale-105" />
             </div>
 
             <div class="group relative">
-                <img src="kepek/etelek/GyumolcsosPohardesszert.webp"
+                <img src="../../assets/kepek/etelek/GyumolcsosPohardesszert.webp"
                     alt="Image 1"
                     class="aspect-[2/3] h-80 object-cover rounded-lg transition-transform transform scale-100 group-hover:scale-105" />
             </div>
@@ -266,4 +268,4 @@
     </section>
 </main>
 
-<?php include("footer.php") ?>
+<?php include("../footer.php") ?>

@@ -1,11 +1,7 @@
 <?php
-require_once __DIR__ . '/../head.php'; 
+include "../head.php";
 
-if (!defined('BASE_URL')) {
-    define('BASE_URL', '/CookQuest/');
-}
-
-/* ADATBÁZIS */
+/*  ADATBÁZIS  */
 $pdo = new PDO(
     "mysql:host=localhost;dbname=cook;charset=utf8mb4",
     "root",
@@ -16,7 +12,7 @@ $pdo = new PDO(
     ]
 );
 
-/* ID */
+/*  ID  */
 $receptId = isset($_GET['id']) ? (int)$_GET['id'] : null;
 
 /* ÖSSZES RECEPT (SIDEBAR + GRID) */
@@ -307,4 +303,4 @@ if ($receptId) {
     });
 </script>
 
-<?php include __DIR__ . '/../footer.php'; ?>
+<?php include "../footer.php"; ?>
