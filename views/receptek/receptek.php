@@ -27,8 +27,9 @@ $receptek = $pdo->query("
         n.Szint
     FROM Recept r
     JOIN NehezsegiSzint n ON r.NehezsegiSzintID = n.NehezsegiSzintID
-    ORDER BY r.Nev
+    ORDER BY n.Szint ASC, r.Nev ASC
 ")->fetchAll();
+
 
 /* EGY RECEPT */
 $recept = null;
