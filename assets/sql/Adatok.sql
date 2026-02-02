@@ -18,7 +18,30 @@ INSERT INTO `mertekegyseg` (`MertekegysegID`, `Elnevezes`) VALUES
 
 /* Ország */
 INSERT INTO `orszag` (`OrszagID`, `Elnevezes`) VALUES
-(1, 'Magyarország');
+(1, 'Magyarország'),
+(3, 'Franciaország'),
+(4, 'Olaszország'),
+(5, 'Spanyolország'),
+(6, 'Egyesült Királyság'),
+(7, 'Egyesült Államok'),
+(8, 'Kanada'),
+(9, 'Kína'),
+(10, 'Japán'),
+(11, 'Dél-Korea'),
+(12, 'India'),
+(13, 'Ausztrália'),
+(14, 'Oroszország'),
+(15, 'Brazília'),
+(16, 'Mexikó'),
+(17, 'Hollandia'),
+(18, 'Belgium'),
+(19, 'Svájc'),
+(20, 'Ausztria'),
+(21, 'Lengyelország'),
+(22, 'Csehország'),
+(23, 'Szlovákia'),
+(24, 'Románia'),
+(25, 'Svédország');
 
 /* Elkészítési mód tábla */
 INSERT INTO `elkeszitesimod` (`ElkeszitesiModID`, `ElkeszitesiMod`, `Hofok`, `Funkcio`) VALUES
