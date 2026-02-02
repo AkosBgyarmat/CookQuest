@@ -3,7 +3,7 @@ include "../head.php";
 
 /*  ADATBÁZIS  */
 $pdo = new PDO(
-    "mysql:host=localhost;dbname=cook;charset=utf8mb4",
+    "mysql:host=localhost;dbname=cookquest;charset=utf8mb4",
     "root",
     "",
     [
