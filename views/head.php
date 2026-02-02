@@ -1,3 +1,10 @@
+<?php 
+
+define('BASE_URL', '/CookQuest/')
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="hu">
 
