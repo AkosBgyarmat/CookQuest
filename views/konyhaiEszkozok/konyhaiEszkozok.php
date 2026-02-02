@@ -55,38 +55,24 @@
 
     <div class="flex flex-wrap justify-center gap-6">
 
-        <!-- KÁRTYA -->
-        <div
-            ng-repeat="e in eszkozok"
-            class="flex flex-col lg:flex-row max-w-xl w-full bg-white rounded-[20px] shadow-md overflow-hidden">
 
-            <!-- KÉP -->
-            <div
-                ng-if="e.Kep"
-                class="w-full lg:w-2/5 h-[200px] lg:h-auto">
 
-                <img
-                    ng-src="../../assets/kepek/konyhaiEszkoz/{{e.KonyhaiFelszerelesID}}.jpg"
-                    class="w-full h-full object-cover"
-                    alt="{{e.Nev}}">
+        <!-- Kártya  -->
+        <div class="flex flex-col lg:flex-row max-w-xl w-full bg-white rounded-[20px] shadow-md overflow-hidden" ng-repeat="e in eszkozok">
+
+            <!-- Kép a konyhai eszközről -->
+            <div class="w-full lg:w-2/5 ">
+                <img  src="{{e.Kep}}" alt="{{e.Nev}}" title="{{e.Nev}}" class="w-full h-full object-cover " />
             </div>
 
-            <!-- SZÖVEG -->
+            <!-- Leírás a konyhai eszközről -->
             <div class="w-full lg:w-3/5 p-6 flex flex-col justify-center space-y-4">
-
-                <p class="border rounded-[50px] border-black w-fit px-2 py-1 text-sm">
-                    {{ e.Besorolas_nev }}
-                </p>
-
-                <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold">
-                    {{ e.Nev }}
-                </h1>
-
-                <p class="text-justify text-sm sm:text-base">
-                    {{ e.Leiras }}
-                </p>
-
+                <p class="border rounded-[50px] border-black w-fit px-2 py-1 text-sm">{{ e.Besorolas_nev }}</p>
+                <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold">{{ e.Nev }}</h1>
+                <p class="text-justify text-sm sm:text-base">{{ e.Leiras }}</p>
             </div>
+
+
         </div>
 
     </div>
