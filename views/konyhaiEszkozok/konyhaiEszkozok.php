@@ -3,7 +3,7 @@
 <section class=" mx-auto max-w-[2000px] min-w-[280px] py-8 px-4 
     sm:px-8 
     md:px-10 
-    lg:0px-20 ">
+    lg:0px-20">
 
     <div class="w-full mb-2 mt-2 rounded-[50px] bg-[#EBF4DD] py-6 flex flex-col items-center px-2
         sm:rounded-[60px] sm:py-9 sm:px-4
@@ -28,7 +28,7 @@
 
             <p class="text-md leading-[27px]  font-normal mb-8
                 md:mb-12
-                sm:text-[24px]"> 
+                sm:text-[24px]">
                 Praktikus, innovatív és stílusos megoldások minden háztartásba – nézd meg, melyik eszköz lehet a te konyhád legjobb segítője.
             </p>
 
@@ -48,44 +48,36 @@
 </section>
 
 <!-- Rész, amiben minden konyhai eszköz tárolódik -->
-<section id="konyhaiEszkozok" class="max-w-full min-w-[280px] py-8 px-4 sm:px-8 md:px-10 lg:px-20 bg-[#EBF4DD]">
+<section
+    id="konyhaiEszkozok"
+    class="max-w-full min-w-[280px] py-8 px-4 sm:px-8 md:px-10 lg:px-20 bg-[#EBF4DD]"
+    ng-controller="controller">
+
     <div class="flex flex-wrap justify-center gap-6">
-        
+
+
+
         <!-- Kártya  -->
-        <div class="flex flex-col lg:flex-row max-w-xl w-full bg-white rounded-[20px] shadow-md overflow-hidden">
-            
+        <div class="flex flex-col lg:flex-row max-w-xl w-full bg-white rounded-[20px] shadow-md overflow-hidden" ng-repeat="e in eszkozok">
+
             <!-- Kép a konyhai eszközről -->
-            <div class="w-full lg:w-2/5">
-                <img src="https://i.ibb.co/7ztJFPH/image-product-desktop.jpg" alt="" class="w-full h-auto object-cover" />
+            <div class="w-full lg:w-2/5 ">
+                <img  src="{{e.Kep}}" alt="{{e.Nev}}" title="{{e.Nev}}" class="w-full h-full object-cover " />
             </div>
 
             <!-- Leírás a konyhai eszközről -->
             <div class="w-full lg:w-3/5 p-6 flex flex-col justify-center space-y-4">
-                <p class="border rounded-[50px] border-black w-fit px-2 py-1 text-sm">kategoria</p>
-                <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold">Elnevezes</h1>
-                <p class="text-justify text-sm sm:text-base">Leiras</p>
+                <p class="border rounded-[50px] border-black w-fit px-2 py-1 text-sm">{{ e.Besorolas_nev }}</p>
+                <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold">{{ e.Nev }}</h1>
+                <p class="text-justify text-sm sm:text-base">{{ e.Leiras }}</p>
             </div>
+
 
         </div>
 
-        <!-- Kártya  -->
-        <div class="flex flex-col lg:flex-row max-w-xl w-full bg-white rounded-[20px] shadow-md overflow-hidden">
-            
-            <!-- Kép a konyhai eszközről -->
-            <div class="w-full lg:w-2/5">
-                <img src="https://i.ibb.co/7ztJFPH/image-product-desktop.jpg" alt="" class="w-full h-auto object-cover" />
-            </div>
-
-            <!-- Leírás a konyhai eszközről -->
-            <div class="w-full lg:w-3/5 p-6 flex flex-col justify-center space-y-4">
-                <p class="border rounded-[50px] border-black w-fit px-2 py-1 text-sm">kategoria</p>
-                <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold">Elnevezes</h1>
-                <p class="text-justify text-sm sm:text-base">Leiras</p>
-            </div>
-        
-        </div>
     </div>
 </section>
+
 
 
 <?php include "../footer.php"; ?>

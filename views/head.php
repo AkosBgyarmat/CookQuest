@@ -20,7 +20,11 @@ define('BASE_URL', '/CookQuest/')
     
     <!-- Favicon -->
     <link rel="shortcut icon" href="../../assets/kepek/favicon/favicon-32x32.png" type="image/x-icon">
-    
+
+    <!-- AngularJS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script src="../../assets/js/app.js"></script>
+
     <!-- Alpine.js -->
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 
@@ -30,6 +34,6 @@ define('BASE_URL', '/CookQuest/')
     <title>CookQuest</title>
 </head>
 
-<body class="min-h-screen flex flex-col m-0">
+<body class="min-h-screen flex flex-col m-0" ng-app="CookQuest">
     
     <?php include 'navbar.php'; ?>
