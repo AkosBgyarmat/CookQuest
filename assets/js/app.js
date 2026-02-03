@@ -6,7 +6,7 @@ app.controller('controller', function($scope, $http) {
 
     console.log("Controller fut")
 
-    $http.get("/CookQuest/views/konyhaiEszkozok/eszkozok.php")
+    $http.get("http://localhost/CookQuest/views/konyhaiEszkozok/eszkozok.php")
         .then(function(response) {
             console.log(response.data);
             $scope.eszkozok = response.data;
