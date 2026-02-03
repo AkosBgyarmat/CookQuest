@@ -7,7 +7,9 @@ INSERT INTO `alkategoria` (`AlkategoriaID`, `KategoriaID`, `Alkategoria`) VALUES
 (1, 1, 'Reggeli'),
 (2, 1, 'Desszert'),
 (3, 1, 'Leves'),
-(4, 1, 'Főétel');
+(4, 1, 'Főétel'),
+(5, 1, 'Köret'),
+(6, 1, 'Sütemény');
 
 /* Mértékegység */
 INSERT INTO `mertekegyseg` (`MertekegysegID`, `Elnevezes`) VALUES
@@ -27,7 +29,9 @@ INSERT INTO `elkeszitesimod` (`ElkeszitesiModID`, `ElkeszitesiMod`, `Hofok`, `Fu
 (3, 'Kenyérpirító', NULL, 'pirítás'),
 (4, 'Főzés', NULL, 'tűzhely'),
 (5, 'Lassú főzés', NULL, 'tűzhely'),
-(6, 'Alsó-felső sütés', 180, 'sütő');
+(6, 'Alsó-felső sütés', 180, 'sütő'),
+(7, 'Mikrohullámú sütés', NULL, 'mikrohullámú sütő'),
+(8, 'Olajban sütés', NULL, 'tűzhely');
 
 
 /* Besorolas */
