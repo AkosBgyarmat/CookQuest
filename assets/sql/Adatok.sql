@@ -94,8 +94,8 @@ INSERT INTO `nehezsegiszint` (`NehezsegiSzintID`, `Szint`) VALUES
 
 
 /* Konyhai felszereles tábla */
-INSERT INTO KonyhaiFelszereles
-(KonyhaiFelszerelesID, Nev, Kep, BesorolasID, Leiras)
+INSERT INTO `KonyhaiFelszereles`
+(`KonyhaiFelszerelesID`, `Nev`, `Kep`, `BesorolasID`, `Leiras`)
 VALUES
 (1,'Teáskanál','../../assets/kepek/konyhaiEszkoz/teaskanal.jpg',1,
 'A teáskanál egy kis méretű evőeszköz, amelyet leggyakrabban tea, kávé vagy más italok keverésére, illetve cukor, méz adagolására használunk. Emellett alkalmas kisebb mennyiségű ételek fogyasztására és a konyhában mértékegységként is funkcionál (1 teáskanál ≈ 5 ml). Általában rozsdamentes acélból készül, de létezik műanyagból vagy porcelánból készült változata is. Kompakt mérete miatt kényelmes, praktikus, minden háztartás alapdarabja.'),
@@ -155,7 +155,7 @@ VALUES
 'A konyharuha nedvszívó textil, amelyet edények törlésére, szárítására és a munkafelület tisztán tartására használnak.'),
 (29,'Kötény','../../assets/kepek/konyhaiEszkoz/koteny.jpg',11,
 'A kötény védőruházati kiegészítő, amely főzés közben megóvja a ruhát a szennyeződésektől és fröccsenésektől.'),
-(30,'Tálalógyűrű','../../assets/kepek/konyhaiEszkoz/talaloguru.jpg',11,
+(30,'Tálalógyűrű','../../assets/kepek/konyhaiEszkoz/talalogyuru.jpg',11,
 'A tálalógyűrű kör alakú forma, amely segít az ételek esztétikus, formázott tálalásában.'),
 (31,'Késélező','../../assets/kepek/konyhaiEszkoz/keselezo.jpg',11,
 'A késélező a kések élének karbantartására szolgál, biztosítva a könnyű és biztonságos vágást.'),
@@ -183,7 +183,7 @@ VALUES
 'A tésztaszűrő főtt tészták és egyéb ételek leszűrésére szolgál.'),
 (43,'Nyújtólap','../../assets/kepek/konyhaiEszkoz/nyujtolap.jpg',11,
 'A nyújtólap sima felületet biztosít a tészta kinyújtásához.'),
-(44,'Nyújtófa','../../assets/kepek/konyhaiEszzkoz/nyujtofa.jpg',11,
+(44,'Nyújtófa','../../assets/kepek/konyhaiEszkoz/nyujtofa.jpg',11,
 'A nyújtófa henger alakú eszköz tészta egyenletes kinyújtásához.'),
 (45,'Sütőrács','../../assets/kepek/konyhaiEszkoz/sutoracs.jpg',11,
 'A sütőrács biztosítja az ételek egyenletes szellőzését sütés és hűtés során.'),
@@ -237,7 +237,7 @@ VALUES
 'A fedő az edények tetejére helyezhető eszköz, amely segít a hő és a gőz megtartásában, gyorsítva a főzési folyamatot.'),
 (70,'Serpenyő','../../assets/kepek/konyhaiEszkoz/serpenyo.jpg',14,
 'A serpenyő lapos edény, amelyet húsok, zöldségek és tojásételek gyors sütésére és pirítására használnak.'),
-(71,'Keverőtál','../../assets/kepek/konyhaiEszzkoz/keverotal.jpg',14,
+(71,'Keverőtál','../../assets/kepek/konyhaiEszkoz/keverotal.jpg',14,
 'A keverőtál mély edény, amelyet tészták, krémek és saláták összekeverésére használnak. Praktikus és sokoldalú konyhai eszköz.'),
 (72,'Tepsi','../../assets/kepek/konyhaiEszkoz/tepsi.jpg',14,
 'A tepsi lapos sütőedény, amelyet sütemények, pizzák és egyéb ételek sütésére használnak a sütőben.'),
@@ -416,7 +416,8 @@ INSERT INTO `recept` (`ReceptID`, `Nev`, `Kep`, `ElkeszitesiIdo`, `NehezsegiSzin
 (72, 'Macaron', '../../assets/kepek/etelek/Macaron.webp', '01:00:00', 10, 30, 15, '1. A mandulalisztet és porcukrot szitáld össze.\r\n2. A tojásfehérjét verd habosra, majd fokozatosan add hozzá a kristálycukrot, amíg fényes habot kapsz.\r\n3. Keverd bele óvatosan a mandulás keveréket.\r\n4. Színezd ételfestékkel, ha szeretnéd.\r\n5. Nyomózsákkal nyomj kis korongokat sütőpapírra.\r\n6. Hagyd száradni szobahőmérsékleten 30–40 percig, míg a teteje bőrös nem lesz.\r\n7. Süsd 150°C-on 12–14 percig.\r\n8. Közben a vajat, porcukrot és tejet keverd krémmé.\r\n9. A kihűlt macaronokat töltsd meg és ragaszd össze.', 6, 2, 2, 110.00),
 (73, 'Opera szelet', '../../assets/kepek/etelek/OperaSzelet.webp', '03:15:00', 10, 30, 8, '1. Piskóta:\r\n   A tojásokat a porcukorral és mandulaliszttel habosítsd. A tojásfehérjét a kristálycukorral verd kemény habbá, majd óvatosan forgasd a masszába. Add hozzá az olvasztott vajat.\r\n   Sütőpapíros tepsiben, vékony rétegben süsd 180°C-on 8–10 percig. Hűtsd ki, majd vágd három egyforma lapra.\r\n2. Kávés szirup:\r\n   A vizet a cukorral és kávéval forrald fel, majd hűtsd le.\r\n3. Kávés vajkrém:\r\n   A cukrot és vizet főzd 118°C-ig (cukorszirup). A tojássárgákat verd habosra, majd lassan csorgasd hozzá a forró szirupot. Hűlés után keverd hozzá a puha vajat és a kávét.\r\n4. Ganache:\r\n   A tejszínt melegítsd fel, add hozzá az aprított csokoládét, majd keverd simára.\r\n5. Összeállítás:\r\n   Piskóta → kávés szirup → vajkrém → Piskóta → kávés szirup → ganache → Piskóta → kávés szirup → vajkrém\r\n6. Máz:\r\n   Olvaszd fel a csokoládét az olajjal, majd simítsd a sütemény tetejére.\r\n7. Pihentetés:\r\n   Hűtőben pihentesd legalább 2 órát, majd éles késsel szeleteld.', 6, 3, 2, 480.00);
 /* Felhasználó tábla */
-INSERT INTO `felhasznalo` (`FelhasznaloID`, `Vezeteknev`, `Keresztnev`, `Felhasznalonev`, `Emailcim`, `Jelszo`, `SzuletesiEv`, `Profilkep`, `OrszagID`, `RegisztracioEve`, `MegszerzettPontok`, `SzerepID`) VALUES ('1', 'Keresztúri', 'Hanna', 'hancsii', 'kerhanna05@gmail.com', '20f5f4fcd943a472b15a17d9c0901adb', '2005', '', '1', '2026', '0', '1');
+INSERT INTO `felhasznalo` (`FelhasznaloID`, `Vezeteknev`, `Keresztnev`, `Felhasznalonev`, `Emailcim`, `Jelszo`, `SzuletesiEv`, `Profilkep`, `OrszagID`, `RegisztracioEve`, `MegszerzettPontok`, `SzerepID`) 
+VALUES ('1', 'Keresztúri', 'Hanna', 'hancsii', 'kerhanna05@gmail.com', '20f5f4fcd943a472b15a17d9c0901adb', '2005', '', '1', '2026', '0', '1');
 
 /* Recept_Hozzavalo */
 INSERT INTO `recept_hozzavalo` (`ReceptID`, `HozzavaloID`, `Mennyiseg`, `MertekegysegID`) VALUES
