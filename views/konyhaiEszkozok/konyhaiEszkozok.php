@@ -1,5 +1,6 @@
 <?php include "../head.php"; ?>
 
+
 <section class=" mx-auto max-w-[2000px] min-w-[280px] py-8 px-4 
     sm:px-8 
     md:px-10 
@@ -32,7 +33,7 @@
                 Praktikus, innovatív és stílusos megoldások minden háztartásba – nézd meg, melyik eszköz lehet a te konyhád legjobb segítője.
             </p>
 
-            <button class="w-full max-w-[350px] text-xl font-bold rounded-[38px] bg-[#90AB8B] text-white py-4 px-6 sm:px-9">
+            <button class="w-full max-w-[350px] text-xl font-bold rounded-[38px] bg-[#5A7863] text-white py-4 px-6 sm:px-9">
                 <a href="#konyhaiEszkozok" class="flex items-center justify-between w-full">
                     <span>Kezdjünk hozzá!</span>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="#fff" height="20px" width="20px" viewBox="0 0 330 330">
@@ -47,6 +48,29 @@
 
 </section>
 
+<section class="bg-white dark:bg-gray-800 flex justify-center items-center  h-1/2 p-5">
+
+    <div class="border shadow-[#5A7863] shadow-md max-w-2xl p-6 rounded-[50px] dark:bg-gray-700 dark:text-gray-300 bg-[#EBF4DD]">
+
+        <div class="w-sreen max-w-screen-xl px-10 mx-auto ">
+            <ul class="flex-col md:flex-row flex md:space-x-8 mt-4 md:mt-0 md:text-sm md:font-medium ">
+                <li>
+                    <a href="#" class="text-black border-b md:hover:bg-transparent md:border-0 block pl-3 pr-4 py-2 md:hover:text-[#5A7863] md:p-0 dark:text-white dark:hover:text-[#5A7863] dark:md:text-[#5A7863]">
+                        Konyhai eszközök
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="text-black border-b md:hover:bg-transparent md:border-0 block pl-3 pr-4 py-2 md:hover:text-[#5A7863] md:p-0 dark:text-white dark:hover:text-[#5A7863] dark:md:text-[#5A7863]">
+                        *** 
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+
+</section>
+
 <!-- Rész, amiben minden konyhai eszköz tárolódik -->
 <section
     id="konyhaiEszkozok"
@@ -55,14 +79,12 @@
 
     <div class="flex flex-wrap justify-center gap-6">
 
-
-
         <!-- Kártya  -->
         <div class="flex flex-col lg:flex-row max-w-xl w-full bg-white rounded-[20px] shadow-md overflow-hidden" ng-repeat="e in eszkozok">
 
             <!-- Kép a konyhai eszközről -->
             <div class="w-full lg:w-2/5 ">
-                <img  src="{{e.Kep}}" alt="{{e.Nev}}" title="{{e.Nev}}" class="w-full h-full object-cover " />
+                <img src="{{e.Kep}}" alt="{{e.Nev}}" title="{{e.Nev}}" class="w-full h-full object-cover " />
             </div>
 
             <!-- Leírás a konyhai eszközről -->
@@ -72,9 +94,7 @@
                 <p class="text-justify text-sm sm:text-base">{{ e.Leiras }}</p>
             </div>
 
-
         </div>
-
     </div>
 </section>
 
