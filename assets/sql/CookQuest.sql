@@ -21,7 +21,9 @@ INSERT INTO `alkategoria` (`AlkategoriaID`, `KategoriaID`, `Alkategoria`) VALUES
 (7, 3, 'sütemény'),
 (8, 3, 'pohárkrém'),
 (9, 4, 'tojásos reggeli'),
-(10, 5, 'zöldség köret');
+(10, 5, 'zöldség köret'),
+(11, 2, 'zöldség leves'),
+(12, 2, 'tojás leves');
 --
 -- Tábla szerkezet ehhez a táblához `arkategoria`
 --
