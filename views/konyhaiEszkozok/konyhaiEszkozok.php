@@ -18,7 +18,7 @@
 
                 <div class="text-center md:text-left">
 
-                    <h1 class="text-xl leading-[30px] font-bold mb-6 md:text-4xl md:leading-[40px] md:mb-12 lg:text-5xl lg:leading-[50px]">
+                    <h1 class="text-xl leading-[30px] font-bold mb-6 mt-6 md:text-4xl md:leading-[40px]  lg:text-5xl lg:leading-[50px]">
                         Fedezd fel a konyhai eszközök világát!
                     </h1>
 
@@ -57,7 +57,7 @@
 
                 <div class="text-center md:text-left">
 
-                    <h1 class="text-xl leading-[30px] font-bold mb-6 md:text-4xl md:leading-[40px] md:mb-12 lg:text-5xl lg:leading-[50px]">
+                    <h1 class="text-xl leading-[30px] font-bold mt-6 mb-6 md:text-4xl md:leading-[40px] md:mb-6 lg:text-5xl lg:leading-[50px]">
                         Kérj segítséget az átváltásban!
                     </h1>
 
@@ -110,8 +110,6 @@
 
     </section>
 
-
-
     <!-- Rész, amiben minden konyhai eszköz tárolódik -->
     <section ng-show="mode === 'eszkozok'"
         id="konyhaiEszkozok"
@@ -139,14 +137,20 @@
     </section>
 
     <!-- Átváltó -->
-    <section ng-show="mode === 'atvalto'" class="mx-auto max-w-[2000px] min-w-[280px] py-8 px-4 h-full sm:px-8 md:px-10  lg:0px-20" id="atvalto">
-        <section
-            class="w-full mb-2 mt-2 rounded-[50px] bg-[#EBF4DD] py-6 flex flex-col items-center px-2
-                sm:rounded-[60px] sm:py-9 sm:px-4
-                md:rounded-[70px] md:py-11 md:px-8
-                lg:rounded-[80px] lg:flex-row lg:py-14      
+    <section ng-show="mode === 'atvalto'" class="mx-auto max-w-[2000px] min-w-[280px] h-full " id="atvalto">
+        
+        <section class="w-full py-6 px-2 bg-[#EBF4DD] flex flex-col items-center 
+                sm:py-9 sm:px-4
+                md:py-11 md:px-8
+                lg:py-14      
                 xl:px-16">
-            <div class="flex flex-wrap justify-center gap-6">
+
+            <div class="w-full flex align-center justify-start flex-wrap gap-6">
+
+                <div class="w-full flex align-center justify-center border-l-[#5A7863] border-b-[5px] border-b-[#5A7863] border-solid px-10 rounded-[0_0_10px_10px]
+                sm:rounded-[0_0_10px_10px] sm:w-full">
+                    <p class="text-5xl leading-[90px] font-bold text-center">Tömeg</p>
+                </div>
 
                 <!-- Kártya  -->
                 <div class="flex flex-col lg:flex-row max-w-xl w-fit bg-white rounded-[20px] shadow-md overflow-hidden">
