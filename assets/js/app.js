@@ -4,10 +4,10 @@ app.controller("controller", function ($scope, $http) {
 
     console.log("Controller fut");
 
-    // 🔑 alapértelmezett nézet
+    //alapértelmezett nézet
     $scope.mode = "eszkozok";
 
-    // 📦 adatbetöltés
+    //adatbetöltés
     $http.get("/CookQuest/views/konyhaiEszkozok/eszkozok.php")
         .then(function (response) {
             console.log("ESZKÖZÖK:", response.data);
@@ -17,7 +17,7 @@ app.controller("controller", function ($scope, $http) {
             console.error("Nem sikerült:", error);
         });
 
-    // 🔁 nézetváltás
+    //nézetváltás
     $scope.showEszkozok = function () {
         $scope.mode = "eszkozok";
     };

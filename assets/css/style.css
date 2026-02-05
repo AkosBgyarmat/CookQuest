@@ -2,6 +2,10 @@ html{
   scroll-behavior: smooth;
 }
 
+[ng-cloak] {
+  display: none !important;
+}
+
 /* Footer */
 @keyframes blob3 {
   0%,
