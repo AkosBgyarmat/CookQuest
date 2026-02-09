@@ -1,8 +1,9 @@
 <?php include "../head.php"; ?>
 
-<!-- Content rész  -->
+
 <section ng-controller="controller" ng-cloak>
 
+    <!-- HERO & MINI NAVBAR -->
     <section class="h-full">
         <!-- Eszközök hero section -->
         <section class="mx-auto max-w-[2000px] min-w-[280px] py-8 px-4 h-full sm:px-8 md:px-10 lg:0px-20" ng-show="mode === 'eszkozok'">
@@ -110,111 +111,423 @@
 
     </section>
 
-    <!-- Rész, amiben minden konyhai eszköz tárolódik -->
-    <section ng-show="mode === 'eszkozok'"
-        id="konyhaiEszkozok"
-        class="max-w-full min-w-[280px] py-8 px-4 sm:px-8 md:px-10 lg:px-20 bg-[#EBF4DD]">
+    <!-- TARTALOM RÉSZ -->
+    <section>
 
-        <div class="flex flex-wrap justify-center gap-6">
+        <!-- Konyhai eszköz rész -->
+        <section ng-show="mode === 'eszkozok'"
+            id="konyhaiEszkozok"
+            class="max-w-full min-w-[280px] py-8 px-4 sm:px-8 md:px-10 lg:px-20 bg-[#EBF4DD]">
 
-            <!-- Kártya  -->
-            <div class="flex flex-col lg:flex-row max-w-xl w-full bg-white rounded-[20px] shadow-md overflow-hidden" ng-repeat="e in eszkozok">
+            <div class="flex flex-wrap justify-center gap-6">
 
-                <!-- Kép a konyhai eszközről -->
-                <div class="w-full lg:w-2/5 ">
-                    <img ng-src="{{e.Kep}}" alt="{{e.Nev}}" title="{{e.Nev}}" class="w-full h-full object-cover " />
+                <!-- Kártya  -->
+                <div class="flex flex-col lg:flex-row max-w-xl w-full bg-white rounded-[20px] shadow-md overflow-hidden" ng-repeat="e in eszkozok">
+
+                    <!-- Kép a konyhai eszközről -->
+                    <div class="w-full lg:w-2/5 ">
+                        <img ng-src="{{e.Kep}}" alt="{{e.Nev}}" title="{{e.Nev}}" class="w-full h-full object-cover " />
+                    </div>
+
+                    <!-- Leírás a konyhai eszközről -->
+                    <div class="w-full lg:w-3/5 p-6 flex flex-col justify-center space-y-4">
+                        <p class="border rounded-[50px] border-black w-fit px-2 py-1 text-sm">{{ e.Besorolas_nev }}</p>
+                        <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold">{{ e.Nev }}</h1>
+                        <p class="text-justify text-sm sm:text-base">{{ e.Leiras }}</p>
+                    </div>
+
                 </div>
-
-                <!-- Leírás a konyhai eszközről -->
-                <div class="w-full lg:w-3/5 p-6 flex flex-col justify-center space-y-4">
-                    <p class="border rounded-[50px] border-black w-fit px-2 py-1 text-sm">{{ e.Besorolas_nev }}</p>
-                    <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold">{{ e.Nev }}</h1>
-                    <p class="text-justify text-sm sm:text-base">{{ e.Leiras }}</p>
-                </div>
-
             </div>
-        </div>
-    </section>
 
-    <!-- Átváltó -->
-    <section ng-show="mode === 'atvalto'" class="mx-auto max-w-[2000px] min-w-[280px] h-full " id="atvalto">
-        
-        <section class="w-full py-6 px-2 bg-[#EBF4DD] flex flex-col items-center 
+            <!-- Oldalrész váltó -->
+            <div class="flex justify-center mt-2">
+                <nav class="bg-gray-200 rounded-full px-4 py-2">
+                    <ul class="flex text-gray-600 gap-4 font-medium py-2">
+                        <li>
+                            <a href="#" class="rounded-full px-4 py-2 bg-white text-gray-600">1</a>
+                        </li>
+                        <li>
+                            <a href="#"
+                                class="rounded-full px-4 py-2 hover:bg-white hover:text-gray-600 transition duration-300 ease-in-out">2</a>
+                        </li>
+                        <li>
+                            <a href="#"
+                                class="rounded-full px-4 py-2 hover:bg-white hover:text-gray-600 transition duration-300 ease-in-out">3</a>
+                        </li>
+                        <li>
+                            <a href="#"
+                                class="rounded-full px-4 py-2 hover:bg-white hover:text-gray-600 transition duration-300 ease-in-out">4</a>
+                        </li>
+                        <li>
+                            <a href="#"
+                                class="rounded-full px-4 py-2 hover:bg-white hover:text-gray-600 transition duration-300 ease-in-out">5</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </section>
+
+        <!-- Mértékegység átváltó -->
+        <section ng-show="mode === 'atvalto'" class="mx-auto max-w-[2000px] min-w-[280px] h-full" id="atvalto">
+
+            <!-- Átváltó választó -->
+            <section class=" flex justify-center items-center flex-wrap bg-[#5A7863] h-1/2 p-2">
+                
+                <a href="#tomeg" class="md:hover:bg-transparent md:border-0 block hover:text-black md:p-0 text-md">
+                    <div class="flex text-center border max-w-2xl p-3 rounded-[50px] min-w-[190px] m-2 text-white hover:bg-[#EBF4DD] hover:text-black"> <!-- 1 -->
+                        <div class="w-sreen max-w-screen-xl px-10 mx-auto"><!-- 2 -->
+                            <ul class="flex-col md:flex-row flex md:space-x-8 md:mt-0 md:text-sm md:font-medium">
+                                <li>
+                                    Tömeg
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="#terfogat" class="md:hover:bg-transparent md:border-0 block hover:text-black md:p-0 text-md">
+                    <div class="flex text-center border max-w-2xl p-3 rounded-[50px] min-w-[190px] m-2 text-white hover:bg-[#EBF4DD] hover:text-black"> <!-- 1 -->
+                        <div class="w-sreen max-w-screen-xl px-10 mx-auto"><!-- 2 -->
+                            <ul class="flex-col md:flex-row flex md:space-x-8 md:mt-0 md:text-sm md:font-medium">
+                                <li>
+                                    Térfogat
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="#homerseklet" class="md:hover:bg-transparent md:border-0 block hover:text-black md:p-0 text-md">
+                    <div class="flex text-center border max-w-2xl p-3 rounded-[50px] min-w-[190px] m-2 text-white hover:bg-[#EBF4DD] hover:text-black"> <!-- 1 -->
+                        <div class="w-sreen max-w-screen-xl px-10 mx-auto"><!-- 2 -->
+                            <ul class="flex-col md:flex-row flex md:space-x-8 md:mt-0 md:text-sm md:font-medium">
+                                <li>
+                                    Hőmérséklet
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="#ido" class="md:hover:bg-transparent md:border-0 block hover:text-black md:p-0 text-md">
+                    <div class="flex text-center border max-w-2xl p-3 rounded-[50px] min-w-[190px] m-2 text-white hover:bg-[#EBF4DD] hover:text-black"> <!-- 1 -->
+                        <div class="w-sreen max-w-screen-xl px-10 mx-auto"><!-- 2 -->
+                            <ul class="flex-col md:flex-row flex md:space-x-8 md:mt-0 md:text-sm md:font-medium">
+                                <li>
+                                    Idő
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </a>
+
+            </section>
+
+            <!-- "Tömeg" szakasz -->
+            <section id="tomeg" class="w-full py-2 px-2 bg-[#C0CEB8] mt-2 mb-2 rounded-[50px] flex flex-col items-center 
                 sm:py-9 sm:px-4
                 md:py-11 md:px-8
                 lg:py-14      
                 xl:px-16">
 
-            <div class="w-full flex align-center justify-start flex-wrap gap-6">
 
-                <div class="w-full flex align-center justify-center border-l-[#5A7863] border-b-[5px] border-b-[#5A7863] border-solid px-10 rounded-[0_0_10px_10px]
-                sm:rounded-[0_0_10px_10px] sm:w-full">
-                    <p class="text-5xl leading-[90px] font-bold text-center">Tömeg</p>
-                </div>
+                <div class="w-full flex align-center justify-start flex-wrap gap-6">
 
-                <!-- Kártya  -->
-                <div class="flex flex-col lg:flex-row max-w-xl w-fit bg-white rounded-[20px] shadow-md overflow-hidden">
+                    <div class="w-full flex align-center justify-center border-l-[#5A7863] border-b-[5px] border-b-[#5A7863] border-solid px-10 rounded-[0_0_10px_10px] sm:rounded-[0_0_10px_10px] sm:w-full">
+                        <p class="text-5xl leading-[90px] font-bold text-center">Tömeg</p>
+                    </div>
 
-                    <!-- Átváltó 1 -->
-                    <div class="w-full lg:w-fit p-6 flex flex-col justify-center space-y-4">
-                        <p class="border rounded-[50px] border-black w-fit px-2 py-1 text-sm">Dl -> Cl</p>
+                    <!-- Kártya  -->
+                    <div class="flex flex-col lg:flex-row max-w-xl w-fit bg-white rounded-[20px] shadow-md overflow-hidden">
 
-                        <div class="bg-white p-4 rounded-lg">
-                            <div class="relative bg-inherit">
-                                <input type="text" id="deciliter" name="deciliter" class="peer bg-transparent h-10 w-72 rounded-lg text-gray-200 placeholder-transparent ring-2 px-2 ring-gray-500 focus:ring-sky-600 focus:outline-none focus:border-rose-600" placeholder="Deciliter(dl)" />
-                                <label for="username" class="absolute cursor-text left-0 -top-3 text-sm text-gray-500 bg-inherit mx-1 px-1 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-2 peer-focus:-top-3 peer-focus:text-sky-600 peer-focus:text-sm transition-all">
-                                    Deciliter(dl)
-                                </label>
+                        <!-- Átváltó 1 -->
+                        <div class="w-full lg:w-fit p-6 flex flex-col justify-center space-y-4">
+                            <p class="border rounded-[50px] border-black w-fit px-2 py-1 text-sm">Dl -> Cl</p>
+
+                            <div class="bg-white p-4 rounded-lg">
+                                <div class="relative bg-inherit">
+                                    <input type="text" id="deciliter" name="deciliter" class="peer bg-transparent h-10 w-72 rounded-lg text-gray-200 placeholder-transparent ring-2 px-2 ring-gray-500 focus:ring-sky-600 focus:outline-none focus:border-rose-600" placeholder="Deciliter(dl)" />
+                                    <label for="username" class="absolute cursor-text left-0 -top-3 text-sm text-gray-500 bg-inherit mx-1 px-1 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-2 peer-focus:-top-3 peer-focus:text-sky-600 peer-focus:text-sm transition-all">
+                                        Deciliter(dl)
+                                    </label>
+                                </div>
                             </div>
+
+                            <div class="bg-white p-4 rounded-lg">
+                                <div class="relative bg-inherit">
+                                    <input type="text" id="centiliter" name="centiliter" class="peer bg-transparent h-10 w-72 rounded-lg text-gray-200 placeholder-transparent ring-2 px-2 ring-gray-500 focus:ring-sky-600 focus:outline-none focus:border-rose-600" placeholder="Centiliter(cl)" />
+                                    <label for="username" class="absolute cursor-text left-0 -top-3 text-sm text-gray-500 bg-inherit mx-1 px-1 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-2 peer-focus:-top-3 peer-focus:text-sky-600 peer-focus:text-sm transition-all">
+                                        Centiliter(cl)
+                                    </label>
+                                </div>
+                            </div>
+
                         </div>
 
-                        <div class="bg-white p-4 rounded-lg">
-                            <div class="relative bg-inherit">
-                                <input type="text" id="centiliter" name="centiliter" class="peer bg-transparent h-10 w-72 rounded-lg text-gray-200 placeholder-transparent ring-2 px-2 ring-gray-500 focus:ring-sky-600 focus:outline-none focus:border-rose-600" placeholder="Centiliter(cl)" />
-                                <label for="username" class="absolute cursor-text left-0 -top-3 text-sm text-gray-500 bg-inherit mx-1 px-1 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-2 peer-focus:-top-3 peer-focus:text-sky-600 peer-focus:text-sm transition-all">
-                                    Centiliter(cl)
-                                </label>
+                    </div>
+
+                    <!-- Kártya  -->
+                    <div class="flex flex-col lg:flex-row max-w-xl w-fit bg-white rounded-[20px] shadow-md overflow-hidden">
+
+                        <!-- Átváltó 2 -->
+                        <div class="w-full lg:w-fit p-6 flex flex-col justify-center space-y-4">
+                            <p class="border rounded-[50px] border-black w-fit px-2 py-1 text-sm">Dl -> Cl</p>
+
+                            <div class="bg-white p-4 rounded-lg">
+                                <div class="relative bg-inherit">
+                                    <input type="text" id="username" name="username" class="peer bg-transparent h-10 w-72 rounded-lg text-gray-200 placeholder-transparent ring-2 px-2 ring-gray-500 focus:ring-sky-600 focus:outline-none focus:border-rose-600" placeholder="Deciliter(dl)" />
+                                    <label for="username" class="absolute cursor-text left-0 -top-3 text-sm text-gray-500 bg-inherit mx-1 px-1 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-2 peer-focus:-top-3 peer-focus:text-sky-600 peer-focus:text-sm transition-all">
+                                        Deciliter(dl)
+                                    </label>
+                                </div>
                             </div>
+
+                            <div class="bg-white p-4 rounded-lg">
+                                <div class="relative bg-inherit">
+                                    <input type="text" id="username" name="username" class="peer bg-transparent h-10 w-72 rounded-lg text-gray-200 placeholder-transparent ring-2 px-2 ring-gray-500 focus:ring-sky-600 focus:outline-none focus:border-rose-600" placeholder="Centiliter(cl)" />
+                                    <label for="username" class="absolute cursor-text left-0 -top-3 text-sm text-gray-500 bg-inherit mx-1 px-1 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-2 peer-focus:-top-3 peer-focus:text-sky-600 peer-focus:text-sm transition-all">
+                                        Centiliter(cl)
+                                    </label>
+                                </div>
+                            </div>
+
                         </div>
 
                     </div>
 
                 </div>
+            </section>
 
-                <!-- Kártya  -->
-                <div class="flex flex-col lg:flex-row max-w-xl w-fit bg-white rounded-[20px] shadow-md overflow-hidden">
+            <!-- "Térfogat" szakasz -->
+            <section id="terfogat" class="w-full py-2 px-2 bg-[#C0CEB8] mt-2 mb-2 rounded-[50px] flex flex-col items-center 
+                sm:py-9 sm:px-4
+                md:py-11 md:px-8
+                lg:py-14      
+                xl:px-16">
 
-                    <!-- Átváltó 2 -->
-                    <div class="w-full lg:w-fit p-6 flex flex-col justify-center space-y-4">
-                        <p class="border rounded-[50px] border-black w-fit px-2 py-1 text-sm">Dl -> Cl</p>
 
-                        <div class="bg-white p-4 rounded-lg">
-                            <div class="relative bg-inherit">
-                                <input type="text" id="username" name="username" class="peer bg-transparent h-10 w-72 rounded-lg text-gray-200 placeholder-transparent ring-2 px-2 ring-gray-500 focus:ring-sky-600 focus:outline-none focus:border-rose-600" placeholder="Deciliter(dl)" />
-                                <label for="username" class="absolute cursor-text left-0 -top-3 text-sm text-gray-500 bg-inherit mx-1 px-1 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-2 peer-focus:-top-3 peer-focus:text-sky-600 peer-focus:text-sm transition-all">
-                                    Deciliter(dl)
-                                </label>
+                <div class="w-full flex align-center justify-start flex-wrap gap-6">
+
+                    <div class="w-full flex align-center justify-center border-l-[#5A7863] border-b-[5px] border-b-[#5A7863] border-solid px-10 rounded-[0_0_10px_10px] sm:rounded-[0_0_10px_10px] sm:w-full">
+                        <p class="text-5xl leading-[90px] font-bold text-center">Térfogat</p>
+                    </div>
+
+                    <!-- Kártya  -->
+                    <div class="flex flex-col lg:flex-row max-w-xl w-fit bg-white rounded-[20px] shadow-md overflow-hidden">
+
+                        <!-- Átváltó 1 -->
+                        <div class="w-full lg:w-fit p-6 flex flex-col justify-center space-y-4">
+                            <p class="border rounded-[50px] border-black w-fit px-2 py-1 text-sm">Dl -> Cl</p>
+
+                            <div class="bg-white p-4 rounded-lg">
+                                <div class="relative bg-inherit">
+                                    <input type="text" id="deciliter" name="deciliter" class="peer bg-transparent h-10 w-72 rounded-lg text-gray-200 placeholder-transparent ring-2 px-2 ring-gray-500 focus:ring-sky-600 focus:outline-none focus:border-rose-600" placeholder="Deciliter(dl)" />
+                                    <label for="username" class="absolute cursor-text left-0 -top-3 text-sm text-gray-500 bg-inherit mx-1 px-1 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-2 peer-focus:-top-3 peer-focus:text-sky-600 peer-focus:text-sm transition-all">
+                                        Deciliter(dl)
+                                    </label>
+                                </div>
                             </div>
+
+                            <div class="bg-white p-4 rounded-lg">
+                                <div class="relative bg-inherit">
+                                    <input type="text" id="centiliter" name="centiliter" class="peer bg-transparent h-10 w-72 rounded-lg text-gray-200 placeholder-transparent ring-2 px-2 ring-gray-500 focus:ring-sky-600 focus:outline-none focus:border-rose-600" placeholder="Centiliter(cl)" />
+                                    <label for="username" class="absolute cursor-text left-0 -top-3 text-sm text-gray-500 bg-inherit mx-1 px-1 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-2 peer-focus:-top-3 peer-focus:text-sky-600 peer-focus:text-sm transition-all">
+                                        Centiliter(cl)
+                                    </label>
+                                </div>
+                            </div>
+
                         </div>
 
-                        <div class="bg-white p-4 rounded-lg">
-                            <div class="relative bg-inherit">
-                                <input type="text" id="username" name="username" class="peer bg-transparent h-10 w-72 rounded-lg text-gray-200 placeholder-transparent ring-2 px-2 ring-gray-500 focus:ring-sky-600 focus:outline-none focus:border-rose-600" placeholder="Centiliter(cl)" />
-                                <label for="username" class="absolute cursor-text left-0 -top-3 text-sm text-gray-500 bg-inherit mx-1 px-1 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-2 peer-focus:-top-3 peer-focus:text-sky-600 peer-focus:text-sm transition-all">
-                                    Centiliter(cl)
-                                </label>
+                    </div>
+
+                    <!-- Kártya  -->
+                    <div class="flex flex-col lg:flex-row max-w-xl w-fit bg-white rounded-[20px] shadow-md overflow-hidden">
+
+                        <!-- Átváltó 2 -->
+                        <div class="w-full lg:w-fit p-6 flex flex-col justify-center space-y-4">
+                            <p class="border rounded-[50px] border-black w-fit px-2 py-1 text-sm">Dl -> Cl</p>
+
+                            <div class="bg-white p-4 rounded-lg">
+                                <div class="relative bg-inherit">
+                                    <input type="text" id="username" name="username" class="peer bg-transparent h-10 w-72 rounded-lg text-gray-200 placeholder-transparent ring-2 px-2 ring-gray-500 focus:ring-sky-600 focus:outline-none focus:border-rose-600" placeholder="Deciliter(dl)" />
+                                    <label for="username" class="absolute cursor-text left-0 -top-3 text-sm text-gray-500 bg-inherit mx-1 px-1 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-2 peer-focus:-top-3 peer-focus:text-sky-600 peer-focus:text-sm transition-all">
+                                        Deciliter(dl)
+                                    </label>
+                                </div>
                             </div>
+
+                            <div class="bg-white p-4 rounded-lg">
+                                <div class="relative bg-inherit">
+                                    <input type="text" id="username" name="username" class="peer bg-transparent h-10 w-72 rounded-lg text-gray-200 placeholder-transparent ring-2 px-2 ring-gray-500 focus:ring-sky-600 focus:outline-none focus:border-rose-600" placeholder="Centiliter(cl)" />
+                                    <label for="username" class="absolute cursor-text left-0 -top-3 text-sm text-gray-500 bg-inherit mx-1 px-1 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-2 peer-focus:-top-3 peer-focus:text-sky-600 peer-focus:text-sm transition-all">
+                                        Centiliter(cl)
+                                    </label>
+                                </div>
+                            </div>
+
                         </div>
 
                     </div>
 
                 </div>
+            </section>
 
-            </div>
+            <!-- "Hőmérséklet" szakasz -->
+            <section id="homerseklet" class="w-full py-2 px-2 bg-[#C0CEB8] mt-2 mb-2 rounded-[50px] flex flex-col items-center 
+                sm:py-9 sm:px-4
+                md:py-11 md:px-8
+                lg:py-14      
+                xl:px-16">
+
+
+                <div class="w-full flex align-center justify-start flex-wrap gap-6">
+
+                    <div class="w-full flex align-center justify-center border-l-[#5A7863] border-b-[5px] border-b-[#5A7863] border-solid px-10 rounded-[0_0_10px_10px] sm:rounded-[0_0_10px_10px] sm:w-full">
+                        <p class="text-5xl leading-[90px] font-bold text-center">Hőmérséklet</p>
+                    </div>
+
+                    <!-- Kártya  -->
+                    <div class="flex flex-col lg:flex-row max-w-xl w-fit bg-white rounded-[20px] shadow-md overflow-hidden">
+
+                        <!-- Átváltó 1 -->
+                        <div class="w-full lg:w-fit p-6 flex flex-col justify-center space-y-4">
+                            <p class="border rounded-[50px] border-black w-fit px-2 py-1 text-sm">Dl -> Cl</p>
+
+                            <div class="bg-white p-4 rounded-lg">
+                                <div class="relative bg-inherit">
+                                    <input type="text" id="deciliter" name="deciliter" class="peer bg-transparent h-10 w-72 rounded-lg text-gray-200 placeholder-transparent ring-2 px-2 ring-gray-500 focus:ring-sky-600 focus:outline-none focus:border-rose-600" placeholder="Deciliter(dl)" />
+                                    <label for="username" class="absolute cursor-text left-0 -top-3 text-sm text-gray-500 bg-inherit mx-1 px-1 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-2 peer-focus:-top-3 peer-focus:text-sky-600 peer-focus:text-sm transition-all">
+                                        Deciliter(dl)
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="bg-white p-4 rounded-lg">
+                                <div class="relative bg-inherit">
+                                    <input type="text" id="centiliter" name="centiliter" class="peer bg-transparent h-10 w-72 rounded-lg text-gray-200 placeholder-transparent ring-2 px-2 ring-gray-500 focus:ring-sky-600 focus:outline-none focus:border-rose-600" placeholder="Centiliter(cl)" />
+                                    <label for="username" class="absolute cursor-text left-0 -top-3 text-sm text-gray-500 bg-inherit mx-1 px-1 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-2 peer-focus:-top-3 peer-focus:text-sky-600 peer-focus:text-sm transition-all">
+                                        Centiliter(cl)
+                                    </label>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Kártya  -->
+                    <div class="flex flex-col lg:flex-row max-w-xl w-fit bg-white rounded-[20px] shadow-md overflow-hidden">
+
+                        <!-- Átváltó 2 -->
+                        <div class="w-full lg:w-fit p-6 flex flex-col justify-center space-y-4">
+                            <p class="border rounded-[50px] border-black w-fit px-2 py-1 text-sm">Dl -> Cl</p>
+
+                            <div class="bg-white p-4 rounded-lg">
+                                <div class="relative bg-inherit">
+                                    <input type="text" id="username" name="username" class="peer bg-transparent h-10 w-72 rounded-lg text-gray-200 placeholder-transparent ring-2 px-2 ring-gray-500 focus:ring-sky-600 focus:outline-none focus:border-rose-600" placeholder="Deciliter(dl)" />
+                                    <label for="username" class="absolute cursor-text left-0 -top-3 text-sm text-gray-500 bg-inherit mx-1 px-1 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-2 peer-focus:-top-3 peer-focus:text-sky-600 peer-focus:text-sm transition-all">
+                                        Deciliter(dl)
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="bg-white p-4 rounded-lg">
+                                <div class="relative bg-inherit">
+                                    <input type="text" id="username" name="username" class="peer bg-transparent h-10 w-72 rounded-lg text-gray-200 placeholder-transparent ring-2 px-2 ring-gray-500 focus:ring-sky-600 focus:outline-none focus:border-rose-600" placeholder="Centiliter(cl)" />
+                                    <label for="username" class="absolute cursor-text left-0 -top-3 text-sm text-gray-500 bg-inherit mx-1 px-1 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-2 peer-focus:-top-3 peer-focus:text-sky-600 peer-focus:text-sm transition-all">
+                                        Centiliter(cl)
+                                    </label>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- "Idő" szakasz -->
+            <section id="ido" class="w-full py-2 px-2 bg-[#C0CEB8] mt-2 mb-2 rounded-[50px] flex flex-col items-center 
+                sm:py-9 sm:px-4
+                md:py-11 md:px-8
+                lg:py-14      
+                xl:px-16">
+
+
+                <div class="w-full flex align-center justify-start flex-wrap gap-6">
+
+                    <div class="w-full flex align-center justify-center border-l-[#5A7863] border-b-[5px] border-b-[#5A7863] border-solid px-10 rounded-[0_0_10px_10px] sm:rounded-[0_0_10px_10px] sm:w-full">
+                        <p class="text-5xl leading-[90px] font-bold text-center">Idő</p>
+                    </div>
+
+                    <!-- Kártya  -->
+                    <div class="flex flex-col lg:flex-row max-w-xl w-fit bg-white rounded-[20px] shadow-md overflow-hidden">
+
+                        <!-- Átváltó 1 -->
+                        <div class="w-full lg:w-fit p-6 flex flex-col justify-center space-y-4">
+                            <p class="border rounded-[50px] border-black w-fit px-2 py-1 text-sm">Dl -> Cl</p>
+
+                            <div class="bg-white p-4 rounded-lg">
+                                <div class="relative bg-inherit">
+                                    <input type="text" id="deciliter" name="deciliter" class="peer bg-transparent h-10 w-72 rounded-lg text-gray-200 placeholder-transparent ring-2 px-2 ring-gray-500 focus:ring-sky-600 focus:outline-none focus:border-rose-600" placeholder="Deciliter(dl)" />
+                                    <label for="username" class="absolute cursor-text left-0 -top-3 text-sm text-gray-500 bg-inherit mx-1 px-1 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-2 peer-focus:-top-3 peer-focus:text-sky-600 peer-focus:text-sm transition-all">
+                                        Deciliter(dl)
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="bg-white p-4 rounded-lg">
+                                <div class="relative bg-inherit">
+                                    <input type="text" id="centiliter" name="centiliter" class="peer bg-transparent h-10 w-72 rounded-lg text-gray-200 placeholder-transparent ring-2 px-2 ring-gray-500 focus:ring-sky-600 focus:outline-none focus:border-rose-600" placeholder="Centiliter(cl)" />
+                                    <label for="username" class="absolute cursor-text left-0 -top-3 text-sm text-gray-500 bg-inherit mx-1 px-1 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-2 peer-focus:-top-3 peer-focus:text-sky-600 peer-focus:text-sm transition-all">
+                                        Centiliter(cl)
+                                    </label>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Kártya  -->
+                    <div class="flex flex-col lg:flex-row max-w-xl w-fit bg-white rounded-[20px] shadow-md overflow-hidden">
+
+                        <!-- Átváltó 2 -->
+                        <div class="w-full lg:w-fit p-6 flex flex-col justify-center space-y-4">
+                            <p class="border rounded-[50px] border-black w-fit px-2 py-1 text-sm">Dl -> Cl</p>
+
+                            <div class="bg-white p-4 rounded-lg">
+                                <div class="relative bg-inherit">
+                                    <input type="text" id="username" name="username" class="peer bg-transparent h-10 w-72 rounded-lg text-gray-200 placeholder-transparent ring-2 px-2 ring-gray-500 focus:ring-sky-600 focus:outline-none focus:border-rose-600" placeholder="Deciliter(dl)" />
+                                    <label for="username" class="absolute cursor-text left-0 -top-3 text-sm text-gray-500 bg-inherit mx-1 px-1 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-2 peer-focus:-top-3 peer-focus:text-sky-600 peer-focus:text-sm transition-all">
+                                        Deciliter(dl)
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="bg-white p-4 rounded-lg">
+                                <div class="relative bg-inherit">
+                                    <input type="text" id="username" name="username" class="peer bg-transparent h-10 w-72 rounded-lg text-gray-200 placeholder-transparent ring-2 px-2 ring-gray-500 focus:ring-sky-600 focus:outline-none focus:border-rose-600" placeholder="Centiliter(cl)" />
+                                    <label for="username" class="absolute cursor-text left-0 -top-3 text-sm text-gray-500 bg-inherit mx-1 px-1 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-2 peer-focus:-top-3 peer-focus:text-sky-600 peer-focus:text-sm transition-all">
+                                        Centiliter(cl)
+                                    </label>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </section>
+
+
         </section>
 
-
     </section>
+
 </section>
 
 <?php include "../footer.php"; ?>
