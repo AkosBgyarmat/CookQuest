@@ -1,6 +1,4 @@
-let app = angular.module("CookQuest", []);
-
-app.controller("controller", function ($scope, $http) {
+angular.module("CookQuest").controller("controller", function ($scope, $http) {
 
     console.log("Controller fut");
 
