@@ -16,7 +16,8 @@ $pdo = new PDO(
 /* =========================
    Segédfüggvények
 ========================= */
-function formatIdo($ido_str) {
+function formatIdo($ido_str)
+{
     $parts = explode(':', $ido_str);
     if (count($parts) < 2) return $ido_str;
     $ora = (int)$parts[0];
@@ -26,7 +27,8 @@ function formatIdo($ido_str) {
     return "kevesebb mint 1 perc";
 }
 
-function formatMennyiseg($mennyiseg) {
+function formatMennyiseg($mennyiseg)
+{
     if (floor($mennyiseg) == $mennyiseg) return (int)$mennyiseg;
     return rtrim(rtrim(number_format($mennyiseg, 2, '.', ''), '0'), '.');
 }
@@ -185,8 +187,8 @@ if ($receptId) {
                                     <?php foreach ($alkategoriak as $alKat): ?>
                                         <label class="flex items-center gap-2 mb-1 pl-6 hover:bg-gray-50 rounded py-1 cursor-pointer">
                                             <input type="checkbox" class="kategoriaCheckbox"
-                                                   data-fokategoria="<?= htmlspecialchars($foKat) ?>"
-                                                   data-alkategoria="<?= htmlspecialchars($alKat) ?>">
+                                                data-fokategoria="<?= htmlspecialchars($foKat) ?>"
+                                                data-alkategoria="<?= htmlspecialchars($alKat) ?>">
                                             <span class="text-sm text-gray-700"><?= htmlspecialchars($alKat) ?></span>
                                         </label>
                                     <?php endforeach; ?>
@@ -237,7 +239,7 @@ if ($receptId) {
                                 <?php foreach ($lista as $r): ?>
                                     <li>
                                         <a href="receptek.php?id=<?= $r['ReceptID'] ?>"
-                                           class="block px-3 py-1.5 rounded-lg text-sm transition <?= ($receptId == $r['ReceptID']) ? 'bg-[#6F837B] text-white' : 'hover:bg-[#95A792]/20 text-gray-700' ?>">
+                                            class="block px-3 py-1.5 rounded-lg text-sm transition <?= ($receptId == $r['ReceptID']) ? 'bg-[#6F837B] text-white' : 'hover:bg-[#95A792]/20 text-gray-700' ?>">
                                             <div class="font-medium"><?= htmlspecialchars($r['Nev']) ?></div>
                                             <div class="text-xs opacity-80">
                                                 <?= formatIdo($r['ElkeszitesiIdo']) ?> · <?= htmlspecialchars($r['AlkategoriaNev'] ?? 'Egyéb') ?>
@@ -273,11 +275,11 @@ if ($receptId) {
                             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                                 <?php foreach ($lista as $r): ?>
                                     <a href="receptek.php?id=<?= $r['ReceptID'] ?>"
-                                       class="recept-kartya bg-white rounded-2xl shadow-xl overflow-hidden hover:-translate-y-1 hover:shadow-2xl transition block"
-                                       data-nev="<?= strtolower(htmlspecialchars($r['Nev'])) ?>"
-                                       data-fokategoria="<?= htmlspecialchars($r['FoKategoriaNev'] ?? 'Nem kategorizált') ?>"
-                                       data-alkategoria="<?= htmlspecialchars($r['AlkategoriaNev'] ?? 'Egyéb') ?>"
-                                       data-szint="<?= $szint ?>">
+                                        class="recept-kartya bg-white rounded-2xl shadow-xl overflow-hidden hover:-translate-y-1 hover:shadow-2xl transition block"
+                                        data-nev="<?= strtolower(htmlspecialchars($r['Nev'])) ?>"
+                                        data-fokategoria="<?= htmlspecialchars($r['FoKategoriaNev'] ?? 'Nem kategorizált') ?>"
+                                        data-alkategoria="<?= htmlspecialchars($r['AlkategoriaNev'] ?? 'Egyéb') ?>"
+                                        data-szint="<?= $szint ?>">
                                         <img src="<?= htmlspecialchars($r['Kep']) ?>" class="w-full h-48 object-cover">
                                         <div class="p-5">
                                             <div class="flex justify-between text-xs text-gray-500 mb-2 font-semibold">
