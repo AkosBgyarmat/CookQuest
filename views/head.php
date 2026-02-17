@@ -23,7 +23,8 @@ define('BASE_URL', '/CookQuest/')
 
     <!-- AngularJS -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-    <script src="../../assets/js/app.js"></script>
+    <script src="/CookQuest/assets/js/app.js"></script>
+
 
     <!-- Alpine.js -->
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>

@@ -1,7 +1,7 @@
 <?php include "../head.php"; ?>
 
 
-<section ng-controller="controller" ng-cloak>
+<section ng-controller="eszkozCtrl" ng-cloak>
 
     <!-- HERO & MINI NAVBAR -->
     <section class="h-full">
@@ -169,59 +169,6 @@
 
         <!-- Mértékegység átváltó -->
         <section ng-show="mode === 'atvalto'" class="mx-auto max-w-[2000px] min-w-[280px] h-full" id="atvalto">
-
-            <!-- Átváltó választó
-            <section class=" flex justify-center items-center flex-wrap bg-[#5A7863] h-1/2 p-2">
-
-                <a href="#tomeg" class="md:hover:bg-transparent md:border-0 block hover:text-black md:p-0 text-md">
-                    <div class="flex text-center border max-w-2xl p-3 rounded-[50px] min-w-[190px] m-2 text-white hover:bg-[#EBF4DD] hover:text-black">  
-                        <div class="w-sreen max-w-screen-xl px-10 mx-auto"> 
-                            <ul class="flex-col md:flex-row flex md:space-x-8 md:mt-0 md:text-sm md:font-medium">
-                                <li>
-                                    Tömeg
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </a>
-
-                <a href="#terfogat" class="md:hover:bg-transparent md:border-0 block hover:text-black md:p-0 text-md">
-                    <div class="flex text-center border max-w-2xl p-3 rounded-[50px] min-w-[190px] m-2 text-white hover:bg-[#EBF4DD] hover:text-black">  
-                        <div class="w-sreen max-w-screen-xl px-10 mx-auto"> 
-                            <ul class="flex-col md:flex-row flex md:space-x-8 md:mt-0 md:text-sm md:font-medium">
-                                <li>
-                                    Térfogat
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </a>
-
-                <a href="#homerseklet" class="md:hover:bg-transparent md:border-0 block hover:text-black md:p-0 text-md">
-                    <div class="flex text-center border max-w-2xl p-3 rounded-[50px] min-w-[190px] m-2 text-white hover:bg-[#EBF4DD] hover:text-black">  
-                        <div class="w-sreen max-w-screen-xl px-10 mx-auto"> 
-                            <ul class="flex-col md:flex-row flex md:space-x-8 md:mt-0 md:text-sm md:font-medium">
-                                <li>
-                                    Hőmérséklet
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </a>
-
-                <a href="#ido" class="md:hover:bg-transparent md:border-0 block hover:text-black md:p-0 text-md">
-                    <div class="flex text-center border max-w-2xl p-3 rounded-[50px] min-w-[190px] m-2 text-white hover:bg-[#EBF4DD] hover:text-black">  
-                        <div class="w-sreen max-w-screen-xl px-10 mx-auto"> 
-                            <ul class="flex-col md:flex-row flex md:space-x-8 md:mt-0 md:text-sm md:font-medium">
-                                <li>
-                                    Idő
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </a>
-
-            </section> -->
 
             <!-- Átváltók -->
             <section class="w-full py-4 px-2 bg-[#EBF4DD] flex flex-col items-center sm:py-9 sm:px-4 md:py-11 md:px-8 lg:py-14 xl:px-16">
