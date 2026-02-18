@@ -1,16 +1,42 @@
-CREATE DATABASE CookQuest;
-USE CookQuest;
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
+-- Gép: 127.0.0.1
+-- Létrehozás ideje: 2026. Feb 18. 11:06
+-- Kiszolgáló verziója: 10.4.32-MariaDB
+-- PHP verzió: 8.1.25
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Adatbázis: `cookquest`
+--
+
+-- --------------------------------------------------------
+
 --
 -- Tábla szerkezet ehhez a táblához `alkategoria`
 --
+
 CREATE TABLE `alkategoria` (
   `AlkategoriaID` int(11) NOT NULL,
   `KategoriaID` int(11) NOT NULL,
   `Alkategoria` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 --
 -- A tábla adatainak kiíratása `alkategoria`
 --
+
 INSERT INTO `alkategoria` (`AlkategoriaID`, `KategoriaID`, `Alkategoria`) VALUES
 (1, 1, 'sültek'),
 (2, 1, 'pörkölt'),
@@ -24,30 +50,42 @@ INSERT INTO `alkategoria` (`AlkategoriaID`, `KategoriaID`, `Alkategoria`) VALUES
 (10, 5, 'zöldség köret'),
 (11, 2, 'zöldség leves'),
 (12, 2, 'tojás leves');
+
+-- --------------------------------------------------------
+
 --
 -- Tábla szerkezet ehhez a táblához `arkategoria`
 --
+
 CREATE TABLE `arkategoria` (
   `ArkategoriaID` int(11) NOT NULL,
   `Arkategoria` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 --
 -- A tábla adatainak kiíratása `arkategoria`
 --
+
 INSERT INTO `arkategoria` (`ArkategoriaID`, `Arkategoria`) VALUES
 (1, 'olcsó'),
 (2, 'megfizethető'),
 (3, 'drága');
+
+-- --------------------------------------------------------
+
 --
 -- Tábla szerkezet ehhez a táblához `besorolas`
 --
+
 CREATE TABLE `besorolas` (
   `BesorolasID` int(11) NOT NULL,
   `Elnevezes` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 --
 -- A tábla adatainak kiíratása `besorolas`
 --
+
 INSERT INTO `besorolas` (`BesorolasID`, `Elnevezes`) VALUES
 (1, 'Evőeszköz'),
 (2, 'Szedőkanál'),
@@ -63,18 +101,24 @@ INSERT INTO `besorolas` (`BesorolasID`, `Elnevezes`) VALUES
 (12, 'Konyhai kisgép'),
 (13, 'Konyhai nagygép'),
 (14, 'Edény');
+
+-- --------------------------------------------------------
+
 --
 -- Tábla szerkezet ehhez a táblához `elkeszitesimod`
 --
+
 CREATE TABLE `elkeszitesimod` (
   `ElkeszitesiModID` int(11) NOT NULL,
   `ElkeszitesiMod` varchar(255) NOT NULL,
   `Hofok` int(11) DEFAULT NULL,
   `Funkcio` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 --
 -- A tábla adatainak kiíratása `elkeszitesimod`
 --
+
 INSERT INTO `elkeszitesimod` (`ElkeszitesiModID`, `ElkeszitesiMod`, `Hofok`, `Funkcio`) VALUES
 (1, 'Serpenyőben sütés', NULL, 'tűzhely'),
 (2, 'Nem sütős desszert', NULL, 'nincs'),
@@ -84,9 +128,13 @@ INSERT INTO `elkeszitesimod` (`ElkeszitesiModID`, `ElkeszitesiMod`, `Hofok`, `Fu
 (6, 'Alsó-felső sütés', 180, 'sütő'),
 (7, 'Mikrohullámú sütés', NULL, 'mikrohullámú sütő'),
 (8, 'Olajban sütés', NULL, 'tűzhely');
+
+-- --------------------------------------------------------
+
 --
 -- Tábla szerkezet ehhez a táblához `felhasznalo`
 --
+
 CREATE TABLE `felhasznalo` (
   `FelhasznaloID` int(11) NOT NULL,
   `Vezeteknev` varchar(50) NOT NULL,
@@ -101,40 +149,56 @@ CREATE TABLE `felhasznalo` (
   `MegszerzettPontok` int(11) NOT NULL,
   `SzerepID` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 --
 -- A tábla adatainak kiíratása `felhasznalo`
 --
+
 INSERT INTO `felhasznalo` (`FelhasznaloID`, `Vezeteknev`, `Keresztnev`, `Felhasznalonev`, `Emailcim`, `Jelszo`, `SzuletesiEv`, `Profilkep`, `OrszagID`, `RegisztracioEve`, `MegszerzettPontok`, `SzerepID`) VALUES
 (1, 'Keresztúri', 'Hanna', 'hancsii', 'kerhanna05@gmail.com', '20f5f4fcd943a472b15a17d9c0901adb', '2005', '', 1, '2026', 0, 1);
+
+-- --------------------------------------------------------
+
 --
 -- Tábla szerkezet ehhez a táblához `felhasznalo_hozzavalo`
 --
+
 CREATE TABLE `felhasznalo_hozzavalo` (
   `FelhasznaloID` int(11) NOT NULL,
   `HozzavaloID` int(11) NOT NULL,
   `Mennyiseg` decimal(10,2) NOT NULL,
   `MertekegysegID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Hűtő';
+
+-- --------------------------------------------------------
+
 --
 -- Tábla szerkezet ehhez a táblához `felhasznalo_recept`
 --
+
 CREATE TABLE `felhasznalo_recept` (
   `FelhasznaloID` int(11) NOT NULL,
   `ReceptID` int(11) NOT NULL,
   `Elkeszitette` tinyint(1) DEFAULT NULL,
   `KedvencReceptek` tinyint(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
 --
 -- Tábla szerkezet ehhez a táblához `hozzavalo`
 --
+
 CREATE TABLE `hozzavalo` (
   `HozzavaloID` int(11) NOT NULL,
   `Elnevezes` varchar(50) NOT NULL,
   `Kep` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 --
 -- A tábla adatainak kiíratása `hozzavalo`
 --
+
 INSERT INTO `hozzavalo` (`HozzavaloID`, `Elnevezes`, `Kep`) VALUES
 (17, 'tojás', NULL),
 (18, 'liszt', NULL),
@@ -237,25 +301,35 @@ INSERT INTO `hozzavalo` (`HozzavaloID`, `Elnevezes`, `Kep`) VALUES
 (138, 'mandulaliszt', NULL),
 (139, 'instant kávé', NULL),
 (140, 'mustár', NULL);
+
+-- --------------------------------------------------------
+
 --
 -- Tábla szerkezet ehhez a táblához `kategoria`
 --
+
 CREATE TABLE `kategoria` (
   `KategoriaID` int(11) NOT NULL,
   `Kategoria` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 --
 -- A tábla adatainak kiíratása `kategoria`
 --
+
 INSERT INTO `kategoria` (`KategoriaID`, `Kategoria`) VALUES
 (1, 'főétel'),
 (2, 'leves'),
 (3, 'desszert'),
 (4, 'reggeli'),
 (5, 'köret');
+
+-- --------------------------------------------------------
+
 --
 -- Tábla szerkezet ehhez a táblához `konyhaifelszereles`
 --
+
 CREATE TABLE `konyhaifelszereles` (
   `KonyhaiFelszerelesID` int(11) NOT NULL,
   `Nev` varchar(100) NOT NULL,
@@ -263,9 +337,11 @@ CREATE TABLE `konyhaifelszereles` (
   `BesorolasID` int(11) NOT NULL,
   `Leiras` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 --
 -- A tábla adatainak kiíratása `konyhaifelszereles`
 --
+
 INSERT INTO `konyhaifelszereles` (`KonyhaiFelszerelesID`, `Nev`, `Kep`, `BesorolasID`, `Leiras`) VALUES
 (1, 'Teáskanál', '../../assets/kepek/konyhaiEszkoz/teaskanal.jpg', 1, 'A teáskanál egy kis méretű evőeszköz, amelyet leggyakrabban tea, kávé vagy más italok keverésére, illetve cukor, méz adagolására használunk. Emellett alkalmas kisebb mennyiségű ételek fogyasztására és a konyhában mértékegységként is funkcionál (1 teáskanál ≈ 5 ml). Általában rozsdamentes acélból készül, de létezik műanyagból vagy porcelánból készült változata is. Kompakt mérete miatt kényelmes, praktikus, minden háztartás alapdarabja.'),
 (2, 'Evőkanál', '../../assets/kepek/konyhaiEszkoz/evokanal.jpg', 1, 'Az evőkanál egy nagyobb méretű evőeszköz, amelyet levesek, főzelékek és egyéb ételek fogyasztására használunk. A konyhában mérésre és adagolásra is alkalmas (1 evőkanál ≈ 15 ml). Leggyakrabban rozsdamentes acélból készül, de létezik műanyagból, fából vagy szilikonból készült változata is. Formája kényelmes fogást biztosít, ezért a mindennapi étkezések alapdarabja.'),
@@ -342,31 +418,43 @@ INSERT INTO `konyhaifelszereles` (`KonyhaiFelszerelesID`, `Nev`, `Kep`, `Besorol
 (73, 'Hőálló tál', '../../assets/kepek/konyhaiEszkoz/hoallo_tal.jpg', 14, 'A hőálló tál magas hőmérsékletnek ellenálló edény, amely sütőben és mikrohullámú sütőben is használható.'),
 (74, 'Jénai', '../../assets/kepek/konyhaiEszkoz/jenai.jpg', 14, 'A jénai hőálló üvegedény, amely lehetővé teszi az ételek elkészítésének vizuális ellenőrzését sütés közben.'),
 (75, 'Öntöttvas edény', '../../assets/kepek/konyhaiEszkoz/ontottvas_edeny.jpg', 14, 'Az öntöttvas edény kiváló hőtartó képességgel rendelkező edény, amely ideális lassú főzéshez és sütéshez.');
+
+-- --------------------------------------------------------
+
 --
 -- Tábla szerkezet ehhez a táblához `mertekegyseg`
 --
+
 CREATE TABLE `mertekegyseg` (
   `MertekegysegID` int(11) NOT NULL,
   `Elnevezes` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 --
 -- A tábla adatainak kiíratása `mertekegyseg`
 --
+
 INSERT INTO `mertekegyseg` (`MertekegysegID`, `Elnevezes`) VALUES
 (1, 'db'),
 (2, 'ml'),
 (3, 'g'),
 (4, 'ízlés szerint');
+
+-- --------------------------------------------------------
+
 --
 -- Tábla szerkezet ehhez a táblához `nehezsegiszint`
 --
+
 CREATE TABLE `nehezsegiszint` (
   `NehezsegiSzintID` int(11) NOT NULL,
   `Szint` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 --
 -- A tábla adatainak kiíratása `nehezsegiszint`
 --
+
 INSERT INTO `nehezsegiszint` (`NehezsegiSzintID`, `Szint`) VALUES
 (1, 1),
 (2, 2),
@@ -378,16 +466,22 @@ INSERT INTO `nehezsegiszint` (`NehezsegiSzintID`, `Szint`) VALUES
 (8, 8),
 (9, 9),
 (10, 10);
+
+-- --------------------------------------------------------
+
 --
 -- Tábla szerkezet ehhez a táblához `orszag`
 --
+
 CREATE TABLE `orszag` (
   `OrszagID` int(11) NOT NULL,
   `Elnevezes` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 --
 -- A tábla adatainak kiíratása `orszag`
 --
+
 INSERT INTO `orszag` (`OrszagID`, `Elnevezes`) VALUES
 (1, 'Magyarország'),
 (3, 'Franciaország'),
@@ -413,9 +507,13 @@ INSERT INTO `orszag` (`OrszagID`, `Elnevezes`) VALUES
 (23, 'Szlovákia'),
 (24, 'Románia'),
 (25, 'Svédország');
+
+-- --------------------------------------------------------
+
 --
 -- Tábla szerkezet ehhez a táblához `recept`
 --
+
 CREATE TABLE `recept` (
   `ReceptID` int(11) NOT NULL,
   `Nev` varchar(150) NOT NULL,
@@ -430,11 +528,13 @@ CREATE TABLE `recept` (
   `AlkategoriaID` int(11) DEFAULT NULL,
   `Kaloria` decimal(6,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 --
 -- A tábla adatainak kiíratása `recept`
 --
+
 INSERT INTO `recept` (`ReceptID`, `Nev`, `Kep`, `ElkeszitesiIdo`, `NehezsegiSzintID`, `BegyujthetoPontok`, `Adag`, `Elkeszitesi_leiras`, `ElkeszitesiModID`, `ArkategoriaID`, `AlkategoriaID`, `Kaloria`) VALUES
-(8, 'Tükörtojás', '../../assets/kepek/etelek/TukorTojas.webp\r\n', '00:10:00', 1, 15, 1, 'A tojásokat óvatosan üsd egy kis tálba vagy csészébe egyesével – így ha rossz lenne valamelyik, nem rontja el az egészet.\r\nMelegítsd fel az olajat vagy vajat egy kisebb serpenyőben közepes lángon. Az olaj akkor jó, ha enyhén csillog, de még nem füstöl (ha füstöl, vedd lejjebb a lángot, különben keserű lesz).\r\nHa a zsiradék forró, óvatosan csúsztasd bele a tojásokat a tálból (ne dobd bele nagy magasságból, nehogy szétfröccsenjen a zsiradék).\r\nSüsd addig, amíg a fehérje teljesen kifehéredik és megszilárdul, de a sárgája még lágy marad (kb. 3–4 perc). Ha kemény sárgáját szeretnél, fordítsd át a tojást még 10–15 másodpercre.\r\nSózd, borsozd, és azonnal tálald pirítóssal vagy friss zöldséggel.\r\nÍzesítsd sóval, borssal, és azonnal tálald.\r\n', 1, 1, 9, 180.00),
+(8, 'Tükörtojás', '/assets/kepek/etelek/TukorTojas.webp\n', '00:10:00', 1, 15, 1, 'A tojásokat óvatosan üsd egy kis tálba vagy csészébe egyesével – így ha rossz lenne valamelyik, nem rontja el az egészet.\r\nMelegítsd fel az olajat vagy vajat egy kisebb serpenyőben közepes lángon. Az olaj akkor jó, ha enyhén csillog, de még nem füstöl (ha füstöl, vedd lejjebb a lángot, különben keserű lesz).\r\nHa a zsiradék forró, óvatosan csúsztasd bele a tojásokat a tálból (ne dobd bele nagy magasságból, nehogy szétfröccsenjen a zsiradék).\r\nSüsd addig, amíg a fehérje teljesen kifehéredik és megszilárdul, de a sárgája még lágy marad (kb. 3–4 perc). Ha kemény sárgáját szeretnél, fordítsd át a tojást még 10–15 másodpercre.\r\nSózd, borsozd, és azonnal tálald pirítóssal vagy friss zöldséggel.\r\nÍzesítsd sóval, borssal, és azonnal tálald.\r\n', 1, 1, 9, 180.00),
 (9, 'Tojásrántotta', '../../assets/kepek/etelek/Rantotta.webp', '00:05:00', 1, 15, 1, 'Verd fel a tojásokat egy tálban villával vagy habverővel, sózd meg enyhén. Ne verd túl habosra, csak keverd össze.\r\nOlvaszd meg a vajat (vagy melegítsd az olajat) egy serpenyőben közepes lángon.\r\nÖntsd bele a tojást. Folyamatosan keverd fakanállal vagy szilikon spatulával körkörös mozdulatokkal, hogy egyenletesen süljön (kb. 2–3 perc).\r\nVedd le a tűzről, amikor már majdnem kész, de még kicsit lágy, krémes az állaga – a maradék hő tovább főzi.\r\nTálald azonnal, mellé félbevágott koktélparadicsommal vagy más friss körettel.\r\n', 1, 1, 9, 210.00),
 (10, 'Bundás kenyér', '../../assets/kepek/etelek/bundasKenyer.webp\r\n', '00:10:00', 1, 15, 1, 'Verd fel a tojásokat egy lapos tányérban vagy tálban, sózd meg enyhén.\r\nMártsd bele a kenyérszeleteket rövid időre (2–3 másodperc oldalanként) – ne áztasd túl, különben szétesik!\r\nHevíts bő olajat egy serpenyőben közepes lángon. Ellenőrizd: ha egy kis tojásos morzsát beledobsz, azonnal pezsegnie kell.\r\nTedd bele a beáztatott kenyereket, süsd mindkét oldalon aranybarnára (oldalanként kb. 2–3 perc).\r\nPapírtörlőre szedd ki, hogy lecsepegjen a felesleges olaj.\r\n', 1, 1, 9, 350.00),
 (11, 'Pirítós vajjal vagy lekvárral', '../../assets/kepek/etelek/PiritosKenyer.webp\r\n', '00:05:00', 1, 15, 1, 'Tedd a kenyereket kenyérpirítóba és pirítsd meg (vagy serpenyőben 1–2 perc oldalanként közepes lángon, vaj nélkül).\r\nAmint kész, kend meg vékonyan vajjal (vagy vastagabban lekvárral).\r\nAzonnal fogyaszd, amíg ropogós.\r\n', 1, 1, 9, 200.00),
@@ -495,18 +595,24 @@ INSERT INTO `recept` (`ReceptID`, `Nev`, `Kep`, `ElkeszitesiIdo`, `NehezsegiSzin
 (71, 'Házi gnocchi', '../../assets/kepek/etelek/Gnocchi.webp', '00:45:00', 10, 35, 4, '1. A burgonyát főzd meg, törd össze, majd hűtsd langyosra.\r\n2. Keverd hozzá a tojást és a sót.\r\n3. Fokozatosan add hozzá a lisztet, míg lágy, formázható tésztát nem kapsz.\r\n4. Oszd több részre, sodord hengerekké és vágd 2 cm-es darabokra.\r\n5. A darabokat villa hátával húzd picit meg, hogy mintás legyen.\r\n6. Lobogó, sós vízben főzd 2–3 percig, amíg feljönnek a víz tetejére.\r\n7. Lehet vajon pirítva, zsályával tálalni, de paradicsomszósszal is tökéletes.', 4, 1, 3, 280.00),
 (72, 'Macaron', '../../assets/kepek/etelek/Macaron.webp', '01:00:00', 10, 30, 15, '1. A mandulalisztet és porcukrot szitáld össze.\r\n2. A tojásfehérjét verd habosra, majd fokozatosan add hozzá a kristálycukrot, amíg fényes habot kapsz.\r\n3. Keverd bele óvatosan a mandulás keveréket.\r\n4. Színezd ételfestékkel, ha szeretnéd.\r\n5. Nyomózsákkal nyomj kis korongokat sütőpapírra.\r\n6. Hagyd száradni szobahőmérsékleten 30–40 percig, míg a teteje bőrös nem lesz.\r\n7. Süsd 150°C-on 12–14 percig.\r\n8. Közben a vajat, porcukrot és tejet keverd krémmé.\r\n9. A kihűlt macaronokat töltsd meg és ragaszd össze.', 6, 2, 7, 110.00),
 (73, 'Opera szelet', '../../assets/kepek/etelek/OperaSzelet.webp', '03:15:00', 10, 30, 8, '1. Piskóta:\r\n   A tojásokat a porcukorral és mandulaliszttel habosítsd. A tojásfehérjét a kristálycukorral verd kemény habbá, majd óvatosan forgasd a masszába. Add hozzá az olvasztott vajat.\r\n   Sütőpapíros tepsiben, vékony rétegben süsd 180°C-on 8–10 percig. Hűtsd ki, majd vágd három egyforma lapra.\r\n2. Kávés szirup:\r\n   A vizet a cukorral és kávéval forrald fel, majd hűtsd le.\r\n3. Kávés vajkrém:\r\n   A cukrot és vizet főzd 118°C-ig (cukorszirup). A tojássárgákat verd habosra, majd lassan csorgasd hozzá a forró szirupot. Hűlés után keverd hozzá a puha vajat és a kávét.\r\n4. Ganache:\r\n   A tejszínt melegítsd fel, add hozzá az aprított csokoládét, majd keverd simára.\r\n5. Összeállítás:\r\n   Piskóta → kávés szirup → vajkrém → Piskóta → kávés szirup → ganache → Piskóta → kávés szirup → vajkrém\r\n6. Máz:\r\n   Olvaszd fel a csokoládét az olajjal, majd simítsd a sütemény tetejére.\r\n7. Pihentetés:\r\n   Hűtőben pihentesd legalább 2 órát, majd éles késsel szeleteld.', 6, 3, 7, 480.00);
+
+-- --------------------------------------------------------
+
 --
 -- Tábla szerkezet ehhez a táblához `recept_hozzavalo`
 --
+
 CREATE TABLE `recept_hozzavalo` (
   `ReceptID` int(11) NOT NULL,
   `HozzavaloID` int(11) NOT NULL,
   `Mennyiseg` decimal(10,2) NOT NULL,
   `MertekegysegID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 --
 -- A tábla adatainak kiíratása `recept_hozzavalo`
 --
+
 INSERT INTO `recept_hozzavalo` (`ReceptID`, `HozzavaloID`, `Mennyiseg`, `MertekegysegID`) VALUES
 (8, 17, 2.00, 1),
 (8, 21, 15.00, 2),
@@ -925,54 +1031,76 @@ INSERT INTO `recept_hozzavalo` (`ReceptID`, `HozzavaloID`, `Mennyiseg`, `Merteke
 (73, 116, 200.00, 3),
 (73, 138, 100.00, 3),
 (73, 139, 5.00, 3);
+
+-- --------------------------------------------------------
+
 --
 -- Tábla szerkezet ehhez a táblához `recept_konyhaifelszereles`
 --
+
 CREATE TABLE `recept_konyhaifelszereles` (
   `ReceptID` int(11) NOT NULL,
   `KonyhaiFelszerelesID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
 --
 -- Tábla szerkezet ehhez a táblához `szerep`
 --
+
 CREATE TABLE `szerep` (
   `SzerepID` int(11) NOT NULL,
   `Szerep` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 --
 -- A tábla adatainak kiíratása `szerep`
 --
+
 INSERT INTO `szerep` (`SzerepID`, `Szerep`) VALUES
 (1, 'Adminisztrátor'),
 (2, 'Felhasználó');
+
+--
+-- Indexek a kiírt táblákhoz
+--
+
 --
 -- A tábla indexei `alkategoria`
 --
 ALTER TABLE `alkategoria`
   ADD PRIMARY KEY (`AlkategoriaID`),
   ADD KEY `fk_alkategoria_kategoria` (`KategoriaID`);
+
 --
 -- A tábla indexei `arkategoria`
 --
 ALTER TABLE `arkategoria`
   ADD PRIMARY KEY (`ArkategoriaID`);
+
 --
 -- A tábla indexei `besorolas`
 --
 ALTER TABLE `besorolas`
   ADD PRIMARY KEY (`BesorolasID`);
+
 --
 -- A tábla indexei `elkeszitesimod`
 --
 ALTER TABLE `elkeszitesimod`
   ADD PRIMARY KEY (`ElkeszitesiModID`);
+
 --
 -- A tábla indexei `felhasznalo`
 --
 ALTER TABLE `felhasznalo`
   ADD PRIMARY KEY (`FelhasznaloID`),
+  ADD UNIQUE KEY `Emailcim` (`Emailcim`),
+  ADD UNIQUE KEY `Felhasznalonev` (`Felhasznalonev`),
   ADD KEY `OrszagID` (`OrszagID`),
   ADD KEY `SzerepID` (`SzerepID`);
+
 --
 -- A tábla indexei `felhasznalo_hozzavalo`
 --
@@ -980,43 +1108,51 @@ ALTER TABLE `felhasznalo_hozzavalo`
   ADD PRIMARY KEY (`FelhasznaloID`,`HozzavaloID`),
   ADD KEY `HozzavaloID` (`HozzavaloID`),
   ADD KEY `MertekegysegID` (`MertekegysegID`);
+
 --
 -- A tábla indexei `felhasznalo_recept`
 --
 ALTER TABLE `felhasznalo_recept`
   ADD PRIMARY KEY (`FelhasznaloID`,`ReceptID`),
   ADD KEY `ReceptID` (`ReceptID`);
+
 --
 -- A tábla indexei `hozzavalo`
 --
 ALTER TABLE `hozzavalo`
   ADD PRIMARY KEY (`HozzavaloID`);
+
 --
 -- A tábla indexei `kategoria`
 --
 ALTER TABLE `kategoria`
   ADD PRIMARY KEY (`KategoriaID`);
+
 --
 -- A tábla indexei `konyhaifelszereles`
 --
 ALTER TABLE `konyhaifelszereles`
   ADD PRIMARY KEY (`KonyhaiFelszerelesID`),
   ADD KEY `BesorolasID` (`BesorolasID`);
+
 --
 -- A tábla indexei `mertekegyseg`
 --
 ALTER TABLE `mertekegyseg`
   ADD PRIMARY KEY (`MertekegysegID`);
+
 --
 -- A tábla indexei `nehezsegiszint`
 --
 ALTER TABLE `nehezsegiszint`
   ADD PRIMARY KEY (`NehezsegiSzintID`);
+
 --
 -- A tábla indexei `orszag`
 --
 ALTER TABLE `orszag`
   ADD PRIMARY KEY (`OrszagID`);
+
 --
 -- A tábla indexei `recept`
 --
@@ -1026,6 +1162,7 @@ ALTER TABLE `recept`
   ADD KEY `ElkeszitesiModID` (`ElkeszitesiModID`),
   ADD KEY `AlkategoriaID` (`AlkategoriaID`),
   ADD KEY `fk_recept_arkategoria` (`ArkategoriaID`);
+
 --
 -- A tábla indexei `recept_hozzavalo`
 --
@@ -1033,12 +1170,14 @@ ALTER TABLE `recept_hozzavalo`
   ADD PRIMARY KEY (`ReceptID`,`HozzavaloID`),
   ADD KEY `HozzavaloID` (`HozzavaloID`),
   ADD KEY `MertekegysegID` (`MertekegysegID`);
+
 --
 -- A tábla indexei `recept_konyhaifelszereles`
 --
 ALTER TABLE `recept_konyhaifelszereles`
   ADD PRIMARY KEY (`ReceptID`,`KonyhaiFelszerelesID`),
   ADD KEY `KonyhaiFelszerelesID` (`KonyhaiFelszerelesID`);
+
 --
 -- A tábla indexei `szerep`
 --
@@ -1046,65 +1185,81 @@ ALTER TABLE `szerep`
   ADD PRIMARY KEY (`SzerepID`);
 
 --
+-- A kiírt táblák AUTO_INCREMENT értéke
+--
+
+--
 -- AUTO_INCREMENT a táblához `alkategoria`
 --
 ALTER TABLE `alkategoria`
-  MODIFY `AlkategoriaID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `AlkategoriaID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
 --
 -- AUTO_INCREMENT a táblához `arkategoria`
 --
 ALTER TABLE `arkategoria`
   MODIFY `ArkategoriaID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
 --
 -- AUTO_INCREMENT a táblához `besorolas`
 --
 ALTER TABLE `besorolas`
   MODIFY `BesorolasID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
 --
 -- AUTO_INCREMENT a táblához `elkeszitesimod`
 --
 ALTER TABLE `elkeszitesimod`
   MODIFY `ElkeszitesiModID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
 --
 -- AUTO_INCREMENT a táblához `felhasznalo`
 --
 ALTER TABLE `felhasznalo`
   MODIFY `FelhasznaloID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 --
 -- AUTO_INCREMENT a táblához `hozzavalo`
 --
 ALTER TABLE `hozzavalo`
   MODIFY `HozzavaloID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=141;
+
 --
 -- AUTO_INCREMENT a táblához `kategoria`
 --
 ALTER TABLE `kategoria`
   MODIFY `KategoriaID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
 --
 -- AUTO_INCREMENT a táblához `konyhaifelszereles`
 --
 ALTER TABLE `konyhaifelszereles`
   MODIFY `KonyhaiFelszerelesID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
+
 --
 -- AUTO_INCREMENT a táblához `mertekegyseg`
 --
 ALTER TABLE `mertekegyseg`
   MODIFY `MertekegysegID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
 --
 -- AUTO_INCREMENT a táblához `nehezsegiszint`
 --
 ALTER TABLE `nehezsegiszint`
   MODIFY `NehezsegiSzintID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
 --
 -- AUTO_INCREMENT a táblához `orszag`
 --
 ALTER TABLE `orszag`
   MODIFY `OrszagID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+
 --
 -- AUTO_INCREMENT a táblához `recept`
 --
 ALTER TABLE `recept`
   MODIFY `ReceptID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
+
 --
 -- AUTO_INCREMENT a táblához `szerep`
 --
@@ -1112,34 +1267,43 @@ ALTER TABLE `szerep`
   MODIFY `SzerepID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- Megkötések a kiírt táblákhoz
+--
+
+--
 -- Megkötések a táblához `alkategoria`
 --
 ALTER TABLE `alkategoria`
   ADD CONSTRAINT `alkategoria_ibfk_1` FOREIGN KEY (`KategoriaID`) REFERENCES `kategoria` (`KategoriaID`),
   ADD CONSTRAINT `fk_alkategoria_kategoria` FOREIGN KEY (`KategoriaID`) REFERENCES `kategoria` (`KategoriaID`);
+
 --
 -- Megkötések a táblához `felhasznalo`
 --
 ALTER TABLE `felhasznalo`
   ADD CONSTRAINT `felhasznalo_ibfk_1` FOREIGN KEY (`OrszagID`) REFERENCES `orszag` (`OrszagID`),
   ADD CONSTRAINT `felhasznalo_ibfk_2` FOREIGN KEY (`SzerepID`) REFERENCES `szerep` (`SzerepID`);
+
 --
 -- Megkötések a táblához `felhasznalo_hozzavalo`
 --
 ALTER TABLE `felhasznalo_hozzavalo`
   ADD CONSTRAINT `felhasznalo_hozzavalo_ibfk_1` FOREIGN KEY (`FelhasznaloID`) REFERENCES `felhasznalo` (`FelhasznaloID`) ON DELETE CASCADE,
   ADD CONSTRAINT `felhasznalo_hozzavalo_ibfk_2` FOREIGN KEY (`HozzavaloID`) REFERENCES `hozzavalo` (`HozzavaloID`) ON DELETE CASCADE;
+
 --
 -- Megkötések a táblához `felhasznalo_recept`
 --
 ALTER TABLE `felhasznalo_recept`
   ADD CONSTRAINT `felhasznalo_recept_ibfk_1` FOREIGN KEY (`FelhasznaloID`) REFERENCES `felhasznalo` (`FelhasznaloID`) ON DELETE CASCADE,
   ADD CONSTRAINT `felhasznalo_recept_ibfk_2` FOREIGN KEY (`ReceptID`) REFERENCES `recept` (`ReceptID`) ON DELETE CASCADE;
+
 --
 -- Megkötések a táblához `konyhaifelszereles`
 --
 ALTER TABLE `konyhaifelszereles`
   ADD CONSTRAINT `konyhaifelszereles_ibfk_1` FOREIGN KEY (`BesorolasID`) REFERENCES `besorolas` (`BesorolasID`);
+
 --
 -- Megkötések a táblához `recept`
 --
@@ -1148,6 +1312,7 @@ ALTER TABLE `recept`
   ADD CONSTRAINT `recept_ibfk_1` FOREIGN KEY (`NehezsegiSzintID`) REFERENCES `nehezsegiszint` (`NehezsegiSzintID`),
   ADD CONSTRAINT `recept_ibfk_2` FOREIGN KEY (`ElkeszitesiModID`) REFERENCES `elkeszitesimod` (`ElkeszitesiModID`),
   ADD CONSTRAINT `recept_ibfk_3` FOREIGN KEY (`AlkategoriaID`) REFERENCES `alkategoria` (`AlkategoriaID`);
+
 --
 -- Megkötések a táblához `recept_hozzavalo`
 --
@@ -1155,6 +1320,7 @@ ALTER TABLE `recept_hozzavalo`
   ADD CONSTRAINT `recept_hozzavalo_ibfk_1` FOREIGN KEY (`ReceptID`) REFERENCES `recept` (`ReceptID`) ON DELETE CASCADE,
   ADD CONSTRAINT `recept_hozzavalo_ibfk_2` FOREIGN KEY (`HozzavaloID`) REFERENCES `hozzavalo` (`HozzavaloID`) ON DELETE CASCADE,
   ADD CONSTRAINT `recept_hozzavalo_ibfk_3` FOREIGN KEY (`MertekegysegID`) REFERENCES `mertekegyseg` (`MertekegysegID`);
+
 --
 -- Megkötések a táblához `recept_konyhaifelszereles`
 --
@@ -1162,3 +1328,7 @@ ALTER TABLE `recept_konyhaifelszereles`
   ADD CONSTRAINT `recept_konyhaifelszereles_ibfk_1` FOREIGN KEY (`ReceptID`) REFERENCES `recept` (`ReceptID`) ON DELETE CASCADE,
   ADD CONSTRAINT `recept_konyhaifelszereles_ibfk_2` FOREIGN KEY (`KonyhaiFelszerelesID`) REFERENCES `konyhaifelszereles` (`KonyhaiFelszerelesID`) ON DELETE CASCADE;
 COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
