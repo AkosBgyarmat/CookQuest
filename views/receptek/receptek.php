@@ -1,21 +1,11 @@
-<?php
-include "../head.php";
-/* =========================
-   ADATBÁZIS KAPCSOLÓDÁS
-========================= */
-$pdo = new PDO(
-    "mysql:host=localhost;dbname=cookquest;charset=utf8mb4",
-    "root",
-    "",
-    [
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
-    ]
-);
+<?php include "../head.php";
+/* ========================= ADATBÁZIS KAPCSOLÓDÁS ========================= */
+$pdo = new PDO("mysql:host=localhost;dbname=cookquest;charset=utf8mb4", "root", "", [
+    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
+]);
 
-/* =========================
-   Segédfüggvények
-========================= */
+/* ========================= Segédfüggvények ========================= */
 function formatIdo($ido_str)
 {
     $parts = explode(':', $ido_str);
@@ -33,37 +23,26 @@ function formatMennyiseg($mennyiseg)
     return rtrim(rtrim(number_format($mennyiseg, 2, '.', ''), '0'), '.');
 }
 
-/* =========================
-   URL PARAMÉTER (ID)
-========================= */
+/* ========================= URL PARAMÉTER (ID) ========================= */
 $receptId = isset($_GET['id']) ? (int)$_GET['id'] : null;
 
-/* =========================
-   ÖSSZES RECEPT LEKÉRDEZÉSE
-========================= */
+/* ========================= ÖSSZES RECEPT LEKÉRDEZÉSE ========================= */
 $receptek = $pdo->query("
-    SELECT
-        r.ReceptID,
-        r.Nev,
-        r.Kep,
-        r.ElkeszitesiIdo,
-        r.BegyujthetoPontok,
-        r.Elkeszitesi_leiras,
-        n.Szint,
-        kat.Kategoria AS FoKategoriaNev,
-        alk.Alkategoria AS AlkategoriaNev,
-        a.Arkategoria AS ArkategoriaNev
-    FROM recept r
-    INNER JOIN nehezsegiszint n ON r.NehezsegiSzintID = n.NehezsegiSzintID
-    LEFT JOIN alkategoria alk ON r.AlkategoriaID = alk.AlkategoriaID
-    LEFT JOIN kategoria kat ON alk.KategoriaID = kat.KategoriaID
-    LEFT JOIN arkategoria a ON r.ArkategoriaID = a.ArkategoriaID
+    SELECT 
+        r.ReceptID, r.Nev, r.Kep, r.ElkeszitesiIdo, r.BegyujthetoPontok, 
+        r.Elkeszitesi_leiras, n.Szint, 
+        kat.Kategoria AS FoKategoriaNev, 
+        alk.Alkategoria AS AlkategoriaNev, 
+        a.Arkategoria AS ArkategoriaNev 
+    FROM recept r 
+    INNER JOIN nehezsegiszint n ON r.NehezsegiSzintID = n.NehezsegiSzintID 
+    LEFT JOIN alkategoria alk ON r.AlkategoriaID = alk.AlkategoriaID 
+    LEFT JOIN kategoria kat ON alk.KategoriaID = kat.KategoriaID 
+    LEFT JOIN arkategoria a ON r.ArkategoriaID = a.ArkategoriaID 
     ORDER BY n.Szint, r.Nev
 ")->fetchAll();
 
-/* =========================
-   RECEPTEK CSOPORTOSÍTÁSA SZINTEK SZERINT
-========================= */
+/* ========================= RECEPTEK CSOPORTOSÍTÁSA SZINTEK SZERINT ========================= */
 $receptekSzintekSzerint = [];
 foreach ($receptek as $r) {
     $szint = $r['Szint'];
@@ -73,9 +52,7 @@ foreach ($receptek as $r) {
     $receptekSzintekSzerint[$szint][] = $r;
 }
 
-/* =========================
-   KATEGÓRIÁK GYŰJTÉSE A SZŰRŐHÖZ
-========================= */
+/* ========================= KATEGÓRIÁK GYŰJTÉSE A SZŰRŐHÖZ ========================= */
 $kategoriaCheckboxok = [];
 foreach ($receptek as $r) {
     $foKat = $r['FoKategoriaNev'] ?? 'Nem kategorizált';
@@ -88,30 +65,30 @@ foreach ($receptek as $r) {
     }
 }
 
-/* =========================
-   EGY RECEPT ADATAI
-========================= */
+/* ========================= EGY RECEPT ADATAI ========================= */
 $recept = null;
 $hozzavalok = [];
 if ($receptId) {
     $stmt = $pdo->prepare("
-        SELECT r.*, n.Szint, a.Arkategoria AS ArkategoriaNev,
-               kat.Kategoria AS FoKategoriaNev, alk.Alkategoria AS AlkategoriaNev
-        FROM recept r
-        JOIN nehezsegiszint n ON r.NehezsegiSzintID = n.NehezsegiSzintID
-        LEFT JOIN arkategoria a ON r.ArkategoriaID = a.ArkategoriaID
-        LEFT JOIN alkategoria alk ON r.AlkategoriaID = alk.AlkategoriaID
-        LEFT JOIN kategoria kat ON alk.KategoriaID = kat.KategoriaID
+        SELECT 
+            r.*, n.Szint, a.Arkategoria AS ArkategoriaNev, 
+            kat.Kategoria AS FoKategoriaNev, alk.Alkategoria AS AlkategoriaNev 
+        FROM recept r 
+        JOIN nehezsegiszint n ON r.NehezsegiSzintID = n.NehezsegiSzintID 
+        LEFT JOIN arkategoria a ON r.ArkategoriaID = a.ArkategoriaID 
+        LEFT JOIN alkategoria alk ON r.AlkategoriaID = alk.AlkategoriaID 
+        LEFT JOIN kategoria kat ON alk.KategoriaID = kat.KategoriaID 
         WHERE r.ReceptID = ?
     ");
     $stmt->execute([$receptId]);
     $recept = $stmt->fetch();
 
     $stmt = $pdo->prepare("
-        SELECT h.Elnevezes, rh.Mennyiseg, m.Elnevezes AS Mertekegyseg
-        FROM recept_hozzavalo rh
-        JOIN hozzavalo h ON rh.HozzavaloID = h.HozzavaloID
-        JOIN mertekegyseg m ON rh.MertekegysegID = m.MertekegysegID
+        SELECT 
+            h.Elnevezes, rh.Mennyiseg, m.Elnevezes AS Mertekegyseg 
+        FROM recept_hozzavalo rh 
+        JOIN hozzavalo h ON rh.HozzavaloID = h.HozzavaloID 
+        JOIN mertekegyseg m ON rh.MertekegysegID = m.MertekegysegID 
         WHERE rh.ReceptID = ?
     ");
     $stmt->execute([$receptId]);
@@ -119,21 +96,49 @@ if ($receptId) {
 }
 ?>
 
+<style>
+    /* Tag alapú szűrő stílusa */
+    .kat-tag-label {
+        cursor: pointer;
+        display: inline-block;
+    }
+
+    .kat-tag-input {
+        display: none;
+    }
+
+    .kat-tag-text {
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        background-color: #f3f4f6;
+        /* Világosszürke */
+        color: #4b5563;
+        border-radius: 0.75rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+        transition: all 0.2s ease;
+    }
+
+    .kat-tag-input:checked+.kat-tag-text {
+        background-color: #6F837B;
+        /* Az eredeti kódodból vett zöldes szín */
+        color: white;
+    }
+</style>
+
 <main class="min-h-screen bg-gradient-to-br from-[#9FB1A3] to-[#7F8F83]">
     <div class="max-w-7xl mx-auto py-6 px-4">
 
-        <!-- Mobil hamburger menü gomb (csak kis képernyőn) -->
         <button id="mobilSidebarToggle" class="lg:hidden fixed top-4 left-4 z-50 bg-white p-3 rounded-full shadow-lg">
             <svg class="w-6 h-6 text-[#4A7043]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
             </svg>
         </button>
 
-        <!-- SZŰRŐ PANEL -->
         <?php if (!$recept): ?>
             <div class="mb-8">
                 <button id="szuroGomb" class="bg-white px-6 py-3 rounded-xl shadow-lg flex items-center gap-2 font-semibold text-[#4A7043] hover:bg-gray-50 transition w-full sm:w-auto">
-                    <span>🧭 Szűrők</span>
+                    <span>Szűrő</span>
                     <span id="szuroSzamlalo" class="hidden bg-[#6F837B] text-white text-xs px-2 py-1 rounded-full">0</span>
                     <svg id="szuroNyil" class="w-5 h-5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
@@ -141,87 +146,43 @@ if ($receptId) {
                 </button>
 
                 <div id="szuroPanel" class="hidden mt-4 bg-white rounded-2xl shadow-2xl p-6">
-
-                    <!-- Aktív szűrők megjelenítése -->
-                    <div id="aktivSzurokKontener" class="hidden mb-4 pb-4 border-b border-gray-200">
-                        <div class="flex items-center justify-between mb-2">
-                            <h4 class="text-sm font-semibold text-gray-700">Aktív szűrők:</h4>
-                            <button id="szuroReset" class="text-xs text-red-600 hover:text-red-800 font-medium">✕ Összes törlése</button>
-                        </div>
-                        <div id="aktivSzurokLista" class="flex flex-wrap gap-2"></div>
+                    <div class="flex justify-between items-center mb-6">
+                        <h4 class="font-bold text-gray-800 flex items-center gap-2">
+                            Szűrő
+                        </h4>
+                        <button id="szuroReset" class="text-xs text-red-600 hover:text-red-800 font-medium">Szűrők alaphelyzetbe</button>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">
-                                <svg class="w-4 h-4 inline-block mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                                </svg>
-                                Keresés név alapján
-                            </label>
-                            <div class="relative">
-                                <input id="keresInput" type="text" placeholder="Pl. leves, süti, carbonara..." class="w-full px-4 py-2 pr-10 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#95A792]">
-                                <button id="keresTorles" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                                    </svg>
-                                </button>
-                            </div>
-                            <p id="talalatSzam" class="text-xs text-gray-500 mt-2"></p>
-                        </div>
-
-                        <div class="max-h-96 overflow-y-auto">
-                            <div class="flex items-center justify-between mb-3">
-                                <h4 class="font-semibold text-[#4A7043]">Kategóriák</h4>
-                                <button id="osszesKategoria" class="text-xs text-[#6F837B] hover:underline">Összes kijelölése</button>
-                            </div>
-
-                            <?php foreach ($kategoriaCheckboxok as $foKat => $alkategoriak): ?>
-                                <div class="mb-4">
-                                    <div class="flex items-center gap-2 mb-2">
-                                        <input type="checkbox" class="foKategoriaCheckbox" id="foKat_<?= htmlspecialchars($foKat) ?>" data-fokategoria="<?= htmlspecialchars($foKat) ?>">
-                                        <label for="foKat_<?= htmlspecialchars($foKat) ?>" class="text-sm font-medium text-gray-800 cursor-pointer hover:text-[#4A7043]">
-                                            <?= htmlspecialchars($foKat) ?>
-                                        </label>
-                                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <?php foreach ($kategoriaCheckboxok as $foKat => $alkategoriak): ?>
+                            <div class="kategoria-csoport">
+                                <div class="flex items-center gap-2 mb-3 pb-2 border-b border-gray-100">
+                                    <label for="foKat_<?= htmlspecialchars($foKat) ?>" class="text-xs font-bold text-gray-800 cursor-pointer uppercase tracking-widest">
+                                        <?= htmlspecialchars($foKat) ?>
+                                    </label>
+                                </div>
+                                <div class="flex flex-wrap gap-2">
                                     <?php foreach ($alkategoriak as $alKat): ?>
-                                        <label class="flex items-center gap-2 mb-1 pl-6 hover:bg-gray-50 rounded py-1 cursor-pointer">
-                                            <input type="checkbox" class="kategoriaCheckbox"
-                                                data-fokategoria="<?= htmlspecialchars($foKat) ?>"
-                                                data-alkategoria="<?= htmlspecialchars($alKat) ?>">
-                                            <span class="text-sm text-gray-700"><?= htmlspecialchars($alKat) ?></span>
+                                        <label class="kat-tag-label">
+                                            <input type="checkbox" class="kategoriaCheckbox kat-tag-input" data-fokategoria="<?= htmlspecialchars($foKat) ?>" data-alkategoria="<?= htmlspecialchars($alKat) ?>">
+                                            <span class="kat-tag-text"><?= htmlspecialchars($alKat) ?></span>
                                         </label>
                                     <?php endforeach; ?>
                                 </div>
-                            <?php endforeach; ?>
-                        </div>
-                    </div>
-
-                    <div class="mt-6 flex justify-between items-center text-sm text-gray-600">
-                        <span id="szurtReceptekSzama"></span>
+                            </div>
+                        <?php endforeach; ?>
                     </div>
                 </div>
             </div>
         <?php endif; ?>
 
         <div class="flex flex-col lg:flex-row lg:gap-8">
-
-            <!-- BALOLDALI SÁV – mobilban overlayként kinyílik -->
-            <aside id="sidebar" class="fixed inset-y-0 left-0 z-40 w-80 bg-white shadow-2xl transform -translate-x-full lg:translate-x-0 lg:sticky lg:top-6 lg:h-[calc(100vh-1.5rem)] lg:w-[280px] lg:overflow-y-auto transition-transform duration-300">
+            <aside id="sidebar" class="fixed inset-y-0 left-0 z-40 w-80 bg-white shadow-2xl transform -translate-x-full lg:translate-x-0 lg:sticky lg:top-6 lg:h-[calc(100vh-1.5rem)] lg:w-[280px] lg:overflow-y-auto transition-transform duration-300 rounded-r-2xl lg:rounded-2xl">
                 <div class="p-5">
-                    <div class="flex items-center justify-between mb-5 lg:hidden">
+                    <div class="flex items-center justify-between mb-5">
                         <h2 class="text-xl font-bold text-[#3F3D56]">Receptkönyv</h2>
-                        <button id="mobilSidebarClose" class="text-gray-600">
+                        <button id="mobilSidebarClose" class="lg:hidden text-gray-600">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                            </svg>
-                        </button>
-                    </div>
-
-                    <div class="relative mb-6">
-                        <input type="text" id="oldalsoKereso" placeholder="Keresés..." class="w-full px-3 py-2 pr-8 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#95A792]">
-                        <button id="oldalsoKeresTorles" class="hidden absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                             </svg>
                         </button>
@@ -229,7 +190,7 @@ if ($receptId) {
 
                     <?php foreach ($receptekSzintekSzerint as $szint => $lista): ?>
                         <div class="mb-4">
-                            <button class="w-full text-left flex items-center justify-between py-2 px-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition szint-sav-cim" type="button">
+                            <button class="w-full text-left flex items-center justify-between py-2 px-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition szint-sav-cim">
                                 <span class="font-semibold text-[#4A7043]"><?= $szint ?>. szint (<span class="szint-darab" data-szint="<?= $szint ?>"><?= count($lista) ?></span>)</span>
                                 <svg class="w-5 h-5 transition-transform sav-nyil" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
@@ -237,13 +198,10 @@ if ($receptId) {
                             </button>
                             <ul class="szint-sav-tartalom hidden mt-2 space-y-1 pl-4">
                                 <?php foreach ($lista as $r): ?>
-                                    <li>
-                                        <a href="receptek.php?id=<?= $r['ReceptID'] ?>"
-                                            class="block px-3 py-1.5 rounded-lg text-sm transition <?= ($receptId == $r['ReceptID']) ? 'bg-[#6F837B] text-white' : 'hover:bg-[#95A792]/20 text-gray-700' ?>">
+                                    <li class="sidebar-recept-item" data-recept-id="<?= $r['ReceptID'] ?>">
+                                        <a href="receptek.php?id=<?= $r['ReceptID'] ?>" class="block px-3 py-1.5 rounded-lg text-sm transition <?= ($receptId == $r['ReceptID']) ? 'bg-[#6F837B] text-white' : 'hover:bg-[#95A792]/20 text-gray-700' ?>">
                                             <div class="font-medium"><?= htmlspecialchars($r['Nev']) ?></div>
-                                            <div class="text-xs opacity-80">
-                                                <?= formatIdo($r['ElkeszitesiIdo']) ?> · <?= htmlspecialchars($r['AlkategoriaNev'] ?? 'Egyéb') ?>
-                                            </div>
+                                            <div class="text-xs opacity-80"><?= formatIdo($r['ElkeszitesiIdo']) ?></div>
                                         </a>
                                     </li>
                                 <?php endforeach; ?>
@@ -253,18 +211,12 @@ if ($receptId) {
                 </div>
             </aside>
 
-            <!-- FŐ TARTALOM -->
             <section id="receptekTarolo" class="flex-1">
                 <?php if (!$recept): ?>
-                    <h1 class="text-4xl font-bold text-white mb-8">Receptkönyv</h1>
-
-                    <!-- Nincs találat üzenet -->
+                    <h1 class="text-4xl font-bold text-white mb-8">Receptek</h1>
                     <div id="nincsEredmeny" class="hidden bg-white rounded-2xl shadow-xl p-12 text-center">
-                        <svg class="w-16 h-6 mx-auto mb-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                        <h3 class="text-xl font-semibold text-gray-700 mb-2">Nincs találat</h3>
-                        <p class="text-gray-500">Próbálj más keresési kifejezést vagy módosítsd a szűrőket!</p>
+                        <div class="text-6xl mb-4">🔍</div>
+                        <h3 class="text-xl font-semibold text-gray-700">Nincs ilyen recept...</h3>
                     </div>
 
                     <?php foreach ($receptekSzintekSzerint as $szint => $lista): ?>
@@ -275,11 +227,11 @@ if ($receptId) {
                             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                                 <?php foreach ($lista as $r): ?>
                                     <a href="receptek.php?id=<?= $r['ReceptID'] ?>"
-                                        class="recept-kartya bg-white rounded-2xl shadow-xl overflow-hidden hover:-translate-y-1 hover:shadow-2xl transition block"
-                                        data-nev="<?= strtolower(htmlspecialchars($r['Nev'])) ?>"
+                                        class="recept-kartya bg-white rounded-2xl shadow-xl overflow-hidden hover:-translate-y-1 transition block"
+                                        data-recept-id="<?= $r['ReceptID'] ?>"
+                                        data-nev="<?= mb_strtolower(htmlspecialchars($r['Nev'])) ?>"
                                         data-fokategoria="<?= htmlspecialchars($r['FoKategoriaNev'] ?? 'Nem kategorizált') ?>"
-                                        data-alkategoria="<?= htmlspecialchars($r['AlkategoriaNev'] ?? 'Egyéb') ?>"
-                                        data-szint="<?= $szint ?>">
+                                        data-alkategoria="<?= htmlspecialchars($r['AlkategoriaNev'] ?? 'Egyéb') ?>">
                                         <img src="<?= htmlspecialchars($r['Kep']) ?>" class="w-full h-48 object-cover">
                                         <div class="p-5">
                                             <div class="flex justify-between text-xs text-gray-500 mb-2 font-semibold">
@@ -297,59 +249,62 @@ if ($receptId) {
                             </div>
                         </div>
                     <?php endforeach; ?>
+
                 <?php else: ?>
-                    <a href="receptek.php" class="inline-flex items-center gap-2 mb-6 px-4 py-2 bg-white rounded-lg shadow hover:bg-gray-100 transition">
+                    <a href="receptek.php" class="inline-flex items-center gap-2 mb-6 px-4 py-2 bg-white rounded-lg shadow hover:bg-gray-100 transition font-medium text-[#4A7043]">
                         ← Vissza a receptekhez
                     </a>
 
                     <div class="bg-white rounded-3xl shadow-2xl overflow-hidden">
                         <div class="relative h-80">
                             <img src="<?= htmlspecialchars($recept['Kep']) ?>" class="absolute inset-0 w-full h-full object-cover">
-                            <div class="absolute inset-0 bg-black/30"></div>
+                            <div class="absolute inset-0 bg-black/40"></div>
                             <div class="absolute bottom-6 left-8 text-white">
-                                <div class="text-sm uppercase font-bold tracking-widest bg-[#6F837B] inline-block px-3 py-1 rounded mb-2">
-                                    <?= htmlspecialchars($recept['FoKategoriaNev'] ?? 'Recept') ?>
-                                </div>
                                 <h1 class="text-4xl font-bold mb-3"><?= htmlspecialchars($recept['Nev']) ?></h1>
                                 <div class="flex flex-wrap gap-3 text-sm">
-                                    <span class="px-3 py-1 bg-white/20 rounded-full">⏱ <?= formatIdo($recept['ElkeszitesiIdo']) ?></span>
-                                    <span class="px-3 py-1 bg-white/20 rounded-full">⭐ <?= $recept['BegyujthetoPontok'] ?> pont</span>
-                                    <span class="px-3 py-1 bg-white/20 rounded-full"><?= $recept['Szint'] ?>. szint</span>
-                                    <span class="px-3 py-1 bg-white/20 rounded-full">💰 <?= htmlspecialchars($recept['ArkategoriaNev'] ?? 'Nincs megadva') ?></span>
+                                    <span class="px-3 py-1 bg-white/20 backdrop-blur-md rounded-full">⏱ <?= formatIdo($recept['ElkeszitesiIdo']) ?></span>
+                                    <span class="px-3 py-1 bg-white/20 backdrop-blur-md rounded-full">⭐ <?= $recept['BegyujthetoPontok'] ?> pont</span>
+                                    <span class="px-3 py-1 bg-white/20 backdrop-blur-md rounded-full">🏷 <?= htmlspecialchars($recept['AlkategoriaNev']) ?></span>
                                 </div>
                             </div>
                         </div>
 
                         <div class="p-8 grid grid-cols-1 lg:grid-cols-[350px_1fr] gap-8">
-                            <div class="bg-[#E7DED0] rounded-2xl p-6">
-                                <h2 class="text-xl font-bold mb-4 text-[#4A4A4A]">Hozzávalók</h2>
-                                <ul class="space-y-2 text-sm">
+                            <div class="bg-[#F3F4F1] rounded-2xl p-6 h-fit">
+                                <h2 class="text-xl font-bold mb-4 text-[#4A7043] flex items-center gap-2">Hozzávalók</h2>
+                                <ul class="space-y-3 text-sm">
                                     <?php foreach ($hozzavalok as $h): ?>
-                                        <li class="flex gap-2 items-center">
-                                            <span class="font-bold"><?= formatMennyiseg($h['Mennyiseg']) ?> <?= htmlspecialchars($h['Mertekegyseg']) ?></span>
-                                            <?= htmlspecialchars($h['Elnevezes']) ?>
+                                        <li class="flex gap-2 items-start ">
+                                            <span class="font-bold text-[#6F837B] min-w-[30px]"><?= formatMennyiseg($h['Mennyiseg']) ?> <?= htmlspecialchars($h['Mertekegyseg']) ?></span>
+                                            <span class="text-gray-700"><?= htmlspecialchars($h['Elnevezes']) ?></span>
                                         </li>
                                     <?php endforeach; ?>
                                 </ul>
                             </div>
 
                             <div>
-                                <h2 class="text-xl font-bold mb-4 flex items-center gap-2">📄 Elkészítés</h2>
-                                <ol class="space-y-4 text-gray-700">
+                                <h2 class="text-xl font-bold mb-6 flex items-center gap-2">Elkészítés menete</h2>
+                                <ol class="space-y-6 text-gray-700">
                                     <?php
                                     $lepesek = explode("\n", $recept['Elkeszitesi_leiras']);
                                     $i = 1;
                                     foreach ($lepesek as $lepes):
                                         if (trim($lepes) === '') continue;
                                     ?>
-                                        <li class="flex gap-4">
+                                        <li class="flex gap-4 group">
                                             <span class="w-8 h-8 flex items-center justify-center shrink-0 rounded-full bg-[#6F837B] text-white text-sm font-bold">
                                                 <?= $i++ ?>
                                             </span>
-                                            <p><?= htmlspecialchars($lepes) ?></p>
+                                            <p class="leading-relaxed pt-1"><?= htmlspecialchars($lepes) ?></p>
                                         </li>
                                     <?php endforeach; ?>
                                 </ol>
+
+                                <div class="mt-12 flex justify-end">
+                                    <button class="bg-[#4A7043] text-white px-8 py-3 rounded-xl font-bold shadow-lg hover:bg-[#3d5c37] transition-all transform hover:scale-105">
+                                        Elkészítettem!
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -359,7 +314,6 @@ if ($receptId) {
     </div>
 </main>
 
-<!-- Külső JavaScript fájl betöltése -->
 <script src="../../assets/js/receptek.js"></script>
 
 <?php include "../footer.php"; ?>
