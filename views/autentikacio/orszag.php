@@ -5,19 +5,13 @@ header('Content-Type:application/json; charset-utf-8'); //a válasz típusa JSON
  * require: nem engedi hiba esetén betölteni az oldalt
  * include: engedi betölteni az oldalt
  */
-
 require "../../kapcsolat.php"; //kapcsolódás az adatbázishoz
 
 //SQL lekérdezés az adatbázis táblából a rekordok betöltése
 $sql = "
     SELECT 
-    e.KonyhaiFelszerelesID,
-    e.Nev,
-    e.Kep,
-    e.Leiras,
-    b.Elnevezes AS Besorolas_nev
-FROM konyhaifelszereles e
-JOIN besorolas b ON e.BesorolasID = b.BesorolasID
+    OrszagID AS Id, 
+    Elnevezes FROM orszag;
 ";
 
 //Végrehajtjuk a lekérdezést

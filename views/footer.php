@@ -19,7 +19,7 @@
     </div>
 
     <!-- Links -->
-    <div>
+    <div class="hidden md:block">
       <h3 class="text-xl font-semibold mb-4">Oldalaink</h3>
       <ul class="space-y-2">
         <li>
@@ -32,7 +32,7 @@
           <a href="../konyhaiEszkozok/konyhaiEszkozok.php" class="hover:text-purple-400 transition">Konyhai eszközök</a>
         </li>
         <li>
-          <a href="../bejelentkezes/bejelentkezes.php" class="hover:text-purple-400 transition">Bejelentkezés</a>
+          <a href="../autentikacio/autentikacio.php" class="hover:text-purple-400 transition">Bejelentkezés</a>
         </li>
       </ul>
     </div>
@@ -57,13 +57,17 @@
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
       <path d="M12 4l8 8h-6v8h-4v-8H4l8-8z" />
     </svg>
-    <span class="sr-only">Go to top</span>
   </button>
 
+  <!-- Controller -->
+  <script src="../../controller/eszkozController.js"></script>
+  <script src="../../controller/orszagController.js"></script>
+  <script src="../../controller/autentikacioController.js"></script>
+  
   <!-- Javascript -->
   <script src="../../assets/js/hamburger.js"></script>
-  <script src="../../assets/js/bejelentkezes.js"></script>
   <script src="../../assets/js/top.js"></script>
+
 
 </footer>
 

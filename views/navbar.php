@@ -18,7 +18,7 @@
         <a href="../index/index.php" class="block md:inline-block hover:text-[#5A7863] px-3 py-3 md:border-none">Főoldal</a>
         <a href="../receptek/receptek.php" class="block md:inline-block hover:text-[#5A7863] px-3 py-3 md:border-none">Receptek</a>
         <a href="../konyhaiEszkozok/konyhaiEszkozok.php" class="block md:inline-block hover:text-[#5A7863] px-3 py-3 md:border-none">Konyhai eszközök</a>
-        <a href="../bejelentkezes/bejelentkezes.php" class="block md:inline-block hover:text-[#5A7863] px-3 py-3 md:border-none">Bejelentkezés</a>
+        <a href="../autentikacio/autentikacio.php" class="block md:inline-block hover:text-[#5A7863] px-3 py-3 md:border-none">Bejelentkezés</a>
     </div>
 
     <!-- Kereső -->

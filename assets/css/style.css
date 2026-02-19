@@ -1,7 +1,3 @@
-html{
-  scroll-behavior: smooth;
-}
-
 [ng-cloak] {
   display: none !important;
 }
