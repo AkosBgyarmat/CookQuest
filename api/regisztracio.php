@@ -30,9 +30,9 @@ try {
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     ");
 
-    $regEv = date("Y");
-    $pontok = 0;
-    $szerepID = 1;
+    $regEv = date("Y"); // Regisztráció éve
+    $pontok = 0; // Kezdeti pontok
+    $szerepID = 2; // Alapértelmezett szerep: felhasználó
 
     $stmt->bind_param(
         "sssssisiii",

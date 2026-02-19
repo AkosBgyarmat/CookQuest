@@ -154,9 +154,6 @@ CREATE TABLE `felhasznalo` (
 -- A tábla adatainak kiíratása `felhasznalo`
 --
 
-INSERT INTO `felhasznalo` (`FelhasznaloID`, `Vezeteknev`, `Keresztnev`, `Felhasznalonev`, `Emailcim`, `Jelszo`, `SzuletesiEv`, `Profilkep`, `OrszagID`, `RegisztracioEve`, `MegszerzettPontok`, `SzerepID`) VALUES
-(1, 'Keresztúri', 'Hanna', 'hancsii', 'kerhanna05@gmail.com', '20f5f4fcd943a472b15a17d9c0901adb', '2005', '', 1, '2026', 0, 1);
-
 -- --------------------------------------------------------
 
 --
@@ -1216,7 +1213,7 @@ ALTER TABLE `elkeszitesimod`
 -- AUTO_INCREMENT a táblához `felhasznalo`
 --
 ALTER TABLE `felhasznalo`
-  MODIFY `FelhasznaloID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `FelhasznaloID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT a táblához `hozzavalo`

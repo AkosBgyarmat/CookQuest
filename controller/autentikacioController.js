@@ -1,6 +1,6 @@
-angular.module("CookQuest").controller("authController", function ($scope) {
-  
-  console.log("Az `authController` fut");
+angular.module("CookQuest").controller("authController", function ($scope, $http) {
+
+  //console.log("Az `authController` fut");
 
   // Alapértelmezett értékek
   $scope.mode = "bejelentkezes"; //Az alapértelmezett megjelenítési mód a bejelentkezési állapot lesz.
@@ -29,21 +29,20 @@ angular.module("CookQuest").controller("authController", function ($scope) {
     hasUppercase: false
   };
 
-  $scope.$watch("user.password", function(newValue) {
+  $scope.$watch("user.password", function (newValue) {
 
-  if (!newValue) {
-    $scope.passwordChecks.minLength = false;
-    $scope.passwordChecks.hasNumber = false;
-    $scope.passwordChecks.hasUppercase = false;
-    return;
-  }
+    if (!newValue) {
+      $scope.passwordChecks.minLength = false;
+      $scope.passwordChecks.hasNumber = false;
+      $scope.passwordChecks.hasUppercase = false;
+      return;
+    }
 
-  $scope.passwordChecks.minLength = newValue.length >= 8; // Minimum 8 karakter hosszúság ellenőrzése
-  $scope.passwordChecks.hasNumber = /\d/.test(newValue); // Ez a regex ellenőrzi, hogy van-e számjegy a jelszóban
-  $scope.passwordChecks.hasUppercase = /[A-Z]/.test(newValue); // Ez a regex ellenőrzi, hogy van-e nagybetű a jelszóban
+    $scope.passwordChecks.minLength = newValue.length >= 8; // Minimum 8 karakter hosszúság ellenőrzése
+    $scope.passwordChecks.hasNumber = /\d/.test(newValue); // Ez a regex ellenőrzi, hogy van-e számjegy a jelszóban
+    $scope.passwordChecks.hasUppercase = /[A-Z]/.test(newValue); // Ez a regex ellenőrzi, hogy van-e nagybetű a jelszóban
 
-});
-
+  });
 
 
   // REGISZTRÁCIÓ SUBMIT
@@ -62,26 +61,62 @@ angular.module("CookQuest").controller("authController", function ($scope) {
       return;
     }
 
-    console.log(
-      "- Regisztráció form valid\n- Email nem foglalt\n- A jelszavak egyeznek");
+    var kuldendoAdat = {
+      Vezeteknev: $scope.user.surname,
+      Keresztnev: $scope.user.firstName,
+      Felhasznalonev: $scope.user.username,
+      Emailcim: $scope.user.email,
+      Jelszo: $scope.user.password,
+      SzuletesiEv: $scope.user.birthDate,
+      OrszagID: $scope.user.country
+    };
+
+    $http.post("/CookQuest/api/regisztracio.php", kuldendoAdat)
+      .then(function (response) {
+        console.log("Sikeres regisztráció:", response.data);
+      })
+      .catch(function (error) {
+        console.error("Hiba a regisztráció során:", error);
+      });
+
+
   };
 
 
   // LOGIN SUBMIT
   $scope.handleLogin = function (form) {
-    console.log("Bejelentkezés");
 
     $scope.loginSubmitted = true;
 
     if (form.$invalid) {
-      console.log("Bejelentkezés hiba")
       return;
     }
 
-    console.log("Login form valid");
-    // ide jön majd backend
-  };
+    var kuldendoAdat = {
+      Emailcim: $scope.user.email,
+      Jelszo: $scope.user.password
+    };
 
+    $http.post("/CookQuest/api/bejelentkezes.php", kuldendoAdat)
+      .then(function (response) {
+
+        console.log("Login válasz:", response.data);
+
+        if (response.data.success) {
+          alert("Sikeres bejelentkezés!");
+
+          // Itt lehetne átirányítás
+          // window.location.href = "/CookQuest/views/index/index.php";
+
+        } else {
+          alert(response.data.message);
+        }
+
+      })
+      .catch(function (error) {
+        console.error("Login hiba:", error);
+      });
+  };
 });
 
 //Jelszó vizsgálat
