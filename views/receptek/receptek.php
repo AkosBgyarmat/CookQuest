@@ -137,13 +137,19 @@ if ($receptId) {
 
         <?php if (!$recept): ?>
             <div class="mb-8">
-                <button id="szuroGomb" class="bg-white px-6 py-3 rounded-xl shadow-lg flex items-center gap-2 font-semibold text-[#4A7043] hover:bg-gray-50 transition w-full sm:w-auto">
-                    <span>Szűrő</span>
-                    <span id="szuroSzamlalo" class="hidden bg-[#6F837B] text-white text-xs px-2 py-1 rounded-full">0</span>
-                    <svg id="szuroNyil" class="w-5 h-5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                    </svg>
-                </button>
+                <div class="flex flex-col sm:flex-row gap-4 mb-4">
+                    <button id="szuroGomb" class="bg-white px-6 py-3 rounded-xl shadow-lg flex items-center gap-2 font-semibold text-[#4A7043] hover:bg-gray-50 transition w-full sm:w-auto">
+                        <span>Szűrő</span>
+                        <span id="szuroSzamlalo" class="hidden bg-[#6F837B] text-white text-xs px-2 py-1 rounded-full">0</span>
+                        <svg id="szuroNyil" class="w-5 h-5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+
+                    <a href="hutom.php" class="bg-white px-6 py-3 rounded-xl shadow-lg flex items-center gap-2 font-semibold text-[#4A7043] hover:bg-gray-50 transition w-full sm:w-auto justify-center">
+                        <span>🧊 Mi van a hűtőmben?</span>
+                    </a>
+                </div>
 
                 <div id="szuroPanel" class="hidden mt-4 bg-white rounded-2xl shadow-2xl p-6">
                     <div class="flex justify-between items-center mb-6">
