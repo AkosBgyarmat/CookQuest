@@ -63,6 +63,7 @@
   <script src="../../controller/eszkozController.js"></script>
   <script src="../../controller/orszagController.js"></script>
   <script src="../../controller/autentikacioController.js"></script>
+  <script src="../../controller/profilController.js"></script>
   
   <!-- Javascript -->
   <script src="../../assets/js/hamburger.js"></script>

@@ -28,7 +28,7 @@ if (empty($email) || empty($jelszo)) {
 try {
 
     $stmt = $conn->prepare("
-        SELECT FelhasznaloID, Jelszo 
+        SELECT FelhasznaloID, Felhasznalonev, Jelszo 
         FROM felhasznalo 
         WHERE Emailcim = ?
     ");
@@ -59,11 +59,13 @@ try {
     }
 
     // ✅ Sikeres login
-    $_SESSION["felhasznalo_id"] = $user["FelhasznaloID"];
+    // ✅ Sikeres login
+$_SESSION["felhasznalo_id"] = $user["FelhasznaloID"];
+$_SESSION["felhasznalo_nev"] = $user["Felhasznalonev"];
 
-    echo json_encode([
-        "success" => true
-    ]);
+echo json_encode([
+    "success" => true
+]);
 } catch (mysqli_sql_exception $e) {
 
     echo json_encode([

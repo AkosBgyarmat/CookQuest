@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!-- Navbar -->
 <nav class="flex flex-wrap items-center justify-between p-3 bg-[#EBF4DD] font-bold text-lg">
 
@@ -18,7 +22,23 @@
         <a href="../index/index.php" class="block md:inline-block hover:text-[#5A7863] px-3 py-3 md:border-none">Főoldal</a>
         <a href="../receptek/receptek.php" class="block md:inline-block hover:text-[#5A7863] px-3 py-3 md:border-none">Receptek</a>
         <a href="../konyhaiEszkozok/konyhaiEszkozok.php" class="block md:inline-block hover:text-[#5A7863] px-3 py-3 md:border-none">Konyhai eszközök</a>
-        <a href="../autentikacio/autentikacio.php" class="block md:inline-block hover:text-[#5A7863] px-3 py-3 md:border-none">Bejelentkezés</a>
+        <?php if (isset($_SESSION["felhasznalo_nev"])): ?>
+
+            <!-- Bejelentkezett állapot -->
+            <a href="../profil/profil.php"
+                class="block md:inline-block hover:text-[#5A7863] px-3 py-3 md:border-none">
+                Üdv, <?php echo $_SESSION["felhasznalo_nev"]; ?>!
+            </a>
+
+        <?php else: ?>
+
+            <!-- Nincs bejelentkezve -->
+            <a href="../autentikacio/autentikacio.php"
+                class="block md:inline-block hover:text-[#5A7863] px-3 py-3 md:border-none">
+                Bejelentkezés
+            </a>
+
+        <?php endif; ?>
     </div>
 
     <!-- Kereső -->
