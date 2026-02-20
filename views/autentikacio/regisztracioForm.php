@@ -1,5 +1,3 @@
-
-
 <!-- Regisztráció kártya -->
 <section ng-show="mode === 'regisztracio'" ng-controller="orszagCtrl">
 

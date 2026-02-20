@@ -41,12 +41,12 @@
                     Nem megfelelő email formátum.
                 </p>
 
-                <!-- Foglalt email -->
+                <!-- Foglalt email 
                 <p
                     class="text-red-500 text-sm mt-1"
                     ng-if="loginSubmitted && loginForm.email.$valid && invalidCredentialsError">
                     Az email cím vagy jelszó nem megfelelő.
-                </p>
+                </p>-->
                 <!-- #endregion -->
 
                 <!-- #region JELSZÓ  szakasz -->

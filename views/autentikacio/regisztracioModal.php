@@ -35,8 +35,11 @@
         </h1>
 
         <p class="text-gray-600 mb-8">
-            A fiókodat sikeresen létrehoztuk.
+            {{ registerSuccess ? 
+            'A fiókodat sikeresen létrehoztuk.' 
+            : registerErrorText }}
         </p>
+
 
         <button ng-click="goToLogin()"
             class="px-6 py-3 bg-[#5A7863] text-white rounded-xl hover:bg-[#759277] transition">

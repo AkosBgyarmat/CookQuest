@@ -1,4 +1,4 @@
-angular.module("CookQuest").controller("authController", function ($scope, $http) {
+angular.module("CookQuest").controller("authController", function ($scope, $http, $timeout) {
 
   //console.log("Az `authController` fut");
 
@@ -13,23 +13,29 @@ angular.module("CookQuest").controller("authController", function ($scope, $http
   // Dinamikus aktuális év a születési év mezőhöz
   $scope.currentYear = new Date().getFullYear();
 
-  // Ez a változó fogja tárolni a regisztrációs üzeneteket, például sikeres regisztráció vagy hibaüzenetek.
-  $scope.registerMessage = "";
-
   // Ez a flag jelzi, hogy a regisztráció sikeres volt-e vagy sem.
   $scope.registerSuccess = false;
 
+  // Ez a flag jelzi, hogy a regisztrációs üzenet megjelenjen-e vagy sem.
   $scope.registerMessage = false;
 
   $scope.closeRegisterMessage = function () {
     $scope.registerMessage = false;
   };
 
+  $scope.closeLoginMessage = function () {
+    $scope.loginMessage = false;
+    $scope.loginSuccess = false;
+    $scope.invalidCredentialsError = false;
+  };
+
   $scope.goToLogin = function () {
     $scope.registerMessage = false;
     $scope.showBejelentkezes();
   };
-
+  $scope.loginMessage = false;
+  $scope.loginSuccess = false;
+  $scope.invalidCredentialsError = false;
   $scope.isRegistering = false;
   $scope.alreadyRegistered = false;
 
@@ -75,6 +81,7 @@ angular.module("CookQuest").controller("authController", function ($scope, $http
   // REGISZTRÁCIÓ SUBMIT
   $scope.handleRegister = function (form) { // Ez a függvény akkor fut le, amikor a regisztrációs form elküldésre kerül.
 
+
     if ($scope.isRegistering || $scope.alreadyRegistered) {
       return;
     }
@@ -104,16 +111,32 @@ angular.module("CookQuest").controller("authController", function ($scope, $http
 
     $http.post("/CookQuest/api/regisztracio.php", kuldendoAdat)
       .then(function (response) {
-        response.data.success === true
-          ($scope.registerMessage = "Sikeres regisztráció! Most már bejelentkezhetsz.", $scope.registerSuccess = true)
-          $scope.alreadyRegistered = true;
-        $scope.user = {}; // A form adatait tartalmazó objektum törlése, hogy a form újra üres legyen.
-        form.$setPrestine(); // A form állapotának visszaállítása, hogy ne legyen "dirty" vagy "submitted" állapotban.
-        form.$setUntouched(); // A form mezőinek állapotának visszaállítása, hogy ne legyen "touched" állapotban.
+        if (response.data.success) {
+
+
+          $scope.registerMessage = true; // Ez a flag jelzi, hogy a regisztrációs üzenet megjelenjen.
+          $scope.registerSuccess = true; // Ez a flag jelzi, hogy a regisztráció sikeres volt.
+          $scope.alreadyRegistered = true; // Ez a flag jelzi, hogy a regisztráció már megtörtént, így megakadályozzuk a többszöri regisztrációt.
+
+          $scope.user = {}; // A regisztrációs form adatait tartalmazó objektumot újra inicializáljuk, így a form mezői kiürülnek.
+          form.$setPristine(); // A form állapotát "pristine"-re állítjuk, ami azt jelenti, hogy a form még nem lett megváltoztatva.
+          form.$setUntouched(); // A form állapotát "untouched"-ra állítjuk, ami azt jelenti, hogy a form mezői még nem lettek megérintve.
+
+        } else {
+
+          $scope.registerSuccess = false;
+          $scope.registerMessage = true;
+          $scope.registerErrorText = response.data.message;
+
+        }
       })
       .catch(function (error) {
-        $scope.registerSuccess = false
-        $scope.registerMessage = error.data.message || "Hiba történt a regisztráció során. Kérlek, próbáld újra."; // Ha a szerver egy hibaüzenetet ad vissza, akkor azt jelenítjük meg, különben egy általános hibaüzenetet.
+        $scope.registerSuccess = false;
+        $scope.registerMessage = true;
+        $scope.registerErrorText =
+          (error.data && error.data.message)
+            ? error.data.message
+            : "Hiba történt a regisztráció során.";
       })
       .finally(function () {
         $scope.isRegistering = false;
@@ -121,10 +144,10 @@ angular.module("CookQuest").controller("authController", function ($scope, $http
     ;
   };
 
-  // LOGIN SUBMIT
   $scope.handleLogin = function (form) {
 
     $scope.loginSubmitted = true;
+    $scope.invalidCredentialsError = false;
 
     if (form.$invalid) {
       return;
@@ -135,24 +158,33 @@ angular.module("CookQuest").controller("authController", function ($scope, $http
       Jelszo: $scope.user.password
     };
 
-    $http.post("/CookQuest/api/bejelentkezes.php", kuldendoAdat) //A bejelentkezési adatokat küldjük a szervernek
-      .then(function (response) { //A szerver válaszát kezeljük
+    $http.post("/CookQuest/api/bejelentkezes.php", kuldendoAdat)
+      .then(function (response) {
 
-        console.log("Login válasz:", response.data); //A szerver válaszának megjelenítése a konzolon
+        if (response.data.success) {
 
-        if (response.data.success) { //Ha a bejelentkezés sikeres, akkor a success mező true lesz
-          alert("Sikeres bejelentkezés!"); //Sikeres bejelentkezés esetén egy üzenetet jelenítünk meg
+          $scope.loginSuccess = true;
+          $scope.loginMessage = true;
 
-          // Itt lehetne átirányítás
-          // window.location.href = "/CookQuest/views/index/index.php";
+          // opcionális: 1.5 másodperc után átirányítás
+          setTimeout(function () {
+            window.location.href = "/CookQuest/views/profil/profil.php";
+          }, 1500);
 
         } else {
-          alert(response.data.message); //Ha a bejelentkezés nem sikeres, akkor a szerver által visszaadott message mezőben található hibaüzenetet jelenítjük meg
+
+          $scope.loginSuccess = false;
+          $scope.loginMessage = true;
+          $scope.invalidCredentialsError = true;
+
         }
 
       })
-      .catch(function (error) {
-        console.error("Login hiba:", error);
+      .catch(function () {
+
+        $scope.loginSuccess = false;
+        $scope.loginMessage = true;
+
       });
   };
 });
