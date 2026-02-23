@@ -91,21 +91,42 @@ include "../head.php";
             </div>
 
             <!-- Profilkép -->
-            <div class="bg-white p-8 rounded-2xl shadow-md flex flex-col items-center justify-center">
-                <h2 class="text-xl font-semibold mb-6 text-gray-700">
+            <div class="bg-white p-8 rounded-2xl shadow-md flex flex-col">
+
+                <!-- Cím bal felső sarok -->
+                <h2 class="text-xl font-semibold text-gray-700 mb-6">
                     Profilkép
                 </h2>
 
-                <div class="w-40 h-40 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden mb-6">
-                    <span class="text-gray-500 text-sm">Nincs kép</span>
+                <!-- Kép rész középen -->
+                <div class="flex flex-col items-center">
+
+                    <div class="w-40 h-40 rounded-full bg-gray-200 overflow-hidden flex items-center justify-center mb-6">
+
+                        <!-- Ha van profilkép -->
+                        <img ng-if="user.Profilkep"
+                            ng-src="/CookQuest/{{ user.Profilkep }}"
+                            class="w-full h-full object-cover">
+
+                        <!-- Ha nincs -->
+                        <span ng-if="!user.Profilkep"
+                            class="text-gray-500 text-sm">
+                            Nincs kép
+                        </span>
+
+                    </div>
+
+                    <!-- Fájl feltöltés -->
+                    <label class="cursor-pointer bg-blue-600 text-white px-6 py-2 rounded-xl hover:bg-blue-700 transition shadow-md">
+                        Kép kiválasztása
+                        <input type="file"
+                            accept="image/*"
+                            class="hidden"
+                            onchange="angular.element(this).scope().uploadProfileImage(this.files)">
+                    </label>
+
                 </div>
 
-                <input type="file" class="block w-full text-sm text-gray-600
-                    file:mr-4 file:py-2 file:px-4
-                    file:rounded-xl file:border-0
-                    file:text-sm file:font-semibold
-                    file:bg-blue-500 file:text-white
-                    hover:file:bg-blue-600">
             </div>
 
         </div>

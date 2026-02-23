@@ -21,6 +21,7 @@ $stmt = $conn->prepare("
         f.Felhasznalonev,
         f.Emailcim,
         f.SzuletesiEv,
+        f.Profilkep,
         f.RegisztracioEve,
         f.MegszerzettPontok,
         f.OrszagID,
