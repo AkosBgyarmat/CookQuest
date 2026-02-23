@@ -1,10 +1,12 @@
-<?php include "../head.php";
-
+<?php
 session_start();
+
 if (!isset($_SESSION["felhasznalo_id"])) {
-    header("Location: ../autentikacio/autentikacio.php");
+    header("Location: /CookQuest/views/autentikacio/autentikacio.php");
     exit;
 }
+
+include "../head.php";
 ?>
 
 <main class="w-full bg-[#90ab8b]" ng-controller="profilController">
@@ -31,36 +33,50 @@ if (!isset($_SESSION["felhasznalo_id"])) {
 
                     <div>
                         <label class="block text-sm text-gray-600 mb-1">Vezetéknév</label>
-                        <input type="text" class="w-full border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <input 
+                            type="text" 
+                            class="w-full border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            ng-model="user.Vezeteknev" disabled>
                     </div>
 
                     <div>
                         <label class="block text-sm text-gray-600 mb-1">Keresztnév</label>
-                        <input type="text" class="w-full border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <input 
+                            type="text" 
+                            class="w-full border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            ng-model="user.Keresztnev" disabled>
                     </div>
 
                     <div class="md:col-span-2">
                         <label class="block text-sm text-gray-600 mb-1">Email</label>
-                        <input type="email" class="w-full border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <input 
+                            type="email" 
+                            class="w-full border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            ng-model="user.Emailcim" disabled>
                     </div>
 
                     <div>
                         <label class="block text-sm text-gray-600 mb-1">Ország</label>
-                        <select class="w-full border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                            <option>Magyarország</option>
-                            <option>Németország</option>
-                            <option>Ausztria</option>
-                        </select>
+                        <input 
+                            type="text" 
+                            class="w-full border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            ng-model="user.OrszagID">
                     </div>
 
                     <div>
                         <label class="block text-sm text-gray-600 mb-1">Regisztráció éve</label>
-                        <input type="number" class="w-full border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <input 
+                            type="number" 
+                            class="w-full border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            ng-model="user.RegisztracioEve" disabled>
                     </div>
 
                     <div class="md:col-span-2">
                         <label class="block text-sm text-gray-600 mb-1">Születési év</label>
-                        <input type="number" class="w-full border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <input 
+                            type="number" 
+                            class="w-full border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            ng-model="user.SzuletesiEv">
                     </div>
 
                 </div>
@@ -119,12 +135,13 @@ if (!isset($_SESSION["felhasznalo_id"])) {
             </button>
         </div>
 
-        <form action="../../api/kilepes.php" method="post">
-            <button type="submit"
-                class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700">
-                Kilépés
-            </button>
-        </form>
+        <button
+            ng-click="openLogoutModal()"
+            class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700">
+            Kilépés
+        </button>
+
+        <?php include "../autentikacio/kijelentkezesModal.php"; ?>
 
     </div>
 </main>
