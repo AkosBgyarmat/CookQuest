@@ -150,9 +150,9 @@
     <section class="bg-[#EBF4DD]">
         <div class="container mx-auto py-16 px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-2 items-center gap-8">
-                <div class="max-w-lg">
+                <div class="max-w-2xl">
                     <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">Rólunk</h2>
-                    <p class="mt-4 text-gray-600 text-lg">
+                    <p class="mt-4 text-gray-600 text-lg text-justify">
                         Ezt az oldalt ketten készítjük, azzal a céllal, hogy segítsünk azoknak, akik nulláról szeretnének megtanulni főzni. Úgy gondoljuk, hogy a főzés nem kell, hogy bonyolult vagy ijesztő legyen – csak érthető lépésekre és egy kis gyakorlásra van szükség.
                         <br>
                         Az oldalon olyan tartalmakat gyűjtünk össze, amelyek az alapoktól indulnak: egyszerű technikák, jól követhető receptek és hasznos konyhai tippek. Minden leírás úgy készült, hogy könnyű legyen követni akkor is, ha valaki most áll először a tűzhely mellé.
@@ -160,9 +160,9 @@
                         A célunk egy olyan oldal létrehozása, ahol a tanulás nem stresszes, hanem élvezhető, és ahol a főzés fokozatosan válik magabiztos rutinná.
                     </p>
                 </div>
-                <div class="mt-12 md:mt-0">
-                    <img src="https://images.unsplash.com/photo-1531973576160-7125cd663d86" alt="About Us Image"
-                        class="object-cover rounded-lg shadow-md">
+                <div class="mt-12 md:mt-0 ">
+                    <img src="../../assets/kepek/rolunk.png" alt="About Us Image"
+                    class="w-full max-w-[450px] h-auto object-cover rounded-lg shadow-md mx-auto">
                 </div>
             </div>
         </div>
