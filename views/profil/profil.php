@@ -20,7 +20,7 @@ include "../head.php";
         </div>
 
 
-        <!-- Felső rész -->
+        <!-- Személyes adatok -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
 
             <!-- Személyes adatok -->
@@ -33,50 +33,58 @@ include "../head.php";
 
                     <div>
                         <label class="block text-sm text-gray-600 mb-1">Vezetéknév</label>
-                        <input 
-                            type="text" 
+                        <input
+                            type="text"
                             class="w-full border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                             ng-model="user.Vezeteknev" disabled>
                     </div>
 
                     <div>
                         <label class="block text-sm text-gray-600 mb-1">Keresztnév</label>
-                        <input 
-                            type="text" 
+                        <input
+                            type="text"
                             class="w-full border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                             ng-model="user.Keresztnev" disabled>
                     </div>
 
                     <div class="md:col-span-2">
                         <label class="block text-sm text-gray-600 mb-1">Email</label>
-                        <input 
-                            type="email" 
+                        <input
+                            type="email"
                             class="w-full border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                             ng-model="user.Emailcim" disabled>
                     </div>
 
                     <div>
                         <label class="block text-sm text-gray-600 mb-1">Ország</label>
-                        <input 
-                            type="text" 
+                        <input
+                            type="text"
                             class="w-full border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            ng-model="user.OrszagID">
+                            ng-model="user.OrszagNev" disabled>
                     </div>
 
                     <div>
                         <label class="block text-sm text-gray-600 mb-1">Regisztráció éve</label>
-                        <input 
-                            type="number" 
+                        <input
+                            type="text"
                             class="w-full border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                             ng-model="user.RegisztracioEve" disabled>
                     </div>
 
-                    <div class="md:col-span-2">
+                    <div>
                         <label class="block text-sm text-gray-600 mb-1">Születési év</label>
-                        <input 
-                            type="number" 
+                        <input
+                            type="text"
                             class="w-full border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            ng-model="user.SzuletesiEv">
+                            ng-model="user.SzuletesiEv" disabled>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm text-gray-600 mb-1">Megszerzett pontok</label>
+                        <input
+                            type="text"
+                            class="w-full border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            ng-model="user.MegszerzettPontok" disabled>
                     </div>
 
                 </div>
@@ -102,7 +110,7 @@ include "../head.php";
 
         </div>
 
-        <!-- Jelszó rész -->
+        <!-- Jelszó modositas rész -->
         <div class="bg-white p-8 rounded-2xl shadow-md mt-10">
             <h2 class="text-xl font-semibold mb-6 text-gray-700">
                 Jelszó módosítása
@@ -128,18 +136,53 @@ include "../head.php";
             </div>
         </div>
 
-        <!-- Mentés gomb -->
-        <div class="mt-10">
-            <button class="w-[50%] bg-blue-600 text-white py-4 rounded-2xl text-lg font-semibold hover:bg-blue-700 transition duration-200 shadow-md">
-                Mentés
-            </button>
+        <!-- Felhasznalonev modosítas rész -->
+        <div class="bg-white p-8 rounded-2xl shadow-md mt-10">
+            <h2 class="text-xl font-semibold mb-6 text-gray-700">
+                Felhasználó módosítása
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+
+                <div>
+                    <label class="block text-sm text-gray-600 mb-1">Jelenlegi felhasználónév</label>
+                    <input type="text"
+                        ng-model="user.Felhasznalonev"
+                        disabled
+                        class="w-full border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+
+                <div>
+                    <label class="block text-sm text-gray-600 mb-1">Új felhasználónév</label>
+                    <input type="text" ng-model="user.newUsername" class="w-full border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+
+                <div>
+                    <label class="block text-sm text-gray-600 mb-1">Új felhasználónév megerősítése</label>
+                    <input type="text" ng-model="user.confirmNewUsername" class="w-full border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+
+            </div>
         </div>
 
-        <button
-            ng-click="openLogoutModal()"
-            class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700">
-            Kilépés
-        </button>
+        <!-- Gombok -->
+        <div class="mt-10 flex flex-col md:flex-row gap-6">
+
+            <!-- Mentés gomb -->
+            <button
+                class="flex-1 bg-blue-600 text-white py-4 rounded-2xl text-lg font-semibold hover:bg-blue-700 transition duration-200 shadow-md">
+                Mentés
+            </button>
+
+            <!-- Kilépés gomb -->
+            <button
+                ng-click="openLogoutModal()"
+                class="flex-1 bg-red-600 text-white py-4 rounded-2xl text-lg font-semibold hover:bg-red-700 transition duration-200 shadow-md">
+                Kilépés
+            </button>
+
+        </div>
+
 
         <?php include "../autentikacio/kijelentkezesModal.php"; ?>
 
