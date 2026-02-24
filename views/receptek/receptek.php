@@ -96,35 +96,6 @@ if ($receptId) {
 }
 ?>
 
-<style>
-    /* Tag alapú szűrő stílusa */
-    .kat-tag-label {
-        cursor: pointer;
-        display: inline-block;
-    }
-
-    .kat-tag-input {
-        display: none;
-    }
-
-    .kat-tag-text {
-        display: inline-block;
-        padding: 0.5rem 1rem;
-        background-color: #f3f4f6;
-        /* Világosszürke */
-        color: #4b5563;
-        border-radius: 0.75rem;
-        font-size: 0.875rem;
-        font-weight: 500;
-        transition: all 0.2s ease;
-    }
-
-    .kat-tag-input:checked+.kat-tag-text {
-        background-color: #6F837B;
-        /* Az eredeti kódodból vett zöldes szín */
-        color: white;
-    }
-</style>
 
 <main class="min-h-screen bg-gradient-to-br from-[#9FB1A3] to-[#7F8F83]">
     <div class="max-w-7xl mx-auto py-6 px-4">
@@ -168,10 +139,10 @@ if ($receptId) {
                                     </label>
                                 </div>
                                 <div class="flex flex-wrap gap-2">
-                                    <?php foreach ($alkategoriak as $alKat): ?>
-                                        <label class="kat-tag-label">
-                                            <input type="checkbox" class="kategoriaCheckbox kat-tag-input" data-fokategoria="<?= htmlspecialchars($foKat) ?>" data-alkategoria="<?= htmlspecialchars($alKat) ?>">
-                                            <span class="kat-tag-text"><?= htmlspecialchars($alKat) ?></span>
+<?php foreach ($alkategoriak as $alKat): ?>
+                                        <label class="inline-block cursor-pointer">
+                                            <input type="checkbox" class="kategoriaCheckbox peer sr-only" data-fokategoria="<?= htmlspecialchars($foKat) ?>" data-alkategoria="<?= htmlspecialchars($alKat) ?>">
+                                            <span class="inline-block px-4 py-2 rounded-xl bg-gray-100 text-gray-600 text-sm font-medium transition peer-checked:bg-[#6F837B] peer-checked:text-white"><?= htmlspecialchars($alKat) ?></span>
                                         </label>
                                     <?php endforeach; ?>
                                 </div>
@@ -308,6 +279,7 @@ if ($receptId) {
 
                                 <div class="mt-12 flex justify-end">
                                     <button class="bg-[#4A7043] text-white px-8 py-3 rounded-xl font-bold shadow-lg hover:bg-[#3d5c37] transition-all transform hover:scale-105">
+                                        
                                         Elkészítettem!
                                     </button>
                                 </div>
