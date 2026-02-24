@@ -1,7 +1,3 @@
-<?php
-session_start();
-?>
-
 <!-- Navbar -->
 <nav class="flex flex-wrap items-center justify-between p-3 bg-[#EBF4DD] font-bold text-lg">
 

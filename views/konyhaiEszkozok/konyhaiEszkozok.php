@@ -1,4 +1,7 @@
-<?php include "../head.php"; ?>
+<?php
+session_start(); 
+include "../head.php"; 
+?>
 
 
 <section ng-controller="eszkozCtrl" ng-cloak>

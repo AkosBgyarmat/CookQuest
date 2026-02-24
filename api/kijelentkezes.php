@@ -1,8 +1,11 @@
 <?php
 session_start();
+
+$_SESSION = [];
 session_unset();
 session_destroy();
 
-header("Location: ../views/index/index.php");
+header("Content-Type: application/json");
+echo json_encode(["success" => true]);
 exit;
 ?>

@@ -1,4 +1,4 @@
-angular.module("CookQuest").controller("authController", function ($scope, $http, $timeout) {
+angular.module("CookQuest").controller("authController", function ($scope, $http) {
 
   //console.log("Az `authController` fut");
 

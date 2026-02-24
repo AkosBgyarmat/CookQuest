@@ -16,15 +16,19 @@ $felhasznaloID = $_SESSION["felhasznalo_id"];
 
 $stmt = $conn->prepare("
     SELECT 
-        Vezeteknev,
-        Keresztnev,
-        Felhasznalonev,
-        Emailcim,
-        SzuletesiEv,
-        OrszagID,
-        MegszerzettPontok
-    FROM felhasznalo
-    WHERE FelhasznaloID = ?
+        f.Vezeteknev,
+        f.Keresztnev,
+        f.Felhasznalonev,
+        f.Emailcim,
+        f.SzuletesiEv,
+        f.Profilkep,
+        f.RegisztracioEve,
+        f.MegszerzettPontok,
+        f.OrszagID,
+        o.Elnevezes AS OrszagNev
+    FROM felhasznalo f
+    JOIN orszag o ON f.OrszagID = o.OrszagId
+    WHERE f.FelhasznaloID = ?
 ");
 
 $stmt->bind_param("i", $felhasznaloID);
