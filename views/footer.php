@@ -8,9 +8,7 @@
   </div>
 
   <!-- Footer Content -->
-  <div class="max-w-7xl mx-auto grid 
-        lg:grid-cols-3  z-10
-        md:grid-cols-4 gap-8 relative ">
+  <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 relative ">
 
     <!-- Logo & Description -->
     <div class="border-[black]">
@@ -19,20 +17,20 @@
     </div>
 
     <!-- Links -->
-    <div class="hidden md:block">
-      <h3 class="text-xl font-semibold mb-4">Oldalaink</h3>
+    <div>
+      <h3 class="text-xl font-semibold mb-4">Jogi információk</h3>
       <ul class="space-y-2">
         <li>
-          <a href="../index/index.php" class="hover:text-purple-400 transition">Főoldal</a>
+          <a href="../jogiInformaciok/adatkezelesiTajekoztato.php" class="hover:text-purple-400 transition">Adatkezelési tájékoztató</a>
         </li>
         <li>
-          <a href="../receptek/receptek.php" class="hover:text-purple-400 transition">Receptek</a>
+          <a href="../jogiInformaciok/aszf.php" class="hover:text-purple-400 transition">ÁSZF</a>
         </li>
         <li>
-          <a href="../konyhaiEszkozok/konyhaiEszkozok.php" class="hover:text-purple-400 transition">Konyhai eszközök</a>
+          <a href="../jogiInformaciok/cookieTajekoztato.php" class="hover:text-purple-400 transition">Süti tájékoztató</a>
         </li>
         <li>
-          <a href="../autentikacio/autentikacio.php" class="hover:text-purple-400 transition">Bejelentkezés</a>
+          <a href="../jogiInformaciok/impresszum.php" class="hover:text-purple-400 transition">Impresszum</a>
         </li>
       </ul>
     </div>
@@ -40,9 +38,25 @@
     <!-- Contact Info -->
     <div>
       <h3 class="text-xl font-semibold mb-4">Lépj kapcsolatba velünk!</h3>
-      <p class="mb-2">2660 Balassagyarmat, Rákóczi fejedelem út 50</p>
-      <p class="mb-2">Email: info@cookquest.com</p>
-      <p>Phone: +123 456 7890</p>
+
+      <div class="flex items-center space-x-2 mb-2">
+        <p>Székhely: </p>
+        <p>Oktatási projekt</p>
+      </div>
+
+      <div class="flex items-center space-x-2 mb-2">
+        <p>E-mail:</p>
+        <a href="mailto:info@cookquest.com" class="hover:text-purple-400 transition">
+          info@cookquest.com
+        </a>
+      </div>
+
+      <div class="flex items-center space-x-2">
+        <p>Telefon:</p>
+        <a href="tel:+1234567890" class="hover:text-purple-400 transition">
+          +123 456 7890
+        </a>
+      </div>
     </div>
 
   </div>
@@ -53,7 +67,7 @@
   </div>
 
   <button id="to-top-button" onclick="goToTop()" title="Go To Top"
-    class="hidden fixed z-50 bottom-10 right-10 p-4 border-0 w-14 h-14 rounded-full shadow-md bg-[#5A7863] hover:bg-[#3B4953]-800 text-white text-lg font-semibold transition-colors duration-300">
+    class="hidden fixed z-50 bottom-10 right-10 p-4 border-0 w-14 h-14 rounded-full shadow-md bg-[#5A7863] hover:bg-[#3B4953] text-white text-lg font-semibold transition-colors duration-300">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
       <path d="M12 4l8 8h-6v8h-4v-8H4l8-8z" />
     </svg>
@@ -64,7 +78,7 @@
   <script src="../../controller/orszagController.js"></script>
   <script src="../../controller/autentikacioController.js"></script>
   <script src="../../controller/profilController.js"></script>
-  
+
   <!-- Javascript -->
   <script src="../../assets/js/hamburger.js"></script>
   <script src="../../assets/js/top.js"></script>
