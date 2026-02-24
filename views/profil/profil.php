@@ -125,6 +125,10 @@ include "../head.php";
                             onchange="angular.element(this).scope().uploadProfileImage(this.files)">
                     </label>
 
+                    <div class="mt-2">
+                        <span class="text-gray-500 italic text-[small]">A képfeltöltés után, oldalfrissítés szükséges!</span>
+                    </div>
+
                 </div>
 
             </div>
