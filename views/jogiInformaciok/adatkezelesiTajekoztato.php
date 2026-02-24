@@ -1,4 +1,6 @@
-<?php include_once "../head.php"; ?>
+<?php 
+session_start();
+include_once "../head.php"; ?>
 
 <main class="w-full bg-[#90ab8b]">
     <div class="max-w-6xl mx-auto px-4 py-10">

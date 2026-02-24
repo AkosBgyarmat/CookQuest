@@ -1,4 +1,6 @@
-<?php include_once "../head.php"; ?>
+<?php 
+session_start();
+include_once "../head.php"; ?>
 
 
 
