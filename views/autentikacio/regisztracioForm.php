@@ -193,6 +193,33 @@
                 </select>
                 <!-- #endregion -->
 
+                <div class="flex items-start space-x-2 mt-4">
+                    <input type="checkbox"
+                        name="aszf"
+                        ng-model="user.aszf"
+                        required>
+
+                    <label for="aszf" class="text-sm text-gray-700">
+                        Elfogadom az
+                        <a href="../jogiInformaciok/aszf.php" target="_blank"
+                            class="text-green-700 underline hover:text-green-900">
+                            Általános Szerződési Feltételeket
+                        </a>
+                        és az
+                        <a href="../jogiInformaciok/adatkezelesiTajekoztato.php" target="_blank"
+                            class="text-green-700 underline hover:text-green-900">
+                            Adatkezelési Tájékoztatót
+                        </a>.
+                    </label>
+
+                    <p class="text-red-500 text-sm mt-1"
+                        ng-if="regForm.aszf.$touched && regForm.aszf.$invalid">
+                        Kötelező elfogadni az Általános Szerződési Feltételeket és az Adatkezelési Tájékoztatót.
+                    </p>
+                </div>
+
+
+
                 <!-- Regisztráció gomb -->
                 <div class="flex justify-center align-center">
                     <button
