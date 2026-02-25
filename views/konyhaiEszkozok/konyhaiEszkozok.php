@@ -84,32 +84,36 @@ include "../head.php";
         </section>
 
         <!-- Mini navbar -->
-        <section class=" flex justify-center items-center flex-wrap bg-[#5A7863] h-1/2 p-2">
+        <section class="flex flex-col sm:flex-row justify-center items-center gap-4 bg-[#5A7863] py-4 px-4">
 
+            <!-- Konyhai eszközök -->
             <div
-                class="flex text-center border max-w-2xl p-6 rounded-[50px] min-w-[270px] m-2 text-white hover:bg-[#EBF4DD] hover:text-black"
+                class="w-full sm:w-[260px] 
+           h-[50px] sm:h-[60px]
+           flex items-center justify-center
+           border rounded-full
+           text-white text-base sm:text-lg font-medium
+           transition-all duration-300
+           hover:bg-[#EBF4DD] hover:text-black
+           cursor-pointer"
                 ng-click="mode = 'eszkozok'">
-                <div class="w-sreen max-w-screen-xl px-10 mx-auto">
-                    <ul class="flex-col md:flex-row flex md:space-x-8 md:mt-0 md:text-sm md:font-medium">
-                        <li>
-                            <button class="md:hover:bg-transparent md:border-0 block hover:text-black md:p-0 text-lg">
-                                Konyhai eszközök
-                            </button>
-                        </li>
-                    </ul>
-                </div>
+
+                Konyhai eszközök
             </div>
 
-            <div class="flex text-center border max-w-2xl p-6 rounded-[50px] min-w-[270px] text-white hover:bg-[#EBF4DD] hover:text-black" ng-click="mode = 'atvalto'">
-                <div class="w-sreen max-w-screen-xl px-10 mx-auto">
-                    <ul class="flex-col md:flex-row flex md:space-x-8 md:mt-0 md:text-sm md:font-medium">
-                        <li>
-                            <button class=" md:hover:bg-transparent md:border-0 block hover:text-black md:p-0 text-lg">
-                                Átváltó
-                            </button>
-                        </li>
-                    </ul>
-                </div>
+            <!-- Átváltó -->
+            <div
+                class="w-full sm:w-[260px] 
+           h-[50px] sm:h-[60px]
+           flex items-center justify-center
+           border rounded-full
+           text-white text-base sm:text-lg font-medium
+           transition-all duration-300
+           hover:bg-[#EBF4DD] hover:text-black
+           cursor-pointer"
+                ng-click="mode = 'atvalto'">
+
+                Átváltó
             </div>
 
         </section>
