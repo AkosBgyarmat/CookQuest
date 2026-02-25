@@ -1,6 +1,6 @@
-<?php 
-    session_start();
-    include "../head.php"; 
+<?php
+session_start();
+include "../head.php";
 ?>
 
 <main>
@@ -163,109 +163,30 @@
                 </div>
                 <div class="mt-12 md:mt-0 ">
                     <img src="../../assets/kepek/rolunk.png" alt="About Us Image"
-                    class="w-full max-w-[450px] h-auto object-cover rounded-lg shadow-md mx-auto">
+                        class="w-full max-w-[450px] h-auto object-cover rounded-lg shadow-md mx-auto">
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Miért velünk tanulj?  -->
-    <!--
-    <section class="text-gray-700 body-font mt-10">
-
-        <div class="flex justify-center text-3xl font-bold text-gray-800 text-center py-5">
-            Miért velünk tanulj?
-        </div>
-
-        <div class="container px-5 py-5 mx-auto">
-            <div class="flex flex-wrap text-center justify-center">
-                <div class="p-4 md:w-1/4 sm:w-1/2">
-                    <div class="px-4 py-6 transform transition duration-500 hover:scale-110">
-                        <div class="flex justify-center">
-                            <img src="https://image3.jdomni.in/banner/13062021/58/97/7C/E53960D1295621EFCB5B13F335_1623567851299.png?output-format=webp" class="w-32 mb-3">
-                        </div>
-                        <h2 class="title-font font-regular text-2xl text-gray-900">Korszerű technológiák alkalmazása</h2>
-                    </div>
-                </div>
-
-                <div class="p-4 md:w-1/4 sm:w-1/2">
-                    <div class="px-4 py-6 transform transition duration-500 hover:scale-110">
-                        <div class="flex justify-center">
-                            <img src="https://image2.jdomni.in/banner/13062021/3E/57/E8/1D6E23DD7E12571705CAC761E7_1623567977295.png?output-format=webp" class="w-32 mb-3">
-                        </div>
-                        <h2 class="title-font font-regular text-2xl text-gray-900">Kölcséghatékony<br> receptek</h2>
-                    </div>
-                </div>
-
-                <div class="p-4 md:w-1/4 sm:w-1/2">
-                    <div class="px-4 py-6 transform transition duration-500 hover:scale-110">
-                        <div class="flex justify-center">
-                            <img src="https://image3.jdomni.in/banner/13062021/16/7E/7E/5A9920439E52EF309F27B43EEB_1623568010437.png?output-format=webp"
-                                class="w-32 mb-3">
-                        </div>
-                        <h2 class="title-font font-regular text-2xl text-gray-900">Időhatékony</h2>
-                    </div>
-                </div>
-
-                <div class="p-4 md:w-1/4 sm:w-1/2">
-                    <div class="px-4 py-6 transform transition duration-500 hover:scale-110">
-                        <div class="flex justify-center">
-                            <img src="https://image3.jdomni.in/banner/13062021/EB/99/EE/8B46027500E987A5142ECC1CE1_1623567959360.png?output-format=webp"
-                                class="w-32 mb-3">
-                        </div>
-                        <h2 class="title-font font-regular text-2xl text-gray-900">Megbízható források</h2>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section> -->
-
     <!-- Galéria -->
-    <section class="text-gray-700 body-font">
+    <section class="text-gray-700 body-font" ng-controller="galleryController">
         <div class="flex justify-center text-3xl font-bold text-gray-800 text-center py-10">
             Galéria
         </div>
 
-        <div class="grid grid-cols-1 place-items-center mb-10 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-6 gap-4 p-4">
+        <div class="grid grid-cols-1 place-items-center mb-10 
+                sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 
+                gap-4 p-4">
 
-            <div class="group relative">
-                <img src="../../assets/kepek/etelek/bundasKenyer.webp"
-                    alt="Image 1"
-                    class="aspect-[2/3] h-80 object-cover rounded-lg transition-transform transform scale-100 group-hover:scale-105" />
+            <div class="group relative" ng-repeat="image in randomImages | limitTo: (isMobile ? 3 : 6)">
+                <img ng-src="{{image}}"
+                    class="aspect-[2/3] h-80 object-cover rounded-lg 
+                       transition-transform transform scale-100 
+                       group-hover:scale-105" />
             </div>
 
-            <div class="group relative">
-                <img src="../../assets/kepek/etelek/ZoldsegLeves.webp"
-                    alt="Image 1"
-                    class="aspect-[2/3] h-80 object-cover rounded-lg transition-transform transform scale-100 group-hover:scale-105" />
-            </div>
-
-            <div class="group relative">
-                <img src="../../assets/kepek/etelek/Palacsinta.webp"
-                    alt="Image 1"
-                    class="aspect-[2/3] h-80 object-cover rounded-lg transition-transform transform scale-100 group-hover:scale-105" />
-            </div>
-
-            <div class="group relative">
-                <img src="../../assets/kepek/etelek/ZabpelyhesMezesPohardesszert.webp"
-                    alt="Image 1"
-                    class="aspect-[2/3] h-80 object-cover rounded-lg transition-transform transform scale-100 group-hover:scale-105" />
-            </div>
-
-            <div class="group relative">
-                <img src="../../assets/kepek/etelek/TukorTojas.webp"
-                    alt="Image 1"
-                    class="aspect-[2/3] h-80 object-cover rounded-lg transition-transform transform scale-100 group-hover:scale-105" />
-            </div>
-
-            <div class="group relative">
-                <img src="../../assets/kepek/etelek/GyumolcsosPohardesszert.webp"
-                    alt="Image 1"
-                    class="aspect-[2/3] h-80 object-cover rounded-lg transition-transform transform scale-100 group-hover:scale-105" />
-            </div>
         </div>
-
     </section>
 </main>
 
