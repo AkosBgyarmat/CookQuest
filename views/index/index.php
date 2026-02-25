@@ -7,20 +7,42 @@ include "../head.php";
     <!-- hero seciton -->
     <section class="relative w-full h-[320px]">
 
-        <div class="absolute inset-0">
-            <img src="../../assets/kepek/fooldalHero.jpg" alt="Konyha" class="object-cover object-center w-full h-full opacity-50" />
+    <!-- Háttérkép -->
+    <div class="absolute inset-0">
+        <img src="../../assets/kepek/fooldalHero.jpg"
+             alt="Konyha"
+             class="object-cover object-center w-full h-full opacity-60" />
+    </div>
+
+    <!-- Tartalom -->
+    <div class="absolute inset-0 flex items-center justify-center md:justify-start px-4 md:px-12">
+
+        <div class="w-full md:w-1/2 
+                    bg-white/80 md:bg-transparent 
+                    backdrop-blur-sm 
+                    md:backdrop-blur-0
+                    p-6 md:p-0 
+                    rounded-xl md:rounded-none 
+                    shadow-md md:shadow-none">
+
+            <h1 class="text-black font-medium text-3xl md:text-5xl leading-tight mb-4">
+                CookQuest
+            </h1>
+
+            <p class="text-gray text-base md:text-xl mb-6">
+                Meg szeretnél tanulni főzni? Itt a tökéletes alkalom, hogy lépésről lépésre elsajátíts mindent.
+            </p>
+
+            <a href="../receptek/receptek.php"
+               class="inline-block px-6 py-3 bg-[#5A7863] text-white font-medium rounded-full hover:bg-[#EBF4DD] hover:text-black transition duration-200">
+                Kezdj hozzá most!
+            </a>
+
         </div>
 
-        <div class="absolute inset-9 flex flex-col md:flex-row items-center justify-between">
-            <div class="md:w-1/2 mb-4 md:mb-0">
-                <h1 class="text-black font-medium text-4xl md:text-5xl leading-tight mb-2">CookQuest</h1>
-                <p class="font-regular text-xl mb-8 mt-4">Meg szeretnél tanulni főzni? Itt a tökéletes alkalom, hogy lépésről lépésre elsajátíts mindent.</p>
-                <a href="../receptek/receptek.php"
-                    class="px-6 py-3 bg-[#5A7863] text-white font-medium rounded-full hover:bg-[#EBF4DD] hover:text-black transition duration-200">Kezdj hozzá most!</a>
-            </div>
-        </div>
-    </section>
+    </div>
 
+</section>
     <!-- Az első szint receptjei, ez bejelentkezés nélkül is megtekinthető de nem kapható érte pont. -->
     <section class="py-10 ">
         <div class="container mx-auto px-4">
