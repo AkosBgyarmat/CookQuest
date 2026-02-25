@@ -10,6 +10,13 @@ if (!$data) {
     echo json_encode(["success" => false, "message" => "Nincs adat"]);
     exit;
 }
+if (empty($data["aszf"])) {
+    echo json_encode([
+        "success" => false,
+        "message" => "Az ÁSZF elfogadása kötelező."
+    ]);
+    exit;
+}
 
 $vezeteknev = trim($data["Vezeteknev"]);
 $keresztnev = trim($data["Keresztnev"]);
