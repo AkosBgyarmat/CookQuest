@@ -10,6 +10,7 @@ if (!$data) {
     echo json_encode(["success" => false, "message" => "Nincs adat"]);
     exit;
 }
+
 if (empty($data["aszf"])) {
     echo json_encode([
         "success" => false,
@@ -61,6 +62,7 @@ try {
 
     echo json_encode(["success" => true]);
 }
+
 catch (mysqli_sql_exception $e) {
 
     echo json_encode([
@@ -68,7 +70,5 @@ catch (mysqli_sql_exception $e) {
         "message" => "Email vagy felhasználónév már létezik."
     ]);
 }
-
-
 
 ?>

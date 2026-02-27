@@ -9,6 +9,7 @@ if (!isset($_SESSION["felhasznalo_id"])) {
 include "../head.php";
 ?>
 
+
 <main class="w-full bg-[#90ab8b]" ng-controller="profilController">
     <div class="max-w-6xl mx-auto px-4 py-10 ">
 
@@ -158,6 +159,14 @@ include "../head.php";
                     <input type="password" class="w-full border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
                 </div>
 
+                <!-- Mentés gomb -->
+                <div class="w-full md:col-span-3 mt-4">
+                    <button
+                        class="w-full bg-blue-600 text-white py-2 rounded-2xl text-lg font-semibold hover:bg-blue-700 transition duration-200 shadow-md">
+                        Mentés
+                    </button>
+                </div>
+
             </div>
         </div>
 
@@ -187,17 +196,21 @@ include "../head.php";
                     <input type="text" ng-model="user.confirmNewUsername" class="w-full border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
                 </div>
 
+                <!-- Mentés gomb -->
+                <div class="w-full md:col-span-3 mt-4">
+                    <button
+                        class="w-full bg-blue-600 text-white py-2 rounded-2xl text-lg font-semibold hover:bg-blue-700 transition duration-200 shadow-md">
+                        Mentés
+                    </button>
+                </div>
+
             </div>
         </div>
 
         <!-- Gombok -->
         <div class="mt-10 flex flex-col md:flex-row gap-6">
 
-            <!-- Mentés gomb -->
-            <button
-                class="flex-1 bg-blue-600 text-white py-4 rounded-2xl text-lg font-semibold hover:bg-blue-700 transition duration-200 shadow-md">
-                Mentés
-            </button>
+
 
             <!-- Kilépés gomb -->
             <button
