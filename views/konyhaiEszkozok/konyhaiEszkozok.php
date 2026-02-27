@@ -212,12 +212,12 @@ include "../head.php";
 
             <div class="w-full max-w-6xl flex flex-col gap-8">
 
-                <!-- Cím -->
+                <!-- Cím 
                 <div class="w-full flex justify-center border-b-[5px] border-[#5A7863] pb-4">
                     <p class="text-3xl sm:text-4xl md:text-5xl font-bold text-center">
                         Átváltók
                     </p>
-                </div>
+                </div>-->
 
                 <div class="flex flex-wrap justify-center gap-6">
 

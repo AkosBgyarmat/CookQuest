@@ -7,16 +7,16 @@
     <div class="w-60 h-60 rounded-full bg-[#90AB8B] opacity-10 animate-blob4"></div>
   </div>
 
-  <!-- Footer Content -->
+  
   <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 relative ">
 
     <!-- Logo & Description -->
-    <div class="border-[black]">
+    <div class="border-[black] hidden md:block">
       <h2 class="text-2xl  font-bold mb-4 text-white">CookQuest</h2>
       <p class="mb-4 max-w-[250px]">Tanulj meg főzni lépésről lépésre és ismerkedj meg a konyhai eszközökkel!</p>
     </div>
 
-    <!-- Links -->
+    <!-- Jogi információk -->
     <div>
       <h3 class="text-xl font-semibold mb-4">Jogi információk</h3>
       <ul class="space-y-2">
@@ -35,7 +35,7 @@
       </ul>
     </div>
 
-    <!-- Contact Info -->
+    <!-- Kontact info -->
     <div>
       <h3 class="text-xl font-semibold mb-4">Lépj kapcsolatba velünk!</h3>
 
@@ -83,6 +83,7 @@
   <!-- Javascript -->
   <script src="../../assets/js/hamburger.js"></script>
   <script src="../../assets/js/top.js"></script>
+  <script src="../../assets/js/atvalto.js"></script>
 
 
 </footer>
