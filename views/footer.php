@@ -27,7 +27,7 @@
           <a href="../jogiInformaciok/aszf.php" class="hover:text-purple-400 transition">ÁSZF</a>
         </li>
         <li>
-          <a href="../jogiInformaciok/cookieTajekoztato.php" class="hover:text-purple-400 transition">Süti tájékoztató</a>
+          <a href="../jogiInformaciok/sutiTajekoztato.php" class="hover:text-purple-400 transition">Süti tájékoztató</a>
         </li>
         <li>
           <a href="../jogiInformaciok/impresszum.php" class="hover:text-purple-400 transition">Impresszum</a>
@@ -84,6 +84,7 @@
   <script src="../../assets/js/hamburger.js"></script>
   <script src="../../assets/js/top.js"></script>
   <script src="../../assets/js/atvalto.js"></script>
+  <script src="../../assets/js/suti.js"></script>
 
 
 </footer>

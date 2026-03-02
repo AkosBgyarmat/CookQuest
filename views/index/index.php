@@ -7,17 +7,17 @@ include "../head.php";
     <!-- hero seciton -->
     <section class="relative w-full h-[320px]">
 
-    <!-- Háttérkép -->
-    <div class="absolute inset-0">
-        <img src="../../assets/kepek/fooldalHero.jpg"
-             alt="Konyha"
-             class="object-cover object-center w-full h-full opacity-60" />
-    </div>
+        <!-- Háttérkép -->
+        <div class="absolute inset-0">
+            <img src="../../assets/kepek/fooldalHero.jpg"
+                alt="Konyha"
+                class="object-cover object-center w-full h-full opacity-60" />
+        </div>
 
-    <!-- Tartalom -->
-    <div class="absolute inset-0 flex items-center justify-center md:justify-start px-4 md:px-12">
+        <!-- Tartalom -->
+        <div class="absolute inset-0 flex items-center justify-center md:justify-start px-4 md:px-12">
 
-        <div class="w-full md:w-1/2 
+            <div class="w-full md:w-1/2 
                     bg-white/80 md:bg-transparent 
                     backdrop-blur-sm 
                     md:backdrop-blur-0
@@ -25,24 +25,24 @@ include "../head.php";
                     rounded-xl md:rounded-none 
                     shadow-md md:shadow-none">
 
-            <h1 class="text-black font-medium text-3xl md:text-5xl leading-tight mb-4">
-                CookQuest
-            </h1>
+                <h1 class="text-black font-medium text-3xl md:text-5xl leading-tight mb-4">
+                    CookQuest
+                </h1>
 
-            <p class="text-gray text-base md:text-xl mb-6">
-                Meg szeretnél tanulni főzni? Itt a tökéletes alkalom, hogy lépésről lépésre elsajátíts mindent.
-            </p>
+                <p class="text-gray text-base md:text-xl mb-6">
+                    Meg szeretnél tanulni főzni? Itt a tökéletes alkalom, hogy lépésről lépésre elsajátíts mindent.
+                </p>
 
-            <a href="../receptek/receptek.php"
-               class="inline-block px-6 py-3 bg-[#5A7863] text-white font-medium rounded-full hover:bg-[#EBF4DD] hover:text-black transition duration-200">
-                Kezdj hozzá most!
-            </a>
+                <a href="../receptek/receptek.php"
+                    class="inline-block px-6 py-3 bg-[#5A7863] text-white font-medium rounded-full hover:bg-[#EBF4DD] hover:text-black transition duration-200">
+                    Kezdj hozzá most!
+                </a>
+
+            </div>
 
         </div>
 
-    </div>
-
-</section>
+    </section>
     <!-- Az első szint receptjei, ez bejelentkezés nélkül is megtekinthető de nem kapható érte pont. -->
     <section class="py-10 ">
         <div class="container mx-auto px-4">
@@ -210,6 +210,26 @@ include "../head.php";
 
         </div>
     </section>
+
+    <div id="cookieBanner"
+        class="fixed left-1/2 -translate-x-1/2 bottom-6
+            bg-black/70 backdrop-blur-md
+            text-white
+            px-6 py-4
+            rounded-xl
+            shadow-2xl
+            hidden
+            z-50
+            flex items-center gap-4">
+
+        <span>Ez az oldal sütiket használ. Ha kérdése van olvasson tovább a <a class="underline" href="../jogiInformaciok/cookieTajekoztato.php">Cookie tájékoztató</a> oldalon.</span>
+
+        <button onclick="acceptCookies()"
+            class="bg-white text-black px-4 py-2 rounded-lg hover:bg-gray-200 transition">
+            Elfogadom
+        </button>
+    </div>
+
 </main>
 
 <?php include("../footer.php") ?>
