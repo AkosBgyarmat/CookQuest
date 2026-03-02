@@ -103,7 +103,8 @@ angular.module("CookQuest").controller("authController", function ($scope, $http
       Emailcim: $scope.user.email,
       Jelszo: $scope.user.password,
       SzuletesiEv: $scope.user.birthDate,
-      OrszagID: $scope.user.country
+      OrszagID: $scope.user.country,
+      aszf: $scope.user.aszf
     };
 
     /*A szerver válaszát kezeljük. Ha a regisztráció sikeres, akkor a szerver egy sikeres választ ad vissza, amelyet a konzolon megjelenítünk. Ha a regisztráció nem sikeres, akkor a szerver egy hibaüzenetet ad vissza, amelyet szintén a konzolon megjelenítünk.*/
