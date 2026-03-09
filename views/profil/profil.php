@@ -136,41 +136,6 @@ include "../head.php";
 
         </div>
 
-        <!-- Jelszó modositas rész -->
-        <div class="bg-white p-8 rounded-2xl shadow-md mt-10">
-            <h2 class="text-xl font-semibold mb-6 text-gray-700">
-                Jelszó módosítása
-            </h2>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-
-                <div>
-                    <label class="block text-sm text-gray-600 mb-1">Jelenlegi jelszó</label>
-                    <input type="password" class="w-full border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                </div>
-
-                <div>
-                    <label class="block text-sm text-gray-600 mb-1">Új jelszó</label>
-                    <input type="password" class="w-full border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                </div>
-
-                <div>
-                    <label class="block text-sm text-gray-600 mb-1">Új jelszó megerősítése</label>
-                    <input type="password" class="w-full border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                </div>
-
-
-                <!-- Mentés gomb -->
-                <div class="w-full md:col-span-3 mt-4">
-                    <button
-                        class="w-full bg-blue-600 text-white py-2 rounded-2xl text-lg font-semibold hover:bg-blue-700 transition duration-200 shadow-md">
-                        Mentés
-                    </button>
-                </div>
-
-            </div>
-        </div>
-
         <!-- Felhasznalonev modosítas rész -->
         <div class="bg-white p-8 rounded-2xl shadow-md mt-10">
             <h2 class="text-xl font-semibold mb-6 text-gray-700">
