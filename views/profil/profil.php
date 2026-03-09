@@ -159,6 +159,7 @@ include "../head.php";
                     <input type="password" class="w-full border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
                 </div>
 
+
                 <!-- Mentés gomb -->
                 <div class="w-full md:col-span-3 mt-4">
                     <button
@@ -188,29 +189,37 @@ include "../head.php";
 
                 <div>
                     <label class="block text-sm text-gray-600 mb-1">Új felhasználónév</label>
-                    <input type="text" ng-model="user.newUsername" class="w-full border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <input type="text" ng-model="user.ujFelhasznalonev" class="w-full border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
                 </div>
 
                 <div>
                     <label class="block text-sm text-gray-600 mb-1">Új felhasználónév megerősítése</label>
-                    <input type="text" ng-model="user.confirmNewUsername" class="w-full border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <input type="text" ng-model="user.megerositetteUjFelhasznalonev" class="w-full border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
                 </div>
+
+                <p
+                    class="text-red-500 text-sm mt-1"
+                    ng-if="username.$error.required && regSubmitted">
+                    A felhasználónév megadása kötelező.
+                </p>
 
                 <!-- Mentés gomb -->
                 <div class="w-full md:col-span-3 mt-4">
                     <button
+                        ng-click="changeUsername()"
+                        ng-disabled="!user.ujFelhasznalonev || !user.megerositetteUjFelhasznalonev"
                         class="w-full bg-blue-600 text-white py-2 rounded-2xl text-lg font-semibold hover:bg-blue-700 transition duration-200 shadow-md">
                         Mentés
                     </button>
                 </div>
 
+
             </div>
         </div>
+        <?php include "felhasznalonevValtoztatasModal.php"; ?>
 
         <!-- Gombok -->
         <div class="mt-10 flex flex-col md:flex-row gap-6">
-
-
 
             <!-- Kilépés gomb -->
             <button

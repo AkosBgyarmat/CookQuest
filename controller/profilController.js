@@ -5,6 +5,30 @@ angular.module("CookQuest").controller("profilController", function ($scope, $ht
 
   $scope.showLogoutModal = false;
 
+  $scope.showUsernameModal = false;
+  $scope.usernameMessage = false;
+  $scope.usernameSuccess = false;
+  $scope.usernameErrorText = "";
+
+  $http.get("/CookQuest/api/profilAdat.php")
+    .then(function (response) {
+
+      if (response.data.success) {
+        $scope.user = response.data.user;
+      } else {
+        window.location.href = "/CookQuest/views/autentikacio/autentikacio.php";
+      }
+
+    })
+    .catch(function () {
+      //console.log("Hiba történt a profiladatok lekérése során.");
+      window.location.href = "/CookQuest/views/autentikacio/autentikacio.php";
+    })
+    .finally(function () {
+      $scope.loading = false;
+    }
+    );
+
   $scope.openLogoutModal = function () {
     $scope.showLogoutModal = true;
   };
@@ -45,22 +69,72 @@ angular.module("CookQuest").controller("profilController", function ($scope, $ht
       });
   };
 
-  $http.get("/CookQuest/api/profilAdat.php")
+  $scope.changeUsername = function () {
+
+    if (!$scope.user.ujFelhasznalonev || !$scope.user.megerositetteUjFelhasznalonev) {
+  
+      $scope.usernameSuccess = false;
+      $scope.usernameErrorText = "Tölts ki minden mezőt.";
+      $scope.usernameMessage = true;
+      return;
+  
+    }
+  
+    if ($scope.user.ujFelhasznalonev !== $scope.user.megerositetteUjFelhasznalonev) {
+  
+      $scope.usernameSuccess = false;
+      $scope.usernameErrorText = "A felhasználónevek nem egyeznek.";
+      $scope.usernameMessage = true;
+      return;
+  
+    }
+  
+    var kuldendoAdat = {
+      ujFelhasznalonev: $scope.user.ujFelhasznalonev
+    };
+  
+    $http.post("/CookQuest/api/felhasznalonevValtoztatas.php", kuldendoAdat)
+  
     .then(function (response) {
-
+  
       if (response.data.success) {
-        $scope.user = response.data.user;
+  
+        $scope.usernameSuccess = true;
+        $scope.usernameMessage = true;
+  
+        $scope.user.Felhasznalonev = $scope.user.ujFelhasznalonev;
+  
+        $scope.user.ujFelhasznalonev = "";
+        $scope.user.megerositetteUjFelhasznalonev = "";
+  
       } else {
-        window.location.href = "/CookQuest/views/autentikacio/autentikacio.php";
+  
+        $scope.usernameSuccess = false;
+        $scope.usernameErrorText = response.data.message;
+        $scope.usernameMessage = true;
+  
       }
-
+  
     })
+  
     .catch(function () {
-      //console.log("Hiba történt a profiladatok lekérése során.");
-      window.location.href = "/CookQuest/views/autentikacio/autentikacio.php";
-    })
-    .finally(function () {
-      $scope.loading = false;
+  
+      $scope.usernameSuccess = false;
+      $scope.usernameErrorText = "Szerver hiba.";
+      $scope.usernameMessage = true;
+  
     });
+  
+  };
+
+  $scope.closeUsernameMessage = function () {
+
+    $scope.usernameMessage = false;
+
+    if ($scope.usernameSuccess) {
+      location.reload();
+    }
+
+  };
 
 });
