@@ -214,7 +214,7 @@ $kivalasztottSet = array_flip($kivalasztott);
              - submit: találatok listázása
         ========================= -->
         <div class="bg-white rounded-3xl shadow-2xl p-8 mb-8">
-            <h1 class="text-4xl font-bold text-[#4A7043] mb-6">Mi van a hűtőmben?</h1>
+            <h1 class="text-4xl font-bold text-[#4A7043] mb-6">Mi található meg otthon?</h1>
 
             <form method="POST" action="">
 

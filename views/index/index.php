@@ -1,5 +1,35 @@
 <?php
 session_start();
+
+require_once __DIR__ . '/../../api/receptek_bootstrap.php';
+require_once __DIR__ . '/../../controller/ReceptTarolo.php';
+
+$indexReceptek = [];
+try {
+    $receptTarolo = new ReceptTarolo($pdo);
+    $osszesRecept = $receptTarolo->osszesLista();
+
+    $elsoSzintReceptek = array_values(array_filter(
+        $osszesRecept,
+        static fn(array $r): bool => (int)($r['Szint'] ?? 0) === 1
+    ));
+
+    if (!empty($elsoSzintReceptek)) {
+        $indexReceptek = array_map(static function (array $r): array {
+            return [
+                'ReceptID' => (int)($r['ReceptID'] ?? 0),
+                'Nev' => (string)($r['Nev'] ?? ''),
+                'KepSrc' => (string)receptKepSrc($r['Kep'] ?? ''),
+                'BegyujthetoPontok' => (int)($r['BegyujthetoPontok'] ?? 0),
+                'Szint' => (int)($r['Szint'] ?? 1),
+                'ElkeszitesiIdoFormazott' => (string)formatIdo((string)($r['ElkeszitesiIdo'] ?? '')),
+            ];
+        }, $elsoSzintReceptek);
+    }
+} catch (Throwable $e) {
+    $indexReceptek = [];
+}
+
 include "../head.php";
 ?>
 
@@ -47,125 +77,9 @@ include "../head.php";
     <section class="py-10 ">
         <div class="container mx-auto px-4">
             <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">Próbáld ki néhány receptünket</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-1 gap-6">
-                    <div class="bg-white rounded-2xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden group transform hover:-translate-y-1">
-                        <div class="relative overflow-hidden">
-                            <img src="../../assets/kepek/etelek/PiritosKenyer.webp"
-                                class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300"
-                                alt="">
-                            <div class="absolute top-3 right-3 bg-white/95 backdrop-blur-sm px-3 py-1.5 rounded-full shadow-lg">
-                                <span class="text-sm text-[#596C68] font-bold">⭐ </span>
-                            </div>
-                        </div>
-
-                        <div class="p-5">
-                            <div class="flex items-center gap-2 mb-2">
-                                <span class="text-xs font-semibold px-3 py-1 bg-[#E3D9CA] text-[#596C68] rounded-full">
-                                    . SZINT
-                                </span>
-                            </div>
-
-                            <h3 class="font-bold text-xl mt-2 text-[#403F48] group-hover:text-[#596C68] transition-colors line-clamp-2 min-h-[3.5rem]">
-
-                            </h3>
-
-                            <div class="mt-4 flex items-center gap-4 text-sm text-gray-600">
-                                <div class="flex items-center gap-1">
-                                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
-                                    </svg>
-                                    <span>
-                                        <span>perc</span>
-                                </div>
-                            </div>
-
-                            <a class="mt-4 block text-center w-full py-2.5 bg-[#596C68] text-white font-semibold rounded-lg hover:bg-[#4a5a56] transition-colors shadow-sm">
-                                Recept megtekintése
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-1 gap-6">
-                    <div class="bg-white rounded-2xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden group transform hover:-translate-y-1">
-                        <div class="relative overflow-hidden">
-                            <img src="../../assets/kepek/etelek/GyumolcsosPohardesszert.webp"
-                                class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300"
-                                alt="">
-                            <div class="absolute top-3 right-3 bg-white/95 backdrop-blur-sm px-3 py-1.5 rounded-full shadow-lg">
-                                <span class="text-sm text-[#596C68] font-bold">⭐ </span>
-                            </div>
-                        </div>
-
-                        <div class="p-5">
-                            <div class="flex items-center gap-2 mb-2">
-                                <span class="text-xs font-semibold px-3 py-1 bg-[#E3D9CA] text-[#596C68] rounded-full">
-                                    . SZINT
-                                </span>
-                            </div>
-
-                            <h3 class="font-bold text-xl mt-2 text-[#403F48] group-hover:text-[#596C68] transition-colors line-clamp-2 min-h-[3.5rem]">
-
-                            </h3>
-
-                            <div class="mt-4 flex items-center gap-4 text-sm text-gray-600">
-                                <div class="flex items-center gap-1">
-                                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
-                                    </svg>
-                                    <span>
-                                        <span>perc</span>
-                                </div>
-                            </div>
-
-                            <a class="mt-4 block text-center w-full py-2.5 bg-[#596C68] text-white font-semibold rounded-lg hover:bg-[#4a5a56] transition-colors shadow-sm">
-                                Recept megtekintése
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-1 gap-6">
-                    <div class="bg-white rounded-2xl shadow-md hover:shadow-2xl overflow-hidden group">
-                        <div class="relative overflow-hidden">
-                            <img src="../../assets/kepek/etelek/PiritosKenyer.webp"
-                                class="w-full h-48 object-cover"
-                                alt="">
-                            <div class="absolute top-3 right-3 bg-white/95 backdrop-blur-sm px-3 py-1.5 rounded-full shadow-lg">
-                                <span class="text-sm text-[#596C68] font-bold">⭐ </span>
-                            </div>
-                        </div>
-
-                        <div class="p-5">
-                            <div class="flex items-center gap-2 mb-2">
-                                <span class="text-xs font-semibold px-3 py-1 bg-[#E3D9CA] text-[#596C68] rounded-full">
-                                    . SZINT
-                                </span>
-                            </div>
-
-                            <h3 class="font-bold text-xl mt-2 text-[#403F48] group-hover:text-[#596C68] transition-colors line-clamp-2 min-h-[3.5rem]">
-
-                            </h3>
-
-                            <div class="mt-4 flex items-center gap-4 text-sm text-gray-600">
-                                <div class="flex items-center gap-1">
-                                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
-                                    </svg>
-                                    <span>
-                                        <span>perc</span>
-                                </div>
-                            </div>
-
-                            <a class="mt-4 block text-center w-full py-2.5 bg-[#596C68] text-white font-semibold rounded-lg hover:bg-[#4a5a56] transition-colors shadow-sm">
-                                Recept megtekintése
-                            </a>
-                        </div>
-                    </div>
-                </div>
+            <div id="indexReceptekContainer" class="grid grid-cols-1 md:grid-cols-3 gap-8">
             </div>
+            <script id="indexReceptekData" type="application/json"><?= json_encode($indexReceptek, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?></script>
         </div>
     </section>
 

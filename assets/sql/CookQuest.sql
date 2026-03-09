@@ -154,6 +154,9 @@ CREATE TABLE `felhasznalo` (
 -- A tábla adatainak kiíratása `felhasznalo`
 --
 
+
+
+
 -- --------------------------------------------------------
 
 --

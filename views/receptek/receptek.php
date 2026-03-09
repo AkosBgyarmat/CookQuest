@@ -1,286 +1,174 @@
 <?php
-session_start();
 
-/* =========================
-   ADATBÁZIS KAPCSOLÓDÁS (PDO)
-========================= */
-$pdo = new PDO(
-    "mysql:host=localhost;dbname=cookquest;charset=utf8mb4",
-    "root",
-    "",
-    [
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
-    ]
-);
+require_once __DIR__ . '/../../api/receptek_bootstrap.php';
+require_once __DIR__ . '/../../controller/ReceptekVezerlo.php';
+require_once __DIR__ . '/../../services/SzintezesService.php';
 
-/* =========================
-   SEGÉDFÜGGVÉNYEK
-========================= */
-function formatIdo($ido_str)
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
+
+// ===== 1) SESSION / AZONOSÍTÁS SEGÉDFÜGGVÉNYEK =====
+function sessionFelhasznaloId(): int
 {
-    $parts = explode(':', $ido_str);
-    if (count($parts) < 2) return $ido_str;
-
-    $ora = (int)$parts[0];
-    $perc = (int)$parts[1];
-
-    if ($ora > 0) return "$ora óra" . ($perc > 0 ? " $perc perc" : "");
-    if ($perc > 0) return "$perc perc";
-
-    return "kevesebb mint 1 perc";
+    return (int)($_SESSION['felhasznalo_id']
+        ?? $_SESSION['FelhasznaloID']
+        ?? ($_SESSION['user']['FelhasznaloID'] ?? 0)
+    );
 }
 
-function formatMennyiseg($mennyiseg)
+// ===== 2) VIEW ADATOK ALAPÉRTELMEZÉSE =====
+function alapViewData(): array
 {
-    if (floor($mennyiseg) == $mennyiseg) return (int)$mennyiseg;
-    return rtrim(rtrim(number_format($mennyiseg, 2, '.', ''), '0'), '.');
+    return [
+        'receptId' => 0,
+        'felhasznaloId' => 0,
+        'aktualisPontok' => null,
+        'receptekSzintekSzerint' => [],
+        'kategoriaCheckboxok' => [],
+        'recept' => null,
+        'hozzavalok' => [],
+        'marElkeszitette' => false,
+        'progress' => null,
+        'aktualisSzint' => 1,
+        'teljesitettSet' => [],
+    ];
 }
 
-/* =========================
-   KÉP ÚTVONAL ÖSSZERAKÁS
-========================= */
-define('APP_BASE_URL', '/CookQuest');
-define('RECIPE_IMG_URL', APP_BASE_URL . '/assets/kepek/etelek/');
-define('RECIPE_IMG_PLACEHOLDER', 'placeholder.webp');
-define('RECIPE_IMG_DIR', rtrim($_SERVER['DOCUMENT_ROOT'], '/\\') . RECIPE_IMG_URL);
-
-function receptKepSrc(?string $dbKep): string
+// ===== 3) SZINTEZÉS BETÖLTÉSE (PROGRESS + AKTUÁLIS SZINT + TELJESÍTETT RECEPTEK) =====
+function betoltSzintezes(PDO $pdo, int $felhasznaloId): array
 {
-    $dbKep = trim((string)$dbKep);
-
-    if ($dbKep === '') {
-        return RECIPE_IMG_URL . RECIPE_IMG_PLACEHOLDER;
-    }
-
-    // DB-ben néha útvonal + \n -> levágjuk
-    $file = trim(basename($dbKep));
-
-    if (!preg_match('/^[a-zA-Z0-9._-]+\.(webp|png|jpg|jpeg)$/i', $file)) {
-        return RECIPE_IMG_URL . RECIPE_IMG_PLACEHOLDER;
-    }
-
-    if (!is_file(RECIPE_IMG_DIR . $file)) {
-        return RECIPE_IMG_URL . RECIPE_IMG_PLACEHOLDER;
-    }
-
-    return RECIPE_IMG_URL . rawurlencode($file);
-}
-
-/* =========================
-   URL PARAMÉTER
-========================= */
-$receptId = isset($_GET['id']) ? (int)$_GET['id'] : null;
-
-/* =========================
-   CSRF TOKEN
-========================= */
-if (empty($_SESSION['csrf_token'])) {
-    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-}
-
-/* =========================
-   BEJELENTKEZETT USER ID
-   (NÁLAD EZ A KULCS!)
-========================= */
-$felhasznaloId = (int)($_SESSION['felhasznalo_id'] ?? 0);
-
-/* =========================
-   "ELKÉSZÍTETTEM" POST KEZELÉS
-   - PRG + status=... (1 féle hibakezelés)
-========================= */
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'elkeszitettem') {
-
-    $postReceptId = (int)($_POST['recept_id'] ?? 0);
-
     if ($felhasznaloId <= 0) {
-        header("Location: receptek.php?id={$postReceptId}&status=login");
-        exit;
+        return [null, 1, []];
     }
 
-    if (!hash_equals($_SESSION['csrf_token'], (string)($_POST['csrf_token'] ?? ''))) {
-        header("Location: receptek.php?id={$postReceptId}&status=csrf");
-        exit;
-    }
+    $szintezes = new SzintezesService($pdo);
+    $progress = $szintezes->getProgress($felhasznaloId);
+    $aktualisSzint = (int)($progress['aktualisSzint'] ?? 1);
+    $teljesitettSet = $szintezes->getTeljesitettReceptIdSet($felhasznaloId);
 
-    if ($postReceptId <= 0) {
-        header("Location: receptek.php?status=badreq");
-        exit;
+    return [$progress, $aktualisSzint, $teljesitettSet];
+}
+
+// ===== 4) PONTSZÁM FALLBACK (HA A CONTROLLER NEM AD VISSZA PONTOT) =====
+function pontFallback(PDO $pdo, int $felhasznaloId): ?int
+{
+    if ($felhasznaloId <= 0) {
+        return null;
     }
 
     try {
-        $pdo->beginTransaction();
+        $st = $pdo->prepare("SELECT MegszerzettPontok FROM felhasznalo WHERE FelhasznaloID = :uid");
+        $st->execute([':uid' => $felhasznaloId]);
+        $pont = $st->fetchColumn();
+        return $pont !== false ? (int)$pont : null;
+    } catch (Throwable $e) {
+        return null;
+    }
+}
 
-        // recept pont
-        $st = $pdo->prepare("SELECT BegyujthetoPontok FROM recept WHERE ReceptID = ? LIMIT 1");
-        $st->execute([$postReceptId]);
-        $pont = (int)$st->fetchColumn();
+// ===== 5) DETAIL OLDALI STÁTUSZÜZENET NORMALIZÁLÁSA =====
+function detailStatusUzenet(?string $status, int $need = 0): ?array
+{
+    if ($status === null || $status === '') {
+        return null;
+    }
 
-        if ($pont <= 0) {
-            $pdo->rollBack();
-            header("Location: receptek.php?id={$postReceptId}&status=nopoint");
-            exit;
-        }
+    $map = [
+        'ok' => ['bg-green-100 text-green-800', '✅ Pont jóváírva!'],
+        'already' => ['bg-yellow-100 text-yellow-800', '⚠️ Ezt már jóváírtuk.'],
+        'login' => ['bg-red-100 text-red-800', '❌ Jelentkezz be a pontokért.'],
+        'csrf' => ['bg-red-100 text-red-800', '❌ CSRF hiba.'],
+    ];
 
-        // már elkészítette?
-        $st = $pdo->prepare("
-            SELECT COALESCE(Elkeszitette,0) AS Elkeszitette
-            FROM felhasznalo_recept
-            WHERE FelhasznaloID = ? AND ReceptID = ?
-            LIMIT 1
-        ");
-        $st->execute([$felhasznaloId, $postReceptId]);
-        $row = $st->fetch();
+    if ($status === 'locked') {
+        return ['bg-red-100 text-red-800', '🔒 Zárolt recept. Előbb érd el a(z) ' . $need . '. szintet.'];
+    }
 
-        if ($row && (int)$row['Elkeszitette'] === 1) {
-            $pdo->commit();
-            header("Location: receptek.php?id={$postReceptId}&status=already");
-            exit;
-        }
+    if (isset($map[$status])) {
+        return $map[$status];
+    }
 
-        // insert vagy update
-        if (!$row) {
-            $st = $pdo->prepare("
-                INSERT INTO felhasznalo_recept (FelhasznaloID, ReceptID, Elkeszitette, KedvencReceptek)
-                VALUES (?, ?, 1, 0)
-            ");
-            $st->execute([$felhasznaloId, $postReceptId]);
-        } else {
-            $st = $pdo->prepare("
-                UPDATE felhasznalo_recept
-                SET Elkeszitette = 1
-                WHERE FelhasznaloID = ? AND ReceptID = ?
-            ");
-            $st->execute([$felhasznaloId, $postReceptId]);
-        }
+    return ['bg-red-100 text-red-800', '❌ Hiba: ' . htmlspecialchars($status)];
+}
 
-        // pont jóváírás
-        $st = $pdo->prepare("
-            UPDATE felhasznalo
-            SET MegszerzettPontok = COALESCE(MegszerzettPontok,0) + ?
-            WHERE FelhasznaloID = ?
-        ");
-        $st->execute([$pont, $felhasznaloId]);
+// ===== 6) CONTROLLER FUTTATÁS + VIEWDATA ELŐKÉSZÍTÉS =====
+$sessionFelhasznaloId = sessionFelhasznaloId();
 
-        $pdo->commit();
+$vezerlo = new ReceptekVezerlo($pdo);
+$viewData = $vezerlo->kezeles();
+if (!is_array($viewData)) {
+    $viewData = [];
+}
 
-        header("Location: receptek.php?id={$postReceptId}&status=ok");
+$viewData = $viewData + alapViewData();
+$viewData['felhasznaloId'] = $sessionFelhasznaloId;
+
+[$progress, $aktualisSzint, $teljesitettSet] = betoltSzintezes($pdo, $sessionFelhasznaloId);
+
+// Pont fallback csak akkor, ha még nincs érték.
+if ($viewData['aktualisPontok'] === null) {
+    $viewData['aktualisPontok'] = pontFallback($pdo, $sessionFelhasznaloId);
+}
+
+// Detail nézetnél az "elkészítettem" állapotot biztosan beállítjuk.
+if (is_array($viewData['recept']) && (int)$viewData['receptId'] > 0 && $sessionFelhasznaloId > 0) {
+    $viewData['marElkeszitette'] = isset($teljesitettSet[(int)$viewData['receptId']]);
+}
+
+// Védelmi fallback: zárolt szintű receptet közvetlen URL-lel se lehessen megnyitni.
+if (is_array($viewData['recept'])) {
+    $receptSzint = (int)($viewData['recept']['NehezsegiSzintID'] ?? $viewData['recept']['Szint'] ?? 1);
+    if ($receptSzint > $aktualisSzint) {
+        header('Location: receptek.php?status=locked&need=' . $receptSzint);
         exit;
-
-    } catch (PDOException $e) {
-        if ($pdo->inTransaction()) $pdo->rollBack();
-        header("Location: receptek.php?id={$postReceptId}&status=dberr");
-        exit;
     }
 }
 
-/* =========================
-   AKTUÁLIS PONTOK (felső kijelzéshez)
-========================= */
-$aktualisPontok = null;
-if ($felhasznaloId > 0) {
-    $st = $pdo->prepare("SELECT MegszerzettPontok FROM felhasznalo WHERE FelhasznaloID = ?");
-    $st->execute([$felhasznaloId]);
-    $aktualisPontok = (int)$st->fetchColumn();
-}
+$viewData['progress'] = $progress;
+$viewData['aktualisSzint'] = $aktualisSzint;
+$viewData['teljesitettSet'] = $teljesitettSet;
 
-/* =========================
-   ÖSSZES RECEPT LEKÉRDEZÉS (lista)
-========================= */
-$receptek = $pdo->query("
-    SELECT 
-        r.ReceptID, r.Nev, r.Kep, r.ElkeszitesiIdo, r.BegyujthetoPontok, 
-        r.Elkeszitesi_leiras, n.Szint, 
-        kat.Kategoria AS FoKategoriaNev, 
-        alk.Alkategoria AS AlkategoriaNev, 
-        a.Arkategoria AS ArkategoriaNev 
-    FROM recept r 
-    INNER JOIN nehezsegiszint n ON r.NehezsegiSzintID = n.NehezsegiSzintID 
-    LEFT JOIN alkategoria alk ON r.AlkategoriaID = alk.AlkategoriaID 
-    LEFT JOIN kategoria kat ON alk.KategoriaID = kat.KategoriaID 
-    LEFT JOIN arkategoria a ON r.ArkategoriaID = a.ArkategoriaID 
-    ORDER BY n.Szint, r.Nev
-")->fetchAll();
+// Detail oldali státuszüzenet előkészítése (pl. ok, already, locked, csrf).
+$detailStatus = detailStatusUzenet($_GET['status'] ?? null, (int)($_GET['need'] ?? 0));
 
-/* =========================
-   CSOPORTOSÍTÁS SZINTEK SZERINT
-========================= */
-$receptekSzintekSzerint = [];
-foreach ($receptek as $r) {
-    $szint = $r['Szint'];
-    if (!isset($receptekSzintekSzerint[$szint])) $receptekSzintekSzerint[$szint] = [];
-    $receptekSzintekSzerint[$szint][] = $r;
-}
-
-/* =========================
-   KATEGÓRIÁK A SZŰRŐHÖZ
-========================= */
-$kategoriaCheckboxok = [];
-foreach ($receptek as $r) {
-    $foKat = $r['FoKategoriaNev'] ?? 'Nem kategorizált';
-    $alKat = $r['AlkategoriaNev'] ?? 'Egyéb';
-    if (!isset($kategoriaCheckboxok[$foKat])) $kategoriaCheckboxok[$foKat] = [];
-    if (!in_array($alKat, $kategoriaCheckboxok[$foKat], true)) {
-        $kategoriaCheckboxok[$foKat][] = $alKat;
+// ===== SZINTLÉPÉS DETEKTÁLÁS =====
+$szintLepett = false;
+if ($sessionFelhasznaloId > 0 && isset($_GET['status']) && $_GET['status'] === 'ok') {
+    $regisztraltSzint = (int)($_SESSION['elozo_szint'] ?? 1);
+    if ($aktualisSzint > $regisztraltSzint) {
+        $szintLepett = true;
     }
 }
-
-/* =========================
-   KONKRÉT RECEPT + HOZZÁVALÓK
-========================= */
-$recept = null;
-$hozzavalok = [];
-$marElkeszitette = false;
-
-if ($receptId) {
-    $st = $pdo->prepare("
-        SELECT 
-            r.*, n.Szint, a.Arkategoria AS ArkategoriaNev, 
-            kat.Kategoria AS FoKategoriaNev, alk.Alkategoria AS AlkategoriaNev 
-        FROM recept r 
-        JOIN nehezsegiszint n ON r.NehezsegiSzintID = n.NehezsegiSzintID 
-        LEFT JOIN arkategoria a ON r.ArkategoriaID = a.ArkategoriaID 
-        LEFT JOIN alkategoria alk ON r.AlkategoriaID = alk.AlkategoriaID 
-        LEFT JOIN kategoria kat ON alk.KategoriaID = kat.KategoriaID 
-        WHERE r.ReceptID = ?
-    ");
-    $st->execute([$receptId]);
-    $recept = $st->fetch();
-
-    $st = $pdo->prepare("
-        SELECT 
-            h.Elnevezes, rh.Mennyiseg, m.Elnevezes AS Mertekegyseg 
-        FROM recept_hozzavalo rh 
-        JOIN hozzavalo h ON rh.HozzavaloID = h.HozzavaloID 
-        JOIN mertekegyseg m ON rh.MertekegysegID = m.MertekegysegID 
-        WHERE rh.ReceptID = ?
-    ");
-    $st->execute([$receptId]);
-    $hozzavalok = $st->fetchAll();
-
-    if ($felhasznaloId > 0) {
-        $st = $pdo->prepare("
-            SELECT COALESCE(Elkeszitette,0)
-            FROM felhasznalo_recept
-            WHERE FelhasznaloID = ? AND ReceptID = ?
-            LIMIT 1
-        ");
-        $st->execute([$felhasznaloId, $receptId]);
-        $marElkeszitette = ((int)$st->fetchColumn() === 1);
-    }
+// Mindig frissítjük a session-ben tárolt szintet
+if ($sessionFelhasznaloId > 0) {
+    $_SESSION['elozo_szint'] = $aktualisSzint;
 }
 
-/* =========================
-   KÖZÖS FEJLÉC / LAYOUT
-   (Csak most, hogy a POST redirectek biztosan működjenek)
-========================= */
-include "../head.php";
+// extract
+extract($viewData, EXTR_OVERWRITE);
+
+// head
+include __DIR__ . '/../head.php';
 ?>
 
+<!-- ===== 7) FŐ TARTALOM ===== -->
+<!-- Recept oldali fő konténer -->
 <main class="min-h-screen bg-gradient-to-br from-[#9FB1A3] to-[#7F8F83]">
     <div class="max-w-7xl mx-auto py-6 px-4">
 
+        <!-- Felső figyelmeztetés, ha zárolt receptre érkezett a felhasználó -->
+        <?php if (isset($_GET['status']) && $_GET['status'] === 'locked'): ?>
+            <div class="mb-4 bg-red-100 text-red-800 px-4 py-3 rounded-xl font-medium">
+                🔒 Zárolt recept. Előbb érd el a(z) <?= (int)($_GET['need'] ?? 0) ?>. szintet.
+                <?php if ($sessionFelhasznaloId <= 0): ?>
+                    <span class="block mt-1">Jelentkezz be, hogy haladni tudj a szintekkel.</span>
+                <?php endif; ?>
+            </div>
+        <?php endif; ?>
+
         <?php if ($aktualisPontok !== null): ?>
+            <!-- Felső pont-kijelzés bejelentkezett felhasználónak -->
             <div class="mb-4 flex justify-end">
                 <div class="inline-flex items-center gap-2 bg-white/80 backdrop-blur px-4 py-2 rounded-xl shadow">
                     <span class="font-semibold text-gray-700">Pontjaid:</span>
@@ -296,6 +184,8 @@ include "../head.php";
         </button>
 
         <?php if (!$recept): ?>
+            <!-- ===== 8) LISTA NÉZET FEJLÉC (SZŰRŐ + HŰTŐ LINK) ===== -->
+            <!-- Lista nézet: szűrő gomb + hűtő oldal link -->
             <div class="mb-8">
                 <div class="flex flex-col sm:flex-row gap-4 mb-4">
                     <button id="szuroGomb" type="button" class="bg-white px-6 py-3 rounded-xl shadow-lg flex items-center gap-2 font-semibold text-[#4A7043] hover:bg-gray-50 transition w-full sm:w-auto">
@@ -311,6 +201,7 @@ include "../head.php";
                     </a>
                 </div>
 
+                <!-- Szűrőpanel (kategória / alkategória checkboxok) -->
                 <div id="szuroPanel" class="hidden mt-4 bg-white rounded-2xl shadow-2xl p-6">
                     <div class="flex justify-between items-center mb-6">
                         <h4 class="font-bold text-gray-800 flex items-center gap-2">Szűrő</h4>
@@ -329,8 +220,8 @@ include "../head.php";
                                     <?php foreach ($alkategoriak as $alKat): ?>
                                         <label class="inline-block cursor-pointer">
                                             <input type="checkbox" class="kategoriaCheckbox peer sr-only"
-                                                data-fokategoria="<?= htmlspecialchars($foKat) ?>"
-                                                data-alkategoria="<?= htmlspecialchars($alKat) ?>">
+                                                   data-fokategoria="<?= htmlspecialchars($foKat) ?>"
+                                                   data-alkategoria="<?= htmlspecialchars($alKat) ?>">
                                             <span class="inline-block px-4 py-2 rounded-xl bg-gray-100 text-gray-600 text-sm font-medium transition peer-checked:bg-[#6F837B] peer-checked:text-white">
                                                 <?= htmlspecialchars($alKat) ?>
                                             </span>
@@ -347,7 +238,9 @@ include "../head.php";
 
         <div class="flex flex-col lg:flex-row lg:gap-8">
 
-            <aside id="sidebar" class="fixed inset-y-0 left-0 z-40 w-80 bg-white shadow-2xl transform -translate-x-full lg:translate-x-0 lg:sticky lg:top-6 lg:h-[calc(100vh-1.5rem)] lg:w-[280px] lg:overflow-y-auto transition-transform duration-300 rounded-r-2xl lg:rounded-2xl">
+            <!-- ===== 9) BAL OLDALI SIDEBAR: RECEPTEK SZINTENKÉNT ===== -->
+            <!-- Bal oldali sidebar: receptek szintenként -->
+            <aside id="sidebar" class="fixed inset-y-0 left-0 z-40 w-80 bg-white shadow-2xl transform -translate-x-full lg:translate-x-0 lg:sticky lg:top-6 lg:self-start lg:max-h-[calc(100vh-3rem)] lg:overflow-y-auto lg:w-[280px] transition-transform duration-300 rounded-r-2xl lg:rounded-2xl">
                 <div class="p-5">
                     <div class="flex items-center justify-between mb-5">
                         <h2 class="text-xl font-bold text-[#3F3D56]">Receptkönyv</h2>
@@ -359,10 +252,13 @@ include "../head.php";
                     </div>
 
                     <?php foreach ($receptekSzintekSzerint as $szint => $lista): ?>
+                        <?php $szintLocked = ((int)$szint > (int)$aktualisSzint); ?>
                         <div class="mb-4">
-                            <button type="button" class="w-full text-left flex items-center justify-between py-2 px-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition szint-sav-cim">
+                            <button type="button"
+                                    class="w-full text-left flex items-center justify-between py-2 px-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition szint-sav-cim <?= $szintLocked ? 'opacity-60' : '' ?>">
                                 <span class="font-semibold text-[#4A7043]">
-                                    <?= (int)$szint ?>. szint (<span class="szint-darab" data-szint="<?= (int)$szint ?>"><?= count($lista) ?></span>)
+                                    <?= (int)$szint ?>. szint <?= $szintLocked ? '🔒' : '' ?>
+                                    (<span class="szint-darab" data-szint="<?= (int)$szint ?>"><?= count($lista) ?></span>)
                                 </span>
                                 <svg class="w-5 h-5 transition-transform sav-nyil" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
@@ -371,12 +267,22 @@ include "../head.php";
 
                             <ul class="szint-sav-tartalom hidden mt-2 space-y-1 pl-4">
                                 <?php foreach ($lista as $r): ?>
+                                    <?php $rSzint = (int)($r['Szint'] ?? $r['NehezsegiSzintID'] ?? $szint); ?>
+                                    <?php $rLocked = ($rSzint > (int)$aktualisSzint); ?>
+
                                     <li class="sidebar-recept-item" data-recept-id="<?= (int)$r['ReceptID'] ?>">
-                                        <a href="receptek.php?id=<?= (int)$r['ReceptID'] ?>"
-                                            class="block px-3 py-1.5 rounded-lg text-sm transition <?= ($receptId == (int)$r['ReceptID']) ? 'bg-[#6F837B] text-white' : 'hover:bg-[#95A792]/20 text-gray-700' ?>">
-                                            <div class="font-medium"><?= htmlspecialchars($r['Nev']) ?></div>
-                                            <div class="text-xs opacity-80"><?= formatIdo($r['ElkeszitesiIdo']) ?></div>
-                                        </a>
+                                        <!-- Sidebar elem: nyitott szintnél kattintható, zárt szintnél tiltott -->
+                                        <?php if (!$rLocked): ?>
+                                            <a href="receptek.php?id=<?= (int)$r['ReceptID'] ?>"
+                                               class="block px-3 py-1.5 rounded-lg text-sm transition <?= ($receptId == (int)$r['ReceptID']) ? 'bg-[#6F837B] text-white' : 'hover:bg-[#95A792]/20 text-gray-700' ?>">
+                                        <?php else: ?>
+                                            <a href="javascript:void(0)"
+                                               onclick="alert('Zárolt recept: Szint <?= $rSzint ?> szükséges.')"
+                                               class="block px-3 py-1.5 rounded-lg text-sm transition text-gray-400 cursor-not-allowed">
+                                        <?php endif; ?>
+                                                <div class="font-medium"><?= htmlspecialchars($r['Nev']) ?></div>
+                                                <div class="text-xs opacity-80"><?= formatIdo((string)$r['ElkeszitesiIdo']) ?></div>
+                                            </a>
                                     </li>
                                 <?php endforeach; ?>
                             </ul>
@@ -385,17 +291,51 @@ include "../head.php";
                 </div>
             </aside>
 
+            <!-- Fő tartalom: lista nézet vagy részletes recept nézet -->
             <section id="receptekTarolo" class="flex-1">
 
                 <?php if (!$recept): ?>
+                    <!-- ===== 10) LISTA NÉZET TARTALOM ===== -->
+                    <!-- Receptlista nézet -->
 
-                    <h1 class="text-4xl font-bold text-white mb-8">Receptek</h1>
+                    <h1 class="text-4xl font-bold text-white mb-4">Receptek</h1>
+
+                    <?php if ($progress): ?>
+                        <!-- Progress blokk: aktuális szint és szintteljesítés előrehaladás -->
+                        <div class="mb-8 bg-white/80 backdrop-blur px-5 py-4 rounded-2xl shadow-xl">
+                            <div class="flex items-center justify-between gap-3">
+                                <div class="font-bold text-[#4A7043]">Jelenlegi szint: <?= (int)$progress['aktualisSzint'] ?></div>
+                                <div class="text-sm text-gray-700 font-semibold">
+                                    <?= (int)$progress['pont'] ?> / <?= (int)$progress['kuszobPont'] ?> pont
+                                </div>
+                            </div>
+
+                            <?php
+                            $pct = 0;
+                            if ((int)$progress['kuszobPont'] > 0) {
+                                $pct = min(100, (int)round(((int)$progress['pont'] / (int)$progress['kuszobPont']) * 100));
+                            }
+                            ?>
+                            <div class="mt-3 h-2 bg-gray-200 rounded-full">
+                                <div class="h-2 rounded-full bg-emerald-500" style="width: <?= $pct ?>%"></div>
+                            </div>
+
+                            <div class="mt-3 text-sm text-gray-700">
+                                <?php if ((int)$progress['hatravanPont'] > 0): ?>
+                                    Még <b><?= (int)$progress['hatravanPont'] ?></b> pont a szint teljesítéséhez.
+                                <?php else: ?>
+                                    Szint teljesítve — a következő szint feloldva.
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    <?php endif; ?>
 
                     <div id="nincsEredmeny" class="hidden bg-white rounded-2xl shadow-xl p-12 text-center">
                         <div class="text-6xl mb-4">🔍</div>
                         <h3 class="text-xl font-semibold text-gray-700">Nincs ilyen recept...</h3>
                     </div>
 
+                    <!-- Receptkártyák szint szerinti csoportosításban -->
                     <?php foreach ($receptekSzintekSzerint as $szint => $lista): ?>
                         <div class="mb-16 szint-blokk" data-szint="<?= (int)$szint ?>">
                             <h2 class="text-3xl font-bold text-white mb-6 border-b border-white/40 pb-3">
@@ -404,25 +344,54 @@ include "../head.php";
 
                             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                                 <?php foreach ($lista as $r): ?>
-                                    <a href="receptek.php?id=<?= (int)$r['ReceptID'] ?>"
-                                        class="recept-kartya bg-white rounded-2xl shadow-xl overflow-hidden hover:-translate-y-1 transition block"
-                                        data-recept-id="<?= (int)$r['ReceptID'] ?>"
-                                        data-nev="<?= mb_strtolower(htmlspecialchars($r['Nev'])) ?>"
-                                        data-fokategoria="<?= htmlspecialchars($r['FoKategoriaNev'] ?? 'Nem kategorizált') ?>"
-                                        data-alkategoria="<?= htmlspecialchars($r['AlkategoriaNev'] ?? 'Egyéb') ?>">
+                                    <?php
+                                    // Kártya-szintű előkészítés: név kereséshez, lock állapot, elkészítettem állapot.
+                                    $nevLower = mb_strtolower((string)$r['Nev']);
+                                    $rSzint = (int)($r['Szint'] ?? $r['NehezsegiSzintID'] ?? $szint);
+                                    $locked = ($rSzint > (int)$aktualisSzint);
+                                    $completed = isset($teljesitettSet[(int)$r['ReceptID']]);
+                                    ?>
 
-                                        <img src="<?= htmlspecialchars(receptKepSrc($r['Kep'])) ?>" class="w-full h-48 object-cover" alt="">
+                                    <?php if (!$locked): ?>
+                                        <a href="receptek.php?id=<?= (int)$r['ReceptID'] ?>"
+                                           class="recept-kartya bg-white rounded-2xl shadow-xl overflow-hidden hover:-translate-y-1 transition block relative"
+                                    <?php else: ?>
+                                        <a href="javascript:void(0)"
+                                           onclick="alert('Zárolt recept: Szint <?= $rSzint ?> szükséges.')"
+                                           class="recept-kartya bg-white rounded-2xl shadow-xl overflow-hidden transition block relative cursor-not-allowed opacity-60"
+                                    <?php endif; ?>
+                                           data-recept-id="<?= (int)$r['ReceptID'] ?>"
+                                           data-nev="<?= htmlspecialchars($nevLower) ?>"
+                                           data-fokategoria="<?= htmlspecialchars($r['FoKategoriaNev'] ?? 'Nem kategorizált') ?>"
+                                           data-alkategoria="<?= htmlspecialchars($r['AlkategoriaNev'] ?? 'Egyéb') ?>">
+
+                                        <div class="relative">
+                                            <img src="<?= htmlspecialchars(receptKepSrc($r['Kep'] ?? '')) ?>" class="w-full h-48 object-cover" alt="">
+                                            <?php if ($locked): ?>
+                                                <div class="absolute inset-0 flex items-center justify-center">
+                                                    <div class="bg-black/60 text-white px-3 py-2 rounded-lg text-sm font-semibold">
+                                                        🔒 Szint <?= $rSzint ?> szükséges
+                                                    </div>
+                                                </div>
+                                            <?php endif; ?>
+                                        </div>
 
                                         <div class="p-5">
                                             <div class="flex justify-between text-xs text-gray-500 mb-2 font-semibold">
                                                 <span class="text-[#6F837B] uppercase"><?= htmlspecialchars($r['AlkategoriaNev'] ?? 'Egyéb') ?></span>
                                                 <span>⭐ <?= (int)$r['BegyujthetoPontok'] ?> pont</span>
                                             </div>
+
                                             <h2 class="text-lg font-bold mb-2 text-gray-800"><?= htmlspecialchars($r['Nev']) ?></h2>
+
                                             <div class="flex justify-between text-sm text-gray-600">
-                                                <span>⏱ <?= formatIdo($r['ElkeszitesiIdo']) ?></span>
+                                                <span>⏱ <?= formatIdo((string)$r['ElkeszitesiIdo']) ?></span>
                                                 <span>💰 <?= htmlspecialchars($r['ArkategoriaNev'] ?? 'Nincs') ?></span>
                                             </div>
+
+                                            <?php if ($completed): ?>
+                                                <div class="mt-3 text-sm font-bold text-emerald-700">✓ Elkészítve</div>
+                                            <?php endif; ?>
                                         </div>
                                     </a>
                                 <?php endforeach; ?>
@@ -431,34 +400,30 @@ include "../head.php";
                     <?php endforeach; ?>
 
                 <?php else: ?>
+                    <!-- ===== 11) RÉSZLETES RECEPT NÉZET ===== -->
+
+                    <!-- Részletes recept nézet -->
 
                     <a href="receptek.php" class="inline-flex items-center gap-2 mb-6 px-4 py-2 bg-white rounded-lg shadow hover:bg-gray-100 transition font-medium text-[#4A7043]">
                         ← Vissza a receptekhez
                     </a>
 
-                    <?php if (isset($_GET['status'])): ?>
-                        <?php if ($_GET['status'] === 'ok'): ?>
-                            <div class="mb-4 bg-green-100 text-green-800 px-4 py-3 rounded-xl font-medium">✅ Pont jóváírva!</div>
-                        <?php elseif ($_GET['status'] === 'already'): ?>
-                            <div class="mb-4 bg-yellow-100 text-yellow-800 px-4 py-3 rounded-xl font-medium">⚠️ Ezt már jóváírtuk.</div>
-                        <?php elseif ($_GET['status'] === 'login'): ?>
-                            <div class="mb-4 bg-red-100 text-red-800 px-4 py-3 rounded-xl font-medium">❌ Jelentkezz be a pontokért.</div>
-                        <?php else: ?>
-                            <div class="mb-4 bg-red-100 text-red-800 px-4 py-3 rounded-xl font-medium">❌ Hiba: <?= htmlspecialchars($_GET['status']) ?></div>
-                        <?php endif; ?>
+                    <?php if (is_array($detailStatus)): ?>
+                        <!-- Visszajelző üzenet a recepthez kapcsolódó utolsó műveletről -->
+                        <div class="mb-4 <?= $detailStatus[0] ?> px-4 py-3 rounded-xl font-medium"><?= $detailStatus[1] ?></div>
                     <?php endif; ?>
 
+                    <!-- Recept fejléc (kép, cím, meta adatok) -->
                     <div class="bg-white rounded-3xl shadow-2xl overflow-hidden">
                         <div class="relative h-80">
-
                             <img src="<?= htmlspecialchars(receptKepSrc($recept['Kep'] ?? '')) ?>" class="absolute inset-0 w-full h-full object-cover" alt="">
                             <div class="absolute inset-0 bg-black/40"></div>
 
                             <div class="absolute bottom-6 left-8 text-white">
-                                <h1 class="text-4xl font-bold mb-3"><?= htmlspecialchars($recept['Nev']) ?></h1>
+                                <h1 class="text-4xl font-bold mb-3"><?= htmlspecialchars($recept['Nev'] ?? '') ?></h1>
                                 <div class="flex flex-wrap gap-3 text-sm">
-                                    <span class="px-3 py-1 bg-white/20 backdrop-blur-md rounded-full">⏱ <?= formatIdo($recept['ElkeszitesiIdo']) ?></span>
-                                    <span class="px-3 py-1 bg-white/20 backdrop-blur-md rounded-full">⭐ <?= (int)$recept['BegyujthetoPontok'] ?> pont</span>
+                                    <span class="px-3 py-1 bg-white/20 backdrop-blur-md rounded-full">⏱ <?= formatIdo((string)($recept['ElkeszitesiIdo'] ?? '')) ?></span>
+                                    <span class="px-3 py-1 bg-white/20 backdrop-blur-md rounded-full">⭐ <?= (int)($recept['BegyujthetoPontok'] ?? 0) ?> pont</span>
                                     <span class="px-3 py-1 bg-white/20 backdrop-blur-md rounded-full">🏷 <?= htmlspecialchars($recept['AlkategoriaNev'] ?? '') ?></span>
                                 </div>
                             </div>
@@ -466,27 +431,45 @@ include "../head.php";
 
                         <div class="p-8 grid grid-cols-1 lg:grid-cols-[350px_1fr] gap-8">
 
+                            <!-- Hozzávalók blokk -->
                             <div class="bg-[#F3F4F1] rounded-2xl p-6 h-fit">
+                                <!-- Hozzávalók lista: kezeli az "ízlés szerint" mértékegységet is -->
                                 <h2 class="text-xl font-bold mb-4 text-[#4A7043] flex items-center gap-2">Hozzávalók</h2>
                                 <ul class="space-y-3 text-sm">
                                     <?php foreach ($hozzavalok as $h): ?>
+                                        <?php
+                                        $mertekegyseg = trim((string)($h['Mertekegyseg'] ?? ''));
+                                        $mertekegysegLower = function_exists('mb_strtolower')
+                                            ? mb_strtolower($mertekegyseg, 'UTF-8')
+                                            : strtolower($mertekegyseg);
+                                        $izlesSzerint = in_array($mertekegysegLower, ['ízlés szerint', 'izles szerint'], true);
+                                        ?>
                                         <li class="flex gap-2 items-start">
-                                            <span class="font-bold text-[#6F837B] min-w-[30px]"><?= formatMennyiseg($h['Mennyiseg']) ?> <?= htmlspecialchars($h['Mertekegyseg']) ?></span>
-                                            <span class="text-gray-700"><?= htmlspecialchars($h['Elnevezes']) ?></span>
+                                            <?php if ($izlesSzerint): ?>
+                                                <span class="font-bold text-[#6F837B] min-w-[30px]">ízlés szerint</span>
+                                                <span class="text-gray-700"><?= htmlspecialchars($h['Elnevezes'] ?? '') ?></span>
+                                            <?php else: ?>
+                                                <span class="font-bold text-[#6F837B] min-w-[30px]">
+                                                    <?= formatMennyiseg($h['Mennyiseg'] ?? 0) ?> <?= htmlspecialchars($mertekegyseg) ?>
+                                                </span>
+                                                <span class="text-gray-700"><?= htmlspecialchars($h['Elnevezes'] ?? '') ?></span>
+                                            <?php endif; ?>
                                         </li>
                                     <?php endforeach; ?>
                                 </ul>
                             </div>
 
                             <div>
+
+                                <!-- Elkészítési lépések + pontjóváírás gomb -->
                                 <h2 class="text-xl font-bold mb-6 flex items-center gap-2">Elkészítés menete</h2>
                                 <ol class="space-y-6 text-gray-700">
                                     <?php
-                                    $lepesek = explode("\n", $recept['Elkeszitesi_leiras'] ?? '');
+                                    $lepesek = explode("\n", (string)($recept['Elkeszitesi_leiras'] ?? ''));
                                     $i = 1;
                                     foreach ($lepesek as $lepes):
                                         if (trim($lepes) === '') continue;
-                                    ?>
+                                        ?>
                                         <li class="flex gap-4 group">
                                             <span class="w-8 h-8 flex items-center justify-center shrink-0 rounded-full bg-[#6F837B] text-white text-sm font-bold">
                                                 <?= $i++ ?>
@@ -497,8 +480,9 @@ include "../head.php";
                                 </ol>
 
                                 <div class="mt-12 flex justify-end">
-                                    <?php if ($felhasznaloId <= 0): ?>
-                                        <a href="/CookQuest/views/felhasznalo/login.php"
+                                    <!-- Gomblogika: nincs login / már jóváírva / jóváírás beküldése -->
+                                    <?php if ($sessionFelhasznaloId <= 0): ?>
+                                        <a href="../../views/autentikacio/autentikacio.php"
                                            class="bg-[#4A7043] text-white px-8 py-3 rounded-xl font-bold shadow-lg hover:bg-[#3d5c37] transition-all">
                                             Jelentkezz be a pontokért
                                         </a>
@@ -514,7 +498,7 @@ include "../head.php";
                                             <form method="post" action="receptek.php?id=<?= (int)$receptId ?>">
                                                 <input type="hidden" name="action" value="elkeszitettem">
                                                 <input type="hidden" name="recept_id" value="<?= (int)$receptId ?>">
-                                                <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>">
+                                                <input type="hidden" name="csrf_token" value="<?= htmlspecialchars((string)($_SESSION['csrf_token'] ?? '')) ?>">
 
                                                 <button type="submit"
                                                         class="bg-[#4A7043] text-white px-8 py-3 rounded-xl font-bold shadow-lg hover:bg-[#3d5c37] transition-all transform hover:scale-105">
@@ -536,6 +520,138 @@ include "../head.php";
     </div>
 </main>
 
-<script src="../../assets/js/receptek.js"></script>
+<!-- ===== 12) KONFETTI SZINTLÉPÉS ANIMÁCIÓ ===== -->
+<?php if ($szintLepett): ?>
+<script>
+(function () {
+    // Canvas létrehozása a konfetti részecskékhez
+    const canvas = document.createElement('canvas');
+    canvas.id = 'konfettiCanvas';
+    Object.assign(canvas.style, {
+        position: 'fixed', top: 0, left: 0,
+        width: '100%', height: '100%',
+        pointerEvents: 'none', zIndex: 9999
+    });
+    document.body.appendChild(canvas);
 
-<?php include "../footer.php"; ?>
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    // Szintlépés értesítő banner
+    const banner = document.createElement('div');
+    banner.innerHTML = `
+        <div style="font-size:2.2rem;font-weight:900;letter-spacing:-1px;">🎉 Szint elérve!</div>
+        <div style="font-size:1.1rem;margin-top:6px;opacity:.85;"><?= (int)$aktualisSzint ?>. szint feloldva — gratulálunk!</div>
+    `;
+    Object.assign(banner.style, {
+        position: 'fixed', top: '50%', left: '50%',
+        transform: 'translate(-50%,-50%) scale(0)',
+        background: 'linear-gradient(135deg,#4A7043,#6F837B)',
+        color: '#fff', padding: '32px 48px', borderRadius: '24px',
+        boxShadow: '0 24px 80px rgba(0,0,0,.35)',
+        zIndex: 10000, textAlign: 'center',
+        transition: 'transform .45s cubic-bezier(.175,.885,.32,1.275)',
+        fontFamily: 'system-ui,sans-serif'
+    });
+    document.body.appendChild(banner);
+
+    // Banner megjelenítése rövid késéssel (animáció)
+    setTimeout(() => banner.style.transform = 'translate(-50%,-50%) scale(1)', 80);
+
+    // Banner eltüntetése 4 másodperc után
+    setTimeout(() => {
+        banner.style.transition = 'opacity .5s ease';
+        banner.style.opacity = '0';
+        setTimeout(() => banner.remove(), 500);
+    }, 4000);
+
+    // Konfetti részecskék inicializálása
+    const COLORS = ['#4A7043','#6F837B','#95A792','#FFD166','#EF476F','#ffffff','#06D6A0','#118AB2','#FFC8DD','#CAFFBF'];
+    const SHAPES = ['rect', 'circle', 'triangle'];
+    const COUNT = 200;
+
+    const pieces = Array.from({ length: COUNT }, () => ({
+        x: Math.random() * canvas.width,
+        y: -20 - Math.random() * 400,
+        r: 6 + Math.random() * 10,
+        color: COLORS[Math.floor(Math.random() * COLORS.length)],
+        shape: SHAPES[Math.floor(Math.random() * SHAPES.length)],
+        vx: (Math.random() - .5) * 4,
+        vy: 2 + Math.random() * 5,
+        spin: (Math.random() - .5) * .25,
+        angle: Math.random() * Math.PI * 2,
+        opacity: 1,
+        wobble: Math.random() * Math.PI * 2,
+        wobbleSpeed: .05 + Math.random() * .05,
+    }));
+
+    let frame, start = null;
+    const DURATION = 5500;
+
+    function drawPiece(p) {
+        ctx.save();
+        ctx.globalAlpha = p.opacity;
+        ctx.fillStyle = p.color;
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.angle);
+
+        if (p.shape === 'rect') {
+            ctx.fillRect(-p.r / 2, -p.r / 3, p.r, p.r / 1.5);
+        } else if (p.shape === 'circle') {
+            ctx.beginPath();
+            ctx.arc(0, 0, p.r / 2, 0, Math.PI * 2);
+            ctx.fill();
+        } else {
+            // Háromszög
+            ctx.beginPath();
+            ctx.moveTo(0, -p.r / 2);
+            ctx.lineTo(p.r / 2, p.r / 2);
+            ctx.lineTo(-p.r / 2, p.r / 2);
+            ctx.closePath();
+            ctx.fill();
+        }
+
+        ctx.restore();
+    }
+
+    function tick(ts) {
+        if (!start) start = ts;
+        const elapsed = ts - start;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        pieces.forEach(p => {
+            p.wobble += p.wobbleSpeed;
+            p.x += p.vx + Math.sin(p.wobble) * 1.5;
+            p.y += p.vy;
+            p.angle += p.spin;
+
+            // Fokozatos elhalványulás az animáció vége felé
+            if (elapsed > DURATION * .6) {
+                p.opacity = Math.max(0, p.opacity - .01);
+            }
+
+            drawPiece(p);
+        });
+
+        if (elapsed < DURATION + 800) {
+            frame = requestAnimationFrame(tick);
+        } else {
+            canvas.remove();
+        }
+    }
+
+    frame = requestAnimationFrame(tick);
+
+    // Canvas újraméretezés ablak átméretezésekor
+    window.addEventListener('resize', () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    });
+})();
+</script>
+<?php endif; ?>
+
+<!-- ===== 13) OLDALSPECIFIKUS JS (SZŰRÉS, SIDEBAR, KÁRTYA MEGJELENÍTÉS) ===== -->
+<script src="../../assets/js/receptek.js"></script>
+<?php include __DIR__ . '/../footer.php'; ?>
