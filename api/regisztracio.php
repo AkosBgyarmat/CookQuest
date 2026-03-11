@@ -85,13 +85,59 @@ try {
         $mail->isHTML(true);
         $mail->Subject = 'Udvozlunk a CookQuesten!';
     
-        $mail->Body = "
-            <h2>Szia $keresztnev! 👋</h2>
-            <p>Köszönjük, hogy regisztráltál a CookQuest oldalra.</p>
-            <p>Most már elkezdheted gyűjteni a pontokat és felfedezni a recepteket.</p>
-            <br>
-            <p>Üdv,<br>CookQuest csapat</p>
-        ";
+        $mail->Body = 
+        '
+        <body style="margin:0;padding:0;background:#f5f5f5;font-family:Arial,Helvetica,sans-serif;">
+        
+        <table width="100%" cellpadding="0" cellspacing="0" style="background:#f5f5f5;padding:40px 0;">
+        <tr>
+        <td align="center">
+        
+        <table width="600" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:10px;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,0.1);">
+        
+        <tr>
+        <td style="background:#90ab8b;padding:25px;text-align:center;color:white;font-size:26px;font-weight:bold;">
+        🍳 CookQuest
+        </td>
+        </tr>
+        
+        <tr>
+        <td style="padding:35px;text-align:center;color:#333;">
+        
+        <h2 style="margin-top:0;">Szia '.$keresztnev.'! 👋</h2>
+        
+        <p style="font-size:16px;line-height:1.6;">
+        Örülünk, hogy csatlakoztál a <strong>CookQuest</strong> közösségéhez!
+        </p>
+        
+        <p style="font-size:16px;line-height:1.6;">
+        Most már elkezdheted felfedezni a recepteket, új technikákat tanulni és
+        pontokat gyűjteni a főzés során.
+        </p>
+        
+        <a href="http://localhost/CookQuest/views/index/index.php"
+        style="display:inline-block;margin-top:20px;padding:14px 28px;background:#90ab8b;color:white;text-decoration:none;border-radius:6px;font-weight:bold;">
+        CookQuest megnyitása
+        </a>
+        
+        </td>
+        </tr>
+        
+        <tr>
+        <td style="background:#f0f0f0;padding:18px;text-align:center;font-size:12px;color:#777;">
+        © '.date("Y").' CookQuest • Minden jog fenntartva
+        </td>
+        </tr>
+        
+        </table>
+        
+        </td>
+        </tr>
+        </table>
+        
+        </body>
+        </html>
+        ';
     
         $mail->send();
     
