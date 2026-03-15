@@ -14,20 +14,23 @@ include "../head.php";
     <div class="max-w-6xl mx-auto px-4 py-10 ">
 
         <!-- Cím -->
-        <div class="border-b border-gray-300 text-center mb-5">
+        <div class="border-b border-gray-300 mb-5 flex items-center justify-between">
+
             <h1 class="text-3xl md:text-4xl font-bold mb-5 text-white">
                 Fiók beállítások
             </h1>
+
+            <?php if (isset($_SESSION["szerepID"]) && $_SESSION["szerepID"] == 1): ?>
+
+                <a href="http://localhost/CookQuest/admin/iranyitopult.php"
+                    class="bg-[#EBF4DD] text-black mb-2 px-4 py-2 rounded-lg hover:bg-[#5A7863] hover:text-white transition duration-200 shadow-md">
+                    Admin felület
+                </a>
+
+            <?php endif; ?>
         </div>
-        
-        <?php if(isset($_SESSION["szerepID"]) && $_SESSION["szerepID"] == 1): ?>
 
-            <a href="http://localhost/CookQuest/admin/iranyitopult.php"
-                class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700">
-                Admin felület
-            </a>
 
-        <?php endif; ?>
 
 
         <!-- Személyes adatok -->
