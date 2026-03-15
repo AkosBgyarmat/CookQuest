@@ -1,6 +1,6 @@
 <?php
 session_start();
-
+//var_dump($_SESSION);
 if (!isset($_SESSION["felhasznalo_id"])) {
     header("Location: /CookQuest/views/autentikacio/autentikacio.php");
     exit;
@@ -19,6 +19,15 @@ include "../head.php";
                 Fiók beállítások
             </h1>
         </div>
+        
+        <?php if(isset($_SESSION["szerepID"]) && $_SESSION["szerepID"] == 1): ?>
+
+            <a href="http://localhost/CookQuest/admin/iranyitopult.php"
+                class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700">
+                Admin felület
+            </a>
+
+        <?php endif; ?>
 
 
         <!-- Személyes adatok -->

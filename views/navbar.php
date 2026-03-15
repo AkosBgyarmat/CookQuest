@@ -24,7 +24,7 @@
             <a href="../profil/profil.php"
                 class="block md:inline-block hover:text-[#5A7863] px-3 py-3 md:border-none">
                 Üdv, <?php echo $_SESSION["felhasznalo_nev"]; ?>!
-            </a>
+            </a> 
 
         <?php else: ?>
 
