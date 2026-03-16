@@ -2,98 +2,10 @@
 
 require_once __DIR__ . '/../../api/receptek_bootstrap.php';
 require_once __DIR__ . '/../../controller/ReceptekVezerlo.php';
-require_once __DIR__ . '/../../services/SzintezesService.php';
-
-if (session_status() !== PHP_SESSION_ACTIVE) {
-    session_start();
-}
-
-// ===== 1) SESSION / AZONOSÍTÁS SEGÉDFÜGGVÉNYEK =====
-function sessionFelhasznaloId(): int
-{
-    return (int)($_SESSION['felhasznalo_id']
-        ?? $_SESSION['FelhasznaloID']
-        ?? ($_SESSION['user']['FelhasznaloID'] ?? 0)
-    );
-}
-
-// ===== 2) VIEW ADATOK ALAPÉRTELMEZÉSE =====
-function alapViewData(): array
-{
-    return [
-        'receptId' => 0,
-        'felhasznaloId' => 0,
-        'aktualisPontok' => null,
-        'receptekSzintekSzerint' => [],
-        'kategoriaCheckboxok' => [],
-        'recept' => null,
-        'hozzavalok' => [],
-        'marElkeszitette' => false,
-        'progress' => null,
-        'aktualisSzint' => 1,
-        'teljesitettSet' => [],
-    ];
-}
-
-// ===== 3) SZINTEZÉS BETÖLTÉSE (PROGRESS + AKTUÁLIS SZINT + TELJESÍTETT RECEPTEK) =====
-function betoltSzintezes(PDO $pdo, int $felhasznaloId): array
-{
-    if ($felhasznaloId <= 0) {
-        return [null, 1, []];
-    }
-
-    $szintezes = new SzintezesService($pdo);
-    $progress = $szintezes->getProgress($felhasznaloId);
-    $aktualisSzint = (int)($progress['aktualisSzint'] ?? 1);
-    $teljesitettSet = $szintezes->getTeljesitettReceptIdSet($felhasznaloId);
-
-    return [$progress, $aktualisSzint, $teljesitettSet];
-}
-
-// ===== 4) PONTSZÁM FALLBACK (HA A CONTROLLER NEM AD VISSZA PONTOT) =====
-function pontFallback(PDO $pdo, int $felhasznaloId): ?int
-{
-    if ($felhasznaloId <= 0) {
-        return null;
-    }
-
-    try {
-        $st = $pdo->prepare("SELECT MegszerzettPontok FROM felhasznalo WHERE FelhasznaloID = :uid");
-        $st->execute([':uid' => $felhasznaloId]);
-        $pont = $st->fetchColumn();
-        return $pont !== false ? (int)$pont : null;
-    } catch (Throwable $e) {
-        return null;
-    }
-}
-
-// ===== 5) DETAIL OLDALI STÁTUSZÜZENET NORMALIZÁLÁSA =====
-function detailStatusUzenet(?string $status, int $need = 0): ?array
-{
-    if ($status === null || $status === '') {
-        return null;
-    }
-
-    $map = [
-        'ok' => ['bg-green-100 text-green-800', '✅ Pont jóváírva!'],
-        'already' => ['bg-yellow-100 text-yellow-800', '⚠️ Ezt már jóváírtuk.'],
-        'login' => ['bg-red-100 text-red-800', '❌ Jelentkezz be a pontokért.'],
-        'csrf' => ['bg-red-100 text-red-800', '❌ CSRF hiba.'],
-    ];
-
-    if ($status === 'locked') {
-        return ['bg-red-100 text-red-800', '🔒 Zárolt recept. Előbb érd el a(z) ' . $need . '. szintet.'];
-    }
-
-    if (isset($map[$status])) {
-        return $map[$status];
-    }
-
-    return ['bg-red-100 text-red-800', '❌ Hiba: ' . htmlspecialchars($status)];
-}
-
-// ===== 6) CONTROLLER FUTTATÁS + VIEWDATA ELŐKÉSZÍTÉS =====
-$sessionFelhasznaloId = sessionFelhasznaloId();
+// MVC bontas megjegyzes:
+// Ez a fajl mar csak megjelenitest tartalmaz.
+// A kovetkezo logika a controllerbe kerult: session azonositas, status uzenet, szintlepes detektalas,
+// view alapadatok es pont/szint adat-elokeszites.
 
 $vezerlo = new ReceptekVezerlo($pdo);
 $viewData = $vezerlo->kezeles();
@@ -101,49 +13,8 @@ if (!is_array($viewData)) {
     $viewData = [];
 }
 
-$viewData = $viewData + alapViewData();
-$viewData['felhasznaloId'] = $sessionFelhasznaloId;
-
-[$progress, $aktualisSzint, $teljesitettSet] = betoltSzintezes($pdo, $sessionFelhasznaloId);
-
-// Pont fallback csak akkor, ha még nincs érték.
-if ($viewData['aktualisPontok'] === null) {
-    $viewData['aktualisPontok'] = pontFallback($pdo, $sessionFelhasznaloId);
-}
-
-// Detail nézetnél az "elkészítettem" állapotot biztosan beállítjuk.
-if (is_array($viewData['recept']) && (int)$viewData['receptId'] > 0 && $sessionFelhasznaloId > 0) {
-    $viewData['marElkeszitette'] = isset($teljesitettSet[(int)$viewData['receptId']]);
-}
-
-// Védelmi fallback: zárolt szintű receptet közvetlen URL-lel se lehessen megnyitni.
-if (is_array($viewData['recept'])) {
-    $receptSzint = (int)($viewData['recept']['NehezsegiSzintID'] ?? $viewData['recept']['Szint'] ?? 1);
-    if ($receptSzint > $aktualisSzint) {
-        header('Location: receptek.php?status=locked&need=' . $receptSzint);
-        exit;
-    }
-}
-
-$viewData['progress'] = $progress;
-$viewData['aktualisSzint'] = $aktualisSzint;
-$viewData['teljesitettSet'] = $teljesitettSet;
-
-// Detail oldali státuszüzenet előkészítése (pl. ok, already, locked, csrf).
-$detailStatus = detailStatusUzenet($_GET['status'] ?? null, (int)($_GET['need'] ?? 0));
-
-// ===== SZINTLÉPÉS DETEKTÁLÁS =====
-$szintLepett = false;
-if ($sessionFelhasznaloId > 0 && isset($_GET['status']) && $_GET['status'] === 'ok') {
-    $regisztraltSzint = (int)($_SESSION['elozo_szint'] ?? 1);
-    if ($aktualisSzint > $regisztraltSzint) {
-        $szintLepett = true;
-    }
-}
-// Mindig frissítjük a session-ben tárolt szintet
-if ($sessionFelhasznaloId > 0) {
-    $_SESSION['elozo_szint'] = $aktualisSzint;
-}
+// A template kompatibilitas miatt meghagyjuk a korabban hasznalt valtozoneveket.
+$sessionFelhasznaloId = (int)($viewData['sessionFelhasznaloId'] ?? 0);
 
 // extract
 extract($viewData, EXTR_OVERWRITE);
@@ -197,7 +68,7 @@ include __DIR__ . '/../head.php';
                     </button>
 
                     <a href="hutom.php" class="bg-white px-6 py-3 rounded-xl shadow-lg flex items-center gap-2 font-semibold text-[#4A7043] hover:bg-gray-50 transition w-full sm:w-auto justify-center">
-                        <span>🧊 Mi van a hűtőmben?</span>
+                        <span>Mi van otthon?</span>
                     </a>
                 </div>
 
@@ -384,8 +255,9 @@ include __DIR__ . '/../head.php';
 
                                             <h2 class="text-lg font-bold mb-2 text-gray-800"><?= htmlspecialchars($r['Nev']) ?></h2>
 
-                                            <div class="flex justify-between text-sm text-gray-600">
+                                            <div class="flex flex-wrap gap-x-4 gap-y-1 text-sm text-gray-600">
                                                 <span>⏱ <?= formatIdo((string)$r['ElkeszitesiIdo']) ?></span>
+                                                <span>🔥 <?= formatMennyiseg((float)($r['Kaloria'] ?? 0)) ?> kcal</span>
                                                 <span>💰 <?= htmlspecialchars($r['ArkategoriaNev'] ?? 'Nincs') ?></span>
                                             </div>
 
@@ -424,6 +296,7 @@ include __DIR__ . '/../head.php';
                                 <div class="flex flex-wrap gap-3 text-sm">
                                     <span class="px-3 py-1 bg-white/20 backdrop-blur-md rounded-full">⏱ <?= formatIdo((string)($recept['ElkeszitesiIdo'] ?? '')) ?></span>
                                     <span class="px-3 py-1 bg-white/20 backdrop-blur-md rounded-full">⭐ <?= (int)($recept['BegyujthetoPontok'] ?? 0) ?> pont</span>
+                                    <span class="px-3 py-1 bg-white/20 backdrop-blur-md rounded-full">🔥 <?= formatMennyiseg((float)($recept['Kaloria'] ?? 0)) ?> kcal</span>
                                     <span class="px-3 py-1 bg-white/20 backdrop-blur-md rounded-full">🏷 <?= htmlspecialchars($recept['AlkategoriaNev'] ?? '') ?></span>
                                 </div>
                             </div>

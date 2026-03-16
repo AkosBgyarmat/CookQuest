@@ -20,6 +20,28 @@ class ReceptekVezerlo
         $this->felhasznaloReceptTarolo = new FelhasznaloReceptTarolo($pdo);
     }
 
+    // Innen kapja a nezet az alap view valtozokat.
+    // A bontas soran ezt a default-adatlogikat a receptek view-bol tettuk at ide.
+    private function alapViewData(): array
+    {
+        return [
+            'receptId' => 0,
+            'felhasznaloId' => 0,
+            'sessionFelhasznaloId' => 0,
+            'aktualisPontok' => null,
+            'receptekSzintekSzerint' => [],
+            'kategoriaCheckboxok' => [],
+            'recept' => null,
+            'hozzavalok' => [],
+            'marElkeszitette' => false,
+            'progress' => null,
+            'aktualisSzint' => 1,
+            'teljesitettSet' => [],
+            'detailStatus' => null,
+            'szintLepett' => false,
+        ];
+    }
+
     // Kinyeri a bejelentkezett felhasználó ID-ját a sessionből.
     // Több kulcsot is ellenőriz, hogy kompatibilis legyen a régebbi session struktúrával is.
     private function getSessionFelhasznaloId(): int
@@ -56,18 +78,66 @@ class ReceptekVezerlo
         return $szint !== false ? (int)$szint : 0;
     }
 
+    // A recept-detail visszajelzo uzenet mar nem a view-ban epul fel.
+    // A bontas soran a status normalizalast ide mozgattuk.
+    private function detailStatusUzenet(?string $status, int $need = 0): ?array
+    {
+        if ($status === null || $status === '') {
+            return null;
+        }
+
+        $map = [
+            'ok' => ['bg-green-100 text-green-800', '✅ Pont jóváírva!'],
+            'already' => ['bg-yellow-100 text-yellow-800', '⚠️ Ezt már jóváírtuk.'],
+            'login' => ['bg-red-100 text-red-800', '❌ Jelentkezz be a pontokért.'],
+            'csrf' => ['bg-red-100 text-red-800', '❌ CSRF hiba.'],
+        ];
+
+        if ($status === 'locked') {
+            return ['bg-red-100 text-red-800', '🔒 Zárolt recept. Előbb érd el a(z) ' . $need . '. szintet.'];
+        }
+
+        if (isset($map[$status])) {
+            return $map[$status];
+        }
+
+        return ['bg-red-100 text-red-800', '❌ Hiba: ' . htmlspecialchars($status)];
+    }
+
+    // A szintlepes-detektalas is ide kerult a view-bol, hogy a nezet csak kirajzoljon.
+    private function szintLepesDetektalasEsSessionFrissites(int $felhasznaloId, int $aktualisSzint): bool
+    {
+        if ($felhasznaloId <= 0) {
+            return false;
+        }
+
+        $szintLepett = false;
+        if (isset($_GET['status']) && $_GET['status'] === 'ok') {
+            $regisztraltSzint = (int)($_SESSION['elozo_szint'] ?? 1);
+            if ($aktualisSzint > $regisztraltSzint) {
+                $szintLepett = true;
+            }
+        }
+
+        $_SESSION['elozo_szint'] = $aktualisSzint;
+        return $szintLepett;
+    }
+
     // A vezérlő fő metódusa:
     // - feldolgozza a kérés(eke)t
     // - validálja a jogosultságot / szintezést
     // - előkészíti a nézethez szükséges összes adatot
     public function kezeles(): array
     {
+        $viewData = $this->alapViewData();
+
         if (session_status() !== PHP_SESSION_ACTIVE) {
             session_start();
         }
 
         $receptId = isset($_GET['id']) ? (int)$_GET['id'] : 0;
         $felhasznaloId = $this->getSessionFelhasznaloId();
+        $viewData['sessionFelhasznaloId'] = $felhasznaloId;
 
         $szintezes = new SzintezesService($this->pdo);
 
@@ -81,6 +151,8 @@ class ReceptekVezerlo
             $aktualisSzint = (int)$progress['aktualisSzint'];
             $teljesitettSet = $szintezes->getTeljesitettReceptIdSet($felhasznaloId);
         }
+
+        $viewData['detailStatus'] = $this->detailStatusUzenet($_GET['status'] ?? null, (int)($_GET['need'] ?? 0));
 
         // POST: Elkészítettem (PRG)
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'elkeszitettem') {
@@ -193,8 +265,10 @@ class ReceptekVezerlo
             }
         }
 
+        $szintLepett = $this->szintLepesDetektalasEsSessionFrissites($felhasznaloId, $aktualisSzint);
+
         // A nézet számára minden szükséges adatot egy tömbben adunk vissza.
-        return compact(
+        $viewData = array_merge($viewData, compact(
             'receptId',
             'felhasznaloId',
             'aktualisPontok',
@@ -205,7 +279,10 @@ class ReceptekVezerlo
             'marElkeszitette',
             'progress',
             'aktualisSzint',
-            'teljesitettSet'
-        );
+            'teljesitettSet',
+            'szintLepett'
+        ));
+
+        return $viewData;
     }
 }
