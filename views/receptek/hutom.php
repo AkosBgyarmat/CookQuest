@@ -1,195 +1,21 @@
 <?php
-/* =========================
-   KÖZÖS FEJLÉC / LAYOUT BETÖLTÉSE
-   - Tartalmazhat: HTML head, navigáció, Tailwind importok, közös stílusok
-   - Itt érdemes központosítani a shared elemeket
-========================= */
-require_once "../head.php";
+require_once __DIR__ . '/../../api/receptek_bootstrap.php';
+require_once __DIR__ . '/../../controller/HutoVezerlo.php';
 
-/* =========================
-   ADATBÁZIS KAPCSOLÓDÁS
-   - PDO használata: hibakezelés, biztonságos lekérdezések (prepared statement)
-   - utf8mb4: ékezetek / speciális karakterek támogatása
-========================= */
-$pdo = new PDO(
-    "mysql:host=localhost;dbname=cookquest;charset=utf8mb4",
-    "root",
-    "",
-    [
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
-    ]
-);
+// MVC bontas megjegyzes:
+// Ez a fajl mar csak megjelenitest vegez.
+// A kovetkezo logika a HutoVezerlo-ben van: alap view adatok, POST feldolgozas,
+// hozzavalo-ID tisztitas, szurt receptek es recept-hozzavalo lista elokeszitese.
 
-/* =========================
-   SEGÉDFÜGGVÉNYEK (FORMÁZÁS)
-   - formatIdo(): "HH:MM:SS" / "HH:MM" -> "x óra y perc"
-   - UI szempont: rövidebb, emberi formátum
-========================= */
-function formatIdo($ido)
-{
-    $parts = explode(':', $ido);
-    if (count($parts) < 2) return $ido;
-
-    $ora = (int)$parts[0];
-    $perc = (int)$parts[1];
-
-    if ($ora > 0) return $ora . " óra" . ($perc > 0 ? " $perc perc" : "");
-    if ($perc > 0) return "$perc perc";
-
-    return "kevesebb mint 1 perc";
+$vezerlo = new HutoVezerlo($pdo);
+$viewData = $vezerlo->kezeles();
+if (!is_array($viewData)) {
+    $viewData = [];
 }
 
-/* =========================
-   KÉP ÚTVONAL KEZELÉS (DB-ben csak FÁJLNÉV)
-   CÉL:
-   - A DB "Kep" mezőbe ideálisan csak fájlnév kerül: pl. "BundasKenyer.webp"
-   - A teljes URL-t a PHP állítja elő: /CookQuest/assets/kepek/etelek/ + fájlnév
+extract($viewData, EXTR_OVERWRITE);
 
-   MIÉRT JÓ EZ?
-   - DB-ben nincs hardcode-olt útvonal (könnyebb karbantartás)
-   - Biztonságosabb: nem lehet útvonal-traverzálással trükközni
-   - Ha hiányzik a kép: placeholder-t adunk vissza, nem törött képet
-========================= */
-define('APP_BASE_URL', '/CookQuest'); // projekt gyökér URL (XAMPP alatt: /CookQuest)
-define('RECIPE_IMG_URL', APP_BASE_URL . '/assets/kepek/etelek/'); // recept képek URL mappája
-define('RECIPE_IMG_PLACEHOLDER', 'placeholder.webp'); // fallback kép
-
-// Fizikai mappa (is_file ellenőrzéshez) -> document_root + URL útvonal
-define('RECIPE_IMG_DIR', rtrim($_SERVER['DOCUMENT_ROOT'], '/\\') . RECIPE_IMG_URL);
-
-/**
- * receptKepSrc():
- * - Be: DB-ből jövő Kep mező (fájlnév vagy akár régi útvonal)
- * - Ki: egy biztonságos, létező kép URL vagy placeholder
- *
- * Védelmi lépések:
- * - basename(): ha a DB-ben még régi útvonal van, levágja a könyvtárakat
- * - whitelist regex: csak normális fájlnév + képkiterjesztés engedett
- * - is_file(): ha nincs fájl, placeholder-t adunk
- * - rawurlencode(): URL-ben biztonságos kódolás
- */
-function receptKepSrc(?string $dbKep): string
-{
-    $dbKep = trim((string)$dbKep);
-
-    // Üres érték -> placeholder
-    if ($dbKep === '') {
-        return RECIPE_IMG_URL . RECIPE_IMG_PLACEHOLDER;
-    }
-
-    // Útvonal -> csak fájlnév
-    $file = basename($dbKep);
-
-    // Whitelist: nincs ../, nincs szóköz, csak engedélyezett kiterjesztések
-    if (!preg_match('/^[a-zA-Z0-9._-]+\.(webp|png|jpg|jpeg)$/i', $file)) {
-        return RECIPE_IMG_URL . RECIPE_IMG_PLACEHOLDER;
-    }
-
-    // Ha fizikailag nincs meg, placeholder
-    if (!is_file(RECIPE_IMG_DIR . $file)) {
-        return RECIPE_IMG_URL . RECIPE_IMG_PLACEHOLDER;
-    }
-
-    // OK -> kép URL
-    return RECIPE_IMG_URL . rawurlencode($file);
-}
-
-/* =========================
-   ÖSSZES HOZZÁVALÓ LEKÉRDEZÉSE
-   - A checkbox lista feltöltéséhez
-   - ABC sorrend: gyorsabb használhatóság + keresés
-========================= */
-$osszesHozzavalo = $pdo->query("
-    SELECT HozzavaloID, Elnevezes 
-    FROM hozzavalo
-    ORDER BY Elnevezes
-")->fetchAll();
-
-/* =========================
-   SZŰRÉS ÁLLAPOT / POST KEZELÉS
-   - $kivalasztott: a user által bepipált hozzávalók (ID-k)
-   - $minMatch: minimum egyező hozzávaló receptenként
-   - $szurtReceptek: találatok listája
-   - $receptHozzavalok: találatokhoz extra részletezéshez (megvan/hiányzik)
-========================= */
-$szurtReceptek = [];
-$kivalasztott = [];
-$minMatch = isset($_POST["minMatch"]) ? max(1, (int)$_POST["minMatch"]) : 3;
-
-// ReceptID -> hozzávalók listája (részletezéshez)
-$receptHozzavalok = [];
-
-/* =========================
-   POST: RECEPT KERESÉS HOZZÁVALÓK ALAPJÁN
-   Logika:
-   1) Kiválasztott hozzávaló ID-k alapján lekérdezzük azokat a recepteket,
-      ahol a recept_hozzavalo táblában legalább $minMatch egyezés van.
-   2) Minden talált recepthez lekérjük az összes hozzávalóját, hogy UI-ban
-      megmutathassuk: mi van meg / mi hiányzik.
-========================= */
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-
-    $kivalasztott = $_POST["hozzavalok"] ?? [];
-
-    if (!empty($kivalasztott)) {
-
-        // Dinamikus IN (...) helyőrzők
-        $placeholders = implode(",", array_fill(0, count($kivalasztott), "?"));
-
-        // 1) Találatok (egyező hozzávalók száma)
-        $sql = "
-            SELECT 
-                r.ReceptID,
-                r.Nev,
-                TRIM(r.Kep) AS Kep,
-                r.ElkeszitesiIdo,
-                n.Szint,
-                COUNT(DISTINCT rh.HozzavaloID) AS egyezo_db
-            FROM recept r
-            JOIN recept_hozzavalo rh ON r.ReceptID = rh.ReceptID
-            JOIN nehezsegiszint n ON r.NehezsegiSzintID = n.NehezsegiSzintID
-            WHERE rh.HozzavaloID IN ($placeholders)
-            GROUP BY r.ReceptID
-            HAVING egyezo_db >= ?
-            ORDER BY egyezo_db DESC
-        ";
-
-        $stmt = $pdo->prepare($sql);
-
-        // Paraméterek: hozzávaló ID-k + végén minMatch
-        $params = $kivalasztott;
-        $params[] = $minMatch;
-
-        $stmt->execute($params);
-        $szurtReceptek = $stmt->fetchAll();
-
-        // 2) Részletezéshez: összes hozzávaló minden talált recepthez
-        if (!empty($szurtReceptek)) {
-            $receptIdk = array_column($szurtReceptek, 'ReceptID');
-            $phReceptek = implode(",", array_fill(0, count($receptIdk), "?"));
-
-            $stmtHz = $pdo->prepare("
-                SELECT rh.ReceptID, h.HozzavaloID, h.Elnevezes
-                FROM recept_hozzavalo rh
-                JOIN hozzavalo h ON rh.HozzavaloID = h.HozzavaloID
-                WHERE rh.ReceptID IN ($phReceptek)
-                ORDER BY h.Elnevezes
-            ");
-            $stmtHz->execute($receptIdk);
-
-            foreach ($stmtHz->fetchAll() as $sor) {
-                $receptHozzavalok[$sor['ReceptID']][] = $sor;
-            }
-        }
-    }
-}
-
-/* =========================
-   GYORS KERESÉSHEZ SET
-   - array_flip(): O(1) lookup, hogy egy hozzávaló ki van-e választva
-========================= */
-$kivalasztottSet = array_flip($kivalasztott);
+include __DIR__ . '/../head.php';
 ?>
 
 <!-- =========================
@@ -281,7 +107,7 @@ $kivalasztottSet = array_flip($kivalasztott);
         <!-- =========================
              TALÁLATOK BLOKK (CSAK POST UTÁN)
         ========================= -->
-        <?php if ($_SERVER["REQUEST_METHOD"] === "POST"): ?>
+        <?php if ($keresesTortent): ?>
 
             <div class="bg-white rounded-3xl shadow-2xl p-8">
 
