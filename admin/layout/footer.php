@@ -1,4 +1,4 @@
-<footer class="bottom-0">
+<footer>
     <!-- Copyright -->
     <div class="mt-12 text-center text-gray-400 text-sm relative z-10">
         &copy; 2026 CookQuest. Minden jog fenntartva.
@@ -13,5 +13,7 @@
 
     <!-- Javascript -->
     <script src="/CookQuest/admin/js/eszkozController.js"></script>
+    <script src="/CookQuest/admin/js/receptController.js"></script>
+    <script src="/CookQuest/admin/js/felhasznaloController.js"></script>
 
 </footer>
