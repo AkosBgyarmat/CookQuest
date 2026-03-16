@@ -1,4 +1,4 @@
-<aside id="sidebar" class="fixed md:relative left-0 top-0 h-wh w-64 bg-[#C0CEB8] text-black p-5 transform -translate-x-full md:translate-x-0 transition-transform duration-300">
+<aside id="sidebar" class="left-0 top-0 h-wh max-w-64 bg-[#C0CEB8] text-black p-5 transform -translate-x-full md:translate-x-0 transition-transform duration-300">
 
     <header class="flex items-center justify-between">
         <!-- Cím -->
@@ -28,7 +28,7 @@
         <li>
             <a href="/CookQuest/admin/hozzavalokAdmin/hozzavalok.php"
                 class="flex items-center justify-center md:justify-start gap-3 hover:bg-[#759277] hover:text-white p-2 rounded transition-colors duration-300">
-                <span>🥚</span>
+                <span>🧂</span>
                 <span class="hidden md:inline">Hozzavalók</span>
             </a>
         </li>
@@ -42,7 +42,7 @@
         </li>
 
         <li>
-            <a href="kategoriak.php"
+            <a href="/CookQuest/admin/kategoriakAdmin/kategoriak.php"
                 class="flex items-center justify-center md:justify-start gap-3 hover:bg-[#759277] hover:text-white p-2 rounded transition-colors duration-300">
                 <span>📂</span>
                 <span class="hidden md:inline">Kategóriák</span>
@@ -54,6 +54,14 @@
                 class="flex items-center justify-center md:justify-start gap-3 hover:bg-[#759277] hover:text-white p-2 rounded transition-colors duration-300">
                 <span>👤</span>
                 <span class="hidden md:inline">Felhasználók</span>
+            </a>
+        </li>
+
+        <li>
+            <a href="/CookQuest/admin/orszagAdmin/orszagok.php"
+                class="flex items-center justify-center md:justify-start gap-3 hover:bg-[#759277] hover:text-white p-2 rounded transition-colors duration-300">
+                <span>🌍</span>
+                <span class="hidden md:inline">Országok</span>
             </a>
         </li>
 

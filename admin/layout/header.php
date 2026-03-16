@@ -24,7 +24,7 @@ if ($_SESSION["szerepID"] != 1) {
     <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
     <!-- Kozos CSS, benne a globalis Jost beallitassal -->
-    <link rel="stylesheet" href="../../assets/css/style.css">
+    <link rel="stylesheet" href="/CookQuest/assets/css/style.css">
 
     <script src="https://cdn.tailwindcss.com"></script>
 
@@ -33,7 +33,7 @@ if ($_SESSION["szerepID"] != 1) {
     <script src="/CookQuest/admin/js/app.js"></script>
 
     <!-- Favicon -->
-    <link rel="shortcut icon" href="../../assets/kepek/favicon/favicon-32x32.png" type="image/x-icon">
+    <link rel="shortcut icon" href="/CookQuest/assets/kepek/favicon/favicon-32x32.png" type="image/x-icon">
 
 
 </head>
