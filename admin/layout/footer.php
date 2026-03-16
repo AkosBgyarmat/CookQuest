@@ -1,4 +1,4 @@
-<footer class="mt-auto  bg-gray-100 text-center">
+<footer class="mt-auto p-4 bg-gray-100 text-center">
 
     <div class="mt-12 text-center text-gray-400 text-sm">
         &copy; 2026 CookQuest. Minden jog fenntartva.
