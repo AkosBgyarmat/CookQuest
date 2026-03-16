@@ -1,10 +1,10 @@
 <?php include "../layout/header.php"; ?>
 <?php include "../layout/oldalmenu.php"; ?>
 
-<main class="flex-1 p-10">
+<main class="flex-1 p-10" ng-controller="receptController">
 
     <header class="flex items-center justify-between mb-10">
-        <h1 class="text-3xl font-bold mb-8">Recept</h1>
+        <h1 class="text-3xl font-bold mb-8">Receptek - {{recept.length}}</h1>
     </header>
 
     <a href="receptekUj.php"
@@ -31,7 +31,7 @@
             </tr>
         </thead>
 
-        <tbody ng-controller="receptController">
+        <tbody>
 
             <tr class="border-t" ng-repeat="r in recept track by r.id">
                 <td class="p-3">{{r.id}}</td>
