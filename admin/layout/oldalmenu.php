@@ -15,63 +15,63 @@ transform -translate-x-full md:translate-x-0 transition-transform duration-300 z
         <li>
             <a href="/CookQuest/admin/iranyitopult.php"
                 class="flex items-center gap-3 hover:bg-[#759277] hover:text-white p-2 rounded">
-                📊 <span class="sm:text-center sm:w-100">Irányítópult</span>
+                <span class="sm:text-center sm:w-100">Irányítópult
             </a>
         </li>
 
         <li>
             <a href="/CookQuest/admin/receptAdmin/receptek.php"
                 class="flex items-center gap-3 hover:bg-[#759277] hover:text-white p-2 rounded">
-                🍳 <span>Receptek</span>
+                <span>Receptek
             </a>
         </li>
 
         <li>
             <a href="/CookQuest/admin/hozzavalokAdmin/hozzavalok.php"
                 class="flex items-center gap-3 hover:bg-[#759277] hover:text-white p-2 rounded">
-                🧂 <span>Hozzávalók</span>
+                Hozzávalók
             </a>
         </li>
 
         <li>
             <a href="/CookQuest/admin/eszkozAdmin/eszkozok.php"
                 class="flex items-center gap-3 hover:bg-[#759277] hover:text-white p-2 rounded">
-                🔪 <span>Eszközök</span>
+                Eszközök
             </a>
         </li>
 
         <li>
             <a href="/CookQuest/admin/kategoriakAdmin/kategoriak.php"
                 class="flex items-center gap-3 hover:bg-[#759277] hover:text-white p-2 rounded">
-                📂 <span>Kategóriák</span>
+                Kategóriák
             </a>
         </li>
 
         <li>
             <a href="/CookQuest/admin/felhasznaloAdmin/felhasznalok.php"
                 class="flex items-center gap-3 hover:bg-[#759277] hover:text-white p-2 rounded">
-                👤 <span>Felhasználók</span>
+                Felhasználók
             </a>
         </li>
 
         <li>
             <a href="/CookQuest/admin/orszagAdmin/orszagok.php"
                 class="flex items-center gap-3 hover:bg-[#759277] hover:text-white p-2 rounded">
-                🌍 <span>Országok</span>
+                Országok
             </a>
         </li>
 
         <li>
             <a href="/CookQuest/admin/kijelentkezesAdmin/kijelentkezes.php"
-                class="flex items-center gap-3 bg-red-600 text-white p-2 rounded">
-                🚪 <span>Kijelentkezés</span>
+                class="flex items-center gap-3 bg-red-600 text-white p-2 rounded hover:bg-white hover:text-red-600 transition duration-300">
+                Kijelentkezés
             </a>
         </li>
 
         <li>
             <a href="/CookQuest/views/profil/profil.php"
-                class="flex items-center gap-3 bg-[#5A7863] text-white p-2 rounded">
-                🌐 <span>Weboldal</span>
+                class="flex items-center gap-3 bg-[#5A7863] text-white p-2 rounded hover:bg-white hover:text-[#5A7863] transition duration-300">
+                Vissza a profilomra
             </a>
         </li>
 
