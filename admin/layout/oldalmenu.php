@@ -26,6 +26,14 @@
         </li>
 
         <li>
+            <a href="/CookQuest/admin/hozzavalokAdmin/hozzavalok.php"
+                class="flex items-center justify-center md:justify-start gap-3 hover:bg-[#759277] hover:text-white p-2 rounded transition-colors duration-300">
+                <span>🥚</span>
+                <span class="hidden md:inline">Hozzavalók</span>
+            </a>
+        </li>
+
+        <li>
             <a href="/CookQuest/admin/eszkozAdmin/eszkozok.php"
                 class="flex items-center justify-center md:justify-start gap-3 hover:bg-[#759277] hover:text-white p-2 rounded transition-colors duration-300">
                 <span>🔪</span>
@@ -51,7 +59,7 @@
 
         <li>
             <a href="/CookQuest/admin/kijelentkezesAdmin/kijelentkezes.php"
-                class="flex items-center justify-center md:justify-start gap-3 hover:bg-red-600 hover:text-white p-2 rounded transition-colors duration-300">
+                class="flex items-center justify-center md:justify-start gap-3 bg-red-600 text-white hover:bg-white hover:hover:text-[#5A7863] p-2 rounded transition-colors duration-300">
                 <span>🚪</span>
                 <span class="hidden md:inline">Kijelentkezés</span>
             </a>
