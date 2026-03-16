@@ -1,9 +1,9 @@
 <?php include "../layout/header.php"; ?>
 <?php include "../layout/oldalmenu.php"; ?>
 
-<main class="flex-1 p-10">
+<main class="flex-1 p-10" ng-controller="eszkozController">
     <header class="flex items-center justify-between mb-10">
-        <h1 class="text-3xl font-bold mb-8">Eszközök</h1>
+        <h1 class="text-3xl font-bold mb-8">Eszközök - {{eszkozok.length}}</h1>
     </header>
 
     <a href="eszkozokUj.php"
@@ -23,7 +23,7 @@
             </tr>
         </thead>
 
-        <tbody ng-controller="eszkozController">
+        <tbody>
 
             <tr class="border-t" ng-repeat="e in eszkozok">
                 <td class="p-3">{{e.id}}</td>

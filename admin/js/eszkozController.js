@@ -3,7 +3,7 @@ angular.module("CookQuestAdmin").controller("eszkozController", function ($scope
     //adatbetöltés
     $http.get("/CookQuest/admin/lekerdezes/eszkoz.php")
         .then(function (response) {
-            console.log("ESZKÖZÖK:", response.data);
+            //console.log("ESZKÖZÖK:", response.data);
             $scope.eszkozok = response.data;
         })
         .catch(function (error) {
