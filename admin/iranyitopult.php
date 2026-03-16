@@ -4,7 +4,7 @@
 ?>
 <?php require_once "lekerdezes/statisztika.php"; ?>
 
-<main class="flex-1 p-10">
+<main class="flex-1 p-10 font-jost">
     <header class="flex items-center justify-between mb-10">
         <h1 class="text-3xl font-bold mb-8">Irányító pult</h1>
     </header>
@@ -22,7 +22,7 @@
         </div>
 
         <div class="bg-white p-6 rounded shadow" ng-controller="eszkozController">
-            <p class="text-gray-500">Konyhaifelszereles</p>
+            <p class="text-gray-500">Konyhaifelszerelés</p>
             <h2 class="text-3xl font-bold">{{eszkozok.length}}</h2>
         </div>
 

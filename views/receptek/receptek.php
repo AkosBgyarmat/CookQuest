@@ -25,7 +25,7 @@ include __DIR__ . '/../head.php';
 
 <!-- ===== 7) FŐ TARTALOM ===== -->
 <!-- Recept oldali fő konténer -->
-<main class="min-h-screen bg-gradient-to-br from-[#9FB1A3] to-[#7F8F83]">
+<main class="min-h-screen bg-gradient-to-br from-[#9FB1A3] to-[#7F8F83] font-jost">
     <div class="max-w-7xl mx-auto py-6 px-4">
 
         <!-- Felső figyelmeztetés, ha zárolt receptre érkezett a felhasználó -->

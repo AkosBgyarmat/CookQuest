@@ -17,6 +17,15 @@ if ($_SESSION["szerepID"] != 1) {
 <head>
     <meta charset="UTF-8">
     <title>Admin Panel</title>
+
+    <!-- Jost font: admin oldalakra is -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+    <!-- Kozos CSS, benne a globalis Jost beallitassal -->
+    <link rel="stylesheet" href="../../assets/css/style.css">
+
     <script src="https://cdn.tailwindcss.com"></script>
 
     <!-- AngularJS -->
@@ -29,4 +38,4 @@ if ($_SESSION["szerepID"] != 1) {
 
 </head>
 
-<body class="bg-gray-100 min-h-screen flex" ng-app="CookQuestAdmin">
+<body class="bg-gray-100 min-h-screen flex font-jost" ng-app="CookQuestAdmin">

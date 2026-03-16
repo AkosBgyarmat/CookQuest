@@ -1,5 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&family=Noto+Rashi+Hebrew:wght@100..900&family=Noto+Sans+Hebrew:wght@100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Palanquin+Dark:wght@400;500;600;700&family=Ruda:wght@400..900&family=Sorts+Mill+Goudy:ital@0;1&family=Yanone+Kaffeesatz:wght@200..700&display=swap');
+
+/* Globalis betutipus az osszes oldalra. */
+html,
+body {
+  font-family: "Jost", sans-serif !important;
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: inherit !important;
+}
+
 [ng-cloak] {
   display: none !important;
+}
+
+.font-jost {
+  font-family: "Jost", sans-serif !important;
+}
+
+.font-jost * {
+  font-family: "Jost", sans-serif !important;
 }
 
 /* Footer */
