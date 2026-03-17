@@ -1,14 +1,19 @@
+let sidebarOpen = false;
+
 function toggleSidebar() {
-
     const sidebar = document.getElementById("sidebar");
-    const button = document.getElementById("hamburgerBtn");
+    const overlay = document.getElementById("overlay");
+    const hamburger = document.getElementById("hamburgerBtn");
 
-    sidebar.classList.toggle("-translate-x-full");
+    sidebarOpen = !sidebarOpen;
 
-    if (sidebar.classList.contains("-translate-x-full")) {
-        button.style.display = "block";
+    if (sidebarOpen) {
+        sidebar.classList.remove("-translate-x-full");
+        overlay.classList.remove("hidden");
+        hamburger.classList.add("hidden");
     } else {
-        button.style.display = "none";
+        sidebar.classList.add("-translate-x-full");
+        overlay.classList.add("hidden");
+        hamburger.classList.remove("hidden");
     }
-
 }

@@ -91,7 +91,7 @@
 
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8 m-2">
 
         <div class="bg-white rounded-xl shadow-md p-6">
             <h3 class="text-lg font-semibold mb-4">Rendszer információ</h3>

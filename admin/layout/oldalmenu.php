@@ -1,12 +1,16 @@
 <aside id="sidebar"
-class="fixed top-0 left-0 h-screen w-64 bg-[#C0CEB8] text-black p-5
-transform -translate-x-full md:translate-x-0 transition-transform duration-300 z-40 overflow-y-auto">
+    class="fixed top-0 left-0 h-screen w-64 bg-[#C0CEB8] text-black p-5
+transform -translate-x-full lg:translate-x-0 transition-transform duration-300 z-40 overflow-y-auto">
 
     <header class="flex items-center justify-between">
 
         <h2 class="hidden md:block text-2xl font-bold mb-6">
-            CookQuest Admin
+            CookQuest<br><span class="uppercase italic">Admin</span> 
         </h2>
+
+        <button onclick="toggleSidebar()" class="lg:hidden absolute top-6 right-4 text-xl border bg-[#5A7863] p-2 w-10 h-10 rounded-full text-white hover:bg-[#3B4953] transition duration-300">
+            ✖
+        </button>
 
     </header>
 

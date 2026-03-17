@@ -13,10 +13,9 @@ include "../head.php";
 <main class="w-full bg-[#90ab8b]" ng-controller="profilController">
     <div class="max-w-6xl mx-auto px-4 py-10 ">
 
-        <!-- Cím -->
-        <div class="border-b border-gray-300 mb-5 flex items-center justify-between">
+        <div class="border-b border-gray-300 mb-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
 
-            <h1 class="text-3xl md:text-4xl font-bold mb-5 text-white">
+            <h1 class="text-3xl md:text-4xl font-bold text-white">
                 Fiók beállítások
             </h1>
 
