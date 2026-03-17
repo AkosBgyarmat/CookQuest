@@ -88,7 +88,51 @@ document.addEventListener('DOMContentLoaded', () => {
       szuroPanel.classList.toggle('hidden', nyitva);
       if (szuroNyil) szuroNyil.classList.toggle('rotate-180', !nyitva);
     });
-  }  
+  }
+
+  // --- Kereső (ha van fent a navbarban) ---
+  // Megfogjuk bármelyik tipikus kereső inputot
+  const keresInput =
+    $('#kereso') ||
+    $('#kereses') ||
+    $('#navKereses') ||
+    document.querySelector('input[placeholder*="Keres"]');
+
+  function szuresAlkalmazasa() {
+    const cards = receptKartyak();
+    if (!cards.length) return;
+
+    // kiválasztott kategóriák
+    const kivalasztott = new Set(
+      kategoriaCheckboxok
+        .filter(cb => cb.checked)
+        .map(cb => `${cb.dataset.fokategoria || ''}||${cb.dataset.alkategoria || ''}`)
+    );
+    const vanKategoriaSzures = kivalasztott.size > 0;
+
+    // kereső szöveg
+    const q = (keresInput?.value || '').trim().toLowerCase();
+    const vanKereses = q.length > 0;
+
+    // szűrés
+    cards.forEach(card => {
+      const fo = card.dataset.fokategoria || '';
+      const al = card.dataset.alkategoria || '';
+      const key = `${fo}||${al}`;
+
+      const nev = (card.dataset.nev || '').toLowerCase();
+
+      const okKat = !vanKategoriaSzures || kivalasztott.has(key);
+      const okNev = !vanKereses || nev.includes(q);
+
+      const lathato = okKat && okNev;
+      card.classList.toggle('hidden', !lathato);
+    });
+
+    // szint darabok frissítés + nincs találat
+    frissitDarabokEsBlokkok();
+    frissitSzuroSzamlalo();
+  }
 
   function frissitDarabokEsBlokkok() {
     const cards = receptKartyak();
