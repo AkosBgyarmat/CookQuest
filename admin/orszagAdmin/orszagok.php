@@ -1,14 +1,14 @@
 <?php include "../layout/header.php"; ?>
 
-<main class="flex-1 md:p-2 md:pt-10" ng-controller="hozzavaloController">
+<main class="flex-1 md:p-2 md:pt-10" ng-controller="orszagController">
 
     <header class="flex flex-col md:flex-row align-center md:justify-between mb-8 w-full text-center md:text-left">
-        <h1 class="text-2xl mt-10 md:text-3xl font-bold">Hozzávalók - {{hozzavalo.length}}</h1>
+        <h1 class="text-2xl mt-10 md:text-3xl font-bold">Országok - {{orszagok.length}}</h1>
     </header>
 
     <a href="orszagokUj.php"
         class="bg-green-600 text-white px-4 py-2 rounded mb-5 inline-block m-2">
-        + Új hozzávaló
+        + Új ország
     </a>
 
     <div class="hidden md:block overflow-x-auto">
@@ -17,25 +17,26 @@
             <thead class="bg-gray-200">
                 <tr>
                     <th class="p-3 text-left">ID</th>
-                    <th class="p-3 text-left">Elnevezes</th>
-                    <th class="p-3 text-left">Műveletek</th>
+                    <th class="p-3 text-left">Név</th>
+                    <th class="p-3 text-left">Művelet</th>
                 </tr>
             </thead>
 
             <tbody>
 
-                <tr class="border-t" ng-repeat="h in hozzavalo track by h.id">
-                    <td class="p-2">{{h.id}}</td>
-                    <td class="p-3">{{h.ELnevezes}}</td>
-                    <td class="p-3">
+                <tr class="border-t" ng-repeat="o in orszagok track by o.Id">
+                    <td class="p-3">{{o.Id}}</td>
+                    <td class="p-3">{{o.Nev}}</td>
 
-                        <a href="hozzavalok_szerkeszt.php?id=1"
-                            class="bg-blue-500 text-white mb-5 mr-2 px-2 py-1 rounded">
+                    <td class="p-3 ">
+
+                        <a href="receptek_szerkeszt.php?id=1"
+                            class="bg-blue-500 text-white mb-5 px-3 py-1 rounded">
                             Szerkeszt
                         </a>
 
-                        <a href="hozzavalok_torol.php?id=1"
-                            class="bg-red-500 text-white mb-5 px-2 py-1 rounded">
+                        <a href="receptek_torol.php?id=1"
+                            class="bg-red-500 text-white mb-5 px-3 py-1 rounded">
                             Törlés
                         </a>
 
@@ -49,29 +50,29 @@
 
     <div class="md:hidden space-y-3">
 
-        <div class="bg-white m-2 rounded-lg shadow p-4 flex justify-between items-center"
-            ng-repeat="h in hozzavalo track by h.id">
+        <div class="bg-white m-2 p-4 rounded-lg shadow flex justify-between items-center"
+            ng-repeat="o in orszagok track by o.Id">
 
             <div>
 
                 <p class="text-sm text-gray-500">
-                    ID: {{h.id}}
+                    ID: {{o.Id}}
                 </p>
 
-                <p class="text-lg font-semibold">
-                    {{h.ELnevezes}}
+                <p class="font-semibold text-lg">
+                    {{o.Nev}}
                 </p>
 
             </div>
 
             <div class="flex gap-2">
 
-                <a href="hozzavalok_szerkeszt.php?id={{h.id}}"
+                <a href="orszag_szerkeszt.php?id={{o.Id}}"
                     class="bg-blue-500 text-white px-3 py-1 rounded text-sm">
                     Szerkeszt
                 </a>
 
-                <a href="hozzavalok_torol.php?id={{h.id}}"
+                <a href="orszag_torol.php?id={{o.Id}}"
                     class="bg-red-500 text-white px-3 py-1 rounded text-sm">
                     Törlés
                 </a>
@@ -81,7 +82,6 @@
         </div>
 
     </div>
-
 </main>
 
 <?php include "../layout/footer.php"; ?>
