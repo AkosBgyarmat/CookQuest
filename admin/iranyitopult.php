@@ -3,16 +3,16 @@
 ?>
 <?php require_once "lekerdezes/statisztika.php"; ?>
 
-<main class="flex-1 lg:ml-64 md:p-2 md:pt-10 max-w-7xl mx-auto w-full">
+<main class="flex-1 lg:ml-64 p-6">
 
     <header class="flex flex-col md:flex-row align-center md:justify-between mb-8 w-full text-center md:text-left">
         <h1 class="text-2xl mt-10 md:text-3xl font-bold">Irányítópult</h1>
     </header>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-2">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
 
         <!-- Receptek -->
-        <div class="bg-white m-2 rounded-xl shadow-md p-6 flex items-center justify-between border-l-4 border-[#5A7863] hover:shadow-lg transition"
+        <div class="bg-white  rounded-xl shadow-md p-6 flex items-center justify-between border-l-4 border-[#5A7863] hover:shadow-lg transition"
             ng-controller="receptController">
             <div>
                 <p class="text-gray-500 text-sm">Receptek</p>
@@ -25,7 +25,7 @@
         </div>
 
         <!-- Hozzavalók -->
-        <div class="bg-white m-2 rounded-xl shadow-md p-6 flex items-center justify-between border-l-4 border-[#90AB8B] hover:shadow-lg transition"
+        <div class="bg-white  rounded-xl shadow-md p-6 flex items-center justify-between border-l-4 border-[#90AB8B] hover:shadow-lg transition"
             ng-controller="hozzavaloController">
             <div>
                 <p class="text-gray-500 text-sm">Hozzávalók</p>
@@ -38,7 +38,7 @@
         </div>
 
         <!-- Eszközök -->
-        <div class="bg-white m-2 rounded-xl shadow-md p-6 flex items-center justify-between border-l-4 border-[#C0CEB8] hover:shadow-lg transition"
+        <div class="bg-white  rounded-xl shadow-md p-6 flex items-center justify-between border-l-4 border-[#C0CEB8] hover:shadow-lg transition"
             ng-controller="eszkozController">
             <div>
                 <p class="text-gray-500 text-sm">Konyhai eszközök</p>
@@ -51,7 +51,7 @@
         </div>
 
         <!-- Kategóriák -->
-        <div class="bg-white m-2 rounded-xl shadow-md p-6 flex items-center justify-between border-l-4 border-[#90AB8B] hover:shadow-lg transition"
+        <div class="bg-white  rounded-xl shadow-md p-6 flex items-center justify-between border-l-4 border-[#90AB8B] hover:shadow-lg transition"
             ng-controller="kategoriaController">
             <div>
                 <p class="text-gray-500 text-sm">Kategóriák</p>
@@ -64,7 +64,7 @@
         </div>
 
         <!-- Felhasználók -->
-        <div class="bg-white m-2 rounded-xl shadow-md p-6 flex items-center justify-between border-l-4 border-[#5A7863] hover:shadow-lg transition"
+        <div class="bg-white  rounded-xl shadow-md p-6 flex items-center justify-between border-l-4 border-[#5A7863] hover:shadow-lg transition"
             ng-controller="felhasznaloController">
             <div>
                 <p class="text-gray-500 text-sm">Felhasználók</p>
@@ -77,7 +77,7 @@
         </div>
 
         <!-- Országok -->
-        <div class="bg-white m-2 rounded-xl shadow-md p-6 flex items-center justify-between border-l-4 border-[#C0CEB8] hover:shadow-lg transition"
+        <div class="bg-white  rounded-xl shadow-md p-6 flex items-center justify-between border-l-4 border-[#C0CEB8] hover:shadow-lg transition"
             ng-controller="orszagController">
             <div>
                 <p class="text-gray-500 text-sm">Országok</p>
@@ -91,7 +91,7 @@
 
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8 m-2">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8 ">
 
         <div class="bg-white rounded-xl shadow-md p-6">
             <h3 class="text-lg font-semibold mb-4">Rendszer információ</h3>
