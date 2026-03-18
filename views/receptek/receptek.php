@@ -91,8 +91,8 @@ include __DIR__ . '/../head.php';
                                     <?php foreach ($alkategoriak as $alKat): ?>
                                         <label class="inline-block cursor-pointer">
                                             <input type="checkbox" class="kategoriaCheckbox peer sr-only"
-                                                   data-fokategoria="<?= htmlspecialchars($foKat) ?>"
-                                                   data-alkategoria="<?= htmlspecialchars($alKat) ?>">
+                                                data-fokategoria="<?= htmlspecialchars($foKat) ?>"
+                                                data-alkategoria="<?= htmlspecialchars($alKat) ?>">
                                             <span class="inline-block px-4 py-2 rounded-xl bg-gray-100 text-gray-600 text-sm font-medium transition peer-checked:bg-[#6F837B] peer-checked:text-white">
                                                 <?= htmlspecialchars($alKat) ?>
                                             </span>
@@ -126,7 +126,7 @@ include __DIR__ . '/../head.php';
                         <?php $szintLocked = ((int)$szint > (int)$aktualisSzint); ?>
                         <div class="mb-4">
                             <button type="button"
-                                    class="w-full text-left flex items-center justify-between py-2 px-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition szint-sav-cim <?= $szintLocked ? 'opacity-60' : '' ?>">
+                                class="w-full text-left flex items-center justify-between py-2 px-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition szint-sav-cim <?= $szintLocked ? 'opacity-60' : '' ?>">
                                 <span class="font-semibold text-[#4A7043]">
                                     <?= (int)$szint ?>. szint <?= $szintLocked ? '🔒' : '' ?>
                                     (<span class="szint-darab" data-szint="<?= (int)$szint ?>"><?= count($lista) ?></span>)
@@ -145,15 +145,15 @@ include __DIR__ . '/../head.php';
                                         <!-- Sidebar elem: nyitott szintnél kattintható, zárt szintnél tiltott -->
                                         <?php if (!$rLocked): ?>
                                             <a href="receptek.php?id=<?= (int)$r['ReceptID'] ?>"
-                                               class="block px-3 py-1.5 rounded-lg text-sm transition <?= ($receptId == (int)$r['ReceptID']) ? 'bg-[#6F837B] text-white' : 'hover:bg-[#95A792]/20 text-gray-700' ?>">
-                                        <?php else: ?>
-                                            <a href="javascript:void(0)"
-                                               onclick="alert('Zárolt recept: Szint <?= $rSzint ?> szükséges.')"
-                                               class="block px-3 py-1.5 rounded-lg text-sm transition text-gray-400 cursor-not-allowed">
-                                        <?php endif; ?>
+                                                class="block px-3 py-1.5 rounded-lg text-sm transition <?= ($receptId == (int)$r['ReceptID']) ? 'bg-[#6F837B] text-white' : 'hover:bg-[#95A792]/20 text-gray-700' ?>">
+                                            <?php else: ?>
+                                                <a href="javascript:void(0)"
+                                                    onclick="alert('Zárolt recept: Szint <?= $rSzint ?> szükséges.')"
+                                                    class="block px-3 py-1.5 rounded-lg text-sm transition text-gray-400 cursor-not-allowed">
+                                                <?php endif; ?>
                                                 <div class="font-medium"><?= htmlspecialchars($r['Nev']) ?></div>
                                                 <div class="text-xs opacity-80"><?= formatIdo((string)$r['ElkeszitesiIdo']) ?></div>
-                                            </a>
+                                                </a>
                                     </li>
                                 <?php endforeach; ?>
                             </ul>
@@ -225,48 +225,48 @@ include __DIR__ . '/../head.php';
 
                                     <?php if (!$locked): ?>
                                         <a href="receptek.php?id=<?= (int)$r['ReceptID'] ?>"
-                                           class="recept-kartya bg-white rounded-2xl shadow-xl overflow-hidden hover:-translate-y-1 transition block relative"
-                                    <?php else: ?>
-                                        <a href="javascript:void(0)"
-                                           onclick="alert('Zárolt recept: Szint <?= $rSzint ?> szükséges.')"
-                                           class="recept-kartya bg-white rounded-2xl shadow-xl overflow-hidden transition block relative cursor-not-allowed opacity-60"
-                                    <?php endif; ?>
-                                           data-recept-id="<?= (int)$r['ReceptID'] ?>"
-                                           data-nev="<?= htmlspecialchars($nevLower) ?>"
-                                           data-fokategoria="<?= htmlspecialchars($r['FoKategoriaNev'] ?? 'Nem kategorizált') ?>"
-                                           data-alkategoria="<?= htmlspecialchars($r['AlkategoriaNev'] ?? 'Egyéb') ?>">
+                                            class="recept-kartya bg-white rounded-2xl shadow-xl overflow-hidden hover:-translate-y-1 transition block relative"
+                                            <?php else: ?>
+                                            <a href="javascript:void(0)"
+                                            onclick="alert('Zárolt recept: Szint <?= $rSzint ?> szükséges.')"
+                                            class="recept-kartya bg-white rounded-2xl shadow-xl overflow-hidden transition block relative cursor-not-allowed opacity-60"
+                                            <?php endif; ?>
+                                            data-recept-id="<?= (int)$r['ReceptID'] ?>"
+                                            data-nev="<?= htmlspecialchars($nevLower) ?>"
+                                            data-fokategoria="<?= htmlspecialchars($r['FoKategoriaNev'] ?? 'Nem kategorizált') ?>"
+                                            data-alkategoria="<?= htmlspecialchars($r['AlkategoriaNev'] ?? 'Egyéb') ?>">
 
-                                        <div class="relative">
-                                            <img src="<?= htmlspecialchars(receptKepSrc($r['Kep'] ?? '')) ?>" class="w-full h-48 object-cover" alt="">
-                                            <?php if ($locked): ?>
-                                                <div class="absolute inset-0 flex items-center justify-center">
-                                                    <div class="bg-black/60 text-white px-3 py-2 rounded-lg text-sm font-semibold">
-                                                        🔒 Szint <?= $rSzint ?> szükséges
+                                            <div class="relative">
+                                                <img src="<?= htmlspecialchars(receptKepSrc($r['Kep'] ?? '')) ?>" class="w-full h-48 object-cover" alt="">
+                                                <?php if ($locked): ?>
+                                                    <div class="absolute inset-0 flex items-center justify-center">
+                                                        <div class="bg-black/60 text-white px-3 py-2 rounded-lg text-sm font-semibold">
+                                                            🔒 Szint <?= $rSzint ?> szükséges
+                                                        </div>
                                                     </div>
+                                                <?php endif; ?>
+                                            </div>
+
+                                            <div class="p-5">
+                                                <div class="flex justify-between text-xs text-gray-500 mb-2 font-semibold">
+                                                    <span class="text-[#6F837B] uppercase"><?= htmlspecialchars($r['AlkategoriaNev'] ?? 'Egyéb') ?></span>
+                                                    <span>⭐ <?= (int)$r['BegyujthetoPontok'] ?> pont</span>
                                                 </div>
-                                            <?php endif; ?>
-                                        </div>
 
-                                        <div class="p-5">
-                                            <div class="flex justify-between text-xs text-gray-500 mb-2 font-semibold">
-                                                <span class="text-[#6F837B] uppercase"><?= htmlspecialchars($r['AlkategoriaNev'] ?? 'Egyéb') ?></span>
-                                                <span>⭐ <?= (int)$r['BegyujthetoPontok'] ?> pont</span>
+                                                <h2 class="text-lg font-bold mb-2 text-gray-800"><?= htmlspecialchars($r['Nev']) ?></h2>
+
+                                                <div class="flex flex-wrap gap-x-4 gap-y-1 text-sm text-gray-600">
+                                                    <span>⏱ <?= formatIdo((string)$r['ElkeszitesiIdo']) ?></span>
+                                                    <span>🔥 <?= formatMennyiseg((float)($r['Kaloria'] ?? 0)) ?> kcal</span>
+                                                    <span>💰 <?= htmlspecialchars($r['ArkategoriaNev'] ?? 'Nincs') ?></span>
+                                                </div>
+
+                                                <?php if ($completed): ?>
+                                                    <div class="mt-3 text-sm font-bold text-emerald-700">✓ Elkészítve</div>
+                                                <?php endif; ?>
                                             </div>
-
-                                            <h2 class="text-lg font-bold mb-2 text-gray-800"><?= htmlspecialchars($r['Nev']) ?></h2>
-
-                                            <div class="flex flex-wrap gap-x-4 gap-y-1 text-sm text-gray-600">
-                                                <span>⏱ <?= formatIdo((string)$r['ElkeszitesiIdo']) ?></span>
-                                                <span>🔥 <?= formatMennyiseg((float)($r['Kaloria'] ?? 0)) ?> kcal</span>
-                                                <span>💰 <?= htmlspecialchars($r['ArkategoriaNev'] ?? 'Nincs') ?></span>
-                                            </div>
-
-                                            <?php if ($completed): ?>
-                                                <div class="mt-3 text-sm font-bold text-emerald-700">✓ Elkészítve</div>
-                                            <?php endif; ?>
-                                        </div>
-                                    </a>
-                                <?php endforeach; ?>
+                                        </a>
+                                    <?php endforeach; ?>
                             </div>
                         </div>
                     <?php endforeach; ?>
@@ -342,7 +342,7 @@ include __DIR__ . '/../head.php';
                                     $i = 1;
                                     foreach ($lepesek as $lepes):
                                         if (trim($lepes) === '') continue;
-                                        ?>
+                                    ?>
                                         <li class="flex gap-4 group">
                                             <span class="w-8 h-8 flex items-center justify-center shrink-0 rounded-full bg-[#6F837B] text-white text-sm font-bold">
                                                 <?= $i++ ?>
@@ -356,15 +356,15 @@ include __DIR__ . '/../head.php';
                                     <!-- Gomblogika: nincs login / már jóváírva / jóváírás beküldése -->
                                     <?php if ($sessionFelhasznaloId <= 0): ?>
                                         <a href="../../views/autentikacio/autentikacio.php"
-                                           class="bg-[#4A7043] text-white px-8 py-3 rounded-xl font-bold shadow-lg hover:bg-[#3d5c37] transition-all">
+                                            class="bg-[#4A7043] text-white px-8 py-3 rounded-xl font-bold shadow-lg hover:bg-[#3d5c37] transition-all">
                                             Jelentkezz be a pontokért
                                         </a>
                                     <?php else: ?>
 
                                         <?php if ($marElkeszitette): ?>
                                             <button type="button"
-                                                    class="bg-gray-300 text-gray-600 px-8 py-3 rounded-xl font-bold shadow-lg cursor-not-allowed"
-                                                    disabled>
+                                                class="bg-gray-300 text-gray-600 px-8 py-3 rounded-xl font-bold shadow-lg cursor-not-allowed"
+                                                disabled>
                                                 Már jóváírva ✅
                                             </button>
                                         <?php else: ?>
@@ -374,7 +374,7 @@ include __DIR__ . '/../head.php';
                                                 <input type="hidden" name="csrf_token" value="<?= htmlspecialchars((string)($_SESSION['csrf_token'] ?? '')) ?>">
 
                                                 <button type="submit"
-                                                        class="bg-[#4A7043] text-white px-8 py-3 rounded-xl font-bold shadow-lg hover:bg-[#3d5c37] transition-all transform hover:scale-105">
+                                                    class="bg-[#4A7043] text-white px-8 py-3 rounded-xl font-bold shadow-lg hover:bg-[#3d5c37] transition-all transform hover:scale-105">
                                                     Elkészítettem!
                                                 </button>
                                             </form>
@@ -395,134 +395,145 @@ include __DIR__ . '/../head.php';
 
 <!-- ===== 12) KONFETTI SZINTLÉPÉS ANIMÁCIÓ ===== -->
 <?php if ($szintLepett): ?>
-<script>
-(function () {
-    // Canvas létrehozása a konfetti részecskékhez
-    const canvas = document.createElement('canvas');
-    canvas.id = 'konfettiCanvas';
-    Object.assign(canvas.style, {
-        position: 'fixed', top: 0, left: 0,
-        width: '100%', height: '100%',
-        pointerEvents: 'none', zIndex: 9999
-    });
-    document.body.appendChild(canvas);
+    <script>
+        (function() {
+            // Canvas létrehozása a konfetti részecskékhez
+            const canvas = document.createElement('canvas');
+            canvas.id = 'konfettiCanvas';
+            Object.assign(canvas.style, {
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                pointerEvents: 'none',
+                zIndex: 9999
+            });
+            document.body.appendChild(canvas);
 
-    const ctx = canvas.getContext('2d');
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
 
-    // Szintlépés értesítő banner
-    const banner = document.createElement('div');
-    banner.innerHTML = `
+            // Szintlépés értesítő banner
+            const banner = document.createElement('div');
+            banner.innerHTML = `
         <div style="font-size:2.2rem;font-weight:900;letter-spacing:-1px;">🎉 Szint elérve!</div>
         <div style="font-size:1.1rem;margin-top:6px;opacity:.85;"><?= (int)$aktualisSzint ?>. szint feloldva — gratulálunk!</div>
     `;
-    Object.assign(banner.style, {
-        position: 'fixed', top: '50%', left: '50%',
-        transform: 'translate(-50%,-50%) scale(0)',
-        background: 'linear-gradient(135deg,#4A7043,#6F837B)',
-        color: '#fff', padding: '32px 48px', borderRadius: '24px',
-        boxShadow: '0 24px 80px rgba(0,0,0,.35)',
-        zIndex: 10000, textAlign: 'center',
-        transition: 'transform .45s cubic-bezier(.175,.885,.32,1.275)',
-        fontFamily: 'system-ui,sans-serif'
-    });
-    document.body.appendChild(banner);
+            Object.assign(banner.style, {
+                position: 'fixed',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%,-50%) scale(0)',
+                background: 'linear-gradient(135deg,#4A7043,#6F837B)',
+                color: '#fff',
+                padding: '32px 48px',
+                borderRadius: '24px',
+                boxShadow: '0 24px 80px rgba(0,0,0,.35)',
+                zIndex: 10000,
+                textAlign: 'center',
+                transition: 'transform .45s cubic-bezier(.175,.885,.32,1.275)',
+                fontFamily: 'system-ui,sans-serif'
+            });
+            document.body.appendChild(banner);
 
-    // Banner megjelenítése rövid késéssel (animáció)
-    setTimeout(() => banner.style.transform = 'translate(-50%,-50%) scale(1)', 80);
+            // Banner megjelenítése rövid késéssel (animáció)
+            setTimeout(() => banner.style.transform = 'translate(-50%,-50%) scale(1)', 80);
 
-    // Banner eltüntetése 4 másodperc után
-    setTimeout(() => {
-        banner.style.transition = 'opacity .5s ease';
-        banner.style.opacity = '0';
-        setTimeout(() => banner.remove(), 500);
-    }, 4000);
+            // Banner eltüntetése 4 másodperc után
+            setTimeout(() => {
+                banner.style.transition = 'opacity .5s ease';
+                banner.style.opacity = '0';
+                setTimeout(() => banner.remove(), 500);
+            }, 4000);
 
-    // Konfetti részecskék inicializálása
-    const COLORS = ['#4A7043','#6F837B','#95A792','#FFD166','#EF476F','#ffffff','#06D6A0','#118AB2','#FFC8DD','#CAFFBF'];
-    const SHAPES = ['rect', 'circle', 'triangle'];
-    const COUNT = 200;
+            // Konfetti részecskék inicializálása
+            const COLORS = ['#4A7043', '#6F837B', '#95A792', '#FFD166', '#EF476F', '#ffffff', '#06D6A0', '#118AB2', '#FFC8DD', '#CAFFBF'];
+            const SHAPES = ['rect', 'circle', 'triangle'];
+            const COUNT = 200;
 
-    const pieces = Array.from({ length: COUNT }, () => ({
-        x: Math.random() * canvas.width,
-        y: -20 - Math.random() * 400,
-        r: 6 + Math.random() * 10,
-        color: COLORS[Math.floor(Math.random() * COLORS.length)],
-        shape: SHAPES[Math.floor(Math.random() * SHAPES.length)],
-        vx: (Math.random() - .5) * 4,
-        vy: 2 + Math.random() * 5,
-        spin: (Math.random() - .5) * .25,
-        angle: Math.random() * Math.PI * 2,
-        opacity: 1,
-        wobble: Math.random() * Math.PI * 2,
-        wobbleSpeed: .05 + Math.random() * .05,
-    }));
+            const pieces = Array.from({
+                length: COUNT
+            }, () => ({
+                x: Math.random() * canvas.width,
+                y: -20 - Math.random() * 400,
+                r: 6 + Math.random() * 10,
+                color: COLORS[Math.floor(Math.random() * COLORS.length)],
+                shape: SHAPES[Math.floor(Math.random() * SHAPES.length)],
+                vx: (Math.random() - .5) * 4,
+                vy: 2 + Math.random() * 5,
+                spin: (Math.random() - .5) * .25,
+                angle: Math.random() * Math.PI * 2,
+                opacity: 1,
+                wobble: Math.random() * Math.PI * 2,
+                wobbleSpeed: .05 + Math.random() * .05,
+            }));
 
-    let frame, start = null;
-    const DURATION = 5500;
+            let frame, start = null;
+            const DURATION = 5500;
 
-    function drawPiece(p) {
-        ctx.save();
-        ctx.globalAlpha = p.opacity;
-        ctx.fillStyle = p.color;
-        ctx.translate(p.x, p.y);
-        ctx.rotate(p.angle);
+            function drawPiece(p) {
+                ctx.save();
+                ctx.globalAlpha = p.opacity;
+                ctx.fillStyle = p.color;
+                ctx.translate(p.x, p.y);
+                ctx.rotate(p.angle);
 
-        if (p.shape === 'rect') {
-            ctx.fillRect(-p.r / 2, -p.r / 3, p.r, p.r / 1.5);
-        } else if (p.shape === 'circle') {
-            ctx.beginPath();
-            ctx.arc(0, 0, p.r / 2, 0, Math.PI * 2);
-            ctx.fill();
-        } else {
-            // Háromszög
-            ctx.beginPath();
-            ctx.moveTo(0, -p.r / 2);
-            ctx.lineTo(p.r / 2, p.r / 2);
-            ctx.lineTo(-p.r / 2, p.r / 2);
-            ctx.closePath();
-            ctx.fill();
-        }
+                if (p.shape === 'rect') {
+                    ctx.fillRect(-p.r / 2, -p.r / 3, p.r, p.r / 1.5);
+                } else if (p.shape === 'circle') {
+                    ctx.beginPath();
+                    ctx.arc(0, 0, p.r / 2, 0, Math.PI * 2);
+                    ctx.fill();
+                } else {
+                    // Háromszög
+                    ctx.beginPath();
+                    ctx.moveTo(0, -p.r / 2);
+                    ctx.lineTo(p.r / 2, p.r / 2);
+                    ctx.lineTo(-p.r / 2, p.r / 2);
+                    ctx.closePath();
+                    ctx.fill();
+                }
 
-        ctx.restore();
-    }
-
-    function tick(ts) {
-        if (!start) start = ts;
-        const elapsed = ts - start;
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        pieces.forEach(p => {
-            p.wobble += p.wobbleSpeed;
-            p.x += p.vx + Math.sin(p.wobble) * 1.5;
-            p.y += p.vy;
-            p.angle += p.spin;
-
-            // Fokozatos elhalványulás az animáció vége felé
-            if (elapsed > DURATION * .6) {
-                p.opacity = Math.max(0, p.opacity - .01);
+                ctx.restore();
             }
 
-            drawPiece(p);
-        });
+            function tick(ts) {
+                if (!start) start = ts;
+                const elapsed = ts - start;
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        if (elapsed < DURATION + 800) {
+                pieces.forEach(p => {
+                    p.wobble += p.wobbleSpeed;
+                    p.x += p.vx + Math.sin(p.wobble) * 1.5;
+                    p.y += p.vy;
+                    p.angle += p.spin;
+
+                    // Fokozatos elhalványulás az animáció vége felé
+                    if (elapsed > DURATION * .6) {
+                        p.opacity = Math.max(0, p.opacity - .01);
+                    }
+
+                    drawPiece(p);
+                });
+
+                if (elapsed < DURATION + 800) {
+                    frame = requestAnimationFrame(tick);
+                } else {
+                    canvas.remove();
+                }
+            }
+
             frame = requestAnimationFrame(tick);
-        } else {
-            canvas.remove();
-        }
-    }
 
-    frame = requestAnimationFrame(tick);
-
-    // Canvas újraméretezés ablak átméretezésekor
-    window.addEventListener('resize', () => {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-    });
-})();
-</script>
+            // Canvas újraméretezés ablak átméretezésekor
+            window.addEventListener('resize', () => {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            });
+        })();
+    </script>
 <?php endif; ?>
 
 <!-- ===== 13) OLDALSPECIFIKUS JS (SZŰRÉS, SIDEBAR, KÁRTYA MEGJELENÍTÉS) ===== -->
