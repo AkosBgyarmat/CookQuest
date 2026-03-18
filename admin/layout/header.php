@@ -44,11 +44,16 @@ if ($_SESSION["szerepID"] != 1) {
 
     <button id="hamburgerBtn"
         onclick="toggleSidebar()"
-        class="md:hidden fixed top-6 left-6 z-50 bg-[#5A7863] text-white px-3 py-2 rounded-lg shadow-lg">
+        class="lg:hidden fixed top-6 left-6 z-50 bg-[#5A7863] text-white px-3 py-2 rounded-lg shadow-lg">
         ☰
     </button>
+
+    <div id="overlay"
+            onclick="toggleSidebar()"
+            class="hidden fixed inset-0 bg-black/50 z-30">
+        </div>
 
     <?php include "oldalmenu.php"; ?>
 
 
-    <div class="flex-1 md:ml-64 flex flex-col">
+    <div class="flex-1 lg:ml-64 flex flex-col">
