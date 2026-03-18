@@ -74,12 +74,12 @@ try {
         $mail->isSMTP();
         $mail->Host = 'smtp.gmail.com';
         $mail->SMTPAuth = true;
-        $mail->Username = 'hancsika.szgya@gmail.com';
-        $mail->Password = 'zatz ftlm qell ntxn';
+        $mail->Username = 'cookquestinfo@gmail.com';
+        $mail->Password = 'tqdf nioz tivc wuzm';
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port = 587;
     
-        $mail->setFrom('hancsika.szgya@gmail.com', 'CookQuest');
+        $mail->setFrom('cookquestinfo@gmail.com', 'CookQuest');
         $mail->addAddress($email, $keresztnev);
     
         $mail->isHTML(true);
