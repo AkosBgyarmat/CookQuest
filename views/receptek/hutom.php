@@ -56,11 +56,11 @@ include __DIR__ . '/../head.php';
 
                     <div class="flex items-center gap-3">
                         <span class="text-sm font-medium text-gray-600">
-                            Kiválasztva: <span id="kivalasztottSzamlalo" class="font-bold text-[#4A7043]">0</span>
+                            Hozzávalók kiválasztva: <span id="kivalasztottSzamlalo" class="font-bold text-[#4A7043]">0 </span>
                         </span>
                         <button type="button" id="mindTorles"
                                 class="text-xs text-red-600 hover:text-red-800 font-medium whitespace-nowrap">
-                            Összes törlése
+                            Összes hozzávaló törlése
                         </button>
                     </div>
                 </div>
@@ -70,8 +70,8 @@ include __DIR__ . '/../head.php';
                     <label for="minMatch" class="text-sm font-medium text-gray-600">Minimum egyező hozzávaló:</label>
                     <select name="minMatch" id="minMatch"
                             class="h-9 rounded-lg ring-2 ring-gray-300 px-3 text-sm focus:ring-[#5A7863] focus:outline-none">
-                        <?php for ($i = 1; $i <= 10; $i++): ?>
-                            <option value="<?= $i ?>" <?= $minMatch === $i ? 'selected' : '' ?>><?= $i ?></option>
+                        <?php for ($minimumEgyezesErtek = 1; $minimumEgyezesErtek <= 10; $minimumEgyezesErtek++): ?>
+                            <option value="<?= $minimumEgyezesErtek ?>" <?= $minMatch === $minimumEgyezesErtek ? 'selected' : '' ?>><?= $minimumEgyezesErtek ?></option>
                         <?php endfor; ?>
                     </select>
                 </div>
@@ -80,22 +80,20 @@ include __DIR__ . '/../head.php';
                 <div id="hozzavaloLista"
                      class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 max-h-80 overflow-y-auto border p-4 rounded">
 
-                    <?php foreach ($osszesHozzavalo as $hz): ?>
+                    <?php foreach ($osszesHozzavalo as $hozzavalo): ?>
                         <label class="hozzavalo-label flex items-center gap-2 cursor-pointer p-2 hover:bg-gray-100 rounded transition"
-                               data-nev="<?= mb_strtolower(htmlspecialchars($hz["Elnevezes"])) ?>">
+                               data-nev="<?= mb_strtolower(htmlspecialchars($hozzavalo["Elnevezes"])) ?>">
                             <input type="checkbox"
                                    name="hozzavalok[]"
-                                   value="<?= $hz["HozzavaloID"] ?>"
+                                   value="<?= $hozzavalo["HozzavaloID"] ?>"
                                    class="hozzavalo-checkbox w-4 h-4 accent-[#5A7863]"
-                                   <?= isset($kivalasztottSet[$hz["HozzavaloID"]]) ? 'checked' : '' ?>>
-                            <span class="text-sm"><?= htmlspecialchars($hz["Elnevezes"]) ?></span>
+                                   <?= isset($kivalasztottSet[$hozzavalo["HozzavaloID"]]) ? 'checked' : '' ?>>
+                            <span class="text-sm"><?= htmlspecialchars($hozzavalo["Elnevezes"]) ?></span>
                         </label>
                     <?php endforeach; ?>
 
                 </div>
-
                 <p id="nincsHozzavalo" class="hidden text-center text-gray-500 text-sm py-4">Nincs találat a keresésre.</p>
-
                 <button type="submit"
                         class="mt-6 bg-[#6F837B] text-white font-bold py-3 px-8 rounded-lg hover:bg-[#5a6b64] transition">
                     Receptek keresése
@@ -139,21 +137,21 @@ include __DIR__ . '/../head.php';
 
                         <?php foreach ($szurtReceptek as $recept):
                             // Megvan/hiányzik listák összeállítása
-                            $receptOsszesHz = $receptHozzavalok[$recept['ReceptID']] ?? [];
+                            $receptOsszesHozzavalo = $receptHozzavalok[$recept['ReceptID']] ?? [];
                             $megvanHozzavalok = [];
                             $hianyzoHozzavalok = [];
 
-                            foreach ($receptOsszesHz as $hz) {
-                                if (isset($kivalasztottSet[$hz['HozzavaloID']])) {
-                                    $megvanHozzavalok[] = $hz['Elnevezes'];
+                            foreach ($receptOsszesHozzavalo as $receptHozzavalo) {
+                                if (isset($kivalasztottSet[$receptHozzavalo['HozzavaloID']])) {
+                                    $megvanHozzavalok[] = $receptHozzavalo['Elnevezes'];
                                 } else {
-                                    $hianyzoHozzavalok[] = $hz['Elnevezes'];
+                                    $hianyzoHozzavalok[] = $receptHozzavalo['Elnevezes'];
                                 }
                             }
 
                             // Akkor tekintjuk teljesnek, ha a recepthez van hozzavalo lista,
                             // es abbol semmi nem hianyzik a kivalasztott (otthon levo) elemekhez kepest.
-                            $mindenHozzavaloMegvan = !empty($receptOsszesHz) && empty($hianyzoHozzavalok);
+                            $mindenHozzavaloMegvan = !empty($receptOsszesHozzavalo) && empty($hianyzoHozzavalok);
                         ?>
 
                             <!-- Receptkártya -->
@@ -197,9 +195,9 @@ include __DIR__ . '/../head.php';
                                         <div class="mb-2">
                                             <p class="text-xs font-semibold text-green-700 mb-1">✓ Megvan:</p>
                                             <div class="flex flex-wrap gap-1">
-                                                <?php foreach ($megvanHozzavalok as $nev): ?>
+                                                <?php foreach ($megvanHozzavalok as $hozzavaloNev): ?>
                                                     <span class="text-xs bg-green-100 text-green-800 px-2 py-0.5 rounded-full">
-                                                        <?= htmlspecialchars($nev) ?>
+                                                        <?= htmlspecialchars($hozzavaloNev) ?>
                                                     </span>
                                                 <?php endforeach; ?>
                                             </div>
@@ -211,9 +209,9 @@ include __DIR__ . '/../head.php';
                                         <div>
                                             <p class="text-xs font-semibold text-red-600 mb-1">✗ Hiányzik:</p>
                                             <div class="flex flex-wrap gap-1">
-                                                <?php foreach ($hianyzoHozzavalok as $nev): ?>
+                                                <?php foreach ($hianyzoHozzavalok as $hozzavaloNev): ?>
                                                     <span class="text-xs bg-red-50 text-red-800 px-2 py-0.5 rounded-full">
-                                                        <?= htmlspecialchars($nev) ?>
+                                                        <?= htmlspecialchars($hozzavaloNev) ?>
                                                     </span>
                                                 <?php endforeach; ?>
                                             </div>
