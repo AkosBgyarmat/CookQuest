@@ -1,6 +1,6 @@
 <?php include "../layout/header.php"; ?>
 
-<main class="flex-1 md:p-2 md:pt-10" ng-controller="kategoriaController">
+<main class="flex-1 lg:ml-64 md:p-2 md:pt-10" ng-controller="kategoriaController">
 
     <header class="flex flex-col md:flex-row align-center md:justify-between mb-8 w-full text-center md:text-left">
         <h1 class="text-2xl mt-10 md:text-3xl font-bold">Kategóriák - {{eszkozKategoria.length + receptKategoria.length}}</h1>

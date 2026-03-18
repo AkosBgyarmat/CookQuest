@@ -56,4 +56,4 @@ if ($_SESSION["szerepID"] != 1) {
     <?php include "oldalmenu.php"; ?>
 
 
-    <div class="flex-1 lg:ml-64 flex flex-col">
+    <div class="flex-1 flex flex-col">

@@ -205,7 +205,7 @@ include "../head.php";
     </section>
 
     <!-- Mértékegység átváltó -->
-    <section ng-show="mode === 'atvalto'" class="mx-auto max-w-[2000px] min-w-[280px] h-full" id="atvalto">
+    <section ng-show="mode === 'atvalto'" class="mx-auto min-w-[280px] h-full" id="atvalto">
 
         <!-- Átváltók -->
         <section class="w-full py-4 px-2 bg-[#EBF4DD] flex flex-col items-center sm:py-9 sm:px-4 md:py-11 md:px-8 lg:py-14 xl:px-16">
