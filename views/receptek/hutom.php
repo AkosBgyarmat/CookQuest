@@ -150,6 +150,10 @@ include __DIR__ . '/../head.php';
                                     $hianyzoHozzavalok[] = $hz['Elnevezes'];
                                 }
                             }
+
+                            // Akkor tekintjuk teljesnek, ha a recepthez van hozzavalo lista,
+                            // es abbol semmi nem hianyzik a kivalasztott (otthon levo) elemekhez kepest.
+                            $mindenHozzavaloMegvan = !empty($receptOsszesHz) && empty($hianyzoHozzavalok);
                         ?>
 
                             <!-- Receptkártya -->
@@ -163,6 +167,12 @@ include __DIR__ . '/../head.php';
                                         alt=""
                                         class="w-full h-full object-cover group-hover:scale-110 transition"
                                     >
+
+                                    <?php if ($mindenHozzavaloMegvan): ?>
+                                        <div class="absolute top-3 left-3 bg-emerald-600/95 text-white text-xs font-bold px-3 py-1 rounded-full shadow">
+                                            ✓ Minden hozzávaló megvan
+                                        </div>
+                                    <?php endif; ?>
                                 </div>
 
                                 <!-- Kártya tartalom -->
@@ -175,6 +185,12 @@ include __DIR__ . '/../head.php';
                                         <span>⏱ <?= formatIdo($recept["ElkeszitesiIdo"]) ?></span>
                                         <span><?= (int)$recept["Szint"] ?>. szint</span>
                                     </div>
+
+                                    <?php if ($mindenHozzavaloMegvan): ?>
+                                        <div class="mb-3 text-sm font-semibold text-emerald-700">
+                                            Otthon minden hozzávaló rendelkezésre áll ehhez a recepthez.
+                                        </div>
+                                    <?php endif; ?>
 
                                     <!-- Megvan -->
                                     <?php if (!empty($megvanHozzavalok)): ?>
@@ -218,11 +234,7 @@ include __DIR__ . '/../head.php';
     </div>
 </main>
 
-<!-- =========================
-     KLIENSOLDALI JS
-     - hutom.js: kereső (filter), számláló frissítés, összes törlése
-     - A képutakhoz NEM kell JS, azt PHP már előállítja
-========================= -->
+<!--hutom.js: kereső (filter), számláló frissítés, összes törlése -->
 <script src="../../assets/js/hutom.js"></script>
 
 <?php require_once "../footer.php"; ?>
