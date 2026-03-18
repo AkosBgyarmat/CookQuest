@@ -46,8 +46,8 @@
 
       <div class="flex items-center space-x-2 mb-2">
         <p>E-mail:</p>
-        <a href="mailto:info@cookquest.com" class="hover:text-purple-400 transition">
-          info@cookquest.com
+        <a href="mailto:cookquestinfo@gmail.com" class="hover:text-purple-400 transition">
+          cookquestinfo@gmail.com
         </a>
       </div>
 

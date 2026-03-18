@@ -22,7 +22,7 @@ include_once "../head.php"; ?>
                 <p>
                     Név: CookQuest <br>
                     Székhely: Oktatási projekt <br>
-                    E-mail: info@cookquest.hu
+                    E-mail: cookquestinfo@gmail.hu
                 </p>
                 <p class="mt-4">
                     Jelen adatkezelési tájékoztató célja, hogy rögzítse a weboldal használata során alkalmazott adatkezelési elveket.

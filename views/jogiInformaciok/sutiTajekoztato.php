@@ -25,7 +25,7 @@ include_once "../head.php"; ?>
                 <p>
                     Az adatkezelő: CookQuest (oktatási célú webalkalmazás)<br>
                     Székhely: Magyarország<br>
-                    E-mail: info@cookquest.hu<br>
+                    E-mail: cookquestinfo@gmail.com<br>
                 </p>
             </div>
 

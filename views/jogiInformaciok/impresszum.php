@@ -23,7 +23,7 @@ include_once "../head.php"; ?>
                     Név: CookQuest <br>
                     Üzemeltető: Keresztúri Hanna & Hornyák Ákos <br>
                     Székhely: Oktatási projekt <br>
-                    E-mail: info@cookquest.hu
+                    E-mail: cookquestinfo@gmail.com
                 </p>
             </div>
 
@@ -70,7 +70,7 @@ include_once "../head.php"; ?>
                 <p>
                     Amennyiben kérdése merül fel a weboldallal kapcsolatban,
                     az alábbi e-mail címen veheti fel a kapcsolatot: <br>
-                    <strong>info@cookquest.hu</strong>
+                    <strong>cookquestinfo@gmail.com</strong>
                 </p>
             </div>
 
