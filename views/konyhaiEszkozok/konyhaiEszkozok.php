@@ -212,12 +212,6 @@ include "../head.php";
 
             <div class="w-full max-w-6xl flex flex-col gap-8">
 
-                <!-- Cím 
-                <div class="w-full flex justify-center border-b-[5px] border-[#5A7863] pb-4">
-                    <p class="text-3xl sm:text-4xl md:text-5xl font-bold text-center">
-                        Átváltók
-                    </p>
-                </div>-->
 
                 <div class="flex flex-wrap justify-center gap-6">
 
@@ -227,7 +221,7 @@ include "../head.php";
 
                         <form class="space-y-4">
                             <div class="flex gap-2 items-center">
-                                <div class="relative w-full sm:w-56 md:w-64">
+                                <div class="relative w-full ">
                                     <input type="number" step="any" id="tomeg1" placeholder=" "
                                         class="peer w-full h-10 rounded-lg bg-transparent ring-2 ring-gray-500 px-3 focus:ring-sky-600" />
                                     <label for="tomeg1"
@@ -246,7 +240,7 @@ include "../head.php";
                             </div>
 
                             <div class="flex gap-2 items-center">
-                                <div class="relative w-full sm:w-56 md:w-64">
+                                <div class="relative w-full ">
                                     <input type="number" step="any" id="tomeg2" readonly placeholder=" "
                                         class="peer w-full h-10 rounded-lg bg-transparent ring-2 ring-gray-500 px-3" />
                                     <label for="tomeg2"
@@ -275,7 +269,7 @@ include "../head.php";
 
                         <form class="space-y-4">
                             <div class="flex gap-2 items-center">
-                                <div class="relative w-full sm:w-56 md:w-64">
+                                <div class="relative w-full">
                                     <input type="number" step="any" id="terfogat1" placeholder=" "
                                         class="peer w-full h-10 rounded-lg bg-transparent ring-2 ring-gray-500 px-3" />
                                     <label for="terfogat1"
@@ -296,7 +290,7 @@ include "../head.php";
                             </div>
 
                             <div class="flex gap-2 items-center">
-                                <div class="relative w-full sm:w-56 md:w-64">
+                                <div class="relative w-full ">
                                     <input type="number" step="any" id="terfogat2" readonly placeholder=" "
                                         class="peer w-full h-10 rounded-lg bg-transparent ring-2 ring-gray-500 px-3" />
                                     <label for="terfogat2"
@@ -327,7 +321,7 @@ include "../head.php";
 
                         <form class="space-y-4">
                             <div class="flex gap-2 items-center">
-                                <div class="relative w-full sm:w-56 md:w-64">
+                                <div class="relative w-full ">
                                     <input type="number" step="any" id="homerseklet1" placeholder=" "
                                         class="peer w-full h-10 rounded-lg bg-transparent ring-2 ring-gray-500 px-3" />
                                     <label for="homerseklet1"
@@ -344,7 +338,7 @@ include "../head.php";
                             </div>
 
                             <div class="flex gap-2 items-center">
-                                <div class="relative w-full sm:w-56 md:w-64">
+                                <div class="relative w-full ">
                                     <input type="number" step="any" id="homerseklet2" readonly placeholder=" "
                                         class="peer w-full h-10 rounded-lg bg-transparent ring-2 ring-gray-500 px-3" />
                                     <label for="homerseklet2"
@@ -371,7 +365,7 @@ include "../head.php";
 
                         <form class="space-y-4">
                             <div class="flex gap-2 items-center">
-                                <div class="relative w-full sm:w-56 md:w-64">
+                                <div class="relative w-full ">
                                     <input type="number" step="any" id="ido1" placeholder=" "
                                         class="peer w-full h-10 rounded-lg bg-transparent ring-2 ring-gray-500 px-3" />
                                     <label for="ido1"
@@ -388,7 +382,7 @@ include "../head.php";
                             </div>
 
                             <div class="flex gap-2 items-center">
-                                <div class="relative w-full sm:w-56 md:w-64">
+                                <div class="relative w-full ">
                                     <input type="number" step="any" id="ido2" readonly placeholder=" "
                                         class="peer w-full h-10 rounded-lg bg-transparent ring-2 ring-gray-500 px-3" />
                                     <label for="ido2"
