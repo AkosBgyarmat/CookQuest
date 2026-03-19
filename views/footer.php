@@ -21,16 +21,16 @@
       <h3 class="text-xl font-semibold mb-4">Jogi információk</h3>
       <ul class="space-y-2">
         <li>
-          <a href="../jogiInformaciok/adatkezelesiTajekoztato.php" class="hover:text-purple-400 transition">Adatkezelési tájékoztató</a>
+          <a href="<?= BASE_URL ?>views/jogiInformaciok/adatkezelesiTajekoztato.php" class="hover:text-purple-400 transition">Adatkezelési tájékoztató</a>
         </li>
         <li>
-          <a href="../jogiInformaciok/aszf.php" class="hover:text-purple-400 transition">ÁSZF</a>
+          <a href="<?= BASE_URL ?>views/jogiInformaciok/aszf.php" class="hover:text-purple-400 transition">ÁSZF</a>
         </li>
         <li>
-          <a href="../jogiInformaciok/sutiTajekoztato.php" class="hover:text-purple-400 transition">Süti tájékoztató</a>
+          <a href="<?= BASE_URL ?>views/jogiInformaciok/sutiTajekoztato.php" class="hover:text-purple-400 transition">Süti tájékoztató</a>
         </li>
         <li>
-          <a href="../jogiInformaciok/impresszum.php" class="hover:text-purple-400 transition">Impresszum</a>
+          <a href="<?= BASE_URL ?>views/jogiInformaciok/impresszum.php" class="hover:text-purple-400 transition">Impresszum</a>
         </li>
       </ul>
     </div>
@@ -74,18 +74,18 @@
   </button>
 
   <!-- Controller -->
-  <script src="../../controller/eszkozController.js"></script>
-  <script src="../../controller/orszagController.js"></script>
-  <script src="../../controller/autentikacioController.js"></script>
-  <script src="../../controller/profilController.js"></script>
-  <script src="../../controller/galeriaController.js"></script>
-  <script src="../../controller/receptController.js"></script>
+  <script src="<?= BASE_URL ?>controller/eszkozController.js"></script>
+  <script src="<?= BASE_URL ?>controller/orszagController.js"></script>
+  <script src="<?= BASE_URL ?>controller/autentikacioController.js"></script>
+  <script src="<?= BASE_URL ?>controller/profilController.js"></script>
+  <script src="<?= BASE_URL ?>controller/galeriaController.js"></script>
+  <script src="<?= BASE_URL ?>controller/receptController.js"></script>
 
   <!-- Javascript -->
-  <script src="../../assets/js/hamburger.js"></script>
-  <script src="../../assets/js/top.js"></script>
-  <script src="../../assets/js/atvalto.js"></script>
-  <script src="../../assets/js/suti.js"></script>
+  <script src="<?= BASE_URL ?>assets/js/hamburger.js"></script>
+  <script src="<?= BASE_URL ?>assets/js/top.js"></script>
+  <script src="<?= BASE_URL ?>assets/js/atvalto.js"></script>
+  <script src="<?= BASE_URL ?>assets/js/suti.js"></script>
 
 
 </footer>

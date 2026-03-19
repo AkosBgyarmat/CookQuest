@@ -1,7 +1,7 @@
-<?php 
-
-define('BASE_URL', '/CookQuest/')
-
+<?php
+if (!defined('BASE_URL')) {
+    define('BASE_URL', '/CookQuest/');
+}
 ?>
 
 
@@ -18,17 +18,17 @@ define('BASE_URL', '/CookQuest/')
     <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
     <!-- CSS -->
-    <link rel="stylesheet" href="../../assets/css/style.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/style.css">
 
     <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
     
     <!-- Favicon -->
-    <link rel="shortcut icon" href="../../assets/kepek/favicon/favicon-32x32.png" type="image/x-icon">
+    <link rel="shortcut icon" href="<?= BASE_URL ?>assets/kepek/favicon/favicon-32x32.png" type="image/x-icon">
 
     <!-- AngularJS -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-    <script src="/CookQuest/assets/js/app.js"></script>
+    <script src="<?= BASE_URL ?>assets/js/app.js"></script>
 
 
     <!-- Alpine.js -->

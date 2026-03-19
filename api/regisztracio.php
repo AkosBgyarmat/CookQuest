@@ -115,7 +115,7 @@ try {
         pontokat gyűjteni a főzés során.
         </p>
         
-        <a href="http://localhost/CookQuest/views/index/index.php"
+        <a href="http://localhost/CookQuest/index.php"
         style="display:inline-block;margin-top:20px;padding:14px 28px;background:#90ab8b;color:white;text-decoration:none;border-radius:6px;font-weight:bold;">
         CookQuest megnyitása
         </a>

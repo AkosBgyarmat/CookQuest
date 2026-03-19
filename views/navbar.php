@@ -1,8 +1,8 @@
 <!-- Navbar -->
 <nav class="flex flex-wrap items-center justify-between p-3 bg-[#EBF4DD] font-bold text-lg">
 
-    <a href="../index/index.php">
-        <img src="../../assets/kepek/Monogram.png" class="w-16"></img>
+    <a href="<?= BASE_URL ?>index.php">
+        <img src="<?= BASE_URL ?>assets/kepek/Monogram.png" class="w-16"></img>
     </a>
 
     <div class="flex md:hidden">
@@ -15,13 +15,13 @@
     </div>
 
     <div class=" toggle hidden w-full md:w-auto md:flex text-right text-bold mt-5 md:mt-0 md:border-none">
-        <a href="../index/index.php" class="block md:inline-block hover:text-[#5A7863] px-3 py-3 md:border-none">Főoldal</a>
-        <a href="../receptek/receptek.php" class="block md:inline-block hover:text-[#5A7863] px-3 py-3 md:border-none">Receptek</a>
-        <a href="../konyhaiEszkozok/konyhaiEszkozok.php" class="block md:inline-block hover:text-[#5A7863] px-3 py-3 md:border-none">Konyhai eszközök</a>
+        <a href="<?= BASE_URL ?>index.php" class="block md:inline-block hover:text-[#5A7863] px-3 py-3 md:border-none">Főoldal</a>
+        <a href="<?= BASE_URL ?>views/receptek/receptek.php" class="block md:inline-block hover:text-[#5A7863] px-3 py-3 md:border-none">Receptek</a>
+        <a href="<?= BASE_URL ?>views/konyhaiEszkozok/konyhaiEszkozok.php" class="block md:inline-block hover:text-[#5A7863] px-3 py-3 md:border-none">Konyhai eszközök</a>
         <?php if (isset($_SESSION["felhasznalo_nev"])): ?>
 
             <!-- Bejelentkezett állapot -->
-            <a href="../profil/profil.php"
+            <a href="<?= BASE_URL ?>views/profil/profil.php"
                 class="block md:inline-block hover:text-[#5A7863] px-3 py-3 md:border-none">
                 Üdv, <?php echo $_SESSION["felhasznalo_nev"]; ?>!
             </a> 
@@ -29,7 +29,7 @@
         <?php else: ?>
 
             <!-- Nincs bejelentkezve -->
-            <a href="../autentikacio/autentikacio.php"
+            <a href="<?= BASE_URL ?>views/autentikacio/autentikacio.php"
                 class="block md:inline-block hover:text-[#5A7863] px-3 py-3 md:border-none">
                 Bejelentkezés
             </a>

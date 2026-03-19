@@ -40,7 +40,7 @@ angular.module("CookQuest").controller("profilController", function ($scope, $ht
   $scope.confirmLogout = function () {
     $http.post("/CookQuest/api/kijelentkezes.php")
       .then(function () {
-        window.location.href = "/CookQuest/views/index/index.php";
+        window.location.href = "/CookQuest/index.php";
       });
   };
 

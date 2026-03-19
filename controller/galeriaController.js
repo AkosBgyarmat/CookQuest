@@ -1,19 +1,19 @@
 angular.module("CookQuest").controller("galleryController", function ($scope) {
 
     const etelek = [
-        "../../assets/kepek/etelek/bundasKenyer.webp",
-        "../../assets/kepek/etelek/ZoldsegLeves.webp",
-        "../../assets/kepek/etelek/Palacsinta.webp",
-        "../../assets/kepek/etelek/ZabpelyhesMezesPohardesszert.webp",
-        "../../assets/kepek/etelek/TukorTojas.webp",
-        "../../assets/kepek/etelek/GyumolcsosPohardesszert.webp"
+        "/CookQuest/assets/kepek/etelek/bundasKenyer.webp",
+        "/CookQuest/assets/kepek/etelek/ZoldsegLeves.webp",
+        "/CookQuest/assets/kepek/etelek/Palacsinta.webp",
+        "/CookQuest/assets/kepek/etelek/ZabpelyhesMezesPohardesszert.webp",
+        "/CookQuest/assets/kepek/etelek/TukorTojas.webp",
+        "/CookQuest/assets/kepek/etelek/GyumolcsosPohardesszert.webp"
     ];
 
     const eszkozok = [
-        "../../assets/kepek/konyhaiEszkoz/airfryer.jpg",
-        "../../assets/kepek/konyhaiEszkoz/bogracs.jpg",
-        "../../assets/kepek/konyhaiEszkoz/ecset.jpg",
-        "../../assets/kepek/konyhaiEszkoz/hamozo.jpg"
+        "/CookQuest/assets/kepek/konyhaiEszkoz/airfryer.jpg",
+        "/CookQuest/assets/kepek/konyhaiEszkoz/bogracs.jpg",
+        "/CookQuest/assets/kepek/konyhaiEszkoz/ecset.jpg",
+        "/CookQuest/assets/kepek/konyhaiEszkoz/hamozo.jpg"
     ];
 
     const allImages = [...etelek, ...eszkozok];

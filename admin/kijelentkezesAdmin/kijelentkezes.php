@@ -8,6 +8,6 @@ session_destroy();
 header("Content-Type: application/json");
 echo json_encode(["success" => true]);
 
-header("Location: /CookQuest/views/index/index.php");
+header("Location: /CookQuest/index.php");
 exit;
 ?>
