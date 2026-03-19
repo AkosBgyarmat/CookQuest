@@ -79,6 +79,32 @@ include __DIR__ . '/../head.php';
                         <button id="szuroReset" type="button" class="text-xs text-red-600 hover:text-red-800 font-medium">Szűrők alaphelyzetbe</button>
                     </div>
 
+                    <div class="mb-6">
+                        <div class="text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">Árkategória</div>
+                        <div class="flex flex-wrap gap-2">
+                            <?php foreach ($arKategoriaOpcio as $arKat): ?>
+                                <label class="inline-block cursor-pointer">
+                                    <input type="checkbox" class="arkategoriaCheckbox peer sr-only" data-arkategoria="<?= htmlspecialchars($arKat) ?>">
+                                    <span class="inline-block px-4 py-2 rounded-xl bg-gray-100 text-gray-600 text-sm font-medium transition peer-checked:bg-[#6F837B] peer-checked:text-white">
+                                        <?= htmlspecialchars($arKat) ?>
+                                    </span>
+                                </label>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+
+                    <div class="mb-6 max-w-xs">
+                        <label for="idoSzuro" class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">Elkészítési idő</label>
+                        <select id="idoSzuro" class="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-[#6F837B]/40 focus:border-[#6F837B]">
+                            <option value="">Bármennyi idő</option>
+                            <option value="0-15">0-15 perc</option>
+                            <option value="16-30">16-30 perc</option>
+                            <option value="31-45">31-45 perc</option>
+                            <option value="46-60">46-60 perc</option>
+                            <option value="61-9999">60+ perc</option>
+                        </select>
+                    </div>
+
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         <?php foreach ($kategoriaCheckboxok as $foKat => $alkategoriak): ?>
                             <div class="kategoria-csoport">
@@ -218,6 +244,17 @@ include __DIR__ . '/../head.php';
                                     <?php
                                     // Kártya-szintű előkészítés: név kereséshez, lock állapot, elkészítettem állapot.
                                     $nevLower = mb_strtolower((string)$r['Nev']);
+                                    // Keresési index: a listaelem összes elérhető adatmezőjének összefűzése.
+                                    $keresoMezok = [];
+                                    foreach ($r as $ertek) {
+                                        if ($ertek === null || is_array($ertek) || is_object($ertek)) {
+                                            continue;
+                                        }
+                                        $keresoMezok[] = (string)$ertek;
+                                    }
+                                    $keresoSzoveg = function_exists('mb_strtolower')
+                                        ? mb_strtolower(implode(' ', $keresoMezok), 'UTF-8')
+                                        : strtolower(implode(' ', $keresoMezok));
                                     $rSzint = (int)($r['Szint'] ?? $r['NehezsegiSzintID'] ?? $szint);
                                     $locked = ($rSzint > (int)$aktualisSzint);
                                     $completed = isset($teljesitettSet[(int)$r['ReceptID']]);
@@ -233,8 +270,11 @@ include __DIR__ . '/../head.php';
                                             <?php endif; ?>
                                             data-recept-id="<?= (int)$r['ReceptID'] ?>"
                                             data-nev="<?= htmlspecialchars($nevLower) ?>"
+                                            data-kereso="<?= htmlspecialchars($keresoSzoveg) ?>"
                                             data-fokategoria="<?= htmlspecialchars($r['FoKategoriaNev'] ?? 'Nem kategorizált') ?>"
-                                            data-alkategoria="<?= htmlspecialchars($r['AlkategoriaNev'] ?? 'Egyéb') ?>">
+                                            data-alkategoria="<?= htmlspecialchars($r['AlkategoriaNev'] ?? 'Egyéb') ?>"
+                                            data-arkategoria="<?= htmlspecialchars($r['ArkategoriaNev'] ?? 'Nincs') ?>"
+                                            data-elkeszitesi-ido="<?= htmlspecialchars((string)($r['ElkeszitesiIdo'] ?? '')) ?>">
 
                                             <div class="relative">
                                                 <img src="<?= htmlspecialchars(receptKepSrc($r['Kep'] ?? '')) ?>" class="w-full h-48 object-cover" alt="">

@@ -31,6 +31,7 @@ class ReceptekVezerlo
             'aktualisPontok' => null,
             'receptekSzintekSzerint' => [],
             'kategoriaCheckboxok' => [],
+            'arKategoriaOpcio' => [],
             'recept' => null,
             'hozzavalok' => [],
             'marElkeszitette' => false,
@@ -232,6 +233,7 @@ class ReceptekVezerlo
 
         // Szűrőhöz kategóriák
         $kategoriaCheckboxok = [];
+        $arKategoriaOpcio = [];
         foreach ($receptek as $r) {
             // Szűrő-adatszerkezet építése: fő kategória -> alkategóriák.
             $foKat = $r['FoKategoriaNev'] ?? 'Nem kategorizált';
@@ -240,7 +242,17 @@ class ReceptekVezerlo
             if (!in_array($alKat, $kategoriaCheckboxok[$foKat], true)) {
                 $kategoriaCheckboxok[$foKat][] = $alKat;
             }
+
+            $arKat = trim((string)($r['ArkategoriaNev'] ?? ''));
+            if ($arKat === '') {
+                $arKat = 'Nincs';
+            }
+            if (!in_array($arKat, $arKategoriaOpcio, true)) {
+                $arKategoriaOpcio[] = $arKat;
+            }
         }
+
+        sort($arKategoriaOpcio, SORT_NATURAL | SORT_FLAG_CASE);
 
         // Konkrét recept oldal
         $recept = null;
@@ -274,6 +286,7 @@ class ReceptekVezerlo
             'aktualisPontok',
             'receptekSzintekSzerint',
             'kategoriaCheckboxok',
+            'arKategoriaOpcio',
             'recept',
             'hozzavalok',
             'marElkeszitette',

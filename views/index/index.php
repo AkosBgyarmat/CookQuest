@@ -2,34 +2,7 @@
 session_start();
 
 require_once __DIR__ . '/../../api/receptek_bootstrap.php';
-require_once __DIR__ . '/../../controller/ReceptTarolo.php';
-
-$indexReceptek = [];
-try {
-    $receptTarolo = new ReceptTarolo($pdo);
-    $osszesRecept = $receptTarolo->osszesLista();
-
-    $elsoSzintReceptek = array_values(array_filter(
-        $osszesRecept,
-        static fn(array $r): bool => (int)($r['Szint'] ?? 0) === 1
-    ));
-
-    if (!empty($elsoSzintReceptek)) {
-        $indexReceptek = array_map(static function (array $r): array {
-            return [
-                'ReceptID' => (int)($r['ReceptID'] ?? 0),
-                'Nev' => (string)($r['Nev'] ?? ''),
-                'KepSrc' => (string)receptKepSrc($r['Kep'] ?? ''),
-                'BegyujthetoPontok' => (int)($r['BegyujthetoPontok'] ?? 0),
-                'Szint' => (int)($r['Szint'] ?? 1),
-                'ElkeszitesiIdoFormazott' => (string)formatIdo((string)($r['ElkeszitesiIdo'] ?? '')),
-            ];
-        }, $elsoSzintReceptek);
-    }
-} catch (Throwable $e) {
-    $indexReceptek = [];
-}
-
+require_once __DIR__ . '/../../controller/IndexOldalRecept.php';
 include "../head.php";
 ?>
 

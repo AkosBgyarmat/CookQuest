@@ -1,194 +1,259 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const $ = (sel, root = document) => root.querySelector(sel);
-  const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+  // Rövid segédek: egy elem, illetve több elem lekérése.
+  const selectOne = (selector, rootElement = document) => rootElement.querySelector(selector);
+  const selectAll = (selector, rootElement = document) => Array.from(rootElement.querySelectorAll(selector));
 
-  const receptKartyak = () => $$('.recept-kartya');
-  const szintBlokkok = () => $$('.szint-blokk');
+  const getRecipeCards = () => selectAll('.recept-kartya');
+  const getLevelBlocks = () => selectAll('.szint-blokk');
 
   // --- HARD "mindig látszódjon" ---
-  function mindentMutat() {
-    receptKartyak().forEach(el => {
-      el.classList.remove('hidden');
-      el.style.display = ''; // ha inline display:none volt
+  function showAllRecipes() {
+    getRecipeCards().forEach(cardElement => {
+      cardElement.classList.remove('hidden');
+      cardElement.style.display = ''; // ha inline display:none volt
     });
-    szintBlokkok().forEach(el => {
-      el.classList.remove('hidden');
-      el.style.display = '';
+    getLevelBlocks().forEach(levelBlockElement => {
+      levelBlockElement.classList.remove('hidden');
+      levelBlockElement.style.display = '';
     });
-    const nincsEredmeny = $('#nincsEredmeny');
-    if (nincsEredmeny) nincsEredmeny.classList.add('hidden');
+    const noResultElement = selectOne('#nincsEredmeny');
+    if (noResultElement) noResultElement.classList.add('hidden');
   }
 
-  // Többször lefuttatjuk, hogy ha más script elrejti betöltéskor, visszahozzuk
-  mindentMutat();
-  setTimeout(mindentMutat, 0);
-  setTimeout(mindentMutat, 50);
-  setTimeout(mindentMutat, 200);
-  window.addEventListener('load', mindentMutat);
-  window.addEventListener('pageshow', mindentMutat);
+  // Többször lefuttatjuk, hogy ha más script elrejti betöltéskor, visszahozzuk.
+  showAllRecipes();
+  setTimeout(showAllRecipes, 0);
+  setTimeout(showAllRecipes, 50);
+  setTimeout(showAllRecipes, 200);
+  window.addEventListener('load', showAllRecipes);
+  window.addEventListener('pageshow', showAllRecipes);
 
   // --- Mobil sidebar ---
-  const sidebar = $('#sidebar');
-  const mobilSidebarToggle = $('#mobilSidebarToggle');
-  const mobilSidebarClose = $('#mobilSidebarClose');
+  const sidebarElement = selectOne('#sidebar');
+  const mobileSidebarOpenButton = selectOne('#mobilSidebarToggle');
+  const mobileSidebarCloseButton = selectOne('#mobilSidebarClose');
 
-  function sidebarNyit() {
-    if (!sidebar) return;
-    sidebar.classList.remove('-translate-x-full');
-  }
-  function sidebarZar() {
-    if (!sidebar) return;
-    sidebar.classList.add('-translate-x-full');
+  function openSidebar() {
+    if (!sidebarElement) return;
+    sidebarElement.classList.remove('-translate-x-full');
   }
 
-  if (mobilSidebarToggle && sidebar) mobilSidebarToggle.addEventListener('click', sidebarNyit);
-  if (mobilSidebarClose && sidebar) mobilSidebarClose.addEventListener('click', sidebarZar);
+  function closeSidebar() {
+    if (!sidebarElement) return;
+    sidebarElement.classList.add('-translate-x-full');
+  }
 
-  document.addEventListener('click', (e) => {
-    if (!sidebar) return;
+  if (mobileSidebarOpenButton && sidebarElement) {
+    mobileSidebarOpenButton.addEventListener('click', openSidebar);
+  }
+  if (mobileSidebarCloseButton && sidebarElement) {
+    mobileSidebarCloseButton.addEventListener('click', closeSidebar);
+  }
+
+  document.addEventListener('click', (clickEvent) => {
+    if (!sidebarElement) return;
     if (window.matchMedia('(min-width: 1024px)').matches) return;
-    const clickedToggle = mobilSidebarToggle && mobilSidebarToggle.contains(e.target);
-    const clickedInsideSidebar = sidebar.contains(e.target);
-    if (!clickedInsideSidebar && !clickedToggle) sidebarZar();
+
+    const clickOnOpenButton = mobileSidebarOpenButton && mobileSidebarOpenButton.contains(clickEvent.target);
+    const clickInsideSidebar = sidebarElement.contains(clickEvent.target);
+    if (!clickInsideSidebar && !clickOnOpenButton) closeSidebar();
   });
 
   // --- Sidebar szint lenyitás ---
-  $$('.szint-sav-cim').forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const wrapper = btn.parentElement;
-      if (!wrapper) return;
-      const ul = $('.szint-sav-tartalom', wrapper);
-      const nyil = $('.sav-nyil', btn);
-      if (!ul) return;
+  selectAll('.szint-sav-cim').forEach((levelHeaderButton) => {
+    levelHeaderButton.addEventListener('click', () => {
+      const levelHeaderWrapper = levelHeaderButton.parentElement;
+      if (!levelHeaderWrapper) return;
 
-      const nyitva = !ul.classList.contains('hidden');
-      ul.classList.toggle('hidden', nyitva);
-      if (nyil) nyil.classList.toggle('rotate-180', !nyitva);
+      const levelContentList = selectOne('.szint-sav-tartalom', levelHeaderWrapper);
+      const arrowIcon = selectOne('.sav-nyil', levelHeaderButton);
+      if (!levelContentList) return;
+
+      const isOpen = !levelContentList.classList.contains('hidden');
+      levelContentList.classList.toggle('hidden', isOpen);
+      if (arrowIcon) arrowIcon.classList.toggle('rotate-180', !isOpen);
     });
   });
 
   // --- Szűrő elemek (ha vannak) ---
-  const szuroGomb = $('#szuroGomb');
-  const szuroPanel = $('#szuroPanel');
-  const szuroReset = $('#szuroReset');
-  const szuroSzamlalo = $('#szuroSzamlalo');
-  const szuroNyil = $('#szuroNyil');
-  const kategoriaCheckboxok = $$('.kategoriaCheckbox');
+  const filterToggleButton = selectOne('#szuroGomb');
+  const filterPanelElement = selectOne('#szuroPanel');
+  const filterResetButton = selectOne('#szuroReset');
+  const filterBadgeElement = selectOne('#szuroSzamlalo');
+  const filterArrowIcon = selectOne('#szuroNyil');
+  const prepTimeSelect = selectOne('#idoSzuro');
+  const categoryCheckboxes = selectAll('.kategoriaCheckbox');
+  const priceCategoryCheckboxes = selectAll('.arkategoriaCheckbox');
 
-  function frissitSzuroSzamlalo() {
-    if (!szuroSzamlalo) return;
-    const db = kategoriaCheckboxok.filter(cb => cb.checked).length;
-    szuroSzamlalo.textContent = String(db);
-    szuroSzamlalo.classList.toggle('hidden', db === 0);
+  // Az adatbázisból jövő időt percekre normalizáljuk,
+  // hogy a dropdown tartományaihoz (pl. 16-30) hasonlítható legyen.
+  function parsePreparationTimeToMinutes(rawPreparationTime) {
+    const normalizedRawValue = String(rawPreparationTime || '').trim();
+    if (!normalizedRawValue) return null;
+
+    if (/^\d+$/.test(normalizedRawValue)) {
+      const parsedMinutes = parseInt(normalizedRawValue, 10);
+      return Number.isNaN(parsedMinutes) ? null : parsedMinutes;
+    }
+
+    const timeParts = normalizedRawValue.split(':').map(part => parseInt(part, 10));
+    if (timeParts.some(Number.isNaN)) return null;
+
+    if (timeParts.length === 3) {
+      const [hours, minutes, seconds] = timeParts;
+      return (hours * 60) + minutes + (seconds > 0 ? 1 : 0);
+    }
+
+    if (timeParts.length === 2) {
+      const [minutes, seconds] = timeParts;
+      return minutes + (seconds > 0 ? 1 : 0);
+    }
+
+    return null;
   }
 
-  if (szuroGomb && szuroPanel) {
-    szuroGomb.addEventListener('click', () => {
-      const nyitva = !szuroPanel.classList.contains('hidden');
-      szuroPanel.classList.toggle('hidden', nyitva);
-      if (szuroNyil) szuroNyil.classList.toggle('rotate-180', !nyitva);
+  // A dropdown value-ból (pl. "16-30") készítünk alsó/felső határt.
+  function parseTimeRange(selectedRange) {
+    const [minRawValue, maxRawValue] = String(selectedRange || '').split('-');
+    const minMinutes = parseInt(minRawValue || '', 10);
+    const maxMinutes = parseInt(maxRawValue || '', 10);
+    if (Number.isNaN(minMinutes) || Number.isNaN(maxMinutes)) return null;
+    return { minMinutes, maxMinutes };
+  }
+
+  // A szűrő gomb melletti badge-ben az aktív szűrők számát mutatjuk.
+  function refreshActiveFilterCount() {
+    if (!filterBadgeElement) return;
+
+    let activeFilterCount = 0;
+    activeFilterCount += categoryCheckboxes.filter(categoryCheckbox => categoryCheckbox.checked).length;
+    activeFilterCount += priceCategoryCheckboxes.filter(priceCheckbox => priceCheckbox.checked).length;
+    if ((prepTimeSelect?.value || '').trim() !== '') activeFilterCount += 1;
+
+    filterBadgeElement.textContent = String(activeFilterCount);
+    filterBadgeElement.classList.toggle('hidden', activeFilterCount === 0);
+  }
+
+  if (filterToggleButton && filterPanelElement) {
+    filterToggleButton.addEventListener('click', () => {
+      const isPanelOpen = !filterPanelElement.classList.contains('hidden');
+      filterPanelElement.classList.toggle('hidden', isPanelOpen);
+      if (filterArrowIcon) filterArrowIcon.classList.toggle('rotate-180', !isPanelOpen);
     });
   }
 
-  // --- Kereső (ha van fent a navbarban) ---
-  // Megfogjuk bármelyik tipikus kereső inputot
-  const keresInput =
-    $('#kereso') ||
-    $('#kereses') ||
-    $('#navKereses') ||
-    document.querySelector('input[placeholder*="Keres"]');
+  function applyFilters() {
+    const recipeCards = getRecipeCards();
+    if (!recipeCards.length) return;
 
-  function szuresAlkalmazasa() {
-    const cards = receptKartyak();
-    if (!cards.length) return;
-
-    // kiválasztott kategóriák
-    const kivalasztott = new Set(
-      kategoriaCheckboxok
-        .filter(cb => cb.checked)
-        .map(cb => `${cb.dataset.fokategoria || ''}||${cb.dataset.alkategoria || ''}`)
+    // Kiválasztott kategóriák (főkategória + alkategória páros).
+    const selectedCategoryPairs = new Set(
+      categoryCheckboxes
+        .filter(categoryCheckbox => categoryCheckbox.checked)
+        .map(categoryCheckbox => `${categoryCheckbox.dataset.fokategoria || ''}||${categoryCheckbox.dataset.alkategoria || ''}`)
     );
-    const vanKategoriaSzures = kivalasztott.size > 0;
+    const hasCategoryFilter = selectedCategoryPairs.size > 0;
 
-    // kereső szöveg
-    const q = (keresInput?.value || '').trim().toLowerCase();
-    const vanKereses = q.length > 0;
+    const selectedPriceCategories = new Set(
+      priceCategoryCheckboxes
+        .filter(priceCheckbox => priceCheckbox.checked)
+        .map(priceCheckbox => (priceCheckbox.dataset.arkategoria || '').trim().toLowerCase())
+    );
+    const hasPriceCategoryFilter = selectedPriceCategories.size > 0;
 
-    // szűrés
-    cards.forEach(card => {
-      const fo = card.dataset.fokategoria || '';
-      const al = card.dataset.alkategoria || '';
-      const key = `${fo}||${al}`;
+    // Időszűrés csak akkor aktív, ha a dropdownban konkrét tartomány van kiválasztva.
+    const selectedTimeRange = parseTimeRange(prepTimeSelect?.value || '');
+    const hasTimeFilter = Boolean(selectedTimeRange);
 
-      const nev = (card.dataset.nev || '').toLowerCase();
+    // A kártya akkor marad látható, ha minden aktív szűrőfeltételnek megfelel.
+    recipeCards.forEach((recipeCard) => {
+      const mainCategory = recipeCard.dataset.fokategoria || '';
+      const subCategory = recipeCard.dataset.alkategoria || '';
+      const categoryPairKey = `${mainCategory}||${subCategory}`;
+      const priceCategory = (recipeCard.dataset.arkategoria || 'Nincs').trim().toLowerCase();
+      const prepMinutes = parsePreparationTimeToMinutes(recipeCard.dataset.elkeszitesiIdo || '');
 
-      const okKat = !vanKategoriaSzures || kivalasztott.has(key);
-      const okNev = !vanKereses || nev.includes(q);
+      const categoryMatches = !hasCategoryFilter || selectedCategoryPairs.has(categoryPairKey);
+      const priceMatches = !hasPriceCategoryFilter || selectedPriceCategories.has(priceCategory);
+      const timeMatches = !hasTimeFilter || (
+        prepMinutes !== null
+        && prepMinutes >= selectedTimeRange.minMinutes
+        && prepMinutes <= selectedTimeRange.maxMinutes
+      );
 
-      const lathato = okKat && okNev;
-      card.classList.toggle('hidden', !lathato);
+      const isVisible = categoryMatches && priceMatches && timeMatches;
+      recipeCard.classList.toggle('hidden', !isVisible);
     });
 
-    // szint darabok frissítés + nincs találat
-    frissitDarabokEsBlokkok();
-    frissitSzuroSzamlalo();
+    // Szint darabok frissítés + nincs találat.
+    refreshLevelCountsAndBlocks();
+    refreshActiveFilterCount();
   }
 
-  function frissitDarabokEsBlokkok() {
-    const cards = receptKartyak();
-    const blokkok = szintBlokkok();
-    const nincsEredmeny = $('#nincsEredmeny');
+  function refreshLevelCountsAndBlocks() {
+    const recipeCards = getRecipeCards();
+    const levelBlocks = getLevelBlocks();
+    const noResultElement = selectOne('#nincsEredmeny');
 
-    // kártya -> szint map
-    const kartyaSzintMap = new Map();
-    cards.forEach(card => {
-      const blokk = card.closest('.szint-blokk');
-      const szint = blokk ? parseInt(blokk.getAttribute('data-szint') || '0', 10) : 0;
-      kartyaSzintMap.set(card, szint);
+    // Kártya -> szint map.
+    const cardLevelMap = new Map();
+    recipeCards.forEach((recipeCard) => {
+      const closestLevelBlock = recipeCard.closest('.szint-blokk');
+      const levelNumber = closestLevelBlock
+        ? parseInt(closestLevelBlock.getAttribute('data-szint') || '0', 10)
+        : 0;
+      cardLevelMap.set(recipeCard, levelNumber);
     });
 
-    const szamlalo = {};
-    cards.forEach(card => {
-      const szint = kartyaSzintMap.get(card) || 0;
-      const lathato = !card.classList.contains('hidden');
-      szamlalo[szint] ??= 0;
-      if (lathato) szamlalo[szint]++;
+    // Látható kártyák darabszáma szintenként.
+    const visibleCountByLevel = {};
+    recipeCards.forEach((recipeCard) => {
+      const levelNumber = cardLevelMap.get(recipeCard) || 0;
+      const isVisible = !recipeCard.classList.contains('hidden');
+      visibleCountByLevel[levelNumber] ??= 0;
+      if (isVisible) visibleCountByLevel[levelNumber]++;
     });
 
-    $$('.szint-darab').forEach(span => {
-      const s = parseInt(span.getAttribute('data-szint') || '0', 10);
-      span.textContent = String(szamlalo[s] ?? 0);
+    selectAll('.szint-darab').forEach((levelCountElement) => {
+      const levelNumber = parseInt(levelCountElement.getAttribute('data-szint') || '0', 10);
+      levelCountElement.textContent = String(visibleCountByLevel[levelNumber] ?? 0);
     });
 
-    $$('.szint-darab-fo').forEach(span => {
-      const s = parseInt(span.getAttribute('data-szint') || '0', 10);
-      span.textContent = String(szamlalo[s] ?? 0);
+    selectAll('.szint-darab-fo').forEach((levelCountElement) => {
+      const levelNumber = parseInt(levelCountElement.getAttribute('data-szint') || '0', 10);
+      levelCountElement.textContent = String(visibleCountByLevel[levelNumber] ?? 0);
     });
 
-    blokkok.forEach(blokk => {
-      const s = parseInt(blokk.getAttribute('data-szint') || '0', 10);
-      blokk.classList.toggle('hidden', (szamlalo[s] ?? 0) === 0);
+    // Elrejtjük azokat a szint-blokkokat, ahol a szűrés után 0 találat maradt.
+    levelBlocks.forEach((levelBlock) => {
+      const levelNumber = parseInt(levelBlock.getAttribute('data-szint') || '0', 10);
+      levelBlock.classList.toggle('hidden', (visibleCountByLevel[levelNumber] ?? 0) === 0);
     });
 
-    const vanValami = cards.some(c => !c.classList.contains('hidden'));
-    if (nincsEredmeny) nincsEredmeny.classList.toggle('hidden', vanValami);
+    // Globális "nincs találat" állapot.
+    const hasAnyVisibleRecipe = recipeCards.some(recipeCard => !recipeCard.classList.contains('hidden'));
+    if (noResultElement) noResultElement.classList.toggle('hidden', hasAnyVisibleRecipe);
   }
 
-  // események
-  kategoriaCheckboxok.forEach(cb => cb.addEventListener('change', szuresAlkalmazasa));
-  if (keresInput) keresInput.addEventListener('input', szuresAlkalmazasa);
+  // Események.
+  categoryCheckboxes.forEach(categoryCheckbox => categoryCheckbox.addEventListener('change', applyFilters));
+  priceCategoryCheckboxes.forEach(priceCheckbox => priceCheckbox.addEventListener('change', applyFilters));
+  if (prepTimeSelect) prepTimeSelect.addEventListener('change', applyFilters);
 
-  if (szuroReset) {
-    szuroReset.addEventListener('click', () => {
-      kategoriaCheckboxok.forEach(cb => cb.checked = false);
-      if (keresInput) keresInput.value = '';
-      mindentMutat();
-      frissitSzuroSzamlalo();
-      frissitDarabokEsBlokkok();
+  if (filterResetButton) {
+    filterResetButton.addEventListener('click', () => {
+      // Minden panel-szűrőt alaphelyzetbe rakunk.
+      categoryCheckboxes.forEach(categoryCheckbox => categoryCheckbox.checked = false);
+      priceCategoryCheckboxes.forEach(priceCheckbox => priceCheckbox.checked = false);
+      if (prepTimeSelect) prepTimeSelect.value = '';
+
+      showAllRecipes();
+      refreshActiveFilterCount();
+      refreshLevelCountsAndBlocks();
     });
   }
 
-  // indulás
-  frissitSzuroSzamlalo();
-  frissitDarabokEsBlokkok();
+  // Indulás.
+  refreshActiveFilterCount();
+  refreshLevelCountsAndBlocks();
 });

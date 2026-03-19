@@ -7,8 +7,7 @@ class ReceptTarolo
     {
         return $this->pdo->query("
             SELECT 
-                r.ReceptID, r.Nev, r.Kep, r.ElkeszitesiIdo, r.BegyujthetoPontok, r.Kaloria,
-                r.Elkeszitesi_leiras, n.Szint, 
+                r.*, n.Szint, 
                 kat.Kategoria AS FoKategoriaNev, 
                 alk.Alkategoria AS AlkategoriaNev, 
                 a.Arkategoria AS ArkategoriaNev 
@@ -59,4 +58,6 @@ class ReceptTarolo
         $st->execute([$id]);
         return (int)$st->fetchColumn();
     }
+
+    
 }
