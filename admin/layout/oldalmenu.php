@@ -24,6 +24,13 @@ transform -translate-x-full lg:translate-x-0 transition-transform duration-300 z
         </li>
 
         <li>
+            <a href="/CookQuest/admin/statisztika/statisztika.php"
+                class="flex items-center gap-3 hover:bg-[#759277] hover:text-white p-2 rounded">
+                <span class="sm:text-center sm:w-100">Statisztika
+            </a>
+        </li>
+
+        <li>
             <a href="/CookQuest/admin/receptAdmin/receptek.php"
                 class="flex items-center gap-3 hover:bg-[#759277] hover:text-white p-2 rounded">
                 <span>Receptek
