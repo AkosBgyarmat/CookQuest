@@ -16,9 +16,12 @@
             &times;
         </button>
 
-        <!-- Ikon -->
-        <div class="flex items-center justify-center w-20 h-20 mx-auto mb-6 bg-green-100 rounded-full">
-            <svg class="h-12 w-12 text-green-600"
+        <!-- IKON -->
+        <div class="flex items-center justify-center w-20 h-20 mx-auto mb-6"
+            ng-class="registerSuccess ? 'bg-green-100' : 'bg-red-100'">
+
+            <svg ng-if="registerSuccess"
+                class="h-12 w-12 text-green-600"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
@@ -28,10 +31,23 @@
                     stroke-linejoin="round"
                     d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
             </svg>
+
+            <svg ng-if="!registerSuccess"
+                class="h-12 w-12 text-red-600"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor">
+                <path stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M12 9v3.75m0 3.75h.007v.008H12v-.008zm9-3.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+            </svg>
+
         </div>
 
-        <h1 class="text-3xl font-bold text-green-700 mb-4">
-            Sikeres regisztráció!
+        <h1 class="text-3xl font-bold mb-4" ng-class="registerSuccess ? 'text-green-700' : 'text-red-700'">
+        {{ registerSuccess ? 'Sikeres regisztráció!' : 'Sikertelen regisztráció!' }}
         </h1>
 
         <p class="text-gray-600 mb-8">
@@ -40,8 +56,12 @@
             : registerErrorText }}
         </p>
 
+        <button ng-if="!registerSuccess" ng-click="closeRegisterMessage()"
+            class="px-6 py-3 bg-[#5A7863] text-white rounded-xl hover:bg-[#759277] transition">
+            Próbálja újra
+        </button>
 
-        <button ng-click="goToLogin()"
+        <button ng-if="registerSuccess" ng-click="goToLogin()"
             class="px-6 py-3 bg-[#5A7863] text-white rounded-xl hover:bg-[#759277] transition">
             Jelentkezzen be
         </button>
