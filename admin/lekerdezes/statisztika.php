@@ -1,5 +1,5 @@
 <?php
-require_once "../../kapcsolat.php";
+require_once __DIR__ . "/../../kapcsolat.php";
 
 
 $eszkoz = $conn->query("SELECT COUNT(*) as db FROM konyhaifelszereles")->fetch_assoc();

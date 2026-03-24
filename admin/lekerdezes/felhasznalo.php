@@ -1,6 +1,6 @@
 <?php
 
-require "../../kapcsolat.php"; //kapcsolódás az adatbázishoz
+require __DIR__ . "/../../kapcsolat.php"; //kapcsolódás az adatbázishoz
 
 //SQL lekérdezés az adatbázis táblából a rekordok betöltése
 $sql = "
