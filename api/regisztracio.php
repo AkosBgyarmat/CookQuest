@@ -65,8 +65,6 @@ try {
 
     $stmt->execute();
 
-    $_SESSION["felhasznalo_id"] = $stmt->insert_id;
-
     try {
 
         $mail = new PHPMailer(true);
