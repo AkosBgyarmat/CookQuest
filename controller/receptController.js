@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   const container = document.getElementById('indexReceptekContainer');
   const dataNode = document.getElementById('indexReceptekData');
+  const recipePage = (container?.dataset?.recipePage || '/CookQuest/views/receptek/receptek.php').trim();
 
   if (!container || !dataNode) return;
 
@@ -46,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   const kartyaHtml = megjelenitendo.map((r) => {
-    const href = `../receptek/receptek.php?id=${Number(r.ReceptID || 0)}`;
+    const href = `${recipePage}?id=${Number(r.ReceptID || 0)}`;
     const nev = String(r.Nev || '');
     const kep = String(r.KepSrc || '');
     const pont = Number(r.BegyujthetoPontok || 0);

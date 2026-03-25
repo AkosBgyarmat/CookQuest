@@ -65,6 +65,18 @@ class ReceptekVezerlo
         if ($receptId > 0) $params['id'] = $receptId;
         if ($status !== '') $params['status'] = $status;
 
+        if (!array_key_exists('szint', $params)) {
+            $szintParam = null;
+            if (isset($_POST['szint'])) {
+                $szintParam = (int)$_POST['szint'];
+            } elseif (isset($_GET['szint'])) {
+                $szintParam = (int)$_GET['szint'];
+            }
+            if ($szintParam !== null && $szintParam > 0) {
+                $params['szint'] = $szintParam;
+            }
+        }
+
         $qs = http_build_query($params);
         header("Location: receptek.php" . ($qs ? "?{$qs}" : ""));
         exit;
@@ -235,12 +247,27 @@ class ReceptekVezerlo
         $kategoriaCheckboxok = [];
         $arKategoriaOpcio = [];
         foreach ($receptek as $r) {
-            // Szűrő-adatszerkezet építése: fő kategória -> alkategóriák.
-            $foKat = $r['FoKategoriaNev'] ?? 'Nem kategorizált';
-            $alKat = $r['AlkategoriaNev'] ?? 'Egyéb';
-            $kategoriaCheckboxok[$foKat] ??= [];
-            if (!in_array($alKat, $kategoriaCheckboxok[$foKat], true)) {
-                $kategoriaCheckboxok[$foKat][] = $alKat;
+            $foKatNev = trim((string)($r['FoKategoriaNev'] ?? 'Nem kategorizált')) ?: 'Nem kategorizált';
+            $foKatId = (int)($r['FoKategoriaID'] ?? 0);
+            $foKulcs = $foKatId . '|' . $foKatNev;
+
+            if (!isset($kategoriaCheckboxok[$foKulcs])) {
+                $kategoriaCheckboxok[$foKulcs] = [
+                    'id' => $foKatId,
+                    'nev' => $foKatNev,
+                    'alkategoriak' => [],
+                ];
+            }
+
+            $alKatNev = trim((string)($r['AlkategoriaNev'] ?? 'Egyéb')) ?: 'Egyéb';
+            $alKatId = (int)($r['AlkategoriaID'] ?? 0);
+            $alKulcs = $alKatId . '|' . $alKatNev;
+
+            if (!isset($kategoriaCheckboxok[$foKulcs]['alkategoriak'][$alKulcs])) {
+                $kategoriaCheckboxok[$foKulcs]['alkategoriak'][$alKulcs] = [
+                    'id' => $alKatId,
+                    'nev' => $alKatNev,
+                ];
             }
 
             $arKat = trim((string)($r['ArkategoriaNev'] ?? ''));
@@ -252,6 +279,12 @@ class ReceptekVezerlo
             }
         }
 
+        $kategoriaCheckboxok = array_values(array_map(function ($csoport) {
+            $csoport['alkategoriak'] = array_values($csoport['alkategoriak']);
+            usort($csoport['alkategoriak'], static fn($a, $b) => strnatcasecmp($a['nev'], $b['nev']));
+            return $csoport;
+        }, $kategoriaCheckboxok));
+        usort($kategoriaCheckboxok, static fn($a, $b) => strnatcasecmp($a['nev'], $b['nev']));
         sort($arKategoriaOpcio, SORT_NATURAL | SORT_FLAG_CASE);
 
         // Konkrét recept oldal
