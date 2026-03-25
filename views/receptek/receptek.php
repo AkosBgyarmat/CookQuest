@@ -21,6 +21,10 @@ extract($viewData, EXTR_OVERWRITE);
 
 // head
 include __DIR__ . '/../head.php';
+
+// Navbar
+$id = $_GET['id'] ?? 0;
+$q = $_GET['q'] ?? '';
 ?>
 
 <!-- ===== 7) FŐ TARTALOM ===== -->

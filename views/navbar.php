@@ -24,7 +24,7 @@
             <a href="<?= BASE_URL ?>views/profil/profil.php"
                 class="block md:inline-block hover:text-[#5A7863] px-3 py-3 md:border-none">
                 Üdv, <?php echo $_SESSION["felhasznalo_nev"]; ?>!
-            </a> 
+            </a>
 
         <?php else: ?>
 
@@ -37,20 +37,23 @@
         <?php endif; ?>
     </div>
 
-    <!-- Kereső -->
-    <div class="relative w-64 bg-white rounded-full toggle hidden md:w-auto md:flex text-right text-bold mt-5 md:mt-0 md:border-none ">
+    <form action="<?= BASE_URL ?>kereses.php" method="GET" class="relative w-64 bg-white rounded-full hidden md:flex mt-5 md:mt-0">
+
         <input
             type="text"
+            name="q"
             placeholder="Keresés..."
-            class="rounded-full w-64 h-10 h-10 bg-transparent pl-8 py-2  border-2 border-gray-100 shadow-md hover:outline-none focus:ring-[#5A7863] focus:border-[#5A7863]"
-            type="text" name="query" id="query" />
+            class="rounded-full w-64 h-10 bg-transparent pl-8 py-2 border-2 border-gray-100 shadow-md hover:outline-none focus:ring-[#5A7863] focus:border-[#5A7863]" />
+
         <button type="submit"
-            class="absolute inline-flex items-center h-8 px-2 py-2 text-sm text-white transition duration-150 ease-in-out rounded-full outline-none right-3 top-1 bg-[#5A7863] sm:px-6 sm:text-base sm:font-medium hover:bg-[#5A7863] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#5A7863]">
-            <svg class=" sm:-ml-1 w-4 h-4 sm:h-5 sm:w-5" xmlns="http://www.w3.org/2000/svg" fill="none"
+            class="absolute inline-flex items-center h-8 px-2 py-2 text-sm text-white rounded-full right-3 top-1 bg-[#5A7863] hover:bg-[#5A7863]">
+
+            <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none"
                 viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                     d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
             </svg>
+
         </button>
-    </div>
+    </form>
 </nav>

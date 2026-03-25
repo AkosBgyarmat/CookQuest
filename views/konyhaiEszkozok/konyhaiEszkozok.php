@@ -1,6 +1,7 @@
 <?php
 session_start();
 include "../head.php";
+$q = $_GET['q'] ?? '';
 ?>
 
 
@@ -150,7 +151,7 @@ include "../head.php";
                         </p>
 
                         <h1 class="text-2xl sm:text-3xl font-bold">
-                            {{ e.Nev }}
+                           {{e.Nev}}
                         </h1>
 
                         <p class="text-justify text-sm sm:text-base leading-relaxed">
@@ -169,15 +170,15 @@ include "../head.php";
         <div class="flex justify-center align-center w-full mt-8">
             <ul class="flex justify-center text-gray-600 gap-4 font-medium p-4 rounded-[50px] bg-[#9ab8ab]">
 
-                <!-- Előző 
-                    <li>
-                        <a href=""
-                            ng-click="setPage(currentPage - 1)"
-                            ng-if="currentPage > 1"
-                            class="rounded-full px-4 py-2 hover:bg-white cursor-pointer">
-                            ◀
-                        </a>
-                    </li>-->
+
+                <li>
+                    <a href=""
+                        ng-click="setPage(currentPage - 1)"
+                        ng-if="currentPage > 1"
+                        class="rounded-full px-4 py-2 hover:bg-white cursor-pointer">
+                        ◀
+                    </a>
+                </li>
 
                 <!-- Oldalszámok -->
                 <li ng-repeat="page in getPageRange() track by page">
@@ -189,15 +190,15 @@ include "../head.php";
                     </a>
                 </li>
 
-                <!-- Következő
-                    <li>
-                        <a href=""
-                            ng-click="setPage(currentPage + 1)"
-                            ng-if="currentPage < totalPages()"
-                            class="rounded-full px-4 py-2 hover:bg-white cursor-pointer">
-                            ▶
-                        </a>
-                    </li> -->
+
+                <li>
+                    <a href=""
+                        ng-click="setPage(currentPage + 1)"
+                        ng-if="currentPage < totalPages()"
+                        class="rounded-full px-4 py-2 hover:bg-white cursor-pointer">
+                        ▶
+                    </a>
+                </li>
 
             </ul>
         </div>
