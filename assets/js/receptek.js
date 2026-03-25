@@ -5,6 +5,40 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const getRecipeCards = () => selectAll('.recept-kartya');
   const getLevelBlocks = () => selectAll('.szint-blokk');
+  const levelNavContainer = selectOne('#szintNav');
+  const levelNavButtons = levelNavContainer ? selectAll('.szint-nav-gomb', levelNavContainer) : [];
+  let activeLevelNav = null;
+  const normalizeDataValue = (value) => String(value ?? '')
+    .trim()
+    .toLocaleLowerCase('hu-HU');
+  const getNumericDatasetValue = (element, key) => {
+    const numericValue = Number(element?.dataset?.[key]);
+    return Number.isNaN(numericValue) ? 0 : numericValue;
+  };
+  const buildCategoryKey = (mainId, subId, mainName, subName) => {
+    if (mainId || subId) {
+      return `${mainId}:${subId}`;
+    }
+    return `${normalizeDataValue(mainName)}||${normalizeDataValue(subName)}`;
+  };
+
+  const szintParamFromUrl = (() => {
+    const params = new URLSearchParams(window.location.search);
+    const rawValue = params.get('szint');
+    if (!rawValue) return null;
+    const parsedValue = parseInt(rawValue, 10);
+    return Number.isNaN(parsedValue) ? null : parsedValue;
+  })();
+
+  if (levelNavButtons.length && szintParamFromUrl !== null) {
+    const hasMatchingButton = levelNavButtons.some((button) => {
+      const buttonLevel = parseInt(button.getAttribute('data-szint') || '0', 10);
+      return !Number.isNaN(buttonLevel) && buttonLevel === szintParamFromUrl;
+    });
+    if (hasMatchingButton) {
+      activeLevelNav = szintParamFromUrl;
+    }
+  }
 
   // --- HARD "mindig látszódjon" ---
   function showAllRecipes() {
@@ -18,6 +52,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     const noResultElement = selectOne('#nincsEredmeny');
     if (noResultElement) noResultElement.classList.add('hidden');
+
+    applyLevelNavVisibility();
   }
 
   // Többször lefuttatjuk, hogy ha más script elrejti betöltéskor, visszahozzuk.
@@ -150,14 +186,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const selectedCategoryPairs = new Set(
       categoryCheckboxes
         .filter(categoryCheckbox => categoryCheckbox.checked)
-        .map(categoryCheckbox => `${categoryCheckbox.dataset.fokategoria || ''}||${categoryCheckbox.dataset.alkategoria || ''}`)
+        .map((categoryCheckbox) => {
+          const mainId = getNumericDatasetValue(categoryCheckbox, 'fokategoriaId');
+          const subId = getNumericDatasetValue(categoryCheckbox, 'alkategoriaId');
+          return buildCategoryKey(
+            mainId,
+            subId,
+            categoryCheckbox.dataset.fokategoria,
+            categoryCheckbox.dataset.alkategoria,
+          );
+        })
     );
     const hasCategoryFilter = selectedCategoryPairs.size > 0;
 
     const selectedPriceCategories = new Set(
       priceCategoryCheckboxes
         .filter(priceCheckbox => priceCheckbox.checked)
-        .map(priceCheckbox => (priceCheckbox.dataset.arkategoria || '').trim().toLowerCase())
+        .map(priceCheckbox => normalizeDataValue(priceCheckbox.dataset.arkategoria))
     );
     const hasPriceCategoryFilter = selectedPriceCategories.size > 0;
 
@@ -167,10 +212,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // A kártya akkor marad látható, ha minden aktív szűrőfeltételnek megfelel.
     recipeCards.forEach((recipeCard) => {
-      const mainCategory = recipeCard.dataset.fokategoria || '';
-      const subCategory = recipeCard.dataset.alkategoria || '';
-      const categoryPairKey = `${mainCategory}||${subCategory}`;
-      const priceCategory = (recipeCard.dataset.arkategoria || 'Nincs').trim().toLowerCase();
+      const mainCategory = normalizeDataValue(recipeCard.dataset.fokategoria);
+      const subCategory = normalizeDataValue(recipeCard.dataset.alkategoria);
+      const mainCategoryId = getNumericDatasetValue(recipeCard, 'fokategoriaId');
+      const subCategoryId = getNumericDatasetValue(recipeCard, 'alkategoriaId');
+      const categoryPairKey = buildCategoryKey(mainCategoryId, subCategoryId, mainCategory, subCategory);
+      const priceCategory = normalizeDataValue(recipeCard.dataset.arkategoria || 'Nincs');
       const prepMinutes = parsePreparationTimeToMinutes(recipeCard.dataset.elkeszitesiIdo || '');
 
       const categoryMatches = !hasCategoryFilter || selectedCategoryPairs.has(categoryPairKey);
@@ -192,6 +239,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function refreshLevelCountsAndBlocks() {
     const recipeCards = getRecipeCards();
+
+    // Részletes nézetben nincsenek kártyák, ilyenkor hagyjuk meg a szerver által renderelt számokat.
+    if (!recipeCards.length) return;
+
     const levelBlocks = getLevelBlocks();
     const noResultElement = selectOne('#nincsEredmeny');
 
@@ -231,8 +282,56 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Globális "nincs találat" állapot.
-    const hasAnyVisibleRecipe = recipeCards.some(recipeCard => !recipeCard.classList.contains('hidden'));
+    const hasAnyVisibleRecipe = recipeCards.some((recipeCard) => {
+      const levelNumber = cardLevelMap.get(recipeCard) || 0;
+      const navAllows = (activeLevelNav === null) || levelNumber === activeLevelNav;
+      return navAllows && !recipeCard.classList.contains('hidden');
+    });
     if (noResultElement) noResultElement.classList.toggle('hidden', hasAnyVisibleRecipe);
+
+    applyLevelNavVisibility();
+  }
+
+  function applyLevelNavVisibility() {
+    if (!levelNavButtons.length) return;
+
+    const levelBlocks = getLevelBlocks();
+    levelBlocks.forEach((levelBlock) => {
+      const levelNumber = parseInt(levelBlock.getAttribute('data-szint') || '0', 10);
+      const shouldHide = activeLevelNav !== null && levelNumber !== activeLevelNav;
+      levelBlock.style.display = shouldHide ? 'none' : '';
+    });
+  }
+
+  function updateLevelNavButtonStyles() {
+    if (!levelNavButtons.length) return;
+
+    levelNavButtons.forEach((button) => {
+      const buttonLevel = parseInt(button.getAttribute('data-szint') || '0', 10);
+      const isActive = buttonLevel === activeLevelNav;
+      button.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+
+      const pill = selectOne('[data-role="pill"]', button);
+      if (!pill) return;
+
+      pill.classList.toggle('bg-white', isActive);
+      pill.classList.toggle('text-[#5A7863]', isActive);
+      pill.classList.toggle('shadow-md', isActive);
+      pill.classList.toggle('bg-transparent', !isActive);
+      pill.classList.toggle('text-white/80', !isActive);
+      pill.classList.toggle('shadow-none', !isActive);
+    });
+  }
+
+  function setActiveLevelNav(levelNumber) {
+    if (Number.isNaN(levelNumber)) return;
+    if (activeLevelNav === levelNumber) {
+      activeLevelNav = null;
+    } else {
+      activeLevelNav = levelNumber;
+    }
+    updateLevelNavButtonStyles();
+    refreshLevelCountsAndBlocks();
   }
 
   // Események.
@@ -256,4 +355,31 @@ document.addEventListener('DOMContentLoaded', () => {
   // Indulás.
   refreshActiveFilterCount();
   refreshLevelCountsAndBlocks();
+
+  if (levelNavButtons.length) {
+    levelNavButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const levelNumber = parseInt(button.getAttribute('data-szint') || '0', 10);
+        if (Number.isNaN(levelNumber)) return;
+
+        setActiveLevelNav(levelNumber);
+
+        if (activeLevelNav !== null) {
+          const targetBlock = document.querySelector(`.szint-blokk[data-szint="${levelNumber}"]`);
+          if (targetBlock) {
+            targetBlock.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }
+      });
+    });
+
+    if (activeLevelNav !== null) {
+      updateLevelNavButtonStyles();
+      refreshLevelCountsAndBlocks();
+    } else {
+      applyLevelNavVisibility();
+    }
+  } else {
+    applyLevelNavVisibility();
+  }
 });

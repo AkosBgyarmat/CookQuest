@@ -2,10 +2,6 @@
 
 require_once __DIR__ . '/../../api/receptek_bootstrap.php';
 require_once __DIR__ . '/../../controller/ReceptekVezerlo.php';
-// MVC bontas megjegyzes:
-// Ez a fajl mar csak megjelenitest tartalmaz.
-// A kovetkezo logika a controllerbe kerult: session azonositas, status uzenet, szintlepes detektalas,
-// view alapadatok es pont/szint adat-elokeszites.
 
 $vezerlo = new ReceptekVezerlo($pdo);
 $viewData = $vezerlo->kezeles();
@@ -18,6 +14,14 @@ $sessionFelhasznaloId = (int)($viewData['sessionFelhasznaloId'] ?? 0);
 
 // extract
 extract($viewData, EXTR_OVERWRITE);
+
+$aktivSzintParam = null;
+if (isset($_GET['szint'])) {
+    $szintParam = (int)$_GET['szint'];
+    if ($szintParam > 0) {
+        $aktivSzintParam = $szintParam;
+    }
+}
 
 // head
 include __DIR__ . '/../head.php';
@@ -106,21 +110,32 @@ include __DIR__ . '/../head.php';
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        <?php foreach ($kategoriaCheckboxok as $foKat => $alkategoriak): ?>
+                        <?php foreach ($kategoriaCheckboxok as $foKatAdatok): ?>
+                            <?php
+                            $foKatNev = (string)($foKatAdatok['nev'] ?? 'Nem kategorizált');
+                            $foKatId = (int)($foKatAdatok['id'] ?? 0);
+                            $alkategoriak = $foKatAdatok['alkategoriak'] ?? [];
+                            ?>
                             <div class="kategoria-csoport">
                                 <div class="flex items-center gap-2 mb-3 pb-2 border-b border-gray-100">
                                     <label class="text-xs font-bold text-gray-800 cursor-pointer uppercase tracking-widest">
-                                        <?= htmlspecialchars($foKat) ?>
+                                        <?= htmlspecialchars($foKatNev) ?>
                                     </label>
                                 </div>
                                 <div class="flex flex-wrap gap-2">
-                                    <?php foreach ($alkategoriak as $alKat): ?>
+                                    <?php foreach ($alkategoriak as $alKatAdat): ?>
+                                        <?php
+                                        $alKatNev = (string)($alKatAdat['nev'] ?? 'Egyéb');
+                                        $alKatId = (int)($alKatAdat['id'] ?? 0);
+                                        ?>
                                         <label class="inline-block cursor-pointer">
                                             <input type="checkbox" class="kategoriaCheckbox peer sr-only"
-                                                data-fokategoria="<?= htmlspecialchars($foKat) ?>"
-                                                data-alkategoria="<?= htmlspecialchars($alKat) ?>">
+                                                data-fokategoria="<?= htmlspecialchars($foKatNev) ?>"
+                                                data-fokategoria-id="<?= $foKatId ?>"
+                                                data-alkategoria="<?= htmlspecialchars($alKatNev) ?>"
+                                                data-alkategoria-id="<?= $alKatId ?>">
                                             <span class="inline-block px-4 py-2 rounded-xl bg-gray-100 text-gray-600 text-sm font-medium transition peer-checked:bg-[#6F837B] peer-checked:text-white">
-                                                <?= htmlspecialchars($alKat) ?>
+                                                <?= htmlspecialchars($alKatNev) ?>
                                             </span>
                                         </label>
                                     <?php endforeach; ?>
@@ -170,7 +185,7 @@ include __DIR__ . '/../head.php';
                                     <li class="sidebar-recept-item" data-recept-id="<?= (int)$r['ReceptID'] ?>">
                                         <!-- Sidebar elem: nyitott szintnél kattintható, zárt szintnél tiltott -->
                                         <?php if (!$rLocked): ?>
-                                            <a href="receptek.php?id=<?= (int)$r['ReceptID'] ?>"
+                                            <a href="receptek.php?id=<?= (int)$r['ReceptID'] ?>&szint=<?= $rSzint ?>"
                                                 class="block px-3 py-1.5 rounded-lg text-sm transition <?= ($receptId == (int)$r['ReceptID']) ? 'bg-[#6F837B] text-white' : 'hover:bg-[#95A792]/20 text-gray-700' ?>">
                                             <?php else: ?>
                                                 <a href="javascript:void(0)"
@@ -232,6 +247,11 @@ include __DIR__ . '/../head.php';
                         <h3 class="text-xl font-semibold text-gray-700">Nincs ilyen recept...</h3>
                     </div>
 
+                    <?php
+                    $szintNavLista = array_keys($receptekSzintekSzerint ?? []);
+                    sort($szintNavLista, SORT_NUMERIC);
+                    ?>
+
                     <!-- Receptkártyák szint szerinti csoportosításban -->
                     <?php foreach ($receptekSzintekSzerint as $szint => $lista): ?>
                         <div class="mb-16 szint-blokk" data-szint="<?= (int)$szint ?>">
@@ -261,7 +281,7 @@ include __DIR__ . '/../head.php';
                                     ?>
 
                                     <?php if (!$locked): ?>
-                                        <a href="receptek.php?id=<?= (int)$r['ReceptID'] ?>"
+                                        <a href="receptek.php?id=<?= (int)$r['ReceptID'] ?>&szint=<?= $rSzint ?>"
                                             class="recept-kartya bg-white rounded-2xl shadow-xl overflow-hidden hover:-translate-y-1 transition block relative"
                                             <?php else: ?>
                                             <a href="javascript:void(0)"
@@ -272,7 +292,9 @@ include __DIR__ . '/../head.php';
                                             data-nev="<?= htmlspecialchars($nevLower) ?>"
                                             data-kereso="<?= htmlspecialchars($keresoSzoveg) ?>"
                                             data-fokategoria="<?= htmlspecialchars($r['FoKategoriaNev'] ?? 'Nem kategorizált') ?>"
+                                            data-fokategoria-id="<?= (int)($r['FoKategoriaID'] ?? 0) ?>"
                                             data-alkategoria="<?= htmlspecialchars($r['AlkategoriaNev'] ?? 'Egyéb') ?>"
+                                            data-alkategoria-id="<?= (int)($r['AlkategoriaID'] ?? 0) ?>"
                                             data-arkategoria="<?= htmlspecialchars($r['ArkategoriaNev'] ?? 'Nincs') ?>"
                                             data-elkeszitesi-ido="<?= htmlspecialchars((string)($r['ElkeszitesiIdo'] ?? '')) ?>">
 
@@ -311,12 +333,40 @@ include __DIR__ . '/../head.php';
                         </div>
                     <?php endforeach; ?>
 
+                    <?php if (!empty($szintNavLista)): ?>
+                        <!-- Szintenkénti navigáció -->
+                        <div class="mt-10 flex justify-center">
+                            <ul id="szintNav"
+                                class="flex flex-wrap justify-center text-gray-700 gap-4 font-medium p-4 rounded-[50px] bg-[#9AB8AB] shadow-inner">
+                                <?php foreach ($szintNavLista as $szintNav): ?>
+                                    <li>
+                                        <button type="button"
+                                            class="szint-nav-gomb focus:outline-none"
+                                            data-szint="<?= (int)$szintNav ?>"
+                                            aria-label="<?= (int)$szintNav ?>. szint receptjei">
+                                            <span data-role="pill"
+                                                class="inline-flex items-center justify-center w-10 h-10 rounded-full transition-colors duration-200 px-4 py-2 bg-transparent text-white/80">
+                                                <?= (int)$szintNav ?>
+                                            </span>
+                                        </button>
+                                    </li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </div>
+                    <?php endif; ?>
+
                 <?php else: ?>
                     <!-- ===== 11) RÉSZLETES RECEPT NÉZET ===== -->
 
                     <!-- Részletes recept nézet -->
 
-                    <a href="receptek.php" class="inline-flex items-center gap-2 mb-6 px-4 py-2 bg-white rounded-lg shadow hover:bg-gray-100 transition font-medium text-[#4A7043]">
+                    <?php
+                    $visszaUrl = 'receptek.php';
+                    if ($aktivSzintParam !== null) {
+                        $visszaUrl .= '?szint=' . $aktivSzintParam;
+                    }
+                    ?>
+                    <a href="<?= htmlspecialchars($visszaUrl) ?>" class="inline-flex items-center gap-2 mb-6 px-4 py-2 bg-white rounded-lg shadow hover:bg-gray-100 transition font-medium text-[#4A7043]">
                         ← Vissza a receptekhez
                     </a>
 
@@ -408,10 +458,13 @@ include __DIR__ . '/../head.php';
                                                 Már jóváírva ✅
                                             </button>
                                         <?php else: ?>
-                                            <form method="post" action="receptek.php?id=<?= (int)$receptId ?>">
+                                            <form method="post" action="receptek.php?id=<?= (int)$receptId ?><?= $aktivSzintParam !== null ? '&szint=' . $aktivSzintParam : '' ?>">
                                                 <input type="hidden" name="action" value="elkeszitettem">
                                                 <input type="hidden" name="recept_id" value="<?= (int)$receptId ?>">
                                                 <input type="hidden" name="csrf_token" value="<?= htmlspecialchars((string)($_SESSION['csrf_token'] ?? '')) ?>">
+                                                <?php if ($aktivSzintParam !== null): ?>
+                                                    <input type="hidden" name="szint" value="<?= (int)$aktivSzintParam ?>">
+                                                <?php endif; ?>
 
                                                 <button type="submit"
                                                     class="bg-[#4A7043] text-white px-8 py-3 rounded-xl font-bold shadow-lg hover:bg-[#3d5c37] transition-all transform hover:scale-105">

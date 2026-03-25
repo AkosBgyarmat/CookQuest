@@ -50,7 +50,9 @@ include __DIR__ . '/views/head.php';
     <section class="py-10 ">
         <div class="container mx-auto px-4">
             <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">Próbáld ki néhány receptünket</h2>
-            <div id="indexReceptekContainer" class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div id="indexReceptekContainer"
+                data-recipe-page="<?= BASE_URL ?>views/receptek/receptek.php"
+                class="grid grid-cols-1 md:grid-cols-3 gap-8">
             </div>
             <script id="indexReceptekData" type="application/json"><?= json_encode($indexReceptek, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?></script>
         </div>

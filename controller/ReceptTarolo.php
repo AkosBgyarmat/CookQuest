@@ -17,8 +17,10 @@ class ReceptTarolo
         return $this->pdo->query("
             SELECT 
                 r.*, n.Szint, 
-                kat.Kategoria AS FoKategoriaNev, 
-                alk.Alkategoria AS AlkategoriaNev, 
+                kat.Kategoria AS FoKategoriaNev,
+                kat.KategoriaID AS FoKategoriaID,
+                alk.Alkategoria AS AlkategoriaNev,
+                alk.AlkategoriaID AS AlkategoriaID,
                 a.Arkategoria AS ArkategoriaNev 
             FROM recept r 
             INNER JOIN nehezsegiszint n ON r.NehezsegiSzintID = n.NehezsegiSzintID 
@@ -37,8 +39,12 @@ class ReceptTarolo
     {
         $st = $this->pdo->prepare("
             SELECT 
-                r.*, n.Szint, a.Arkategoria AS ArkategoriaNev, 
-                kat.Kategoria AS FoKategoriaNev, alk.Alkategoria AS AlkategoriaNev 
+                r.*, n.Szint,
+                a.Arkategoria AS ArkategoriaNev,
+                kat.Kategoria AS FoKategoriaNev,
+                kat.KategoriaID AS FoKategoriaID,
+                alk.Alkategoria AS AlkategoriaNev,
+                alk.AlkategoriaID AS AlkategoriaID 
             FROM recept r 
             JOIN nehezsegiszint n ON r.NehezsegiSzintID = n.NehezsegiSzintID 
             LEFT JOIN arkategoria a ON r.ArkategoriaID = a.ArkategoriaID 
