@@ -1,4 +1,5 @@
 <?php
+// Hűtő oldalhoz szükséges bootstrap + vezérlő
 require_once __DIR__ . '/../../api/receptek_bootstrap.php';
 require_once __DIR__ . '/../../controller/HutoVezerlo.php';
 
@@ -7,6 +8,7 @@ require_once __DIR__ . '/../../controller/HutoVezerlo.php';
 // A kovetkezo logika a HutoVezerlo-ben van: alap view adatok, POST feldolgozas,
 // hozzavalo-ID tisztitas, szurt receptek es recept-hozzavalo lista elokeszitese.
 
+// Nézet adatok felépítése a vezérlőből
 $vezerlo = new HutoVezerlo($pdo);
 $viewData = $vezerlo->kezeles();
 if (!is_array($viewData)) {

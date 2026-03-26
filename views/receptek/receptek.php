@@ -1,8 +1,10 @@
 <?php
 
+// Oldal bootstrap + vezérlő összeállítása
 require_once __DIR__ . '/../../api/receptek_bootstrap.php';
 require_once __DIR__ . '/../../controller/ReceptekVezerlo.php';
 
+// Recept oldal adatok begyűjtése
 $vezerlo = new ReceptekVezerlo($pdo);
 $viewData = $vezerlo->kezeles();
 if (!is_array($viewData)) {
@@ -38,6 +40,7 @@ $q = $_GET['q'] ?? '';
 
         <!-- Felső figyelmeztetés, ha zárolt receptre érkezett a felhasználó -->
         <?php if (isset($_GET['status']) && $_GET['status'] === 'locked'): ?>
+            <!-- Zárolt recept figyelmeztetés -->
             <div class="mb-4 bg-red-100 text-red-800 px-4 py-3 rounded-xl font-medium">
                 🔒 Zárolt recept. Előbb érd el a(z) <?= (int)($_GET['need'] ?? 0) ?>. szintet.
                 <?php if ($sessionFelhasznaloId <= 0): ?>
@@ -47,6 +50,7 @@ $q = $_GET['q'] ?? '';
         <?php endif; ?>
 
         <?php if ($aktualisPontok !== null): ?>
+            <!-- Pont egyenleg blokk -->
             <!-- Felső pont-kijelzés bejelentkezett felhasználónak -->
             <div class="mb-4 flex justify-end">
                 <div class="inline-flex items-center gap-2 bg-white/80 backdrop-blur px-4 py-2 rounded-xl shadow">
@@ -168,6 +172,7 @@ $q = $_GET['q'] ?? '';
                     </div>
 
                     <?php foreach ($receptekSzintekSzerint as $szint => $lista): ?>
+                        <!-- Szintenkénti receptlista -->
                         <?php $szintLocked = ((int)$szint > (int)$aktualisSzint); ?>
                         <div class="mb-4">
                             <button type="button"
@@ -217,6 +222,7 @@ $q = $_GET['q'] ?? '';
                     <h1 class="text-4xl font-bold text-white mb-4">Receptek</h1>
 
                     <?php if ($progress): ?>
+                        <!-- Szint progressz jelző -->
                         <!-- Progress blokk: aktuális szint és szintteljesítés előrehaladás -->
                         <div class="mb-8 bg-white/80 backdrop-blur px-5 py-4 rounded-2xl shadow-xl">
                             <div class="flex items-center justify-between gap-3">
@@ -338,6 +344,7 @@ $q = $_GET['q'] ?? '';
                     <?php endforeach; ?>
 
                     <?php if (!empty($szintNavLista)): ?>
+                        <!-- Szint navigáció gombcsoport -->
                         <!-- Szintenkénti navigáció -->
                         <div class="mt-10 flex justify-center">
                             <ul id="szintNav"
@@ -375,11 +382,13 @@ $q = $_GET['q'] ?? '';
                     </a>
 
                     <?php if (is_array($detailStatus)): ?>
+                        <!-- Visszajelző üzenet blokk -->
                         <!-- Visszajelző üzenet a recepthez kapcsolódó utolsó műveletről -->
                         <div class="mb-4 <?= $detailStatus[0] ?> px-4 py-3 rounded-xl font-medium"><?= $detailStatus[1] ?></div>
                     <?php endif; ?>
 
                     <!-- Recept fejléc (kép, cím, meta adatok) -->
+                    <!-- Hero kép + meta infók -->
                     <div class="bg-white rounded-3xl shadow-2xl overflow-hidden">
                         <div class="relative h-80">
                             <img src="<?= htmlspecialchars(receptKepSrc($recept['Kep'] ?? '')) ?>" class="absolute inset-0 w-full h-full object-cover" alt="">
