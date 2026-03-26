@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const levelNavContainer = selectOne('#szintNav');
   const levelNavButtons = levelNavContainer ? selectAll('.szint-nav-gomb', levelNavContainer) : [];
   let activeLevelNav = null;
+  let levelNavClearedByFilters = false;
   const normalizeDataValue = (value) => String(value ?? '')
     .trim()
     .toLocaleLowerCase('hu-HU');
@@ -38,7 +39,14 @@ document.addEventListener('DOMContentLoaded', () => {
     if (hasMatchingButton) {
       activeLevelNav = szintParamFromUrl;
     }
+  } else if (levelNavButtons.length) {
+    const firstLevel = parseInt(levelNavButtons[0].getAttribute('data-szint') || '0', 10);
+    if (!Number.isNaN(firstLevel)) {
+      activeLevelNav = firstLevel;
+    }
   }
+  const defaultLevelNav = activeLevelNav;
+  let lastChosenLevelNav = activeLevelNav;
 
   // --- HARD "mindig látszódjon" ---
   function showAllRecipes() {
@@ -209,6 +217,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Időszűrés csak akkor aktív, ha a dropdownban konkrét tartomány van kiválasztva.
     const selectedTimeRange = parseTimeRange(prepTimeSelect?.value || '');
     const hasTimeFilter = Boolean(selectedTimeRange);
+    const filtersActive = hasCategoryFilter || hasPriceCategoryFilter || hasTimeFilter;
 
     // A kártya akkor marad látható, ha minden aktív szűrőfeltételnek megfelel.
     recipeCards.forEach((recipeCard) => {
@@ -231,6 +240,18 @@ document.addEventListener('DOMContentLoaded', () => {
       const isVisible = categoryMatches && priceMatches && timeMatches;
       recipeCard.classList.toggle('hidden', !isVisible);
     });
+
+    if (filtersActive) {
+      if (activeLevelNav !== null) {
+        activeLevelNav = null;
+        levelNavClearedByFilters = true;
+        updateLevelNavButtonStyles();
+      }
+    } else if (levelNavClearedByFilters) {
+      activeLevelNav = lastChosenLevelNav ?? defaultLevelNav;
+      levelNavClearedByFilters = false;
+      updateLevelNavButtonStyles();
+    }
 
     // Szint darabok frissítés + nincs találat.
     refreshLevelCountsAndBlocks();
@@ -330,6 +351,9 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
       activeLevelNav = levelNumber;
     }
+    if (activeLevelNav !== null) {
+      lastChosenLevelNav = activeLevelNav;
+    }
     updateLevelNavButtonStyles();
     refreshLevelCountsAndBlocks();
   }
@@ -341,14 +365,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (filterResetButton) {
     filterResetButton.addEventListener('click', () => {
-      // Minden panel-szűrőt alaphelyzetbe rakunk.
-      categoryCheckboxes.forEach(categoryCheckbox => categoryCheckbox.checked = false);
-      priceCategoryCheckboxes.forEach(priceCheckbox => priceCheckbox.checked = false);
+      categoryCheckboxes.forEach(categoryCheckbox => {
+        categoryCheckbox.checked = false;
+      });
+      priceCategoryCheckboxes.forEach(priceCheckbox => {
+        priceCheckbox.checked = false;
+      });
       if (prepTimeSelect) prepTimeSelect.value = '';
 
-      showAllRecipes();
-      refreshActiveFilterCount();
-      refreshLevelCountsAndBlocks();
+      applyFilters();
     });
   }
 

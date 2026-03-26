@@ -548,7 +548,7 @@ $q = $_GET['q'] ?? '';
             // Konfetti részecskék inicializálása
             const COLORS = ['#4A7043', '#6F837B', '#95A792', '#FFD166', '#EF476F', '#ffffff', '#06D6A0', '#118AB2', '#FFC8DD', '#CAFFBF'];
             const SHAPES = ['rect', 'circle', 'triangle'];
-            const COUNT = 200;
+            const COUNT = 1000;
 
             const pieces = Array.from({
                 length: COUNT
