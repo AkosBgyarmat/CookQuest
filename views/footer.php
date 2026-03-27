@@ -80,6 +80,7 @@
   <script src="<?= BASE_URL ?>controller/profilController.js"></script>
   <script src="<?= BASE_URL ?>controller/galeriaController.js"></script>
   <script src="<?= BASE_URL ?>controller/receptController.js"></script>
+  <script src="<?= BASE_URL ?>controller/keresesController.js"></script>
 
   <!-- Javascript -->
   <script src="<?= BASE_URL ?>assets/js/hamburger.js"></script>
