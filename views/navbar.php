@@ -37,16 +37,16 @@
         <?php endif; ?>
     </div>
 
-    <form action="<?= BASE_URL ?>kereses.php" method="GET" class="relative w-64 bg-white rounded-full hidden md:flex mt-5 md:mt-0">
+    <form action="<?= BASE_URL ?>kereses.php" method="GET" class="toggle hidden md:flex relative w-full md:w-64 mt-5 md:mt-0 mr-3">
 
         <input
             type="text"
             name="q"
             placeholder="Keresés..."
-            class="rounded-full w-64 h-10 bg-transparent pl-8 py-2 border-2 border-gray-100 shadow-md hover:outline-none focus:ring-[#5A7863] focus:border-[#5A7863]" />
+            class="w-full h-10 pl-4 pr-12 rounded-full border border-gray-200 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#5A7863] focus:border-[#5A7863]" />
 
         <button type="submit"
-            class="absolute inline-flex items-center h-8 px-2 py-2 text-sm text-white rounded-full right-3 top-1 bg-[#5A7863] hover:bg-[#5A7863]">
+            class="absolute right-1 top-1/2 -translate-y-1/2 h-8 w-8 flex items-center justify-center rounded-full bg-[#5A7863] text-white hover:bg-[#3B4953]">
 
             <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none"
                 viewBox="0 0 24 24" stroke="currentColor">

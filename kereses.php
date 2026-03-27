@@ -1,61 +1,48 @@
-<?php
+<?php include __DIR__ . '/views/head.php'; ?>
+<main class="flex-grow w-full bg-[#90ab8b]">
 
-require __DIR__ . '/kapcsolat.php';
+    <div class="max-w-6xl mx-auto px-4 py-10" ng-controller="keresesCtrl">
 
-$q = $_GET['q'] ?? '';
-$eredmenyek = [];
+        <!-- Cím -->
+        <div class="border-b border-gray-300 text-center mb-10">
+            <h1 class="text-3xl md:text-4xl font-bold mb-5 text-white">
+                Találatok a "{{ q }}" keresésre
+            </h1>
+            <span class="text-white">Találatok száma: {{receptek.legth + eszkozok.length}}</span>
+        </div>
 
-echo "Keresett szöveg: " . htmlspecialchars($q);
+        <!-- RECEPTEK -->
+        <div ng-if="receptek.length > 0" class="bg-white p-8 rounded-2xl shadow-md mb-10">
+            <h2 class="text-2xl font-bold mb-4">Receptek</h2>
+            <ul class="bg-white p-6 leading-7">
+                <li ng-repeat="item in receptek">
+                    <a class="underline" ng-href="views/receptek/receptek.php?id={{item.id}}&q={{q}}">
+                        {{ item.nev }}
+                    </a>
+                </li>
+            </ul>
+        </div>
 
-$keresett = "%" . $q . "%";
+        <!-- ESZKÖZÖK -->
+        <div ng-if="eszkozok.length > 0" class="bg-white p-8 rounded-2xl shadow-md">
 
-$sql1 = "SELECT ReceptID, Nev FROM recept WHERE Nev LIKE ?";
-$stmt1 = $conn->prepare($sql1);
-$stmt1->bind_param("s", $keresett);
-$stmt1->execute();
-$result1 = $stmt1->get_result();
+            <h2 class="text-2xl font-bold mb-4">Eszközök</h2>
 
-while ($row = $result1->fetch_assoc()) {
-    $eredmenyek[] = [
-        "id" => $row["ReceptID"],
-        "nev" => $row["Nev"],
-        "tipus" => "recept"
-    ];
-}
+            <ul class="bg-white p-6 leading-7">
+                <li ng-repeat="item in eszkozok">
+                    <a class="underline" ng-href="views/konyhaiEszkozok/konyhaiEszkozok.php?id={{item.id}}&q={{q}}">
+                        {{ item.nev }} 
+                    </a>
+                </li>
+            </ul>
 
-$sql2 = "SELECT KonyhaiFelszerelesID, Nev FROM konyhaifelszereles WHERE Nev LIKE ?";
-$stmt2 = $conn->prepare($sql2);
-$stmt2->bind_param("s", $keresett);
-$stmt2->execute();
-$result2 = $stmt2->get_result();
+        </div>
 
-while ($row = $result2->fetch_assoc()) {
-    $eredmenyek[] = [
-        "id" => $row["KonyhaiFelszerelesID"],
-        "nev" => $row["Nev"],
-        "tipus" => "felszereles"
-    ];
-}
+        <div ng-if="receptek.length === 0 && eszkozok.length === 0"
+            class="text-center text-white text-xl mt-10">
+            Nincs találat 😢
+        </div>
 
-echo "<ul>";
-
-foreach ($eredmenyek as $item) {
-
-    echo "<li>";
-
-    if ($item["tipus"] == "recept") {
-        echo "<a href='views/receptek/receptek.php?id=" . $item["id"] . "&q=" . urlencode($q) . "'>";        echo "[Recept] ";
-    }
-
-    if ($item["tipus"] == "felszereles") {
-        echo "<a href='views/konyhaiEszkozok/konyhaiEszkozok.php?id=" . $item["id"] . "&q=" . urlencode($q) . "'>";
-        echo "[Eszköz] ";
-    }
-
-    echo htmlspecialchars($item["nev"]);
-    echo "</a>";
-
-    echo "</li>";
-}
-
-echo "</ul>";
+    </div>
+</main>
+<?php include __DIR__ . '/views/footer.php'; ?>
