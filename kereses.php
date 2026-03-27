@@ -11,30 +11,46 @@
             <span class="text-white">Találatok száma: {{receptek.legth + eszkozok.length}}</span>
         </div>
 
+        <h2 class="text-2xl font-bold mb-4">Receptek</h2>
+
         <!-- RECEPTEK -->
-        <div ng-if="receptek.length > 0" class="bg-white p-8 rounded-2xl shadow-md mb-10">
-            <h2 class="text-2xl font-bold mb-4">Receptek</h2>
-            <ul class="bg-white p-6 leading-7">
-                <li ng-repeat="item in receptek">
-                    <a class="underline" ng-href="views/receptek/receptek.php?id={{item.id}}&q={{q}}">
-                        {{ item.nev }}
-                    </a>
-                </li>
-            </ul>
+        <div ng-repeat="item in receptek" class="flex items-center gap-4 p-3 hover:bg-gray-100 rounded-lg">
+
+
+            <img ng-src="/CookQuest/assets/kepek/{{ item.tipus === 'recept' ? 'etelek' : 'konyhaiEszkoz' }}/{{item.kep}}"
+                class="w-12 h-12 object-cover rounded-lg">
+
+            <div>
+                <p class="font-semibold">{{ item.nev }}</p>
+                <p class="text-sm text-gray-500">
+                    {{ item.tipus === 'recept' ? 'Recept' : 'Eszköz' }}
+                </p>
+            </div>
+
         </div>
 
+        <h2 class="text-2xl font-bold mb-4">Eszközök</h2>
+
         <!-- ESZKÖZÖK -->
-        <div ng-if="eszkozok.length > 0" class="bg-white p-8 rounded-2xl shadow-md">
+        <div ng-repeat="item in eszkozok"
+            class="flex items-center gap-4 p-3 hover:bg-gray-100 rounded-lg transition">
 
-            <h2 class="text-2xl font-bold mb-4">Eszközök</h2>
+            <!-- KÉP -->
+            <img
+                ng-src="/CookQuest/assets/kepek/{{ item.tipus === 'felszereles' ? 'konyhaiEszkoz' : 'etelek'  }}/{{ item.kep }}"
+                onerror="this.src='/CookQuest/assets/kepek/Logo.png'"
+                class="w-12 h-12 object-cover rounded-lg shadow-sm">
 
-            <ul class="bg-white p-6 leading-7">
-                <li ng-repeat="item in eszkozok">
-                    <a class="underline" ng-href="views/konyhaiEszkozok/konyhaiEszkozok.php?id={{item.id}}&q={{q}}">
-                        {{ item.nev }} 
-                    </a>
-                </li>
-            </ul>
+            <!-- SZÖVEG -->
+            <div>
+                <p class="font-semibold">
+                    {{ item.nev }}
+                </p>
+
+                <p class="text-sm text-gray-500">
+                    {{ item.tipus === 'recept' ? 'Recept' : 'Eszköz' }}
+                </p>
+            </div>
 
         </div>
 

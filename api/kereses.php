@@ -10,7 +10,7 @@ $eredmenyek = [];
 $keresett = "%" . $q . "%";
 
 // RECEPTEK
-$sql1 = "SELECT ReceptID, Nev FROM recept WHERE Nev LIKE ?";
+$sql1 = "SELECT ReceptID, Nev, Kep FROM recept WHERE Nev LIKE ?";
 $stmt1 = $conn->prepare($sql1);
 $stmt1->bind_param("s", $keresett);
 $stmt1->execute();
@@ -20,12 +20,13 @@ while ($row = $result1->fetch_assoc()) {
     $eredmenyek[] = [
         "id" => $row["ReceptID"],
         "nev" => $row["Nev"],
+        "kep" => $row["Kep"],
         "tipus" => "recept"
     ];
 }
 
 // ESZKÖZÖK
-$sql2 = "SELECT KonyhaiFelszerelesID, Nev FROM konyhaifelszereles WHERE Nev LIKE ?";
+$sql2 = "SELECT KonyhaiFelszerelesID, Nev, Kep FROM konyhaifelszereles WHERE Nev LIKE ?";
 $stmt2 = $conn->prepare($sql2);
 $stmt2->bind_param("s", $keresett);
 $stmt2->execute();
@@ -35,6 +36,7 @@ while ($row = $result2->fetch_assoc()) {
     $eredmenyek[] = [
         "id" => $row["KonyhaiFelszerelesID"],
         "nev" => $row["Nev"],
+        "kep" => $row["Kep"],
         "tipus" => "felszereles"
     ];
 }
