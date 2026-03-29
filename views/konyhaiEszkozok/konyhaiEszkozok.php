@@ -133,7 +133,8 @@ $q = $_GET['q'] ?? '';
 
                 <!-- Kártya -->
                 <div class="flex flex-col md:flex-row bg-white rounded-[20px] shadow-md overflow-hidden transition duration-300 hover:shadow-xl"
-                    ng-repeat="e in getPaginatedData()">
+                    ng-class="{'ring-4 ring-[#5A7863]': e.KonyhaiFelszerelesID == selectedId}"
+                    ng-repeat="e in getPaginatedData()" ng-attr-id="{{ 'eszkoz-' + e.KonyhaiFelszerelesID }}">
 
                     <!-- Kép -->
                     <div class="w-full md:w-1/2 aspect-[4/3]">
