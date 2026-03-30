@@ -4,6 +4,10 @@ angular.module("CookQuestAdmin").controller("hozzavaloController", function ($sc
     $http.get("/CookQuest/admin/lekerdezes/hozzavalok.php")
         .then(function (response) {
             $scope.hozzavalo = response.data;
+
+            if (window.location.search.indexOf("openNew=1") !== -1) {
+                $scope.createHozzavalo();
+            }
         })
         .catch(function (error) {
             console.error("Nem sikerült:", error);
@@ -65,6 +69,10 @@ angular.module("CookQuestAdmin").controller("hozzavaloController", function ($sc
         $scope.feedbackText = "";
         $scope.feedbackSuccess = false;
     };
+
+    if (window.location.search.indexOf("openNew=1") !== -1) {
+        $scope.createHozzavalo();
+    }
 
     $scope.saveHozzavalo = function () {
 

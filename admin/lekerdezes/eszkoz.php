@@ -9,7 +9,9 @@ SELECT
     e.Nev,
     e.Kep,
     e.Leiras,
-    b.Elnevezes AS Besorolas_nev
+    e.BesorolasID,
+    b.Elnevezes AS Besorolas_nev,
+    e.Torolve
 FROM konyhaifelszereles e
 JOIN besorolas b ON e.BesorolasID = b.BesorolasID
 ORDER BY e.KonyhaiFelszerelesID ASC

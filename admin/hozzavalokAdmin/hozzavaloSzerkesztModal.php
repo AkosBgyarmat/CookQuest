@@ -3,7 +3,9 @@
 
     <div class="bg-white p-6 rounded-xl shadow-xl w-[400px]">
 
-        <h2 class="text-lg font-bold mb-4">Hozzávaló szerkesztése</h2>
+        <h2 class="text-lg font-bold mb-4">
+          {{ selectedHozzavalo.id ? 'Hozzávaló szerkesztése' : 'Új hozzávaló hozzáadása' }}
+        </h2>
 
         <input ng-model="selectedHozzavalo.Elnevezes"
                class="w-full border p-2 rounded mb-4"
@@ -16,8 +18,8 @@
             </button>
 
             <button ng-click="saveHozzavalo()"
-                    class="px-4 py-2 bg-green-500 text-white rounded">
-                Mentés
+                    class="px-4 py-2 bg-[#5A7863] text-white rounded">
+                {{ selectedHozzavalo.id ? 'Mentés' : 'Létrehozás' }}
             </button>
         </div>
 

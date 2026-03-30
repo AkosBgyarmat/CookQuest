@@ -59,13 +59,12 @@
     </div>
 
     <!-- Mobil nézet -->
-    <div class="md:hidden space-y-3">
+    <div class="md:hidden space-y-4">
 
         <div class="bg-white m-2 rounded-lg shadow p-4 flex justify-between items-center"
             ng-repeat="h in hozzavalo track by h.id">
 
             <div>
-
                 <p class="text-sm text-gray-500">
                     ID: {{h.id}}
                 </p>
@@ -73,26 +72,29 @@
                 <p class="text-lg font-semibold">
                     {{h.Elnevezes}}
                 </p>
-
+                
+                <p class="text-sm text-gray-500">
+                    Törölve: {{h.Torolve == 0 ? 'Nem' : 'Igen'}}
+                </p>
             </div>
 
-            <div class="flex gap-2">
+            <div class="flex gap-2 mt-3">
 
                 <button ng-click="editHozzavalo(h)"
-                    class="bg-[#C0CEB8] text-black px-3 py-1 rounded text-sm">
+                    class="bg-[#C0CEB8] text-black mb-5 px-3 py-1 rounded hover:bg-red-600 transition">
                     Szerkeszt
                 </button>
 
                 <button
                     ng-if="h.Torolve == 0"
                     ng-click="torles(h.id)"
-                    class="bg-red-500 text-white mb-5 px-3 py-1 rounded text-sm hover:bg-red-600 transition">
+                    class="bg-red-500 text-white mb-5 px-3 py-1 rounded hover:bg-red-600 transition">
                     Törlés
                 </button>
 
                 <button ng-if="h.Torolve == 1"
                     ng-click="visszaallitas(h.id)"
-                    class="bg-green-500 text-white mb-5 px-3 py-1 rounded text-sm hover:bg-green-600 transition">
+                    class="bg-green-500 text-white mb-5 px-3 py-1 rounded hover:bg-red-600 transition">
                     Visszaállítás
                 </button>
 

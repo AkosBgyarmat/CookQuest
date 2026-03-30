@@ -1,3 +1,4 @@
+<!-- Visszajelzés modal -->
 <div ng-if="feedbackMessage"
      class="fixed inset-0 z-50 flex items-center justify-center">
 

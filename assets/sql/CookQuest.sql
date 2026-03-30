@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2026. Már 30. 12:08
+-- Létrehozás ideje: 2026. Már 30. 23:01
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -20,9 +20,8 @@ SET time_zone = "+00:00";
 --
 -- Adatbázis: `cookquest`
 --
-CREATE DATABASE IF NOT EXISTS `cookquest` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `cookquest`;
-
+create database if not exists `cookquest` default character set utf8mb4 collate utf8mb4_general_ci;
+use `cookquest`;
 -- --------------------------------------------------------
 
 --
@@ -32,26 +31,27 @@ USE `cookquest`;
 CREATE TABLE `alkategoria` (
   `AlkategoriaID` int(11) NOT NULL,
   `KategoriaID` int(11) NOT NULL,
-  `Alkategoria` varchar(255) NOT NULL
+  `Alkategoria` varchar(255) NOT NULL,
+  `Torolve` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- A tábla adatainak kiíratása `alkategoria`
 --
 
-INSERT INTO `alkategoria` (`AlkategoriaID`, `KategoriaID`, `Alkategoria`) VALUES
-(1, 1, 'sültek'),
-(2, 1, 'pörkölt'),
-(3, 1, 'raguk'),
-(4, 1, 'főzelék'),
-(5, 2, 'krém leves'),
-(6, 2, 'húsos leves'),
-(7, 3, 'sütemény'),
-(8, 3, 'pohárkrém'),
-(9, 4, 'tojásos reggeli'),
-(10, 5, 'zöldség köret'),
-(11, 2, 'zöldség leves'),
-(12, 2, 'tojás leves');
+INSERT INTO `alkategoria` (`AlkategoriaID`, `KategoriaID`, `Alkategoria`, `Torolve`) VALUES
+(1, 1, 'sültek', 0),
+(2, 1, 'pörkölt', 0),
+(3, 1, 'raguk', 0),
+(4, 1, 'főzelék', 0),
+(5, 2, 'krém leves', 0),
+(6, 2, 'húsos leves', 0),
+(7, 3, 'sütemény', 0),
+(8, 3, 'pohárkrém', 0),
+(9, 4, 'tojásos reggeli', 0),
+(10, 5, 'zöldség köret', 0),
+(11, 2, 'zöldség leves', 0),
+(12, 2, 'tojás leves', 0);
 
 -- --------------------------------------------------------
 
@@ -149,30 +149,31 @@ CREATE TABLE `felhasznalo` (
   `OrszagID` int(11) NOT NULL,
   `RegisztracioEve` year(4) NOT NULL,
   `MegszerzettPontok` int(11) NOT NULL,
-  `SzerepID` int(11) DEFAULT NULL
+  `SzerepID` int(11) DEFAULT NULL,
+  `Torolve` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- A tábla adatainak kiíratása `felhasznalo`
 --
 
-INSERT INTO `felhasznalo` (`FelhasznaloID`, `Vezeteknev`, `Keresztnev`, `Felhasznalonev`, `Emailcim`, `Jelszo`, `SzuletesiEv`, `Profilkep`, `OrszagID`, `RegisztracioEve`, `MegszerzettPontok`, `SzerepID`) VALUES
-(1, 'asd', 'asd', 'TejbeTök', 'asd@gmail.com', '$2y$10$rUJz1e8yZomrGIhFktthse9hhGcrQo.jNdVDlEjAYxPy/uspJfeYa', '1999', '', 20, '2026', 520, 1),
-(2, 'dsa', 'asd', 'dsaasd', 'dsa@gmail.com', '$2y$10$xl4bnDRU8s3clbYd1MihY.edbheglWECLIk0lwC61dUD8P3RQ3HB2', '2000', '', 15, '2026', 0, 2),
-(3, 'alma', 'fa', 'almafa', 'almafa@gmail.com', '$2y$10$x7f.uVLgnh0Ab2KfhGk/g.4YZMlKb/2PBcjcg3U9.GFGWG7VbedUq', '2000', '', 15, '2026', 65, 2),
-(4, 'zwvd', 'dubw', 'vdzuavwd', 'asdawd@gmail.com', '$2y$10$mYXBogvBPi68GQLFidlnx.amyariOS1Qff8AYzSL8SCXvTGpv0CK.', '2000', '', 1, '2026', 15, 2),
-(5, 'töltött', 'káposzta', 'kapi', 'kapi@gmail.com', '$2y$10$tvVApkfAQKIYOjrJLTh/pO6blVdvtSqtpJdX5M46jliK/DZ9/w3hK', '2000', '', 17, '2026', 25, 2),
-(6, 'Keresztúri', 'Hanna', 'Kerhanna', 'kerhanna05@gmail.com', '$2y$10$9duKM/SEYlqcOLdJ0crxDe3gQ5tJsmwpSxCVaSfCS1ZA15qMtks0S', '2005', '', 1, '2026', 35, 1),
-(7, 'Busai', 'Danika', 'Danimani', 'dani@gmail.com', '$2y$10$JwniWfFRt9V3Ke1W36Vzne6.6IY4HB26puLBgD5RBN/x1SI77ll46', '2004', '', 18, '2026', 290, 2),
-(8, 'Hús', 'Villa', 'Villacska', 'villacska@gmail.com', '$2y$10$qUkki6wQWPQPYJ4wJE6JR.uIj/143kL6tIWRJRMlOsZrDlbWx3R.W', '2005', '', 9, '2026', 105, 2),
-(9, 'Bódis', 'Boglárka', 'bogibodis6@gmail.com', 'bogibodis6@gmail.com', '$2y$10$t4N4YlVnPjA2QV/ymhgiQ.MTt/cK94i5ZTNo5A00AW/Jnks4hWJVW', '2005', 'assets/kepek/profilKepek/user_13_1772522527.png', 1, '2026', 15, 2),
-(10, 'dfg', 'dfg', 'dfg', 'dfg@gmail.com', '$2y$10$TpMPfAdrbDGmfCtAdXsU/uAI0dzAB1aeCceD.rIngrpAOAeLk.sFu', '2004', '', 17, '2026', 80, 2),
-(11, 'qwert', 'qwert', 'qwert2005', 'qwert@gmail.com', '$2y$10$Gf3xGNOP0iBUjx7e69e/suKWLwU37kU.OxyEZpnVJf9Ba4oEoFSBu', '1967', '', 21, '2026', 0, 2),
-(12, 'Bíró', 'Benjámin', 'Jogász', 'benjamin.biro.bgy@gmail.com', '$2y$10$pYp8IOrWgGXVsaKNMe.h5uVSbaGkLKEU6/HGz/fYz8HgQwVC0Xq1e', '2005', 'assets/kepek/profilKepek/user_19_1773040494.jpg', 1, '2026', 400, 2),
-(13, 'Visegrádi', 'Tamás', 'Tomika2005', 'tomi@gmail.com', '$2y$10$dfnsEAlaIg2UoVe1C2u89.k3JWS7DxZqhJoZ5qxXmmnetZ8PB8HaG', '2005', '', 13, '2026', 15, 2),
-(14, 'Hornyák', 'Ákos', 'HornyákÁkos', 'hornyakakos@gmail.com', '$2y$10$gr3.9Sr2T4Vfe6V6rHIy8eeyZEtHqdLSR/FWoYjkevmwBjhGF7YXi', '2020', '', 18, '2026', 0, 2),
-(15, 'boss', 'boss', 'boss', 'padarzsolti@gmail.com', '$2y$10$MpMHoiLw6JkgZA4.vtHtD.z8ioRL.pDmQYpTd/kf7orZU/jEssq8q', '0000', 'assets/kepek/profilKepek/user_22_1773903759.png', 1, '2026', 80, 2),
-(16, 'wdwf', 'fawfaw', 'fgf', 'fg@gmail.com', '$2y$10$lFOtqPPeiRBRuSgMsth94eapR5j3vV1UbBlxpSIBtmSuCuMfirDvq', '0000', '', 15, '2026', 0, 2);
+INSERT INTO `felhasznalo` (`FelhasznaloID`, `Vezeteknev`, `Keresztnev`, `Felhasznalonev`, `Emailcim`, `Jelszo`, `SzuletesiEv`, `Profilkep`, `OrszagID`, `RegisztracioEve`, `MegszerzettPontok`, `SzerepID`, `Torolve`) VALUES
+(1, 'asd', 'asd', 'TejbeTök', 'asd@gmail.com', '$2y$10$rUJz1e8yZomrGIhFktthse9hhGcrQo.jNdVDlEjAYxPy/uspJfeYa', '1999', '', 20, '2026', 520, 1, 0),
+(2, 'dsa', 'asd', 'dsaasd', 'dsa@gmail.com', '$2y$10$xl4bnDRU8s3clbYd1MihY.edbheglWECLIk0lwC61dUD8P3RQ3HB2', '2000', '', 15, '2026', 0, 2, 0),
+(3, 'alma', 'fa', 'almafa', 'almafa@gmail.com', '$2y$10$x7f.uVLgnh0Ab2KfhGk/g.4YZMlKb/2PBcjcg3U9.GFGWG7VbedUq', '2000', '', 15, '2026', 65, 2, 0),
+(4, 'zwvd', 'dubw', 'vdzuavwd', 'asdawd@gmail.com', '$2y$10$mYXBogvBPi68GQLFidlnx.amyariOS1Qff8AYzSL8SCXvTGpv0CK.', '2000', '', 1, '2026', 15, 2, 0),
+(5, 'töltött', 'káposzta', 'kapi', 'kapi@gmail.com', '$2y$10$tvVApkfAQKIYOjrJLTh/pO6blVdvtSqtpJdX5M46jliK/DZ9/w3hK', '2000', '', 17, '2026', 25, 2, 0),
+(6, 'Keresztúri', 'Hanna', 'Kerhanna', 'kerhanna05@gmail.com', '$2y$10$9duKM/SEYlqcOLdJ0crxDe3gQ5tJsmwpSxCVaSfCS1ZA15qMtks0S', '2005', '', 1, '2026', 35, 1, 0),
+(7, 'Busai', 'Danika', 'Danimani', 'dani@gmail.com', '$2y$10$JwniWfFRt9V3Ke1W36Vzne6.6IY4HB26puLBgD5RBN/x1SI77ll46', '2004', '', 18, '2026', 290, 2, 0),
+(8, 'Hús', 'Villa', 'Villacska', 'villacska@gmail.com', '$2y$10$qUkki6wQWPQPYJ4wJE6JR.uIj/143kL6tIWRJRMlOsZrDlbWx3R.W', '2005', '', 9, '2026', 105, 2, 0),
+(9, 'Bódis', 'Boglárka', 'bogibodis6@gmail.com', 'bogibodis6@gmail.com', '$2y$10$t4N4YlVnPjA2QV/ymhgiQ.MTt/cK94i5ZTNo5A00AW/Jnks4hWJVW', '2005', 'assets/kepek/profilKepek/user_13_1772522527.png', 1, '2026', 15, 2, 0),
+(10, 'dfg', 'dfg', 'dfg', 'dfg@gmail.com', '$2y$10$TpMPfAdrbDGmfCtAdXsU/uAI0dzAB1aeCceD.rIngrpAOAeLk.sFu', '2004', '', 17, '2026', 80, 2, 0),
+(11, 'qwert', 'qwert', 'qwert2005', 'qwert@gmail.com', '$2y$10$Gf3xGNOP0iBUjx7e69e/suKWLwU37kU.OxyEZpnVJf9Ba4oEoFSBu', '1967', '', 21, '2026', 0, 2, 0),
+(12, 'Bíró', 'Benjámin', 'Jogász', 'benjamin.biro.bgy@gmail.com', '$2y$10$pYp8IOrWgGXVsaKNMe.h5uVSbaGkLKEU6/HGz/fYz8HgQwVC0Xq1e', '2005', 'assets/kepek/profilKepek/user_19_1773040494.jpg', 1, '2026', 400, 2, 0),
+(13, 'Visegrádi', 'Tamás', 'Tomika2005', 'tomi@gmail.com', '$2y$10$dfnsEAlaIg2UoVe1C2u89.k3JWS7DxZqhJoZ5qxXmmnetZ8PB8HaG', '2005', '', 13, '2026', 15, 2, 0),
+(14, 'Hornyák', 'Ákos', 'HornyákÁkos', 'hornyakakos@gmail.com', '$2y$10$gr3.9Sr2T4Vfe6V6rHIy8eeyZEtHqdLSR/FWoYjkevmwBjhGF7YXi', '2020', '', 18, '2026', 0, 2, 0),
+(15, 'boss', 'boss', 'boss', 'padarzsolti@gmail.com', '$2y$10$MpMHoiLw6JkgZA4.vtHtD.z8ioRL.pDmQYpTd/kf7orZU/jEssq8q', '0000', 'assets/kepek/profilKepek/user_22_1773903759.png', 1, '2026', 80, 2, 0),
+(16, 'wdwf', 'fawfaw', 'fgf', 'fg@gmail.com', '$2y$10$lFOtqPPeiRBRuSgMsth94eapR5j3vV1UbBlxpSIBtmSuCuMfirDvq', '0000', '', 15, '2026', 0, 2, 0);
 
 -- --------------------------------------------------------
 
@@ -465,89 +466,90 @@ CREATE TABLE `konyhaifelszereles` (
   `Nev` varchar(100) NOT NULL,
   `Kep` varchar(255) DEFAULT NULL,
   `BesorolasID` int(11) NOT NULL,
-  `Leiras` text NOT NULL
+  `Leiras` text NOT NULL,
+  `Torolve` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- A tábla adatainak kiíratása `konyhaifelszereles`
 --
 
-INSERT INTO `konyhaifelszereles` (`KonyhaiFelszerelesID`, `Nev`, `Kep`, `BesorolasID`, `Leiras`) VALUES
-(1, 'Teáskanál', 'teaskanal.jpg', 1, 'A teáskanál egy kis méretű evőeszköz, amelyet leggyakrabban tea, kávé vagy más italok keverésére, illetve cukor, méz adagolására használunk. Emellett alkalmas kisebb mennyiségű ételek fogyasztására és a konyhában mértékegységként is funkcionál (1 teáskanál ≈ 5 ml). Általában rozsdamentes acélból készül, de létezik műanyagból vagy porcelánból készült változata is. Kompakt mérete miatt kényelmes, praktikus, minden háztartás alapdarabja.'),
-(2, 'Evőkanál', 'evokanal.jpg', 1, 'Az evőkanál egy nagyobb méretű evőeszköz, amelyet levesek, főzelékek és egyéb ételek fogyasztására használunk. A konyhában mérésre és adagolásra is alkalmas (1 evőkanál ≈ 15 ml). Leggyakrabban rozsdamentes acélból készül, de létezik műanyagból, fából vagy szilikonból készült változata is. Formája kényelmes fogást biztosít, ezért a mindennapi étkezések alapdarabja.'),
-(3, 'Pizzaszósz kanál', 'pizzaszosz_kanal.jpg', 2, 'A pizzaszósz kanál egy kifejezetten pizza készítéshez használt konyhai eszköz, amely a paradicsomszósz egyenletes eloszlását szolgálja a pizzatészta felületén. Feje általában lapos, enyhén mélyített vagy kör alakú, így segít a szószt középről kifelé spirálisan elkenni. Leggyakrabban rozsdamentes acélból vagy műanyagból készül, nyelének kialakítása stabil fogást biztosít.'),
-(4, 'Spagettikanál', 'spagettikanal.jpg', 2, 'A spagetti kanál főtt spagetti és egyéb hosszú tészták szedésére, adagolására szolgál. Jellegzetes fogazott, karmokra emlékeztető pereme segít a tészta megfogásában, miközben a felesleges folyadék lecsöpög. Közepén gyakran található egy lyuk, amely adagolásra is szolgál. Megkönnyíti a tálalást anélkül, hogy a tészta összetörne.'),
-(5, 'Hableszedő kanál', 'hableszedo_kanal.jpg', 3, 'A hableszedő kanál főzés közben a levesek, húslevek vagy főzelékek tetején képződő hab eltávolítására szolgál. Általában lyukacsos vagy rácsos fejű, így a folyadék visszafolyik, a hab viszont fennmarad rajta. Hosszú nyelének köszönhetően biztonságosan használható forró ételeknél is.'),
-(6, 'Fakanál', 'fakanal.jpg', 4, 'A fakanál hagyományos konyhai eszköz, amelyet keverésre, forgatásra és adagolásra használnak főzés közben. Leggyakrabban fából készül, ezért nem karcolja az edényeket és nem vezeti a hőt. Különösen alkalmas levesek, főzelékek, szószok és pörköltek keverésére.'),
-(7, 'Szilikonos spatula', 'szilikonos_spatula.jpg', 4, 'A szilikon spatula korszerű konyhai eszköz, amelyet keverésre, kaparásra és kenésre használnak. Rugalmas feje lehetővé teszi, hogy az edény faláról maradék nélkül összegyűjtse az ételt vagy tésztát. Hőálló, nem karcolja az edényeket.'),
-(8, 'Koktélkanál', 'koktelkanal.jpg', 1, 'A koktélkanál egy hosszú nyelű keverőkanál, amelyet koktélok és italok összekeverésére használnak, főként magas poharakban. Hosszú, vékony nyele lehetővé teszi, hogy az ital aljáig leérjen, csavart kialakítása segíti az egyenletes keverést.'),
-(9, 'Fagylaltos kanál', 'fagylaltos_kanal.jpg', 5, 'A fagylaltos kanál speciálisan kialakított eszköz fagylalt adagolására és szervírozására. Feje félgömb alakú, így könnyen formáz szép, kerek adagokat. Gyakran hővezető fémből készül, amely megkönnyíti a kemény fagylalt kiszedését.'),
-(10, 'Tálalókanál', 'talalokanal.jpg', 6, 'A tálalókanál nagy, erős kanál, amelyet főételek, köretek vagy saláták adagolására használnak. Segítségével a tálalás gyors, egyszerű és esztétikus.'),
-(11, 'Kézi habverő', 'kezi_habvero.jpg', 4, 'A kézi habverő tojásfehérje, tejszín vagy különböző keverékek felverésére, habosítására szolgál. Fém drótfeje segít a levegő bekeverésében, így a keverék könnyű és egyenletes lesz.'),
-(12, 'Merőkanál', 'merokanal.jpg', 7, 'A merőkanál nagy, mély kanál, amelyet levesek, főzelékek, szószok és egyéb folyékony ételek adagolására használnak. Hosszú nyele miatt biztonságosan elérhető vele a mély edények alja.'),
-(13, 'Kenőkés', 'kenokes.jpg', 1, 'A kenőkés egy kis, lapos és széles pengéjű konyhai eszköz, amelyet vaj, margarin, krémek, dzsemek vagy egyéb kenhető anyagok szendvicsre vagy kenyérre való felvitelére használnak. Általában rozsdamentes acélból készül, de léteznek műanyag vagy szilikon változatai is. Kialakítása biztonságos, nem vág.'),
-(14, 'Séfkés', 'sefkes.jpg', 8, 'A séfkés egy nagy, sokoldalú konyhai kés, amelyet zöldségek, húsok, halak és egyéb alapanyagok szeletelésére, aprítására használnak. Széles, enyhén ívelt pengéje lehetővé teszi a hajlított mozdulatokkal történő vágást. A konyhai munka egyik legfontosabb alapdarabja.'),
-(15, 'Hámozó', 'hamozo.jpg', 8, 'A hámozó egy kisebb, kézi konyhai eszköz, amelyet zöldségek és gyümölcsök héjának eltávolítására használnak. Éles pengéje precíz munkát tesz lehetővé, miközben kevés hulladék keletkezik. Gyors, biztonságos és praktikus.'),
-(16, 'Kenyérvágó kés', 'kenyervago_kes.jpg', 8, 'A kenyérvágó kés hosszú, fogazott pengéjű kés, amely könnyedén átvágja a ropogós kenyérhéjat anélkül, hogy a belsejét összenyomná. Ideális friss és pirított kenyerek szeletelésére.'),
-(17, 'Csontozókés', 'csontozokes.jpg', 8, 'A csontozókés vékony, hegyes és rugalmas pengéjű kés, amely húsok csontjáról való leválasztására szolgál. Kialakítása lehetővé teszi a precíz vágást, minimális húsvesteséggel.'),
-(18, 'Filézőkés', 'filezokes.jpg', 8, 'A filézőkés hosszú és hajlékony pengéjű kés, amelyet halak és húsok filézésére használnak. Segítségével a csontok és a bőr pontosan elválaszthatók a hústól.'),
-(19, 'Desszertkés', 'desszertkes.jpg', 9, 'A desszertkés kisebb méretű kés, amelyet sütemények, torták és egyéb desszertek fogyasztására vagy szeletelésére használnak. Könnyű kezelhetősége elegáns étkezést biztosít.'),
-(20, 'Sajtkés', 'sajtkes.jpg', 10, 'A sajtkés speciálisan kialakított kés különféle sajtok vágására és tálalására. Pengéje gyakran lyukacsos vagy recézett, hogy a sajt ne ragadjon rá.'),
-(21, 'Henteskés', 'henteskes.jpg', 8, 'A henteskés egy nagy, masszív kés, amelyet nyers húsok feldolgozására, darabolására és szeletelésére használnak. Erős pengéje a vastag húsrészekkel is megbirkózik.'),
-(22, 'Pizzavágó', 'pizzavago.jpg', 8, 'A pizzavágó kör alakú pengével rendelkező konyhai eszköz, amelyet pizza és más lapos ételek szeletelésére használnak. Gyors, pontos vágást tesz lehetővé.'),
-(23, 'Evővilla', 'evovilla.jpg', 1, 'Az evővilla egy hagyományos evőeszköz, amelyet főként húsok, zöldségek, tészták és egyéb ételek fogyasztására használnak. Hosszú nyele kényelmes fogást biztosít, míg a három vagy négy villaág segít az étel biztonságos megragadásában. Leggyakrabban rozsdamentes acélból készül, és a mindennapi étkezések alapvető eszköze.'),
-(24, 'Desszert villa', 'desszert_villa.jpg', 9, 'A desszertvilla kisebb méretű evőeszköz, amelyet sütemények, torták és egyéb desszertek fogyasztására használnak. Rövidebb és vékonyabb fogai lehetővé teszik a finom falatok precíz és elegáns elfogyasztását. Ünnepi és mindennapi alkalmakon egyaránt használatos.'),
-(25, 'Húsvilla', 'husvilla.jpg', 6, 'A húsvilla hosszú, erős villa, amelyet sültek, nagyobb húsdarabok forgatására, megtartására és szeletelésére használnak. Két vagy több hosszú villaága stabil tartást biztosít, miközben a hús biztonságosan kezelhető főzés és tálalás során.'),
-(26, 'Vágódeszka', 'vagodeszka.jpg', 11, 'A vágódeszka egy lapos, stabil felület, amelyet zöldségek, húsok, gyümölcsök és egyéb élelmiszerek szeletelésére használnak. Megóvja a kések élét és biztonságos munkafelületet biztosít.'),
-(27, 'Sütőkesztyű', 'sutokesztyu.jpg', 11, 'A sütőkesztyű vastag, hőálló kesztyű, amely megvédi a kezet a forró edények és tepsik okozta sérülésektől.'),
-(28, 'Konyharuha', 'konyharuha.jpg', 11, 'A konyharuha nedvszívó textil, amelyet edények törlésére, szárítására és a munkafelület tisztán tartására használnak.'),
-(29, 'Kötény', 'koteny.jpg', 11, 'A kötény védőruházati kiegészítő, amely főzés közben megóvja a ruhát a szennyeződésektől és fröccsenésektől.'),
-(30, 'Tálalógyűrű', 'talalogyuru.jpg', 11, 'A tálalógyűrű kör alakú forma, amely segít az ételek esztétikus, formázott tálalásában.'),
-(31, 'Késélező', 'keselezo.jpg', 11, 'A késélező a kések élének karbantartására szolgál, biztosítva a könnyű és biztonságos vágást.'),
-(32, 'Konyhai mérleg', 'konyhai_merleg.jpg', 11, 'A konyhai mérleg az alapanyagok pontos mérésére szolgál főzés és sütés során.'),
-(33, 'Szita', 'szita.jpg', 11, 'A szita liszt, porcukor és egyéb alapanyagok szitálására vagy folyadékok szűrésére használható.'),
-(34, 'Reszelő', 'reszelo.jpg', 11, 'A reszelő sajtok, zöldségek és gyümölcsök aprítására szolgáló konyhai eszköz.'),
-(35, 'Habzsák', 'habzsak.jpg', 11, 'A habzsák krémek, habok és díszítő anyagok pontos adagolására és formázására használható.'),
-(36, 'Nokedliszaggató', 'nokedliszaggato.jpg', 11, 'A nokedliszaggató a tészta gyors és egyenletes szaggatására szolgál.'),
-(37, 'Maghőmérő', 'maghomero.jpg', 11, 'A maghőmérő az ételek belső hőmérsékletének mérésére szolgál, biztosítva a megfelelő átsülést.'),
-(38, 'Muffin sütőforma', 'muffin_sutoforma.jpg', 11, 'A muffin sütőforma segít a muffinok és kis sütemények egyenletes sütésében.'),
-(39, 'Muffin papír', 'muffin_papir.jpg', 11, 'A muffin papír megakadályozza a tészta letapadását, és esztétikus tálalást biztosít.'),
-(40, 'Sütőpapír', 'sutopapir.jpg', 11, 'A sütőpapír megakadályozza az ételek letapadását és megkönnyíti a tisztítást.'),
-(41, 'Piteforma', 'piteforma.jpg', 11, 'A piteforma piték és sütemények sütésére szolgáló kör alakú forma.'),
-(42, 'Tésztaszűrő', 'tesztaszuro.jpg', 11, 'A tésztaszűrő főtt tészták és egyéb ételek leszűrésére szolgál.'),
-(43, 'Nyújtólap', 'nyujtolap.jpg', 11, 'A nyújtólap sima felületet biztosít a tészta kinyújtásához.'),
-(44, 'Nyújtófa', 'nyujtofa.jpg', 11, 'A nyújtófa henger alakú eszköz tészta egyenletes kinyújtásához.'),
-(45, 'Sütőrács', 'sutoracs.jpg', 11, 'A sütőrács biztosítja az ételek egyenletes szellőzését sütés és hűtés során.'),
-(46, 'Ecset', 'ecset.jpg', 11, 'A konyhai ecset vaj, tojás vagy olaj felvitelére szolgál.'),
-(47, 'Húsfogó csipesz', 'husfogo_csipesz.jpg', 11, 'A húsfogó csipesz segít az ételek biztonságos forgatásában és emelésében.'),
-(48, 'Tortaforma', 'tortaforma.jpg', 11, 'A tortaforma torták és sütemények sütésére szolgál.'),
-(49, 'Vákuumtasak', 'vakuumtasak.jpg', 11, 'A vákuumtasak ételek frissen tartására és sous-vide főzéshez használható.'),
-(50, 'Tálca', 'talca.jpg', 11, 'A tálca ételek és italok szállítására és tálalására szolgál.'),
-(51, 'Párolóbetét', 'parolobetet.jpg', 11, 'A párolóbetét lehetővé teszi az ételek gőzben történő elkészítését.'),
-(52, 'Klopfoló', 'klopfolo.jpg', 11, 'A klopfoló húsok puhítására és egyenletes vastagságúra lapítására szolgál.'),
-(53, 'Robotgép', 'robotgep.jpg', 12, 'A robotgép egy elektromos konyhai eszköz, amelyet tészta dagasztására, krémek habosítására, zöldségek aprítására és egyéb konyhai műveletekre használnak. Különböző cserélhető fejeinek köszönhetően sokoldalúan használható, és jelentősen megkönnyíti a nagyobb mennyiségű alapanyag feldolgozását.'),
-(54, 'Elektromos habverő', 'elektromos_habvero.jpg', 12, 'Az elektromos habverő tojások, krémek, tejszín és tészták gyors és egyenletes felverésére szolgáló konyhai kisgép. Forgó fém fejei segítségével időt és energiát takarít meg a kézi keveréshez képest.'),
-(55, 'Botmixer', 'botmixer.jpg', 12, 'A botmixer kézben tartható elektromos eszköz, amelyet levesek, szószok, krémek és turmixok pépesítésére használnak közvetlenül az edényben. Gyors, praktikus és könnyen tisztítható.'),
-(56, 'Turmixgép', 'turmixgep.jpg', 12, 'A turmixgép gyümölcsök, zöldségek, italok és levesek pépesítésére alkalmas elektromos eszköz. Erős motorja és éles pengéi sima, homogén állagot biztosítanak.'),
-(57, 'Vízforraló', 'vizforralo.jpg', 12, 'A vízforraló elektromos eszköz víz gyors felforralására teák, kávék és instant ételek készítéséhez. Beépített automatikus kikapcsolással rendelkezik a biztonságos használat érdekében.'),
-(58, 'Szendvicssütő', 'szendvicssuto.jpg', 12, 'A szendvicssütő elektromos konyhai kisgép, amely melegszendvicsek és toastok gyors elkészítésére szolgál. Tapadásmentes felülete biztosítja az egyenletes sütést.'),
-(59, 'Airfryer', 'airfryer.jpg', 12, 'Az airfryer forró levegő keringetésével működő konyhai kisgép, amely minimális olaj felhasználásával teszi lehetővé az ételek ropogósra sütését.'),
-(60, 'Szeletelőgép', 'szeletelogep.jpg', 12, 'A szeletelőgép húsok, sajtok és zöldségek egyenletes, vékony szeletekre vágására szolgáló konyhai eszköz, amely precíz és esztétikus eredményt biztosít.'),
-(61, 'Mikrohullámú sütő', 'mikrohullamu_suto.jpg', 13, 'A mikrohullámú sütő elektromos konyhai nagygép, amelyet ételek gyors melegítésére, főzésére vagy kiolvasztására használnak. Mikrohullámok segítségével működik, így az étel rövid idő alatt egyenletesen felmelegszik. A modern konyhák alapvető eszköze.'),
-(62, 'Gáztűzhely', 'gaztuzhely.jpg', 13, 'A gáztűzhely nyílt lánggal működő főzőberendezés, amely pontos és azonnali hőszabályozást tesz lehetővé. Főzéshez, sütéshez és pároláshoz egyaránt használható.'),
-(63, 'Indukciós főzőlap', 'indukcios_fozolap.jpg', 13, 'Az indukciós főzőlap elektromos főzőeszköz, amely közvetlenül az edény alját melegíti. Gyors, energiatakarékos és biztonságos megoldást kínál a modern konyhákban.'),
-(64, 'Sous-vide gép', 'sous_vide_gep.jpg', 13, 'A sous-vide gép vákuumtasakban történő, alacsony hőmérsékletű főzéshez használt eszköz. Pontos hőmérséklet-szabályozása lehetővé teszi a profi minőségű ételek elkészítését.'),
-(65, 'Fazék', 'fazek.jpg', 14, 'A fazék mély, hőálló edény, amelyet levesek, főzelékek és tészták főzésére használnak. Fedővel együtt biztosítja az egyenletes hőeloszlást.'),
-(66, 'Lábas', 'labas.jpg', 14, 'A lábas közepes méretű edény, amelyet szószok, krémek és kisebb adagok főzésére használnak. Fedővel együtt segít a hő megtartásában.'),
-(67, 'Nyeles lábas', 'nyeles_labas.jpg', 14, 'A nyeles lábas hosszú nyéllel ellátott edény, amely megkönnyíti a főzést és az öntést. Különösen alkalmas szószok és levesek készítésére.'),
-(68, 'Bogrács', 'bogracs.jpg', 14, 'A bogrács vastag falú fém edény, amelyet szabadtéri főzéshez, például gulyás és pörkölt készítéséhez használnak. A hagyományos magyar konyha fontos eszköze.'),
-(69, 'Fedő', 'fedo.jpg', 14, 'A fedő az edények tetejére helyezhető eszköz, amely segít a hő és a gőz megtartásában, gyorsítva a főzési folyamatot.'),
-(70, 'Serpenyő', 'serpenyo.jpg', 14, 'A serpenyő lapos edény, amelyet húsok, zöldségek és tojásételek gyors sütésére és pirítására használnak.'),
-(71, 'Keverőtál', 'keverotal.jpg', 14, 'A keverőtál mély edény, amelyet tészták, krémek és saláták összekeverésére használnak. Praktikus és sokoldalú konyhai eszköz.'),
-(72, 'Tepsi', 'tepsi.jpg', 14, 'A tepsi lapos sütőedény, amelyet sütemények, pizzák és egyéb ételek sütésére használnak a sütőben.'),
-(73, 'Hőálló tál', 'hoallo_tal.jpg', 14, 'A hőálló tál magas hőmérsékletnek ellenálló edény, amely sütőben és mikrohullámú sütőben is használható.'),
-(74, 'Jénai', 'jenai.jpg', 14, 'A jénai hőálló üvegedény, amely lehetővé teszi az ételek elkészítésének vizuális ellenőrzését sütés közben.'),
-(75, 'Öntöttvas edény', 'ontottvas_edeny.jpg', 14, 'Az öntöttvas edény kiváló hőtartó képességgel rendelkező edény, amely ideális lassú főzéshez és sütéshez.');
+INSERT INTO `konyhaifelszereles` (`KonyhaiFelszerelesID`, `Nev`, `Kep`, `BesorolasID`, `Leiras`, `Torolve`) VALUES
+(1, 'Teáskanál', 'teaskanal.jpg', 1, 'A teáskanál egy kis méretű evőeszköz, amelyet leggyakrabban tea, kávé vagy más italok keverésére, illetve cukor, méz adagolására használunk. Emellett alkalmas kisebb mennyiségű ételek fogyasztására és a konyhában mértékegységként is funkcionál (1 teáskanál ≈ 5 ml). Általában rozsdamentes acélból készül, de létezik műanyagból vagy porcelánból készült változata is. Kompakt mérete miatt kényelmes, praktikus, minden háztartás alapdarabja.', 0),
+(2, 'Evőkanál', 'evokanal.jpg', 1, 'Az evőkanál egy nagyobb méretű evőeszköz, amelyet levesek, főzelékek és egyéb ételek fogyasztására használunk. A konyhában mérésre és adagolásra is alkalmas (1 evőkanál ≈ 15 ml). Leggyakrabban rozsdamentes acélból készül, de létezik műanyagból, fából vagy szilikonból készült változata is. Formája kényelmes fogást biztosít, ezért a mindennapi étkezések alapdarabja.', 0),
+(3, 'Pizzaszósz kanál', 'pizzaszosz_kanal.jpg', 2, 'A pizzaszósz kanál egy kifejezetten pizza készítéshez használt konyhai eszköz, amely a paradicsomszósz egyenletes eloszlását szolgálja a pizzatészta felületén. Feje általában lapos, enyhén mélyített vagy kör alakú, így segít a szószt középről kifelé spirálisan elkenni. Leggyakrabban rozsdamentes acélból vagy műanyagból készül, nyelének kialakítása stabil fogást biztosít.', 0),
+(4, 'Spagettikanál', 'spagettikanal.jpg', 2, 'A spagetti kanál főtt spagetti és egyéb hosszú tészták szedésére, adagolására szolgál. Jellegzetes fogazott, karmokra emlékeztető pereme segít a tészta megfogásában, miközben a felesleges folyadék lecsöpög. Közepén gyakran található egy lyuk, amely adagolásra is szolgál. Megkönnyíti a tálalást anélkül, hogy a tészta összetörne.', 0),
+(5, 'Hableszedő kanál', 'hableszedo_kanal.jpg', 3, 'A hableszedő kanál főzés közben a levesek, húslevek vagy főzelékek tetején képződő hab eltávolítására szolgál. Általában lyukacsos vagy rácsos fejű, így a folyadék visszafolyik, a hab viszont fennmarad rajta. Hosszú nyelének köszönhetően biztonságosan használható forró ételeknél is.', 0),
+(6, 'Fakanál', 'fakanal.jpg', 4, 'A fakanál hagyományos konyhai eszköz, amelyet keverésre, forgatásra és adagolásra használnak főzés közben. Leggyakrabban fából készül, ezért nem karcolja az edényeket és nem vezeti a hőt. Különösen alkalmas levesek, főzelékek, szószok és pörköltek keverésére.', 0),
+(7, 'Szilikonos spatula', 'szilikonos_spatula.jpg', 4, 'A szilikon spatula korszerű konyhai eszköz, amelyet keverésre, kaparásra és kenésre használnak. Rugalmas feje lehetővé teszi, hogy az edény faláról maradék nélkül összegyűjtse az ételt vagy tésztát. Hőálló, nem karcolja az edényeket.', 0),
+(8, 'Koktélkanál', 'koktelkanal.jpg', 1, 'A koktélkanál egy hosszú nyelű keverőkanál, amelyet koktélok és italok összekeverésére használnak, főként magas poharakban. Hosszú, vékony nyele lehetővé teszi, hogy az ital aljáig leérjen, csavart kialakítása segíti az egyenletes keverést.', 0),
+(9, 'Fagylaltos kanál', 'fagylaltos_kanal.jpg', 5, 'A fagylaltos kanál speciálisan kialakított eszköz fagylalt adagolására és szervírozására. Feje félgömb alakú, így könnyen formáz szép, kerek adagokat. Gyakran hővezető fémből készül, amely megkönnyíti a kemény fagylalt kiszedését.', 0),
+(10, 'Tálalókanál', 'talalokanal.jpg', 6, 'A tálalókanál nagy, erős kanál, amelyet főételek, köretek vagy saláták adagolására használnak. Segítségével a tálalás gyors, egyszerű és esztétikus.', 0),
+(11, 'Kézi habverő', 'kezi_habvero.jpg', 4, 'A kézi habverő tojásfehérje, tejszín vagy különböző keverékek felverésére, habosítására szolgál. Fém drótfeje segít a levegő bekeverésében, így a keverék könnyű és egyenletes lesz.', 0),
+(12, 'Merőkanál', 'merokanal.jpg', 7, 'A merőkanál nagy, mély kanál, amelyet levesek, főzelékek, szószok és egyéb folyékony ételek adagolására használnak. Hosszú nyele miatt biztonságosan elérhető vele a mély edények alja.', 0),
+(13, 'Kenőkés', 'kenokes.jpg', 1, 'A kenőkés egy kis, lapos és széles pengéjű konyhai eszköz, amelyet vaj, margarin, krémek, dzsemek vagy egyéb kenhető anyagok szendvicsre vagy kenyérre való felvitelére használnak. Általában rozsdamentes acélból készül, de léteznek műanyag vagy szilikon változatai is. Kialakítása biztonságos, nem vág.', 0),
+(14, 'Séfkés', 'sefkes.jpg', 8, 'A séfkés egy nagy, sokoldalú konyhai kés, amelyet zöldségek, húsok, halak és egyéb alapanyagok szeletelésére, aprítására használnak. Széles, enyhén ívelt pengéje lehetővé teszi a hajlított mozdulatokkal történő vágást. A konyhai munka egyik legfontosabb alapdarabja.', 0),
+(15, 'Hámozó', 'hamozo.jpg', 8, 'A hámozó egy kisebb, kézi konyhai eszköz, amelyet zöldségek és gyümölcsök héjának eltávolítására használnak. Éles pengéje precíz munkát tesz lehetővé, miközben kevés hulladék keletkezik. Gyors, biztonságos és praktikus.', 0),
+(16, 'Kenyérvágó kés', 'kenyervago_kes.jpg', 8, 'A kenyérvágó kés hosszú, fogazott pengéjű kés, amely könnyedén átvágja a ropogós kenyérhéjat anélkül, hogy a belsejét összenyomná. Ideális friss és pirított kenyerek szeletelésére.', 0),
+(17, 'Csontozókés', 'csontozokes.jpg', 8, 'A csontozókés vékony, hegyes és rugalmas pengéjű kés, amely húsok csontjáról való leválasztására szolgál. Kialakítása lehetővé teszi a precíz vágást, minimális húsvesteséggel.', 0),
+(18, 'Filézőkés', 'filezokes.jpg', 8, 'A filézőkés hosszú és hajlékony pengéjű kés, amelyet halak és húsok filézésére használnak. Segítségével a csontok és a bőr pontosan elválaszthatók a hústól.', 0),
+(19, 'Desszertkés', 'desszertkes.jpg', 9, 'A desszertkés kisebb méretű kés, amelyet sütemények, torták és egyéb desszertek fogyasztására vagy szeletelésére használnak. Könnyű kezelhetősége elegáns étkezést biztosít.', 0),
+(20, 'Sajtkés', 'sajtkes.jpg', 10, 'A sajtkés speciálisan kialakított kés különféle sajtok vágására és tálalására. Pengéje gyakran lyukacsos vagy recézett, hogy a sajt ne ragadjon rá.', 0),
+(21, 'Henteskés', 'henteskes.jpg', 8, 'A henteskés egy nagy, masszív kés, amelyet nyers húsok feldolgozására, darabolására és szeletelésére használnak. Erős pengéje a vastag húsrészekkel is megbirkózik.', 0),
+(22, 'Pizzavágó', 'pizzavago.jpg', 8, 'A pizzavágó kör alakú pengével rendelkező konyhai eszköz, amelyet pizza és más lapos ételek szeletelésére használnak. Gyors, pontos vágást tesz lehetővé.', 0),
+(23, 'Evővilla', 'evovilla.jpg', 1, 'Az evővilla egy hagyományos evőeszköz, amelyet főként húsok, zöldségek, tészták és egyéb ételek fogyasztására használnak. Hosszú nyele kényelmes fogást biztosít, míg a három vagy négy villaág segít az étel biztonságos megragadásában. Leggyakrabban rozsdamentes acélból készül, és a mindennapi étkezések alapvető eszköze.', 0),
+(24, 'Desszert villa', 'desszert_villa.jpg', 9, 'A desszertvilla kisebb méretű evőeszköz, amelyet sütemények, torták és egyéb desszertek fogyasztására használnak. Rövidebb és vékonyabb fogai lehetővé teszik a finom falatok precíz és elegáns elfogyasztását. Ünnepi és mindennapi alkalmakon egyaránt használatos.', 0),
+(25, 'Húsvilla', 'husvilla.jpg', 6, 'A húsvilla hosszú, erős villa, amelyet sültek, nagyobb húsdarabok forgatására, megtartására és szeletelésére használnak. Két vagy több hosszú villaága stabil tartást biztosít, miközben a hús biztonságosan kezelhető főzés és tálalás során.', 0),
+(26, 'Vágódeszka', 'vagodeszka.jpg', 11, 'A vágódeszka egy lapos, stabil felület, amelyet zöldségek, húsok, gyümölcsök és egyéb élelmiszerek szeletelésére használnak. Megóvja a kések élét és biztonságos munkafelületet biztosít.', 0),
+(27, 'Sütőkesztyű', 'sutokesztyu.jpg', 11, 'A sütőkesztyű vastag, hőálló kesztyű, amely megvédi a kezet a forró edények és tepsik okozta sérülésektől.', 0),
+(28, 'Konyharuha', 'konyharuha.jpg', 11, 'A konyharuha nedvszívó textil, amelyet edények törlésére, szárítására és a munkafelület tisztán tartására használnak.', 0),
+(29, 'Kötény', 'koteny.jpg', 11, 'A kötény védőruházati kiegészítő, amely főzés közben megóvja a ruhát a szennyeződésektől és fröccsenésektől.', 0),
+(30, 'Tálalógyűrű', 'talalogyuru.jpg', 11, 'A tálalógyűrű kör alakú forma, amely segít az ételek esztétikus, formázott tálalásában.', 0),
+(31, 'Késélező', 'keselezo.jpg', 11, 'A késélező a kések élének karbantartására szolgál, biztosítva a könnyű és biztonságos vágást.', 0),
+(32, 'Konyhai mérleg', 'konyhai_merleg.jpg', 11, 'A konyhai mérleg az alapanyagok pontos mérésére szolgál főzés és sütés során.', 0),
+(33, 'Szita', 'szita.jpg', 11, 'A szita liszt, porcukor és egyéb alapanyagok szitálására vagy folyadékok szűrésére használható.', 0),
+(34, 'Reszelő', 'reszelo.jpg', 11, 'A reszelő sajtok, zöldségek és gyümölcsök aprítására szolgáló konyhai eszköz.', 0),
+(35, 'Habzsák', 'habzsak.jpg', 11, 'A habzsák krémek, habok és díszítő anyagok pontos adagolására és formázására használható.', 0),
+(36, 'Nokedliszaggató', 'nokedliszaggato.jpg', 11, 'A nokedliszaggató a tészta gyors és egyenletes szaggatására szolgál.', 0),
+(37, 'Maghőmérő', 'maghomero.jpg', 11, 'A maghőmérő az ételek belső hőmérsékletének mérésére szolgál, biztosítva a megfelelő átsülést.', 0),
+(38, 'Muffin sütőforma', 'muffin_sutoforma.jpg', 11, 'A muffin sütőforma segít a muffinok és kis sütemények egyenletes sütésében.', 0),
+(39, 'Muffin papír', 'muffin_papir.jpg', 11, 'A muffin papír megakadályozza a tészta letapadását, és esztétikus tálalást biztosít.', 0),
+(40, 'Sütőpapír', 'sutopapir.jpg', 11, 'A sütőpapír megakadályozza az ételek letapadását és megkönnyíti a tisztítást.', 0),
+(41, 'Piteforma', 'piteforma.jpg', 11, 'A piteforma piték és sütemények sütésére szolgáló kör alakú forma.', 0),
+(42, 'Tésztaszűrő', 'tesztaszuro.jpg', 11, 'A tésztaszűrő főtt tészták és egyéb ételek leszűrésére szolgál.', 0),
+(43, 'Nyújtólap', 'nyujtolap.jpg', 11, 'A nyújtólap sima felületet biztosít a tészta kinyújtásához.', 0),
+(44, 'Nyújtófa', 'nyujtofa.jpg', 11, 'A nyújtófa henger alakú eszköz tészta egyenletes kinyújtásához.', 0),
+(45, 'Sütőrács', 'sutoracs.jpg', 11, 'A sütőrács biztosítja az ételek egyenletes szellőzését sütés és hűtés során.', 0),
+(46, 'Ecset', 'ecset.jpg', 11, 'A konyhai ecset vaj, tojás vagy olaj felvitelére szolgál.', 0),
+(47, 'Húsfogó csipesz', 'husfogo_csipesz.jpg', 11, 'A húsfogó csipesz segít az ételek biztonságos forgatásában és emelésében.', 0),
+(48, 'Tortaforma', 'tortaforma.jpg', 11, 'A tortaforma torták és sütemények sütésére szolgál.', 0),
+(49, 'Vákuumtasak', 'vakuumtasak.jpg', 11, 'A vákuumtasak ételek frissen tartására és sous-vide főzéshez használható.', 0),
+(50, 'Tálca', 'talca.jpg', 11, 'A tálca ételek és italok szállítására és tálalására szolgál.', 0),
+(51, 'Párolóbetét', 'parolobetet.jpg', 11, 'A párolóbetét lehetővé teszi az ételek gőzben történő elkészítését.', 0),
+(52, 'Klopfoló', 'klopfolo.jpg', 11, 'A klopfoló húsok puhítására és egyenletes vastagságúra lapítására szolgál.', 0),
+(53, 'Robotgép', 'robotgep.jpg', 12, 'A robotgép egy elektromos konyhai eszköz, amelyet tészta dagasztására, krémek habosítására, zöldségek aprítására és egyéb konyhai műveletekre használnak. Különböző cserélhető fejeinek köszönhetően sokoldalúan használható, és jelentősen megkönnyíti a nagyobb mennyiségű alapanyag feldolgozását.', 0),
+(54, 'Elektromos habverő', 'elektromos_habvero.jpg', 12, 'Az elektromos habverő tojások, krémek, tejszín és tészták gyors és egyenletes felverésére szolgáló konyhai kisgép. Forgó fém fejei segítségével időt és energiát takarít meg a kézi keveréshez képest.', 0),
+(55, 'Botmixer', 'botmixer.jpg', 12, 'A botmixer kézben tartható elektromos eszköz, amelyet levesek, szószok, krémek és turmixok pépesítésére használnak közvetlenül az edényben. Gyors, praktikus és könnyen tisztítható.', 0),
+(56, 'Turmixgép', 'turmixgep.jpg', 12, 'A turmixgép gyümölcsök, zöldségek, italok és levesek pépesítésére alkalmas elektromos eszköz. Erős motorja és éles pengéi sima, homogén állagot biztosítanak.', 0),
+(57, 'Vízforraló', 'vizforralo.jpg', 12, 'A vízforraló elektromos eszköz víz gyors felforralására teák, kávék és instant ételek készítéséhez. Beépített automatikus kikapcsolással rendelkezik a biztonságos használat érdekében.', 0),
+(58, 'Szendvicssütő', 'szendvicssuto.jpg', 12, 'A szendvicssütő elektromos konyhai kisgép, amely melegszendvicsek és toastok gyors elkészítésére szolgál. Tapadásmentes felülete biztosítja az egyenletes sütést.', 0),
+(59, 'Airfryer', 'airfryer.jpg', 12, 'Az airfryer forró levegő keringetésével működő konyhai kisgép, amely minimális olaj felhasználásával teszi lehetővé az ételek ropogósra sütését.', 0),
+(60, 'Szeletelőgép', 'szeletelogep.jpg', 12, 'A szeletelőgép húsok, sajtok és zöldségek egyenletes, vékony szeletekre vágására szolgáló konyhai eszköz, amely precíz és esztétikus eredményt biztosít.', 0),
+(61, 'Mikrohullámú sütő', 'mikrohullamu_suto.jpg', 13, 'A mikrohullámú sütő elektromos konyhai nagygép, amelyet ételek gyors melegítésére, főzésére vagy kiolvasztására használnak. Mikrohullámok segítségével működik, így az étel rövid idő alatt egyenletesen felmelegszik. A modern konyhák alapvető eszköze.', 0),
+(62, 'Gáztűzhely', 'gaztuzhely.jpg', 13, 'A gáztűzhely nyílt lánggal működő főzőberendezés, amely pontos és azonnali hőszabályozást tesz lehetővé. Főzéshez, sütéshez és pároláshoz egyaránt használható.', 0),
+(63, 'Indukciós főzőlap', 'indukcios_fozolap.jpg', 13, 'Az indukciós főzőlap elektromos főzőeszköz, amely közvetlenül az edény alját melegíti. Gyors, energiatakarékos és biztonságos megoldást kínál a modern konyhákban.', 0),
+(64, 'Sous-vide gép', 'sous_vide_gep.jpg', 13, 'A sous-vide gép vákuumtasakban történő, alacsony hőmérsékletű főzéshez használt eszköz. Pontos hőmérséklet-szabályozása lehetővé teszi a profi minőségű ételek elkészítését.', 0),
+(65, 'Fazék', 'fazek.jpg', 14, 'A fazék mély, hőálló edény, amelyet levesek, főzelékek és tészták főzésére használnak. Fedővel együtt biztosítja az egyenletes hőeloszlást.', 0),
+(66, 'Lábas', 'labas.jpg', 14, 'A lábas közepes méretű edény, amelyet szószok, krémek és kisebb adagok főzésére használnak. Fedővel együtt segít a hő megtartásában.', 0),
+(67, 'Nyeles lábas', 'nyeles_labas.jpg', 14, 'A nyeles lábas hosszú nyéllel ellátott edény, amely megkönnyíti a főzést és az öntést. Különösen alkalmas szószok és levesek készítésére.', 0),
+(68, 'Bogrács', 'bogracs.jpg', 14, 'A bogrács vastag falú fém edény, amelyet szabadtéri főzéshez, például gulyás és pörkölt készítéséhez használnak. A hagyományos magyar konyha fontos eszköze.', 0),
+(69, 'Fedő', 'fedo.jpg', 14, 'A fedő az edények tetejére helyezhető eszköz, amely segít a hő és a gőz megtartásában, gyorsítva a főzési folyamatot.', 0),
+(70, 'Serpenyő', 'serpenyo.jpg', 14, 'A serpenyő lapos edény, amelyet húsok, zöldségek és tojásételek gyors sütésére és pirítására használnak.', 0),
+(71, 'Keverőtál', 'keverotal.jpg', 14, 'A keverőtál mély edény, amelyet tészták, krémek és saláták összekeverésére használnak. Praktikus és sokoldalú konyhai eszköz.', 0),
+(72, 'Tepsi', 'tepsi.jpg', 14, 'A tepsi lapos sütőedény, amelyet sütemények, pizzák és egyéb ételek sütésére használnak a sütőben.', 0),
+(73, 'Hőálló tál', 'hoallo_tal.jpg', 14, 'A hőálló tál magas hőmérsékletnek ellenálló edény, amely sütőben és mikrohullámú sütőben is használható.', 0),
+(74, 'Jénai', 'jenai.jpg', 14, 'A jénai hőálló üvegedény, amely lehetővé teszi az ételek elkészítésének vizuális ellenőrzését sütés közben.', 0),
+(75, 'Öntöttvas edény', 'ontottvas_edeny.jpg', 14, 'Az öntöttvas edény kiváló hőtartó képességgel rendelkező edény, amely ideális lassú főzéshez és sütéshez.', 0);
 
 -- --------------------------------------------------------
 
@@ -605,38 +607,39 @@ INSERT INTO `nehezsegiszint` (`NehezsegiSzintID`, `Szint`) VALUES
 
 CREATE TABLE `orszag` (
   `OrszagID` int(11) NOT NULL,
-  `Elnevezes` varchar(255) NOT NULL
+  `Elnevezes` varchar(255) NOT NULL,
+  `Torolve` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- A tábla adatainak kiíratása `orszag`
 --
 
-INSERT INTO `orszag` (`OrszagID`, `Elnevezes`) VALUES
-(1, 'Magyarország'),
-(2, 'Franciaország'),
-(3, 'Olaszország'),
-(4, 'Spanyolország'),
-(5, 'Egyesült Királyság'),
-(6, 'Egyesült Államok'),
-(7, 'Kanada'),
-(8, 'Kína'),
-(9, 'Japán'),
-(10, 'Dél-Korea'),
-(11, 'India'),
-(12, 'Ausztrália'),
-(13, 'Oroszország'),
-(14, 'Brazília'),
-(15, 'Mexikó'),
-(16, 'Hollandia'),
-(17, 'Belgium'),
-(18, 'Svájc'),
-(19, 'Ausztria'),
-(20, 'Lengyelország'),
-(21, 'Csehország'),
-(22, 'Szlovákia'),
-(23, 'Románia'),
-(24, 'Svédország');
+INSERT INTO `orszag` (`OrszagID`, `Elnevezes`, `Torolve`) VALUES
+(1, 'Magyarország', 0),
+(2, 'Franciaország', 0),
+(3, 'Olaszország', 0),
+(4, 'Spanyolország', 0),
+(5, 'Egyesült Királyság', 0),
+(6, 'Egyesült Államok', 0),
+(7, 'Kanada', 0),
+(8, 'Kína', 0),
+(9, 'Japán', 0),
+(10, 'Dél-Korea', 0),
+(11, 'India', 0),
+(12, 'Ausztrália', 0),
+(13, 'Oroszország', 0),
+(14, 'Brazília', 0),
+(15, 'Mexikó', 0),
+(16, 'Hollandia', 0),
+(17, 'Belgium', 0),
+(18, 'Svájc', 0),
+(19, 'Ausztria', 0),
+(20, 'Lengyelország', 0),
+(21, 'Csehország', 0),
+(22, 'Szlovákia', 0),
+(23, 'Románia', 0),
+(24, 'Svédország', 0);
 
 -- --------------------------------------------------------
 

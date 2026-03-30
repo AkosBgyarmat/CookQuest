@@ -67,24 +67,19 @@
     <!-- Mobil nézet -->
     <div class="md:hidden space-y-4">
 
-        <div class="bg-white m-2 rounded-lg shadow p-4"
+        <div class="bg-white m-2 rounded-lg shadow p-4 flex justify-between items-center"
             ng-repeat="r in recept track by r.id">
 
-            <p class="text-lg font-semibold">
-                {{r.Nev}}
-            </p>
+            <div>
+                <p class="text-lg font-semibold">
+                    {{r.Nev}}
+                </p>
 
-            <p class="text-sm text-gray-500">
-                ID: {{r.id}}
-            </p>
+                <p class="text-sm text-gray-500">
+                    ID: {{r.id}}
+                </p>
+            </div>
 
-            <p class="text-sm">
-                Idő: {{(r.ElkeszitesiIdo.split(':')[0]*60 + r.ElkeszitesiIdo.split(':')[1]*1)}} perc
-            </p>
-
-            <p class="text-sm">
-                Nehézség: {{r.Nehezseg}}
-            </p>
 
             <div class="flex gap-2 mt-3">
 

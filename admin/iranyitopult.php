@@ -42,7 +42,7 @@
             ng-controller="eszkozController">
             <div>
                 <p class="text-gray-500 text-sm">Konyhai eszközök</p>
-                <h2 class="text-3xl font-bold">{{eszkozok.length}}</h2>
+                <h2 class="text-3xl font-bold">{{eszkoz.length}}</h2>
             </div>
 
             <div class="text-3xl border bg-[#C0CEB8]/40 text-orange-600 w-12 h-12 flex items-center justify-center rounded-full">
@@ -112,7 +112,7 @@
                     + Új recept
                 </a>
 
-                <a href="/CookQuest/admin/hozzavalokAdmin/ujhozzavalo.php"
+                <a href="/CookQuest/admin/hozzavalokAdmin/hozzavalok.php?openNew=1"
                     class="bg-[#90AB8B] hover:bg-[#7D9A8A] text-black px-4 py-2 rounded-lg text-sm transition">
                     + Új hozzávaló
                 </a>

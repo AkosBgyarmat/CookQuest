@@ -56,38 +56,17 @@ angular.module("CookQuestAdmin").controller("receptController", function ($scope
 
 
 
+    /* Modal és visszajelzés kezelése */
     $scope.selectedRecept = null;
     $scope.isModalOpen = false;
     $scope.feedbackMessage = false;
     $scope.feedbackSuccess = false;
     $scope.feedbackText = "";
+    $scope.confirmModal = false;
+    $scope.confirmText = "";
+    $scope.confirmAction = null;
 
-    $scope.getNextReceptId = function () {
-        if (!$scope.recept || !$scope.recept.length) {
-            return 1;
-        }
-        let maxId = Math.max.apply(null, $scope.recept.map(r => Number(r.id) || 0));
-        return maxId + 1;
-    };
-
-    $scope.closeFeedbackMessage = function () {
-        $scope.feedbackMessage = false;
-        $scope.feedbackText = '';
-        $scope.feedbackSuccess = false;
-    };
-
-    $scope.addHozzavalo = function () {
-        $scope.selectedRecept.hozzavalok.push({
-            HozzavaloID: null,
-            Mennyiseg: 0,
-            MertekegysegID: null
-        });
-    };
-
-    $scope.removeHozzavalo = function (index) {
-        $scope.selectedRecept.hozzavalok.splice(index, 1);
-    };
-
+    /* Recept kezelése */
     $scope.editRecept = function (r) {
         $scope.selectedRecept = angular.copy(r);
         $scope.selectedRecept.hozzavalok = [];
@@ -139,10 +118,6 @@ angular.module("CookQuestAdmin").controller("receptController", function ($scope
         $scope.isModalOpen = true;
     };
 
-    $scope.closeModal = function () {
-        $scope.isModalOpen = false;
-    };
-
     $scope.createRecept = function () {
         let date = new Date();
         date.setHours(0);
@@ -171,11 +146,6 @@ angular.module("CookQuestAdmin").controller("receptController", function ($scope
 
         $scope.isModalOpen = true;
     };
-
-    // Ha a receptek oldalra query parammal érkezünk, automatikusan nyissa meg az új recept modalt
-    if (window.location.search.indexOf("openNew=1") !== -1) {
-        $scope.createRecept();
-    }
 
     $scope.saveRecept = function () {
         let payload = angular.copy($scope.selectedRecept);
@@ -277,27 +247,6 @@ angular.module("CookQuestAdmin").controller("receptController", function ($scope
             });
     };
 
-    $scope.confirmModal = false;
-    $scope.confirmText = "";
-    $scope.confirmAction = null;
-
-    $scope.openConfirm = function (text, action) {
-        $scope.confirmText = text;
-        $scope.confirmAction = action;
-        $scope.confirmModal = true;
-    };
-
-    $scope.confirmOk = function () {
-        if ($scope.confirmAction) {
-            $scope.confirmAction();
-        }
-        $scope.confirmModal = false;
-    };
-
-    $scope.confirmCancel = function () {
-        $scope.confirmModal = false;
-    };
-
     $scope.torles = function (id) {
 
         $scope.openConfirm("Biztos törlöd?", function () {
@@ -361,4 +310,59 @@ angular.module("CookQuestAdmin").controller("receptController", function ($scope
 
         });
     };
+
+    $scope.getNextReceptId = function () {
+        if (!$scope.recept || !$scope.recept.length) {
+            return 1;
+        }
+        let maxId = Math.max.apply(null, $scope.recept.map(r => Number(r.id) || 0));
+        return maxId + 1;
+    };
+
+    /* Hozzávaló kezelés */
+    $scope.addHozzavalo = function () {
+        $scope.selectedRecept.hozzavalok.push({
+            HozzavaloID: null,
+            Mennyiseg: 0,
+            MertekegysegID: null
+        });
+    };
+
+    $scope.removeHozzavalo = function (index) {
+        $scope.selectedRecept.hozzavalok.splice(index, 1);
+    };
+    
+    /* Visszajelzés kezelése */
+    $scope.closeFeedbackMessage = function () {
+        $scope.feedbackMessage = false;
+        $scope.feedbackText = '';
+        $scope.feedbackSuccess = false;
+    };
+
+    $scope.closeModal = function () {
+        $scope.isModalOpen = false;
+    };
+
+    if (window.location.search.indexOf("openNew=1") !== -1) {
+        $scope.createRecept();
+    }
+
+    $scope.openConfirm = function (text, action) {
+        $scope.confirmText = text;
+        $scope.confirmAction = action;
+        $scope.confirmModal = true;
+    };
+
+    $scope.confirmOk = function () {
+        if ($scope.confirmAction) {
+            $scope.confirmAction();
+        }
+        $scope.confirmModal = false;
+    };
+
+    $scope.confirmCancel = function () {
+        $scope.confirmModal = false;
+    };
+
+    
 });
