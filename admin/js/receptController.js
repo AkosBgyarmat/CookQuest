@@ -91,7 +91,7 @@ angular.module("CookQuestAdmin").controller("receptController", function ($scope
     $scope.editRecept = function (r) {
         $scope.selectedRecept = angular.copy(r);
         $scope.selectedRecept.hozzavalok = [];
-        console.log($scope.selectedRecept);
+        //console.log($scope.selectedRecept);
 
         $http.get("/CookQuest/admin/lekerdezes/receptHozzavalo.php?receptID=" + r.id)
             .then(res => {
@@ -211,7 +211,7 @@ angular.module("CookQuestAdmin").controller("receptController", function ($scope
             payload.ElkeszitesiIdo = "00:00:00";
         }
 
-        console.log("MENTÉS ADAT:", payload);
+        //console.log("MENTÉS ADAT:", payload);
 
         let url = $scope.selectedRecept.id
             ? "/CookQuest/admin/receptAdmin/receptModositas.php"
@@ -227,7 +227,7 @@ angular.module("CookQuestAdmin").controller("receptController", function ($scope
         })
             .then(function (res) {
 
-                console.log("Siker:", res.data);
+                //console.log("Siker:", res.data);
 
                 let response = res.data || {};
                 let isSuccess = typeof response.success === "undefined"

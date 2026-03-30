@@ -1,6 +1,6 @@
 angular.module("CookQuest").controller("eszkozCtrl", function ($scope, $http) {
 
-    console.log("Eszközök controller fut");
+    //console.log("Eszközök controller fut");
 
     //alapértelmezett nézet
     $scope.mode = "eszkozok";
@@ -11,7 +11,7 @@ angular.module("CookQuest").controller("eszkozCtrl", function ($scope, $http) {
     //adatbetöltés
     $http.get("/CookQuest/views/konyhaiEszkozok/eszkozok.php")
         .then(function (response) {
-            console.log("ESZKÖZÖK:", response.data);
+            //console.log("ESZKÖZÖK:", response.data);
             $scope.eszkozok = response.data;
 
             if ($scope.selectedId) {
