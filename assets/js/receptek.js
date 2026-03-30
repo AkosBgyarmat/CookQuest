@@ -77,14 +77,22 @@ document.addEventListener('DOMContentLoaded', () => {
   const mobileSidebarOpenButton = selectOne('#mobilSidebarToggle');
   const mobileSidebarCloseButton = selectOne('#mobilSidebarClose');
 
+  const syncMobileSidebarButtonState = (isSidebarOpen) => {
+    if (!mobileSidebarOpenButton) return;
+    mobileSidebarOpenButton.classList.toggle('hidden', Boolean(isSidebarOpen));
+    mobileSidebarOpenButton.setAttribute('aria-expanded', isSidebarOpen ? 'true' : 'false');
+  };
+
   function openSidebar() {
     if (!sidebarElement) return;
     sidebarElement.classList.remove('-translate-x-full');
+    syncMobileSidebarButtonState(true);
   }
 
   function closeSidebar() {
     if (!sidebarElement) return;
     sidebarElement.classList.add('-translate-x-full');
+    syncMobileSidebarButtonState(false);
   }
 
   if (mobileSidebarOpenButton && sidebarElement) {
@@ -102,6 +110,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const clickInsideSidebar = sidebarElement.contains(clickEvent.target);
     if (!clickInsideSidebar && !clickOnOpenButton) closeSidebar();
   });
+
+  syncMobileSidebarButtonState(false);
 
   // --- Sidebar szint lenyitás ---
   selectAll('.szint-sav-cim').forEach((levelHeaderButton) => {
