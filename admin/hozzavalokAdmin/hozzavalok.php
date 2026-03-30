@@ -26,7 +26,7 @@
 
                 <tr class="border-t" ng-repeat="h in hozzavalo track by h.id">
                     <td class="p-2">{{h.id}}</td>
-                    <td class="p-3">{{h.ELnevezes}}</td>
+                    <td class="p-3">{{h.Elnevezes}}</td>
                     <td class="p-3">
 
                         <a href="hozzavalok_szerkeszt.php?id=1"
@@ -59,7 +59,7 @@
                 </p>
 
                 <p class="text-lg font-semibold">
-                    {{h.ELnevezes}}
+                    {{h.Elnevezes}}
                 </p>
 
             </div>

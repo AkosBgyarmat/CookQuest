@@ -9,15 +9,25 @@ SELECT
     r.Nev,
     r.Kep,
     r.ElkeszitesiIdo,
+
+    r.NehezsegiSzintID,
     ns.Szint AS Nehezseg,
+
     r.BegyujthetoPontok,
     r.Adag,
     r.Elkeszitesi_leiras,
+
+    r.ElkeszitesiModID,
     em.ElkeszitesiMod AS ElkeszitesiMod,
+
+    r.ArkategoriaID,              
     ark.Arkategoria AS Arkategoria,
+
+    r.AlkategoriaID,
     ak.Alkategoria AS Alkategoria,
-    r.Kaloria,
-    r.BegyujthetoPontok
+
+    r.Kaloria
+
 FROM recept r
 JOIN nehezsegiszint ns ON r.NehezsegiSzintID = ns.NehezsegiSzintID
 JOIN alkategoria ak ON r.AlkategoriaID = ak.AlkategoriaID

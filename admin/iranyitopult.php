@@ -107,7 +107,7 @@
 
             <div class="flex flex-wrap gap-3">
 
-                <a href="/CookQuest/admin/receptAdmin/ujrecept.php"
+                <a href="/CookQuest/admin/receptAdmin/receptek.php?openNew=1"
                     class="bg-[#5A7863] hover:bg-[#3B4953] text-white px-4 py-2 rounded-lg text-sm transition">
                     + Új recept
                 </a>

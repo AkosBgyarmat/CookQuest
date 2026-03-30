@@ -6,7 +6,7 @@ require __DIR__ . "/../../kapcsolat.php"; //kapcsolódás az adatbázishoz
 $sql = "
 SELECT 
     h.HozzavaloID AS id,
-    h.ELnevezes 
+    h.Elnevezes 
 FROM hozzavalo h
 ORDER BY h.HozzavaloID ASC
 ";
