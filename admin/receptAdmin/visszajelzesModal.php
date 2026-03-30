@@ -1,4 +1,3 @@
-<!-- FEEDBACK MODAL -->
 <div ng-if="feedbackMessage"
      class="fixed inset-0 z-50 flex items-center justify-center">
 
@@ -7,7 +6,7 @@
        ng-click="closeFeedbackMessage()">
   </div>
 
-  <div class="relative bg-white rounded-3xl shadow-2xl p-10 max-w-lg w-full mx-4 text-center z-10">
+  <div class="relative bg-white rounded-3xl shadow-2xl p-10 max-w-lg w-full mx-4 text-center z-10 m-4">
 
     <!-- X -->
     <button ng-click="closeFeedbackMessage()"
@@ -48,15 +47,49 @@
     <h2 class="text-2xl font-bold mb-4"
         ng-class="feedbackSuccess ? 'text-green-700' : 'text-red-700'">
 
-      {{ feedbackSuccess ? 'Mentés sikeres!' : 'Mentés sikertelen!' }}
+      {{ feedbackSuccess ? 'Sikeres!' : 'Hiba!' }}
 
     </h2>
 
     <p class="text-gray-600">
 
-      {{ feedbackText || (feedbackSuccess ? 'A mentés sikeresen megtörtént.' : 'Hiba történt a mentés során.') }}
+      {{ feedbackText }}
 
     </p>
+
+    <button ng-click="closeFeedbackMessage()"
+            class="mt-6 w-full bg-[#C0CEB8] text-black font-semibold py-2 px-4 rounded-lg transition">
+      OK
+    </button>
+
+  </div>
+</div>
+
+<div ng-if="confirmModal"
+     class="fixed inset-0 z-50 flex items-center justify-center ">
+
+  <div class="absolute inset-0 bg-black/50 backdrop-blur-sm"
+       ng-click="confirmCancel()"></div>
+
+  <div class="relative bg-white rounded-2xl shadow-xl p-6 max-w-sm w-full text-center z-10 m-4">
+
+    <h2 class="text-xl font-bold mb-4">Megerősítés</h2>
+
+    <p class="mb-6 text-gray-600">
+        {{ confirmText }}
+    </p>
+
+    <div class="flex justify-center gap-4">
+        <button ng-click="confirmCancel()"
+                class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">
+            Mégse
+        </button>
+
+        <button ng-click="confirmOk()"
+                class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">
+            Igen
+        </button>
+    </div>
 
   </div>
 </div>

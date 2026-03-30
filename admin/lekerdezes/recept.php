@@ -26,7 +26,8 @@ SELECT
     r.AlkategoriaID,
     ak.Alkategoria AS Alkategoria,
 
-    r.Kaloria
+    r.Kaloria,
+    r.Torolve
 
 FROM recept r
 JOIN nehezsegiszint ns ON r.NehezsegiSzintID = ns.NehezsegiSzintID

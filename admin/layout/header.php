@@ -31,8 +31,8 @@ if ($_SESSION["szerepID"] != 1) {
 
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    
     <script src="/CookQuest/admin/js/app.js"></script>
 
     <link rel="shortcut icon" href="/CookQuest/assets/kepek/favicon/favicon-32x32.png">

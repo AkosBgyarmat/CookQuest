@@ -1,12 +1,12 @@
 <?php
-
 require __DIR__ . "/../../kapcsolat.php"; //kapcsolódás az adatbázishoz
 
 //SQL lekérdezés az adatbázis táblából a rekordok betöltése
 $sql = "
 SELECT 
     h.HozzavaloID AS id,
-    h.Elnevezes 
+    h.Elnevezes,
+    h.Torolve
 FROM hozzavalo h
 ORDER BY h.HozzavaloID ASC
 ";

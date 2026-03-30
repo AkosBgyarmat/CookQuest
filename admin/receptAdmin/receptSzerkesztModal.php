@@ -92,7 +92,7 @@
 
                     <div>
                         <img ng-src="/CookQuest/assets/kepek/etelek/{{selectedRecept.Kep}}"
-                            class="w-full h-32 object-cover rounded-lg border">
+                            class="w-full h-36 object-cover rounded-lg border">
                     </div>
 
                     <div>
@@ -138,7 +138,7 @@
                     <h3 class="font-semibold text-lg">Hozzávalók</h3>
 
                     <button ng-click="addHozzavalo()"
-                        class="bg-blue-500 text-white px-3 py-1 rounded-lg text-sm hover:bg-blue-600">
+                        class="bg-[#95A792] text-white px-3 py-1 rounded-lg text-sm hover:bg-blue-600">
                         + Hozzáadás
                     </button>
                 </div>
@@ -184,7 +184,7 @@
             </button>
 
             <button ng-click="saveRecept()"
-                class="bg-green-600 text-white px-5 py-2 rounded-lg">
+                class="bg-[#5A7863] text-white px-5 py-2 rounded-lg">
                 Mentés
             </button>
 

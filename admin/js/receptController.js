@@ -72,8 +72,8 @@ angular.module("CookQuestAdmin").controller("receptController", function ($scope
 
     $scope.closeFeedbackMessage = function () {
         $scope.feedbackMessage = false;
+        $scope.feedbackText = '';
         $scope.feedbackSuccess = false;
-        $scope.feedbackText = "";
     };
 
     $scope.addHozzavalo = function () {
@@ -214,8 +214,8 @@ angular.module("CookQuestAdmin").controller("receptController", function ($scope
         console.log("MENTÉS ADAT:", payload);
 
         let url = $scope.selectedRecept.id
-            ? "/CookQuest/admin/mentesek/receptModositas.php"
-            : "/CookQuest/admin/mentesek/receptLetrehozas.php";
+            ? "/CookQuest/admin/receptAdmin/receptModositas.php"
+            : "/CookQuest/admin/receptAdmin/receptLetrehozas.php";
 
         $http({
             method: "POST",
@@ -230,8 +230,8 @@ angular.module("CookQuestAdmin").controller("receptController", function ($scope
                 console.log("Siker:", res.data);
 
                 let response = res.data || {};
-                let isSuccess = typeof response.success === "undefined" 
-                    ? true 
+                let isSuccess = typeof response.success === "undefined"
+                    ? true
                     : (response.success === true || response.success === 1 || response.success === "1");
 
                 if (!isSuccess) {
@@ -277,4 +277,88 @@ angular.module("CookQuestAdmin").controller("receptController", function ($scope
             });
     };
 
+    $scope.confirmModal = false;
+    $scope.confirmText = "";
+    $scope.confirmAction = null;
+
+    $scope.openConfirm = function (text, action) {
+        $scope.confirmText = text;
+        $scope.confirmAction = action;
+        $scope.confirmModal = true;
+    };
+
+    $scope.confirmOk = function () {
+        if ($scope.confirmAction) {
+            $scope.confirmAction();
+        }
+        $scope.confirmModal = false;
+    };
+
+    $scope.confirmCancel = function () {
+        $scope.confirmModal = false;
+    };
+
+    $scope.torles = function (id) {
+
+        $scope.openConfirm("Biztos törlöd?", function () {
+
+            $http.post("/CookQuest/admin/receptAdmin/receptTorles.php", {
+                id: id
+            }).then(function (res) {
+
+                let index = $scope.recept.findIndex(r => r.id == id);
+                if (index !== -1) {
+                    $scope.recept[index].Torolve = 1;
+                }
+
+                $scope.feedbackSuccess = true;
+                $scope.feedbackText = "Recept sikeresen törölt.";
+                $scope.feedbackMessage = true;
+
+            }).catch(err => {
+                console.error("HIBA:", err);
+
+                $scope.feedbackSuccess = false;
+                $scope.feedbackText = "Hiba történt a törlés során.";
+                $scope.feedbackMessage = true;
+            });
+
+        });
+    };
+
+    $scope.visszaallitas = function (id) {
+
+        $scope.openConfirm("Biztosan visszaállítod?", function () {
+
+            $http.get('/CookQuest/admin/receptAdmin/receptVisszaallitas.php?id=' + id)
+                .then(function (response) {
+
+                    if (response.data.success) {
+
+                        let index = $scope.recept.findIndex(r => r.id == id);
+                        if (index !== -1) {
+                            $scope.recept[index].Torolve = 0;
+                        }
+
+                        $scope.feedbackSuccess = true;
+                        $scope.feedbackText = response.data.message || "Recept visszaállítva.";
+                        $scope.feedbackMessage = true;
+
+                    } else {
+
+                        $scope.feedbackSuccess = false;
+                        $scope.feedbackText = response.data.message || "Hiba történt.";
+                        $scope.feedbackMessage = true;
+
+                    }
+
+                }).catch(() => {
+
+                    $scope.feedbackSuccess = false;
+                    $scope.feedbackText = "Hiba történt.";
+                    $scope.feedbackMessage = true;
+                });
+
+        });
+    };
 });

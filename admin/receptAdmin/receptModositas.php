@@ -1,10 +1,9 @@
 <?php
-require __DIR__ . "/../../kapcsolat.php"; //kapcsolódás az adatbázishoz
+require __DIR__ . "/../../kapcsolat.php";
 
 $raw = file_get_contents("php://input");
 $data = json_decode($raw, true);
 
-// DEBUG
 if (!$data) {
     echo json_encode([
         "success" => false,
@@ -49,10 +48,12 @@ $stmt->bind_param(
 );
 $stmt->execute();
 
-// HOZZÁVALÓK TÖRLÉS
+
+// HOZZÁVALÓK TÖRLÉS (hard delete – ez itt oké)
 $del = $conn->prepare("DELETE FROM recept_hozzavalo WHERE ReceptID = ?");
 $del->bind_param("i", $receptID);
 $del->execute();
+
 
 // ÚJ HOZZÁVALÓK
 foreach ($data["hozzavalok"] as $h) {

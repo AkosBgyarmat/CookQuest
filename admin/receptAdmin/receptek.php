@@ -7,7 +7,7 @@
     </header>
 
     <button ng-click="createRecept()"
-        class="bg-green-600 text-white px-4 py-2 rounded mb-5 inline-block m-2">
+        class="bg-[#C0CEB8] text-black px-4 py-2 rounded mb-5 inline-block m-2">
         + Új recept
     </button>
 
@@ -20,6 +20,7 @@
                     <th class="p-3 text-left">ID</th>
                     <th class="p-3 text-left">Név</th>
                     <th class="p-3 text-left">Elkészítési leírás</th>
+                    <th class="p-3 text-left">Törölve</th>
                     <th class="p-3 text-left">Művelet</th>
                 </tr>
             </thead>
@@ -33,19 +34,27 @@
                         {{r.Elkeszitesi_leiras | limitTo: 50}}
                         <span ng-if="r.Leiras.length > 50">...</span>
                     </td>
+                    <td class="p-3">{{r.Torolve == 0 ? 'Nem' : 'Igen'}}</td>
 
                     <td class="p-3 ">
 
                         <button ng-click="editRecept(r)"
-                            class="bg-blue-500 text-white px-3 py-1 rounded">
+                            class="bg-[#C0CEB8] text-black px-3 py-1 rounded">
                             Szerkeszt
                         </button>
 
-
-                        <a href="receptek_torol.php?id=1"
-                            class="bg-red-500 text-white mb-5 px-3 py-1 rounded">
+                        <button
+                            ng-if="r.Torolve == 0"
+                            ng-click="torles(r.id)"
+                            class="bg-red-500 text-white mb-5 px-3 py-1 rounded hover:bg-red-600 transition">
                             Törlés
-                        </a>
+                        </button>
+
+                        <button ng-if="r.Torolve == 1"
+                            ng-click="visszaallitas(r.id)"
+                            class="bg-green-500 text-white mb-5 px-3 py-1 rounded hover:bg-green-600 transition">
+                            Visszaállítás
+                        </button>
 
                     </td>
                 </tr>
@@ -80,14 +89,22 @@
             <div class="flex gap-2 mt-3">
 
                 <button ng-click="editRecept(r)"
-                    class="bg-blue-500 text-white px-3 py-1 rounded">
+                    class="bg-[#C0CEB8] text-black mb-5 px-3 py-1 rounded hover:bg-red-600 transition">
                     Szerkeszt
                 </button>
 
-                <a href="receptek_torol.php?id={{r.id}}"
-                    class="bg-red-500 text-white px-3 py-1 rounded text-sm">
+                <button
+                    ng-if="r.Torolve == 0"
+                    ng-click="torles(r.id)"
+                    class="bg-red-500 text-white mb-5 px-3 py-1 rounded hover:bg-red-600 transition">
                     Törlés
-                </a>
+                </button>
+
+                <button ng-if="r.Torolve == 1"
+                    ng-click="visszaallitas(r.id)"
+                    class="bg-green-500 text-white mb-5 px-3 py-1 rounded hover:bg-red-600 transition">
+                    Visszaállítás
+                </button>
 
             </div>
 
