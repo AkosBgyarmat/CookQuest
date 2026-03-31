@@ -1,44 +1,26 @@
 <?php
+header("Content-Type: application/json");
+
 require __DIR__ . "/../../kapcsolat.php";
 
-$raw = file_get_contents("php://input");
-$data = json_decode($raw, true);
-
-if (!$data || !isset($data["id"])) {
-    echo json_encode([
-        "success" => false,
-        "error" => "Nincs adat",
-        "raw" => $raw,
-        "data" => $data
-    ]);
+if ($_SERVER['REQUEST_METHOD'] !== 'DELETE') {
+    echo json_encode(["success" => false, "message" => "Nem DELETE kérés"]);
     exit;
 }
 
-$eszkozID = $data["id"];
+if (!isset($_GET['id'])) {
+    echo json_encode(["success" => false, "message" => "Hiányzó ID"]);
+    exit;
+}
 
-$sql = "UPDATE konyhaiFelszereles SET Torolve = 1 WHERE KonyhaiFelszerelesID     = ?";
+$id = intval($_GET['id']);
+
+$sql = "UPDATE konyhaiFelszereles SET Torolve = 1 WHERE KonyhaiFelszerelesID = ?";
 $stmt = $conn->prepare($sql);
-
-if (!$stmt) {
-    echo json_encode([
-        "success" => false,
-        "error" => $conn->error
-    ]);
-    exit;
-}
-
-$stmt->bind_param("i", $eszkozID);
-
-if (!$stmt->execute()) {
-    echo json_encode([
-        "success" => false,
-        "error" => $stmt->error
-    ]);
-    exit;
-}
+$stmt->bind_param("i", $id);
+$stmt->execute();
 
 echo json_encode([
     "success" => true,
-    "affected_rows" => $stmt->affected_rows,
-    "id" => $eszkozID
+    "id" => $id
 ]);
