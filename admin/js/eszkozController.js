@@ -128,20 +128,15 @@ angular.module("CookQuestAdmin").controller("eszkozController", function ($scope
 
         $scope.openConfirm("Biztos törlöd ezt az eszközt?", function () {
 
-            $http({
-                method: "POST",
-                url: "/CookQuest/admin/eszkozAdmin/eszkozTorles.php",
-                data: { id: id },
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            })
+            $http.delete("/CookQuest/admin/eszkozAdmin/eszkozTorles.php?id=" + id)
                 .then(() => {
 
                     let index = $scope.eszkoz.findIndex(e => e.id == id);
                     if (index !== -1) {
                         $scope.eszkoz[index].Torolve = 1;
                     }
+
+                    $scope.$applyAsync(); 
 
                     $scope.feedbackSuccess = true;
                     $scope.feedbackText = "Törölve";
@@ -162,7 +157,7 @@ angular.module("CookQuestAdmin").controller("eszkozController", function ($scope
 
         $scope.openConfirm("Biztosan visszaállítod?", function () {
 
-            $http.get("/CookQuest/admin/eszkozAdmin/eszkozVisszaallitas.php?id=" + id)
+            $http.patch("/CookQuest/admin/eszkozAdmin/eszkozVisszaallitas.php?id=" + id)
                 .then(res => {
 
                     if (res.data.success) {

@@ -67,7 +67,7 @@ angular.module("CookQuestAdmin").controller("receptController", function ($scope
     $scope.confirmAction = null;
 
     /* Recept kezelése */
-    $scope.editRecept = function (r) {
+    $scope.editRecept = function (r) { //PATCH
         $scope.selectedRecept = angular.copy(r);
         $scope.selectedRecept.hozzavalok = [];
         //console.log($scope.selectedRecept);
@@ -118,7 +118,8 @@ angular.module("CookQuestAdmin").controller("receptController", function ($scope
         $scope.isModalOpen = true;
     };
 
-    $scope.createRecept = function () {
+    $scope.createRecept = function () { //POST
+
         let date = new Date();
         date.setHours(0);
         date.setMinutes(0);
@@ -147,7 +148,12 @@ angular.module("CookQuestAdmin").controller("receptController", function ($scope
         $scope.isModalOpen = true;
     };
 
-    $scope.saveRecept = function () {
+    $scope.saveRecept = function () { //PATCH
+
+        if ($scope.selectedRecept.id === 0) {
+            $scope.selectedRecept.id = null;
+        }
+
         let payload = angular.copy($scope.selectedRecept);
 
         payload.hozzavalok = payload.hozzavalok.map(h => {
@@ -191,12 +197,16 @@ angular.module("CookQuestAdmin").controller("receptController", function ($scope
 
         //console.log("MENTÉS ADAT:", payload);
 
-        let url = $scope.selectedRecept.id
+        let isUpdate = $scope.selectedRecept.id !== null && $scope.selectedRecept.id !== undefined;
+
+        let url = isUpdate
             ? "/CookQuest/admin/receptAdmin/receptModositas.php"
             : "/CookQuest/admin/receptAdmin/receptLetrehozas.php";
 
+        let method = isUpdate ? "PATCH" : "POST";
+
         $http({
-            method: "POST",
+            method: method,
             url: url,
             data: payload,
             headers: {
@@ -255,12 +265,17 @@ angular.module("CookQuestAdmin").controller("receptController", function ($scope
             });
     };
 
-    $scope.torles = function (id) {
+    $scope.torles = function (id) { //DELETE
 
         $scope.openConfirm("Biztos törlöd?", function () {
 
-            $http.post("/CookQuest/admin/receptAdmin/receptTorles.php", {
-                id: id
+            $http({
+                method: "DELETE",
+                url: "/CookQuest/admin/receptAdmin/receptTorles.php",
+                data: { id: id },
+                headers: {
+                    "Content-Type": "application/json"
+                }
             }).then(function (res) {
 
                 let index = $scope.recept.findIndex(r => r.id == id);
@@ -283,11 +298,18 @@ angular.module("CookQuestAdmin").controller("receptController", function ($scope
         });
     };
 
-    $scope.visszaallitas = function (id) {
+    $scope.visszaallitas = function (id) {  //PATCH
 
         $scope.openConfirm("Biztosan visszaállítod?", function () {
 
-            $http.get('/CookQuest/admin/receptAdmin/receptVisszaallitas.php?id=' + id)
+            $http({
+                method: "PATCH",
+                url: "/CookQuest/admin/receptAdmin/receptVisszaallitas.php",
+                data: { id: id },
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
                 .then(function (response) {
 
                     if (response.data.success) {
@@ -339,7 +361,7 @@ angular.module("CookQuestAdmin").controller("receptController", function ($scope
     $scope.removeHozzavalo = function (index) {
         $scope.selectedRecept.hozzavalok.splice(index, 1);
     };
-    
+
     /* Visszajelzés kezelése */
     $scope.closeFeedbackMessage = function () {
         $scope.feedbackMessage = false;
@@ -372,5 +394,5 @@ angular.module("CookQuestAdmin").controller("receptController", function ($scope
         $scope.confirmModal = false;
     };
 
-    
+
 });

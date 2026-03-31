@@ -87,8 +87,10 @@ angular.module("CookQuestAdmin").controller("hozzavaloController", function ($sc
             ? "/CookQuest/admin/hozzavalokAdmin/hozzavaloModositas.php"
             : "/CookQuest/admin/hozzavalokAdmin/hozzavaloLetrehozas.php";
 
+        let method = $scope.selectedHozzavalo.id ? "PATCH" : "POST";
+
         $http({
-            method: "POST",
+            method: method,
             url: url,
             data: $scope.selectedHozzavalo,
             headers: {
@@ -139,14 +141,7 @@ angular.module("CookQuestAdmin").controller("hozzavaloController", function ($sc
 
         $scope.openConfirm("Biztos törlöd ezt a hozzávalót? Ezzel minden ehhez kapcsolódó receptet is archiválsz!", function () {
     
-            $http({
-                method: "POST",
-                url: "/CookQuest/admin/hozzavalokAdmin/hozzavaloTorles.php",
-                data: { id: id },
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            })
+            $http.delete("/CookQuest/admin/hozzavalokAdmin/hozzavaloTorles.php?id=" + id)
             .then(() => {
     
                 let index = $scope.hozzavalo.findIndex(h => h.id == id);
@@ -170,30 +165,35 @@ angular.module("CookQuestAdmin").controller("hozzavaloController", function ($sc
 
     $scope.visszaallitas = function (id) {
 
-        $http.get("/CookQuest/admin/hozzavalokAdmin/hozzavaloVisszaallitas.php?id=" + id)
-            .then(res => {
-
-                if (res.data.success) {
-                    let index = $scope.hozzavalo.findIndex(h => h.id == id);
-                    if (index !== -1) {
-                        $scope.hozzavalo[index].Torolve = 0;
-                    }
-
-                    $scope.feedbackSuccess = true;
-                    $scope.feedbackText = "Visszaállítva";
-                    $scope.feedbackMessage = true;
-                } else {
-                    $scope.feedbackSuccess = false;
-                    $scope.feedbackText = res.data.message || "Hiba történt.";
-                    $scope.feedbackMessage = true;
+        $scope.openConfirm("Biztos visszaállítod?", function () {
+    
+            $http({
+                method: "PATCH",
+                url: "/CookQuest/admin/hozzavalokAdmin/hozzavaloVisszaallitas.php",
+                data: { id: id },
+                headers: {
+                    "Content-Type": "application/json"
                 }
-
+            })
+            .then(() => {
+    
+                let index = $scope.hozzavalo.findIndex(h => h.id == id);
+                if (index !== -1) {
+                    $scope.hozzavalo[index].Torolve = 0;
+                }
+    
+                $scope.feedbackSuccess = true;
+                $scope.feedbackText = "Visszaállítva";
+                $scope.feedbackMessage = true;
+    
             })
             .catch(() => {
                 $scope.feedbackSuccess = false;
-                $scope.feedbackText = "Szerver hiba.";
+                $scope.feedbackText = "Hiba történt.";
                 $scope.feedbackMessage = true;
             });
+    
+        });
     };
 
 });
