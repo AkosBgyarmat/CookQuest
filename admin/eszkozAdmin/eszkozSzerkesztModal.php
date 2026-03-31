@@ -6,7 +6,9 @@
         <!-- HEADER -->
         <div class="flex justify-between items-center border-b p-5">
             <div>
-                <h2 class="text-2xl font-bold">Eszköz szerkesztése</h2>
+                <h2 class="text-2xl font-bold">
+                    {{ selectedEszkoz.id ? 'Eszköz szerkesztése' : 'Új eszköz létrehozása' }}
+                </h2>
                 <p class="text-sm text-gray-500">
                     ID: {{selectedEszkoz.id || selectedEszkoz.nextId}}
                 </p>
@@ -55,8 +57,14 @@
                     </div>
 
                     <div>
-                        <img ng-src="/CookQuest/assets/kepek/konyhaiEszkoz/{{selectedEszkoz.Kep}}"
+                        <img ng-if="selectedEszkoz.Kep" 
+                            ng-src="/CookQuest/assets/kepek/konyhaiEszkoz/{{selectedEszkoz.Kep}}"
                             class="w-full h-36 object-cover rounded-lg border">
+
+                        <div ng-if="!selectedEszkoz.Kep"
+                            class="w-full h-36 flex items-center justify-center border rounded-lg text-gray-400">
+                            Nincs kép
+                        </div>
                     </div>
 
                 </div>
@@ -83,7 +91,7 @@
 
             <button ng-click="saveEszkoz()"
                 class="bg-[#5A7863] text-white px-5 py-2 rounded-lg">
-                Mentés
+                {{ selectedEszkoz.id ? 'Mentés' : 'Létrehozás' }}
             </button>
 
         </div>

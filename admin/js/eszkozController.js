@@ -46,7 +46,11 @@ angular.module("CookQuestAdmin").controller("eszkozController", function ($scope
     $scope.createEszkoz = function () {
         $scope.selectedEszkoz = {
             id: null,
-            Nev: ""
+            nextId: $scope.getNextEszkozId(),
+            Nev: "",
+            Kep: "",
+            Leiras: "",
+            BesorolasID: null
         };
         $scope.isModalOpen = true;
     };
@@ -184,6 +188,14 @@ angular.module("CookQuestAdmin").controller("eszkozController", function ($scope
                 });
 
         });
+    };
+
+    $scope.getNextEszkozId = function () {
+        if (!$scope.eszkoz || !$scope.eszkoz.length) {
+            return 1;
+        }
+        let maxId = Math.max.apply(null, $scope.eszkoz.map(e => Number(e.id) || 0));
+        return maxId + 1;
     };
 
     // FEEDBACK

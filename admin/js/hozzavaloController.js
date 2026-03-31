@@ -137,7 +137,7 @@ angular.module("CookQuestAdmin").controller("hozzavaloController", function ($sc
 
     $scope.torles = function (id) {
 
-        $scope.openConfirm("Biztos törlöd ezt a hozzávalót?", function () {
+        $scope.openConfirm("Biztos törlöd ezt a hozzávalót? Ezzel minden ehhez kapcsolódó receptet is archiválsz!", function () {
     
             $http({
                 method: "POST",

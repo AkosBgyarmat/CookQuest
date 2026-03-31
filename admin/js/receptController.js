@@ -150,6 +150,14 @@ angular.module("CookQuestAdmin").controller("receptController", function ($scope
     $scope.saveRecept = function () {
         let payload = angular.copy($scope.selectedRecept);
 
+        payload.hozzavalok = payload.hozzavalok.map(h => {
+            return {
+                HozzavaloID: h.selectedHozzavalo ? h.selectedHozzavalo.HozzavaloID : null,
+                Mennyiseg: h.Mennyiseg,
+                MertekegysegID: h.selectedMertekegyseg ? h.selectedMertekegyseg.MertekegysegID : null
+            };
+        });
+
         let requiredFields = [];
         if (!payload.Nev || !payload.Nev.trim()) requiredFields.push("Név");
         if (!payload.AlkategoriaID) requiredFields.push("Alkategória");
@@ -322,9 +330,9 @@ angular.module("CookQuestAdmin").controller("receptController", function ($scope
     /* Hozzávaló kezelés */
     $scope.addHozzavalo = function () {
         $scope.selectedRecept.hozzavalok.push({
-            HozzavaloID: null,
+            selectedHozzavalo: null,
             Mennyiseg: 0,
-            MertekegysegID: null
+            selectedMertekegyseg: null
         });
     };
 

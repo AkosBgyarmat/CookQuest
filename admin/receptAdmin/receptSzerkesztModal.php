@@ -6,7 +6,7 @@
         <!-- HEADER -->
         <div class="flex justify-between items-center border-b p-5">
             <div>
-                <h2 class="text-2xl font-bold">Recept szerkesztése</h2>
+                <h2 class="text-2xl font-bold">{{ selectedRecept.id ? 'Recept szerkesztése' : 'Új recept létrehozása' }}</h2>
                 <p class="text-sm text-gray-500">
                     ID: {{selectedRecept.id || selectedRecept.nextId}}
                 </p>
