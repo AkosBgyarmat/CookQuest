@@ -22,7 +22,8 @@
     <script src="/CookQuest/admin/js/receptController.js"></script>
     <script src="/CookQuest/admin/js/felhasznaloController.js"></script>
     <script src="/CookQuest/admin/js/hozzavaloController.js"></script>
-    <script src="/CookQuest/admin/js/kategoriakController.js"></script>
+    <script src="/CookQuest/admin/js/eszkozKategoriakController.js"></script>
+    <script src="/CookQuest/admin/js/receptKategoriakController.js"></script>
     <script src="/CookQuest/admin/js/orszagController.js"></script>
     <script src="/CookQuest/admin/js/hamburger.js"></script>
     <script src="/CookQuest/assets/js/top.js"></script>

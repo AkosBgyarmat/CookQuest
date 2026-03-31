@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2026. Már 30. 23:01
+-- Létrehozás ideje: 2026. Már 31. 12:48
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -20,8 +20,7 @@ SET time_zone = "+00:00";
 --
 -- Adatbázis: `cookquest`
 --
-create database if not exists `cookquest` default character set utf8mb4 collate utf8mb4_general_ci;
-use `cookquest`;
+
 -- --------------------------------------------------------
 
 --
@@ -81,28 +80,29 @@ INSERT INTO `arkategoria` (`ArkategoriaID`, `Arkategoria`) VALUES
 
 CREATE TABLE `besorolas` (
   `BesorolasID` int(11) NOT NULL,
-  `Elnevezes` varchar(255) NOT NULL
+  `Elnevezes` varchar(255) NOT NULL,
+  `Torolve` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- A tábla adatainak kiíratása `besorolas`
 --
 
-INSERT INTO `besorolas` (`BesorolasID`, `Elnevezes`) VALUES
-(1, 'Evőeszköz'),
-(2, 'Szedőkanál'),
-(3, 'Szűrő'),
-(4, 'Keverőeszköz'),
-(5, 'Adagoló'),
-(6, 'Tálalóeszköz'),
-(7, 'Merítőeszköz'),
-(8, 'Vágóeszköz'),
-(9, 'Desszert evőeszköz'),
-(10, 'Speciális evőeszköz'),
-(11, 'Kellék'),
-(12, 'Konyhai kisgép'),
-(13, 'Konyhai nagygép'),
-(14, 'Edény');
+INSERT INTO `besorolas` (`BesorolasID`, `Elnevezes`, `Torolve`) VALUES
+(1, 'Evőeszköz', 0),
+(2, 'Szedőkanál', 0),
+(3, 'Szűrő', 0),
+(4, 'Keverőeszköz', 0),
+(5, 'Adagoló', 0),
+(6, 'Tálalóeszköz', 0),
+(7, 'Merítőeszköz', 0),
+(8, 'Vágóeszköz', 0),
+(9, 'Desszert evőeszköz', 0),
+(10, 'Speciális evőeszköz', 0),
+(11, 'Kellék', 0),
+(12, 'Konyhai kisgép', 0),
+(13, 'Konyhai nagygép', 0),
+(14, 'Edény', 0);
 
 -- --------------------------------------------------------
 
@@ -322,7 +322,7 @@ CREATE TABLE `hozzavalo` (
   `HozzavaloID` int(11) NOT NULL,
   `Elnevezes` varchar(50) NOT NULL,
   `Kep` varchar(255) DEFAULT NULL,
-  `Torolve` int(11) NOT NULL DEFAULT 0
+  `Torolve` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -431,7 +431,9 @@ INSERT INTO `hozzavalo` (`HozzavaloID`, `Elnevezes`, `Kep`, `Torolve`) VALUES
 (99, 'mandulaliszt', NULL, 0),
 (100, 'instant kávé', NULL, 0),
 (101, 'mustár', NULL, 0),
-(102, 'Kelkáposzta', NULL, 0);
+(102, 'Kelkáposzta', NULL, 0),
+(103, 'banán', NULL, 0),
+(104, 'Nádcukor', NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -441,19 +443,20 @@ INSERT INTO `hozzavalo` (`HozzavaloID`, `Elnevezes`, `Kep`, `Torolve`) VALUES
 
 CREATE TABLE `kategoria` (
   `KategoriaID` int(11) NOT NULL,
-  `Kategoria` varchar(255) NOT NULL
+  `Kategoria` varchar(255) NOT NULL,
+  `Torolve` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- A tábla adatainak kiíratása `kategoria`
 --
 
-INSERT INTO `kategoria` (`KategoriaID`, `Kategoria`) VALUES
-(1, 'főétel'),
-(2, 'leves'),
-(3, 'desszert'),
-(4, 'reggeli'),
-(5, 'köret');
+INSERT INTO `kategoria` (`KategoriaID`, `Kategoria`, `Torolve`) VALUES
+(1, 'főétel', 0),
+(2, 'leves', 0),
+(3, 'desszert', 0),
+(4, 'reggeli', 0),
+(5, 'köret', 0);
 
 -- --------------------------------------------------------
 
@@ -549,7 +552,9 @@ INSERT INTO `konyhaifelszereles` (`KonyhaiFelszerelesID`, `Nev`, `Kep`, `Besorol
 (72, 'Tepsi', 'tepsi.jpg', 14, 'A tepsi lapos sütőedény, amelyet sütemények, pizzák és egyéb ételek sütésére használnak a sütőben.', 0),
 (73, 'Hőálló tál', 'hoallo_tal.jpg', 14, 'A hőálló tál magas hőmérsékletnek ellenálló edény, amely sütőben és mikrohullámú sütőben is használható.', 0),
 (74, 'Jénai', 'jenai.jpg', 14, 'A jénai hőálló üvegedény, amely lehetővé teszi az ételek elkészítésének vizuális ellenőrzését sütés közben.', 0),
-(75, 'Öntöttvas edény', 'ontottvas_edeny.jpg', 14, 'Az öntöttvas edény kiváló hőtartó képességgel rendelkező edény, amely ideális lassú főzéshez és sütéshez.', 0);
+(75, 'Öntöttvas edény', 'ontottvas_edeny.jpg', 14, 'Az öntöttvas edény kiváló hőtartó képességgel rendelkező edény, amely ideális lassú főzéshez és sütéshez.', 0),
+(76, 'Citromfacsaró', '', 11, 'Citromfacsaró', 1),
+(77, 'Spakli', '', 11, 'Spakli', 1);
 
 -- --------------------------------------------------------
 
@@ -668,7 +673,7 @@ CREATE TABLE `recept` (
 --
 
 INSERT INTO `recept` (`ReceptID`, `Nev`, `Kep`, `ElkeszitesiIdo`, `NehezsegiSzintID`, `BegyujthetoPontok`, `Adag`, `Elkeszitesi_leiras`, `ElkeszitesiModID`, `ArkategoriaID`, `AlkategoriaID`, `Kaloria`, `Torolve`) VALUES
-(1, 'Tükörtojás', 'TukorTojas.webp', '00:10:00', 1, 15, 1, 'A tojásokat óvatosan üsd egy kis tálba vagy csészébe egyesével – így ha rossz lenne valamelyik, nem rontja el az egészet.\r\nMelegítsd fel az olajat vagy vajat egy kisebb serpenyőben közepes lángon. Az olaj akkor jó, ha enyhén csillog, de még nem füstöl (ha füstöl, vedd lejjebb a lángot, különben keserű lesz).\r\nHa a zsiradék forró, óvatosan csúsztasd bele a tojásokat a tálból (ne dobd bele nagy magasságból, nehogy szétfröccsenjen a zsiradék).\r\nSüsd addig, amíg a fehérje teljesen kifehéredik és megszilárdul, de a sárgája még lágy marad (kb. 3–4 perc). Ha kemény sárgáját szeretnél, fordítsd át a tojást még 10–15 másodpercre.\r\nSózd, borsozd, és azonnal tálald pirítóssal vagy friss zöldséggel.\r\nÍzesítsd sóval, borssal, és azonnal tálald.\r\n', 1, 1, 9, 180.00, 0),
+(1, 'Tükörtojás', 'TukorTojas.webp', '22:10:00', 1, 15, 1, 'A tojásokat óvatosan üsd egy kis tálba vagy csészébe egyesével – így ha rossz lenne valamelyik, nem rontja el az egészet.\r\nMelegítsd fel az olajat vagy vajat egy kisebb serpenyőben közepes lángon. Az olaj akkor jó, ha enyhén csillog, de még nem füstöl (ha füstöl, vedd lejjebb a lángot, különben keserű lesz).\r\nHa a zsiradék forró, óvatosan csúsztasd bele a tojásokat a tálból (ne dobd bele nagy magasságból, nehogy szétfröccsenjen a zsiradék).\r\nSüsd addig, amíg a fehérje teljesen kifehéredik és megszilárdul, de a sárgája még lágy marad (kb. 3–4 perc). Ha kemény sárgáját szeretnél, fordítsd át a tojást még 10–15 másodpercre.\r\nSózd, borsozd, és azonnal tálald pirítóssal vagy friss zöldséggel.\r\nÍzesítsd sóval, borssal, és azonnal tálald.\r\n', 1, 1, 9, 180.00, 0),
 (2, 'Tojásrántotta', 'Rantotta.webp', '00:05:00', 1, 15, 1, 'Verd fel a tojásokat egy tálban villával vagy habverővel, sózd meg enyhén. Ne verd túl habosra, csak keverd össze.\r\nOlvaszd meg a vajat (vagy melegítsd az olajat) egy serpenyőben közepes lángon.\r\nÖntsd bele a tojást. Folyamatosan keverd fakanállal vagy szilikon spatulával körkörös mozdulatokkal, hogy egyenletesen süljön (kb. 2–3 perc).\r\nVedd le a tűzről, amikor már majdnem kész, de még kicsit lágy, krémes az állaga – a maradék hő tovább főzi.\r\nTálald azonnal, mellé félbevágott koktélparadicsommal vagy más friss körettel.\r\n', 1, 1, 9, 210.00, 0),
 (3, 'Bundás kenyér', 'bundasKenyer.webp\r\n', '00:10:00', 1, 15, 1, 'Verd fel a tojásokat egy lapos tányérban vagy tálban, sózd meg enyhén.\r\nMártsd bele a kenyérszeleteket rövid időre (2–3 másodperc oldalanként) – ne áztasd túl, különben szétesik!\r\nHevíts bő olajat egy serpenyőben közepes lángon. Ellenőrizd: ha egy kis tojásos morzsát beledobsz, azonnal pezsegnie kell.\r\nTedd bele a beáztatott kenyereket, süsd mindkét oldalon aranybarnára (oldalanként kb. 2–3 perc).\r\nPapírtörlőre szedd ki, hogy lecsepegjen a felesleges olaj.\r\n', 1, 1, 9, 350.00, 0),
 (4, 'Pirítós vajjal vagy lekvárral', 'PiritosKenyer.webp\r\n', '00:05:00', 1, 15, 1, 'Tedd a kenyereket kenyérpirítóba és pirítsd meg (vagy serpenyőben 1–2 perc oldalanként közepes lángon, vaj nélkül).\r\nAmint kész, kend meg vékonyan vajjal (vagy vastagabban lekvárral).\r\nAzonnal fogyaszd, amíg ropogós.\r\n', 1, 1, 9, 200.00, 0),
@@ -728,7 +733,10 @@ INSERT INTO `recept` (`ReceptID`, `Nev`, `Kep`, `ElkeszitesiIdo`, `NehezsegiSzin
 (58, 'Vörösboros marhapofa pürével', 'VorosborosMarhaPofaKrumpliPurevel.webp', '03:20:00', 10, 35, 2, '1. A marhapofát sózd és borsozd, majd forró serpenyőben minden oldalát pirítsd le.\r\n2. Add hozzá a megtisztított, felaprított hagymát, répát és zellert, és pirítsd együtt pár percig.\r\n3. Öntsd rá a vörösbort és az alaplevet.\r\n4. Fedd le, és kis lángon főzd 2,5–3 órán át, míg a hús teljesen omlós lesz.\r\n5. Közben készítsd el a pürét: a burgonyát főzd puhára, törd össze, dolgozd bele a vajat és a meleg tejet.\r\n6. A megpuhult pofát vedd ki, szeleteld vagy tépd szálakra, majd tálald a pürével és a sűrű szafttal.', 5, 3, 3, 780.00, 0),
 (59, 'Házi gnocchi', 'Gnocchi.webp', '00:45:00', 10, 35, 4, '1. A burgonyát főzd meg, törd össze, majd hűtsd langyosra.\r\n2. Keverd hozzá a tojást és a sót.\r\n3. Fokozatosan add hozzá a lisztet, míg lágy, formázható tésztát nem kapsz.\r\n4. Oszd több részre, sodord hengerekké és vágd 2 cm-es darabokra.\r\n5. A darabokat villa hátával húzd picit meg, hogy mintás legyen.\r\n6. Lobogó, sós vízben főzd 2–3 percig, amíg feljönnek a víz tetejére.\r\n7. Lehet vajon pirítva, zsályával tálalni, de paradicsomszósszal is tökéletes.', 4, 1, 3, 280.00, 0),
 (60, 'Macaron', 'Macaron.webp', '01:00:00', 10, 30, 15, '1. A mandulalisztet és porcukrot szitáld össze.\r\n2. A tojásfehérjét verd habosra, majd fokozatosan add hozzá a kristálycukrot, amíg fényes habot kapsz.\r\n3. Keverd bele óvatosan a mandulás keveréket.\r\n4. Színezd ételfestékkel, ha szeretnéd.\r\n5. Nyomózsákkal nyomj kis korongokat sütőpapírra.\r\n6. Hagyd száradni szobahőmérsékleten 30–40 percig, míg a teteje bőrös nem lesz.\r\n7. Süsd 150°C-on 12–14 percig.\r\n8. Közben a vajat, porcukrot és tejet keverd krémmé.\r\n9. A kihűlt macaronokat töltsd meg és ragaszd össze.', 6, 2, 7, 110.00, 0),
-(61, 'Opera szelet', 'OperaSzelet.webp', '03:15:00', 10, 30, 8, '1. Piskóta:\r\n   A tojásokat a porcukorral és mandulaliszttel habosítsd. A tojásfehérjét a kristálycukorral verd kemény habbá, majd óvatosan forgasd a masszába. Add hozzá az olvasztott vajat.\r\n   Sütőpapíros tepsiben, vékony rétegben süsd 180°C-on 8–10 percig. Hűtsd ki, majd vágd három egyforma lapra.\r\n2. Kávés szirup:\r\n   A vizet a cukorral és kávéval forrald fel, majd hűtsd le.\r\n3. Kávés vajkrém:\r\n   A cukrot és vizet főzd 118°C-ig (cukorszirup). A tojássárgákat verd habosra, majd lassan csorgasd hozzá a forró szirupot. Hűlés után keverd hozzá a puha vajat és a kávét.\r\n4. Ganache:\r\n   A tejszínt melegítsd fel, add hozzá az aprított csokoládét, majd keverd simára.\r\n5. Összeállítás:\r\n   Piskóta → kávés szirup → vajkrém → Piskóta → kávés szirup → ganache → Piskóta → kávés szirup → vajkrém\r\n6. Máz:\r\n   Olvaszd fel a csokoládét az olajjal, majd simítsd a sütemény tetejére.\r\n7. Pihentetés:\r\n   Hűtőben pihentesd legalább 2 órát, majd éles késsel szeleteld.', 6, 3, 7, 480.00, 0);
+(61, 'Opera szelet', 'OperaSzelet.webp', '03:15:00', 10, 30, 8, '1. Piskóta:\r\n   A tojásokat a porcukorral és mandulaliszttel habosítsd. A tojásfehérjét a kristálycukorral verd kemény habbá, majd óvatosan forgasd a masszába. Add hozzá az olvasztott vajat.\r\n   Sütőpapíros tepsiben, vékony rétegben süsd 180°C-on 8–10 percig. Hűtsd ki, majd vágd három egyforma lapra.\r\n2. Kávés szirup:\r\n   A vizet a cukorral és kávéval forrald fel, majd hűtsd le.\r\n3. Kávés vajkrém:\r\n   A cukrot és vizet főzd 118°C-ig (cukorszirup). A tojássárgákat verd habosra, majd lassan csorgasd hozzá a forró szirupot. Hűlés után keverd hozzá a puha vajat és a kávét.\r\n4. Ganache:\r\n   A tejszínt melegítsd fel, add hozzá az aprított csokoládét, majd keverd simára.\r\n5. Összeállítás:\r\n   Piskóta → kávés szirup → vajkrém → Piskóta → kávés szirup → ganache → Piskóta → kávés szirup → vajkrém\r\n6. Máz:\r\n   Olvaszd fel a csokoládét az olajjal, majd simítsd a sütemény tetejére.\r\n7. Pihentetés:\r\n   Hűtőben pihentesd legalább 2 órát, majd éles késsel szeleteld.', 6, 3, 7, 480.00, 0),
+(62, 'Banánkenyér', '', '00:15:00', 1, 15, 4, 'A banánokat összenyomjuk, majd hozzáadjuk a többit és sütőbe tesszük.', 6, 1, 7, 350.00, 1),
+(63, 'Banankenyer', '', '00:15:00', 1, 15, 4, 'gvdfg', 6, 1, 7, 5.00, 1),
+(64, 'Bananos valami', '', '00:15:00', 1, 15, 15, 'fgayrafd', 6, 1, 7, 200.00, 0);
 
 -- --------------------------------------------------------
 
@@ -1165,7 +1173,10 @@ INSERT INTO `recept_hozzavalo` (`ReceptID`, `HozzavaloID`, `Mennyiseg`, `Merteke
 (61, 52, 30.00, 2),
 (61, 77, 200.00, 3),
 (61, 99, 100.00, 3),
-(61, 100, 5.00, 3);
+(61, 100, 5.00, 3),
+(62, 4, 150.00, 3),
+(63, 4, 100.00, 3),
+(64, 4, 100.00, 3);
 
 -- --------------------------------------------------------
 
@@ -1357,7 +1368,7 @@ ALTER TABLE `felhasznalo`
 -- AUTO_INCREMENT a táblához `hozzavalo`
 --
 ALTER TABLE `hozzavalo`
-  MODIFY `HozzavaloID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=103;
+  MODIFY `HozzavaloID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=105;
 
 --
 -- AUTO_INCREMENT a táblához `kategoria`
@@ -1369,7 +1380,7 @@ ALTER TABLE `kategoria`
 -- AUTO_INCREMENT a táblához `konyhaifelszereles`
 --
 ALTER TABLE `konyhaifelszereles`
-  MODIFY `KonyhaiFelszerelesID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
+  MODIFY `KonyhaiFelszerelesID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
 
 --
 -- AUTO_INCREMENT a táblához `mertekegyseg`
@@ -1393,7 +1404,7 @@ ALTER TABLE `orszag`
 -- AUTO_INCREMENT a táblához `recept`
 --
 ALTER TABLE `recept`
-  MODIFY `ReceptID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
+  MODIFY `ReceptID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
 
 --
 -- AUTO_INCREMENT a táblához `szerep`

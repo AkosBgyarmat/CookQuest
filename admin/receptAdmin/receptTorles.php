@@ -1,44 +1,23 @@
 <?php
 require __DIR__ . "/../../kapcsolat.php";
 
-$raw = file_get_contents("php://input");
-$data = json_decode($raw, true);
-
-if (!$data || !isset($data["id"])) {
-    echo json_encode([
-        "success" => false,
-        "error" => "Nincs adat",
-        "raw" => $raw,
-        "data" => $data
-    ]);
+if ($_SERVER['REQUEST_METHOD'] !== 'DELETE') {
+    echo json_encode(["success" => false, "message" => "Nem megfelelő metódus"]);
     exit;
 }
 
-$receptID = $data["id"];
+$data = json_decode(file_get_contents("php://input"), true);
 
-$sql = "UPDATE recept SET Torolve = 1 WHERE ReceptID = ?";
-$stmt = $conn->prepare($sql);
-
-if (!$stmt) {
-    echo json_encode([
-        "success" => false,
-        "error" => $conn->error
-    ]);
+if (!isset($data['id'])) {
+    echo json_encode(["success" => false, "message" => "Hiányzó ID"]);
     exit;
 }
 
-$stmt->bind_param("i", $receptID);
+$id = intval($data['id']);
 
-if (!$stmt->execute()) {
-    echo json_encode([
-        "success" => false,
-        "error" => $stmt->error
-    ]);
-    exit;
-}
+$query = "UPDATE recept SET Torolve = 1 WHERE ReceptID = ?";
+$stmt = $conn->prepare($query);
+$stmt->bind_param("i", $id);
+$stmt->execute();
 
-echo json_encode([
-    "success" => true,
-    "affected_rows" => $stmt->affected_rows,
-    "id" => $receptID
-]);
+echo json_encode(["success" => true, "message" => "Törölve"]);

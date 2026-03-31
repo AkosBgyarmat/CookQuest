@@ -50,12 +50,24 @@
             </div>
         </div>
 
+        <div class="bg-white  rounded-xl shadow-md p-6 flex items-center justify-between border-l-4 border-[#90AB8B] hover:shadow-lg transition"
+            ng-controller="receptKategoriaController">
+            <div>
+                <p class="text-gray-500 text-sm">Recept kategóriák</p>
+                <h2 class="text-3xl font-bold">{{receptKategoria.length}}</h2>
+            </div>
+
+            <div class="text-3xl border bg-[#90AB8B]/40 text-orange-600 w-12 h-12 flex items-center justify-center rounded-full">
+                📂
+            </div>
+        </div>
+
         <!-- Kategóriák -->
         <div class="bg-white  rounded-xl shadow-md p-6 flex items-center justify-between border-l-4 border-[#90AB8B] hover:shadow-lg transition"
-            ng-controller="kategoriaController">
+            ng-controller="eszkozKategoriaController">
             <div>
-                <p class="text-gray-500 text-sm">Kategóriák</p>
-                <h2 class="text-3xl font-bold">{{eszkozKategoria.length + receptKategoria.length}}</h2>
+                <p class="text-gray-500 text-sm">Eszköz kategóriák</p>
+                <h2 class="text-3xl font-bold">{{eszkozKategoria.length}}</h2>
             </div>
 
             <div class="text-3xl border bg-[#90AB8B]/40 text-orange-600 w-12 h-12 flex items-center justify-center rounded-full">

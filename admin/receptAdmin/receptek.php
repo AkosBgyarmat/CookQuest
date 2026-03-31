@@ -30,9 +30,9 @@
                 <tr class="border-t" ng-repeat="r in recept track by r.id">
                     <td class="p-3">{{r.id}}</td>
                     <td class="p-3">{{r.Nev}}</td>
-                    <td class="p-3 break-words max-w-[200px]">
+                    <td class="p-3">
                         {{r.Elkeszitesi_leiras | limitTo: 50}}
-                        <span ng-if="r.Leiras.length > 50">...</span>
+                        <span ng-if="r.Elkeszitesi_leiras.length > 50">...</span>
                     </td>
                     <td class="p-3">{{r.Torolve == 0 ? 'Nem' : 'Igen'}}</td>
 

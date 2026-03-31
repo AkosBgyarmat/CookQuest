@@ -30,6 +30,8 @@ transform -translate-x-full lg:translate-x-0 transition-transform duration-300 z
             </a>
         </li>
 
+        <hr>
+
         <li>
             <a href="/CookQuest/admin/receptAdmin/receptek.php"
                 class="flex items-center gap-3 hover:bg-[#759277] hover:text-white p-2 rounded">
@@ -45,6 +47,15 @@ transform -translate-x-full lg:translate-x-0 transition-transform duration-300 z
         </li>
 
         <li>
+            <a href="/CookQuest/admin/kategoriakAdmin/receptKategoriakAdmin/receptKategoriak.php"
+                class="flex items-center gap-3 hover:bg-[#759277] hover:text-white p-2 rounded">
+                Recept kategóriák
+            </a>
+        </li>
+
+        <hr>
+
+        <li>
             <a href="/CookQuest/admin/eszkozAdmin/eszkozok.php"
                 class="flex items-center gap-3 hover:bg-[#759277] hover:text-white p-2 rounded">
                 Eszközök
@@ -52,11 +63,13 @@ transform -translate-x-full lg:translate-x-0 transition-transform duration-300 z
         </li>
 
         <li>
-            <a href="/CookQuest/admin/kategoriakAdmin/kategoriak.php"
+            <a href="/CookQuest/admin/kategoriakAdmin/eszkozKategoriakAdmin/eszkozKategoriak.php"
                 class="flex items-center gap-3 hover:bg-[#759277] hover:text-white p-2 rounded">
-                Kategóriák
+                Eszköz kategóriák
             </a>
         </li>
+
+        <hr>
 
         <li>
             <a href="/CookQuest/admin/felhasznaloAdmin/felhasznalok.php"
@@ -64,6 +77,8 @@ transform -translate-x-full lg:translate-x-0 transition-transform duration-300 z
                 Felhasználók
             </a>
         </li>
+
+        <hr>
 
         <li>
             <a href="/CookQuest/admin/orszagAdmin/orszagok.php"
