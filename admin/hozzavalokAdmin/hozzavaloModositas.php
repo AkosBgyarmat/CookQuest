@@ -6,6 +6,16 @@ error_reporting(E_ALL);
 
 require_once __DIR__ . ("/../../kapcsolat.php");
 
+$method = $_SERVER['REQUEST_METHOD'];
+
+if ($method !== 'PATCH') {
+    echo json_encode([
+        "success" => false,
+        "message" => "Nem megfelelő kérés típus"
+    ]);
+    exit;
+}
+
 // JSON beolvasás
 $data = json_decode(file_get_contents("php://input"), true);
 
