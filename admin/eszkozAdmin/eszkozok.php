@@ -114,7 +114,7 @@
 
     </div>
 
-    <?php include "visszajelzoModal.php"; ?>
+    <?php include "../layout/feedbackModal.php"; ?>
     <?php include "eszkozSzerkesztModal.php"; ?>
 
 </main>

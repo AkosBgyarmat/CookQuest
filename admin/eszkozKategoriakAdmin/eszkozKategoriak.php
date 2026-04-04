@@ -1,4 +1,4 @@
-<?php include "../../layout/header.php"; ?>
+<?php include "../layout/header.php"; ?>
 
 <main class="flex-1 lg:ml-64 p-4 md:p-6" ng-controller="eszkozKategoriaController">
 
@@ -29,9 +29,9 @@
 
                 <tbody>
 
-                    <tr class="border-t" ng-repeat="b in eszkozKategoria track by b.id">
+                    <tr class="border-t" ng-repeat="b in eszkozKategoria track by $index">
                         <td class="p-3">{{b.id}}</td>
-                        <td class="p-3">{{b.ELnevezes}}</td>
+                        <td class="p-3">{{b.Elnevezes}}</td>
 
                         <td class="p-3 space-x-2 width-full">
                             <button ng-click="editEszkozKategoria(b)"
@@ -73,7 +73,7 @@
                     </p>
 
                     <p class="font-semibold">
-                        {{b.ELnevezes}}
+                        {{b.Elnevezes}}
                     </p>
 
                 </div>
@@ -106,10 +106,10 @@
 
     </div>
 
-    <?php include "visszajelzoModal.php"; ?>
+    <?php include "../layout/feedbackModal.php"; ?>
     <?php include "eszkozKatSzerkModal.php"; ?>
 </main>
 
-<?php include "../../layout/footer.php"; ?>
+<?php include "../layout/footer.php"; ?>
 </div>
 </div>
