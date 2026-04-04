@@ -106,7 +106,7 @@
 
 
     <?php include "hozzavaloSzerkesztModal.php"; ?>
-    <?php include "visszajelzoModal.php"; ?>
+    <?php include "../layout/feedbackModal.php"; ?>
 
 </main>
 

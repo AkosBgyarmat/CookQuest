@@ -6,7 +6,8 @@ require __DIR__ . "/../../kapcsolat.php"; //kapcsolódás az adatbázishoz
 $sql = "
 SELECT 
     k.KategoriaID AS id,
-    k.Kategoria
+    k.Kategoria,
+    k.Torolve
 FROM kategoria k
 ORDER BY k.KategoriaID ASC
 ";

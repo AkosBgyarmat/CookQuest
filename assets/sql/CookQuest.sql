@@ -22,7 +22,8 @@ SET time_zone = "+00:00";
 --
 
 -- --------------------------------------------------------
-
+create database if not exists `cookquest` default character set utf8mb4 collate utf8mb4_general_ci;
+use `cookquest`;
 --
 -- Tábla szerkezet ehhez a táblához `alkategoria`
 --
