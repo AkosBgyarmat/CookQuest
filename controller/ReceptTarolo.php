@@ -27,6 +27,13 @@ class ReceptTarolo
             LEFT JOIN alkategoria alk ON r.AlkategoriaID = alk.AlkategoriaID 
             LEFT JOIN kategoria kat ON alk.KategoriaID = kat.KategoriaID 
             LEFT JOIN arkategoria a ON r.ArkategoriaID = a.ArkategoriaID 
+            WHERE NOT EXISTS (
+                SELECT 1
+                FROM recept_hozzavalo rh_del
+                JOIN hozzavalo h_del ON rh_del.HozzavaloID = h_del.HozzavaloID
+                WHERE rh_del.ReceptID = r.ReceptID
+                  AND h_del.Torolve = 1
+            )
             ORDER BY n.Szint, r.Nev
         ")->fetchAll(); // Több sor visszaadása tömbként
     }
@@ -50,7 +57,14 @@ class ReceptTarolo
             LEFT JOIN arkategoria a ON r.ArkategoriaID = a.ArkategoriaID 
             LEFT JOIN alkategoria alk ON r.AlkategoriaID = alk.AlkategoriaID 
             LEFT JOIN kategoria kat ON alk.KategoriaID = kat.KategoriaID 
-            WHERE r.ReceptID = ?
+                        WHERE r.ReceptID = ?
+                            AND NOT EXISTS (
+                                    SELECT 1
+                                    FROM recept_hozzavalo rh_del
+                                    JOIN hozzavalo h_del ON rh_del.HozzavaloID = h_del.HozzavaloID
+                                    WHERE rh_del.ReceptID = r.ReceptID
+                                        AND h_del.Torolve = 1
+                            )
         ");
         
         $st->execute([$id]);
@@ -75,6 +89,7 @@ class ReceptTarolo
             JOIN hozzavalo h ON rh.HozzavaloID = h.HozzavaloID 
             JOIN mertekegyseg m ON rh.MertekegysegID = m.MertekegysegID 
             WHERE rh.ReceptID = ?
+              AND h.Torolve = 0
         ");
 
         $st->execute([$id]);
