@@ -1,3 +1,4 @@
+<!-- Visszajelzés modal -->
 <div ng-if="feedbackMessage"
      class="fixed inset-0 z-50 flex items-center justify-center">
 
@@ -65,31 +66,31 @@
   </div>
 </div>
 
+
 <div ng-if="confirmModal"
-     class="fixed inset-0 z-50 flex items-center justify-center ">
+     class="fixed inset-0 z-50 flex items-center justify-center">
 
-  <div class="absolute inset-0 bg-black/50 backdrop-blur-sm"
-       ng-click="confirmCancel()"></div>
+    <!-- háttér -->
+    <div class="absolute inset-0 bg-black/50 backdrop-blur-sm"
+         ng-click="confirmCancel()"></div>
 
-  <div class="relative bg-white rounded-2xl shadow-xl p-6 max-w-sm w-full text-center z-10 m-4">
+    <div class="relative bg-white rounded-2xl shadow-xl p-6 max-w-sm w-full text-center z-10 m-4">
 
-    <h2 class="text-xl font-bold mb-4">Megerősítés</h2>
+        <h2 class="text-lg font-bold mb-4">Megerősítés</h2>
 
-    <p class="mb-6 text-gray-600">
-        {{ confirmText }}
-    </p>
+        <p class="mb-6 text-gray-600">{{confirmText}}</p>
 
-    <div class="flex justify-center gap-4">
-        <button ng-click="confirmCancel()"
-                class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">
-            Mégse
-        </button>
+        <div class="flex justify-center gap-4">
+            <button ng-click="confirmCancel()"
+                    class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">
+                Mégse
+            </button>
 
-        <button ng-click="confirmOk()"
-                class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">
-            Igen
-        </button>
+            <button ng-click="confirmOk()"
+                    class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">
+                Igen
+            </button>
+        </div>
+
     </div>
-
-  </div>
 </div>
