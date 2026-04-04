@@ -46,36 +46,38 @@ include __DIR__ . '/../head.php';
 
             <form method="POST" action="">
 
-                <!-- Keresőmező + számláló + "összes törlése" -->
-                <div class="flex flex-col sm:flex-row items-start sm:items-center gap-3 mb-4">
-                    <div class="relative flex-1 w-full">
-                        <input type="text" id="hozzavaloKereses" placeholder="Hozzávaló keresése..."
-                               class="w-full h-10 rounded-lg bg-transparent ring-2 ring-gray-300 px-4 pr-10 focus:ring-[#5A7863] focus:outline-none">
-                        <svg class="absolute right-3 top-2.5 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                        </svg>
+                <!-- Keresés + kiválasztás -->
+                <div class="flex flex-col gap-4 mb-4">
+                    <div class="flex flex-col lg:flex-row lg:items-center gap-3">
+                        <div class="relative flex-1 w-full">
+                            <input type="text" id="hozzavaloKereses" placeholder="Hozzávaló keresése..."
+                                   class="w-full h-10 rounded-lg bg-transparent ring-2 ring-gray-300 px-4 pr-10 focus:ring-[#5A7863] focus:outline-none">
+                            <svg class="absolute right-3 top-2.5 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                        </div>
+
+                        <div class="flex flex-wrap items-center gap-3 lg:justify-end">
+                            <span class="text-sm font-medium text-gray-600">
+                                Hozzávalók kiválasztva: <span id="kivalasztottSzamlalo" class="font-bold text-[#4A7043]">0 </span>
+                            </span>
+                            <button type="button" id="mindTorles"
+                                    class="inline-flex items-center rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-xs font-semibold text-red-700 hover:bg-red-100 transition whitespace-nowrap">
+                                Szűrők törlése
+                            </button>
+                        </div>
                     </div>
 
-                    <div class="flex items-center gap-3">
-                        <span class="text-sm font-medium text-gray-600">
-                            Hozzávalók kiválasztva: <span id="kivalasztottSzamlalo" class="font-bold text-[#4A7043]">0 </span>
-                        </span>
-                        <button type="button" id="mindTorles"
-                                class="text-xs text-red-600 hover:text-red-800 font-medium whitespace-nowrap">
-                            Összes hozzávaló törlése
-                        </button>
+                    <!-- Minimum egyezés -->
+                    <div class="flex flex-col sm:flex-row sm:items-center gap-2 rounded-2xl bg-[#F4F7F3] px-4 py-3">
+                        <label for="minMatch" class="text-sm font-semibold text-gray-700">Minimum egyező hozzávaló:</label>
+                        <select name="minMatch" id="minMatch"
+                                class="h-10 rounded-lg ring-2 ring-gray-300 px-3 text-sm bg-white focus:ring-[#5A7863] focus:outline-none sm:w-28">
+                            <?php for ($minimumEgyezesErtek = 1; $minimumEgyezesErtek <= 10; $minimumEgyezesErtek++): ?>
+                                <option value="<?= $minimumEgyezesErtek ?>" <?= $minMatch === $minimumEgyezesErtek ? 'selected' : '' ?>><?= $minimumEgyezesErtek ?></option>
+                            <?php endfor; ?>
+                        </select>
                     </div>
-                </div>
-
-                <!-- Minimum egyezés -->
-                <div class="flex items-center gap-2 mb-4">
-                    <label for="minMatch" class="text-sm font-medium text-gray-600">Minimum egyező hozzávaló:</label>
-                    <select name="minMatch" id="minMatch"
-                            class="h-9 rounded-lg ring-2 ring-gray-300 px-3 text-sm focus:ring-[#5A7863] focus:outline-none">
-                        <?php for ($minimumEgyezesErtek = 1; $minimumEgyezesErtek <= 10; $minimumEgyezesErtek++): ?>
-                            <option value="<?= $minimumEgyezesErtek ?>" <?= $minMatch === $minimumEgyezesErtek ? 'selected' : '' ?>><?= $minimumEgyezesErtek ?></option>
-                        <?php endfor; ?>
-                    </select>
                 </div>
 
                 <!-- Hozzávaló lista -->
