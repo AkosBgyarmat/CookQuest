@@ -117,35 +117,35 @@
         <div class="bg-white rounded-xl shadow-md p-6">
             <h3 class="text-lg font-semibold mb-4">Gyors műveletek</h3>
 
-            <div class="flex flex-wrap gap-3">
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
 
                 <a href="/CookQuest/admin/receptAdmin/receptek.php?openNew=1"
-                    class="bg-[#5A7863] hover:bg-[#3B4953] text-white px-4 py-2 rounded-lg text-sm transition">
+                    class="bg-[#5A7863] hover:bg-[#3B4953] text-white px-3 py-2 rounded-lg text-sm transition text-center">
                     + Új recept
                 </a>
 
                 <a href="/CookQuest/admin/hozzavalokAdmin/hozzavalok.php?openNew=1"
-                    class="bg-[#90AB8B] hover:bg-[#7D9A8A] text-black px-4 py-2 rounded-lg text-sm transition">
+                    class="bg-[#90AB8B] hover:bg-[#7D9A8A] text-black px-3 py-2 rounded-lg text-sm transition text-center">
                     + Új hozzávaló
                 </a>
 
-                <a href="/CookQuest/admin/eszkozAdmin/ujeszkoz.php"
-                    class="bg-[#C0CEB8] hover:bg-[#AAB8A9] text-black px-4 py-2 rounded-lg text-sm transition">
+                <a href="/CookQuest/admin/eszkozAdmin/eszkozok.php?openNew=1"
+                    class="bg-[#C0CEB8] hover:bg-[#AAB8A9] text-black px-3 py-2 rounded-lg text-sm transition text-center">
                     + Új eszköz
                 </a>
 
-                <a href="/CookQuest/admin/eszkozAdmin/ujeszkozkategoria.php"
-                    class="bg-[#5A7863] hover:bg-[#3B4953] text-white px-4 py-2 rounded-lg text-sm transition">
-                    + Új eszköz kategória
+                <a href="/CookQuest/admin/eszkozKategoriakAdmin/eszkozKategoriak.php?openNew=1"
+                    class="bg-[#5A7863] hover:bg-[#3B4953] text-white px-3 py-2 rounded-lg text-sm transition text-center">
+                    + Eszköz kategória
                 </a>
 
-                <a href="/CookQuest/admin/receptAdmin/ujreceptkategoria.php"
-                    class="bg-[#C0CEB8] hover:bg-[#AAB8A9] text-black px-4 py-2 rounded-lg text-sm transition">
-                    + Új recept kategória 
+                <a href="/CookQuest/admin/receptKategoriakAdmin/receptKategoriak.php?openNew=1"
+                    class="bg-[#C0CEB8] hover:bg-[#AAB8A9] text-black px-3 py-2 rounded-lg text-sm transition text-center">
+                    + Recept kategória
                 </a>
 
-                <a href="/CookQuest/admin/orszagAdmin/ujorszag.php"
-                    class="bg-[#90AB8B] hover:bg-[#7D9A8A] text-black px-4 py-2 rounded-lg text-sm transition">
+                <a href="/CookQuest/admin/orszagAdmin/orszagok.php?openNew=1"
+                    class="bg-[#90AB8B] hover:bg-[#7D9A8A] text-black px-3 py-2 rounded-lg text-sm transition text-center">
                     + Új ország
                 </a>
 
