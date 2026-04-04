@@ -47,7 +47,7 @@ transform -translate-x-full lg:translate-x-0 transition-transform duration-300 z
         </li>
 
         <li>
-            <a href="/CookQuest/admin/kategoriakAdmin/receptKategoriakAdmin/receptKategoriak.php"
+            <a href="/CookQuest/admin/receptKategoriakAdmin/receptKategoriak.php"
                 class="flex items-center gap-3 hover:bg-[#759277] hover:text-white p-2 rounded">
                 Recept kategóriák
             </a>
@@ -63,7 +63,7 @@ transform -translate-x-full lg:translate-x-0 transition-transform duration-300 z
         </li>
 
         <li>
-            <a href="/CookQuest/admin/kategoriakAdmin/eszkozKategoriakAdmin/eszkozKategoriak.php"
+            <a href="/CookQuest/admin/eszkozKategoriakAdmin/eszkozKategoriak.php"
                 class="flex items-center gap-3 hover:bg-[#759277] hover:text-white p-2 rounded">
                 Eszköz kategóriák
             </a>
