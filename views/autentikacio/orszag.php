@@ -11,7 +11,8 @@ require "../../kapcsolat.php"; //kapcsolódás az adatbázishoz
 $sql = "
     SELECT 
     OrszagID AS Id, 
-    Elnevezes FROM orszag;
+    Elnevezes FROM orszag 
+    WHERE Torolve = 0;
 ";
 
 //Végrehajtjuk a lekérdezést

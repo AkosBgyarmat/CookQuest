@@ -10,7 +10,7 @@ require "../../kapcsolat.php"; //kapcsolódás az adatbázishoz
 
 //SQL lekérdezés az adatbázis táblából a rekordok betöltése
 $sql = "
-    SELECT 
+SELECT 
     e.KonyhaiFelszerelesID,
     e.Nev,
     e.Kep,
@@ -18,6 +18,8 @@ $sql = "
     b.Elnevezes AS Besorolas_nev
 FROM konyhaifelszereles e
 JOIN besorolas b ON e.BesorolasID = b.BesorolasID
+WHERE e.Torolve = 0
+AND b.Torolve = 0
 ";
 
 //Végrehajtjuk a lekérdezést

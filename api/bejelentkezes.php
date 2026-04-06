@@ -31,6 +31,7 @@ try {
         SELECT FelhasznaloID, Felhasznalonev, Jelszo ,SzerepID
         FROM felhasznalo 
         WHERE Emailcim = ?
+        AND Torolve = 0
     ");
 
     $stmt->bind_param("s", $email);
