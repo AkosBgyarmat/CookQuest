@@ -108,7 +108,7 @@
     </div>
 
     <?php include "receptSzerkesztModal.php"; ?>
-    <?php include "../layout/visszajelzesModal.php"; ?>
+    <?php include "../layout/feedbackModal.php"; ?>
 </main>
 
 
