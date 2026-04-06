@@ -1,6 +1,6 @@
 angular.module("CookQuestAdmin").controller("felhasznaloController", function ($scope, $http) {
 
-    //adatbetöltés
+    //adatbetöltés - felhasználók
     $http.get("/CookQuest/admin/lekerdezes/felhasznalo.php")
         .then(response => {
             response.data.forEach(f => {
@@ -9,7 +9,29 @@ angular.module("CookQuestAdmin").controller("felhasznaloController", function ($
                 f.MegszerzettPontok = parseInt(f.MegszerzettPontok) || 0;
             });
             //console.log("RECEPTEK:", response.data);
-            $scope.felhasznalo = response.data;
+            $scope.felhasznalok = response.data;
+        })
+        .catch(function (error) {
+            console.error("Nem sikerült:", error);
+    });
+
+    //adatbetöltés - országok 
+    $http.get("/CookQuest/admin/lekerdezes/orszag.php")
+        .then(function (response) {
+            //console.log("ORSZÁGOK:", response.data);
+            $scope.orszagok = response.data;
+        })
+        .catch(function (error) {
+            console.error("Nem sikerült:", error);
+    });
+
+    console.log($scope.selectedFelhasznalo);
+
+    //adabetöltés - szerepek
+    $http.get("/CookQuest/admin/lekerdezes/szerepek.php")
+        .then(function (response) {
+            //console.log("SZEREPEK:", response.data);
+            $scope.szerepek = response.data;
         })
         .catch(function (error) {
             console.error("Nem sikerült:", error);
@@ -56,9 +78,9 @@ angular.module("CookQuestAdmin").controller("felhasznaloController", function ($
         $scope.confirmModal = false;
     };
 
-
     $scope.editFelhasznalo = function (f) {
-        //console.log("KATTINTOTTÁL", f);
+        console.log("KATTINTOTTÁL", f);
+
         $scope.selectedFelhasznalo = f ? angular.copy(f) : {
             id: null,
             Vezeteknev: "",
@@ -70,12 +92,18 @@ angular.module("CookQuestAdmin").controller("felhasznaloController", function ($
             RegisztracioEve: "",
             MegszerzettPontok: "",
             Szerep: "",
-            Torolve: "",
+            Torolve: 0,
             Jelszo: ""
         }
 
-        if (!$scope.selectedFelhasznalo.Jelszo) {
-            delete $scope.selectedFelhasznalo.Jelszo;
+        let orszag = $scope.orszagok.find(o => o.Nev === f.Orszag);
+        if (orszag) {
+            $scope.selectedFelhasznalo.OrszagID = orszag.Id;
+        }
+
+        let szerep = $scope.szerepek.find(sz => sz.Szerep === f.Szerep);
+        if (szerep) {
+            $scope.selectedFelhasznalo.SzerepID = szerep.Id;
         }
 
         $scope.isModalOpen = true;
@@ -89,20 +117,34 @@ angular.module("CookQuestAdmin").controller("felhasznaloController", function ($
             Felhasznalonev: "",
             Emailcim: "",
             SzuletesiEv: "",
-            Orszag: "",
-            RegisztracioEve: "",
-            MegszerzettPontok: "",
-            Szerep: "",
-            Torolve: "",
+            OrszagID: null,
+            RegisztracioEve: new Date().getFullYear(),
+            MegszerzettPontok: 0,
+            SzerepID: null,
+            Torolve: 0,
             Jelszo: ""
         };
 
-        $scope.selectedFelhasznalo.nextId = $scope.felhasznalo.reduce((maxId, f) => Math.max(maxId, f.id), 0) + 1;
+        $scope.selectedFelhasznalo.nextId = $scope.felhasznalok.reduce((maxId, f) => Math.max(maxId, f.id), 0) + 1;
 
         $scope.isModalOpen = true;
     };
 
     $scope.saveFelhasznalo = function () {
+
+        if (!$scope.selectedFelhasznalo.OrszagID == null) {
+            $scope.feedbackSuccess = false;
+            $scope.feedbackText = "Válassz országot!";
+            $scope.feedbackMessage = true;
+            return;
+        }
+
+        if (!$scope.selectedFelhasznalo.SzerepID == null) {
+            $scope.feedbackSuccess = false;
+            $scope.feedbackText = "Válassz szerepet!";
+            $scope.feedbackMessage = true;
+            return;
+        }
 
         if (!$scope.selectedFelhasznalo.Jelszo) {
             delete $scope.selectedFelhasznalo.Jelszo;
@@ -116,8 +158,8 @@ angular.module("CookQuestAdmin").controller("felhasznaloController", function ($
         }
 
         let url = $scope.selectedFelhasznalo.id
-            ? "/CookQuest/admin/felhasznalokAdmin/felhasznaloModositas.php"
-            : "/CookQuest/admin/felhasznalokAdmin/felhasznaloLetrehozas.php";
+            ? "/CookQuest/admin/felhasznaloAdmin/felhasznaloModositas.php"
+            : "/CookQuest/admin/felhasznaloAdmin/felhasznaloLetrehozas.php";
 
         let method = $scope.selectedFelhasznalo.id ? "PATCH" : "POST";
 
@@ -143,16 +185,16 @@ angular.module("CookQuestAdmin").controller("felhasznaloController", function ($
 
                 if ($scope.selectedFelhasznalo.id) {
                     // UPDATE
-                    let index = $scope.felhasznalo.findIndex(f => f.id == $scope.selectedFelhasznalo.id);
+                    let index = $scope.felhasznalok.findIndex(f => f.id == $scope.selectedFelhasznalo.id);
                     if (index !== -1) {
-                        Object.assign($scope.felhasznalo[index], $scope.selectedFelhasznalo);
+                        Object.assign($scope.felhasznalok[index], $scope.selectedFelhasznalo);
                     }
                 } else {
                     // CREATE
                     if (response.id) {
                         $scope.selectedFelhasznalo.id = response.id;
                     }
-                    $scope.felhasznalo.push(angular.copy($scope.selectedFelhasznalo));
+                    $scope.felhasznalok.push(angular.copy($scope.selectedFelhasznalo));
                 }
 
                 $scope.closeModal();
@@ -173,22 +215,23 @@ angular.module("CookQuestAdmin").controller("felhasznaloController", function ($
 
         $scope.openConfirm("Biztos törlöd ezt a felhasználót?", function () {
 
-            $http.delete("/CookQuest/admin/felhasznalokAdmin/felhasznaloTorles.php?id=" + id)
-                .then(() => {
+            $http.delete("/CookQuest/admin/felhasznaloAdmin/felhasznaloTorles.php?id=" + id)
+                .then(res => {
 
-                    let index = $scope.felhasznalo.findIndex(f => f.id == id);
+                    let index = $scope.felhasznalok.findIndex(f => f.id == id);
                     if (index !== -1) {
-                        $scope.felhasznalo[index].Torolve = 1;
+                        $scope.felhasznalok[index].Torolve = 1;
                     }
 
                     $scope.feedbackSuccess = true;
-                    $scope.feedbackText = "Törölve";
+                    $scope.feedbackText = "Felhasználó törölve.";
                     $scope.feedbackMessage = true;
 
                 })
-                .catch(() => {
+                .catch(err => {
+                    console.error(err);
                     $scope.feedbackSuccess = false;
-                    $scope.feedbackText = "Hiba történt.";
+                    $scope.feedbackText = "Hiba történt törlés közben.";
                     $scope.feedbackMessage = true;
                 });
 
@@ -201,27 +244,28 @@ angular.module("CookQuestAdmin").controller("felhasznaloController", function ($
 
             $http({
                 method: "PATCH",
-                url: "/CookQuest/admin/felhasznalokAdmin/felhasznaloVisszaallitas.php",
+                url: "/CookQuest/admin/felhasznaloAdmin/felhasznaloVisszaallitas.php",
                 data: { id: id },
                 headers: {
                     "Content-Type": "application/json"
                 }
             })
-                .then(() => {
+                .then(res => {
 
-                    let index = $scope.felhasznalo.findIndex(f => f.id == id);
+                    let index = $scope.felhasznalok.findIndex(f => f.id == id);
                     if (index !== -1) {
-                        $scope.felhasznalo[index].Torolve = 0;
+                        $scope.felhasznalok[index].Torolve = 0;
                     }
 
                     $scope.feedbackSuccess = true;
-                    $scope.feedbackText = "Visszaállítva";
+                    $scope.feedbackText = "Felhasználó visszaállítva.";
                     $scope.feedbackMessage = true;
 
                 })
-                .catch(() => {
+                .catch(err => {
+                    console.error(err);
                     $scope.feedbackSuccess = false;
-                    $scope.feedbackText = "Hiba történt.";
+                    $scope.feedbackText = "Hiba történt visszaállítás közben.";
                     $scope.feedbackMessage = true;
                 });
 

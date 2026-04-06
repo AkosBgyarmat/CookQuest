@@ -3,7 +3,7 @@
 <main class="flex-1 lg:ml-64 p-4 md:p-6" ng-controller="felhasznaloController">
 
     <header class="flex flex-col md:flex-row align-center md:justify-between mb-8 w-full text-center md:text-left">
-        <h1 class="text-2xl mt-10 md:text-3xl font-bold">Felhasználók - {{felhasznalo.length}}</h1>
+        <h1 class="text-2xl mt-10 md:text-3xl font-bold">Felhasználók - {{felhasznalok.length}}</h1>
     </header>
 
     <button ng-click="createFelhasznalo()"
@@ -12,7 +12,7 @@
     </button>
 
     <!-- Asztali nézet -->
-    <div class="hidden md:block overflow-x-auto">
+    <div class="hidden md:block overflow-x-auto rounded-xl">
         <table class="w-full bg-white shadow-lg rounded-xl overflow-hidden">
 
             <thead class="bg-gray-200">
@@ -20,7 +20,7 @@
                     <th class="p-3 text-left">ID</th>
                     <th class="p-3 text-left">Felhasználónév</th>
                     <th class="p-3 text-left">Email cím</th>
-                    <th class="p-3 text-left">Születési év</th>
+                    <th class="p-3 text-left">Szerep</th>
                     <th class="p-3 text-left">Törölve</th>
                     <th class="p-3 text-left">Művelet</th>
                 </tr>
@@ -28,11 +28,11 @@
 
             <tbody>
 
-                <tr class="border-t" ng-repeat="f in felhasznalo track by f.id">
+                <tr class="border-t" ng-repeat="f in felhasznalok track by f.id">
                     <td class="p-2">{{f.id}}</td>
                     <td class="p-3">{{f.Felhasznalonev}}</td>
                     <td class="p-3">{{f.Emailcim}}</td>
-                    <td class="p-3">{{f.SzuletesiEv}}</td>                    
+                    <td class="p-3" ng-class="{'text-[#5A7863] underline': f.Szerep === 'Adminisztrátor'}">{{f.Szerep}}</td>
                     <td class="p-3">{{f.Torolve == 0 ? 'Nem' : 'Igen'}}</td>
                     <td class="p-3 ">
 
@@ -43,7 +43,7 @@
 
                         <button
                             ng-if="f.Torolve == 0"
-                            ng-click="torles(f.id)"
+                            ng-click="deleteFelhasznalo(f.id)"
                             class="bg-red-500 text-white mb-5 px-3 py-1 rounded hover:bg-red-600 transition">
                             Törlés
                         </button>
@@ -65,7 +65,7 @@
     <div class="md:hidden space-y-3">
 
         <div class="bg-white m-2 rounded-lg shadow p-4 flex justify-between items-center"
-            ng-repeat="f in felhasznalo track by f.id">
+            ng-repeat="f in felhasznalok track by f.id">
 
             <div>
 

@@ -44,7 +44,7 @@
                         class="w-full border rounded-lg p-2 mt-1">
                 </div>
 
-                
+
                 <div>
                     <label class="text-sm font-semibold">Születési év</label>
                     <input type="number"
@@ -68,9 +68,14 @@
 
                 <div>
                     <label class="text-sm font-semibold">Ország</label>
-                    <input type="text"
-                        ng-model="selectedFelhasznalo.Orszag"
-                        class="w-full border rounded-lg p-2 mt-1">
+                    <select ng-model="selectedFelhasznalo.OrszagID"
+                        class="w-full border rounded-lg p-2 mt-1 bg-white">
+
+                        <option ng-repeat="o in orszagok"
+                            ng-value="o.Id">
+                            {{o.Nev}}
+                        </option>
+                    </select>
                 </div>
 
                 <div>
@@ -80,27 +85,28 @@
                         class="w-full border rounded-lg p-2 mt-1">
                 </div>
 
-                
-
-
                 <div>
                     <label class="text-sm font-semibold">Szerep</label>
-                    <select ng-model="selectedFelhasznalo.Szerep"
-                        class="w-full border rounded-lg p-2 mt-1">
 
-                        <option value="admin">Admin</option>
-                        <option value="user">Felhasználó</option>
+                    <select ng-model="selectedFelhasznalo.SzerepID"
+                        class="w-full border border-gray-300 rounded-lg p-2 mt-1 focus:outline-none focus:ring-2 focus:ring-[#5A7863]">
+
+                        <option ng-repeat="sz in szerepek"
+                            ng-value="sz.Id">
+                            {{sz.Szerep}}
+                        </option>
+
                     </select>
                 </div>
 
-                
+
                 <div>
                     <label class="text-sm font-semibold">Törölve</label>
                     <select ng-model="selectedFelhasznalo.Torolve"
                         class="w-full border rounded-lg p-2 mt-1">
 
-                        <option value="0">Nem</option>
-                        <option value="1">Igen</option>
+                        <option ng-value="0">Nem</option>
+                        <option ng-value="1">Igen</option>
                     </select>
                 </div>
 
