@@ -149,9 +149,9 @@
                     + Új ország
                 </a>
 
-                <a href="/CookQuest/admin/felhasznaloAdmin/felhasznalok.php"
-                    class="bg-[#5A7863] hover:bg-[#3B4953] text-white px-4 py-2 rounded-lg text-sm transition">
-                    Felhasználók
+                <a href="/CookQuest/admin/felhasznaloAdmin/felhasznalok.php?openNew=1"
+                    class="bg-[#5A7863] hover:bg-[#3B4953] text-white px-4 py-2 rounded-lg text-sm transition text-center">
+                    + Új felhasználó
                 </a>
 
             </div>

@@ -7,10 +7,15 @@ angular.module("CookQuestAdmin").controller("orszagController", function ($scope
         .then(function (response) {
             //console.log("ORSZÁGOK:", response.data);
             $scope.orszagok = response.data;
+
+            if (window.location.search.indexOf("openNew=1") !== -1) {
+                $scope.createOrszag();
+            }
         })
         .catch(function (error) {
             console.error("Nem sikerült:", error);
         });
+
     $scope.selectedOrszag = null;
     $scope.isModalOpen = false;
 
@@ -18,9 +23,7 @@ angular.module("CookQuestAdmin").controller("orszagController", function ($scope
     $scope.feedbackSuccess = false;
     $scope.feedbackText = "";
 
-    if (window.location.search.indexOf("openNew=1") !== -1) {
-        $scope.createOrszag();
-    }
+
 
     $scope.closeModal = function () {
         $scope.isModalOpen = false;
