@@ -10,10 +10,13 @@ angular.module("CookQuestAdmin").controller("felhasznaloController", function ($
             });
             //console.log("RECEPTEK:", response.data);
             $scope.felhasznalok = response.data;
+            if (window.location.search.indexOf("openNew=1") !== -1) {
+                $scope.createFelhasznalo();
+            }
         })
         .catch(function (error) {
             console.error("Nem sikerült:", error);
-    });
+        });
 
     //adatbetöltés - országok 
     $http.get("/CookQuest/admin/lekerdezes/orszag.php")
@@ -23,7 +26,7 @@ angular.module("CookQuestAdmin").controller("felhasznaloController", function ($
         })
         .catch(function (error) {
             console.error("Nem sikerült:", error);
-    });
+        });
 
     console.log($scope.selectedFelhasznalo);
 
@@ -47,9 +50,7 @@ angular.module("CookQuestAdmin").controller("felhasznaloController", function ($
     $scope.confirmText = "";
     $scope.confirmAction = null;
 
-    if (window.location.search.indexOf("openNew=1") !== -1) {
-        $scope.createFelhasznalo();
-    }
+
 
     $scope.openConfirm = function (text, action) {
         $scope.confirmText = text;

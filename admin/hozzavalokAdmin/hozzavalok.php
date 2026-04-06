@@ -8,11 +8,11 @@
 
     <button ng-click="createHozzavalo()"
         class="bg-[#C0CEB8] text-black px-4 py-2 rounded mb-5 inline-block m-2">
-        + Új hozzavalo
+        + Új hozzávaló
     </button>
 
     <!-- Asztali nézet -->
-    <div class="hidden md:block overflow-x-auto">
+    <div class="hidden md:block overflow-x-auto rounded-xl">
         <table class="w-full bg-white shadow-lg rounded-xl overflow-hidden">
 
             <thead class="bg-gray-200">
