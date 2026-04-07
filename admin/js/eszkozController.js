@@ -65,12 +65,16 @@ angular.module("CookQuestAdmin").controller("eszkozController", function ($scope
             return;
         }
 
-        let url = $scope.selectedEszkoz.id
+        let isUpdate = $scope.selectedEszkoz.id !== null && $scope.selectedEszkoz.id !== undefined;
+
+        let url = isUpdate
             ? "/CookQuest/admin/eszkozAdmin/eszkozModositas.php"
             : "/CookQuest/admin/eszkozAdmin/eszkozLetrehozas.php";
 
+        let method = isUpdate ? "PATCH" : "POST";
+
         $http({
-            method: "POST",
+            method: method,
             url: url,
             data: $scope.selectedEszkoz,
             headers: {
@@ -136,7 +140,7 @@ angular.module("CookQuestAdmin").controller("eszkozController", function ($scope
                         $scope.eszkoz[index].Torolve = 1;
                     }
 
-                    $scope.$applyAsync(); 
+                    $scope.$applyAsync();
 
                     $scope.feedbackSuccess = true;
                     $scope.feedbackText = "Törölve";

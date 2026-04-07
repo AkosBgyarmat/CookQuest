@@ -11,7 +11,8 @@ require __DIR__ . "/../../kapcsolat.php"; //kapcsolódás az adatbázishoz
 $sql = "
     SELECT 
     OrszagID AS Id, 
-    Elnevezes AS Nev
+    Elnevezes AS Nev,
+    Torolve
 FROM orszag;
 ";
 

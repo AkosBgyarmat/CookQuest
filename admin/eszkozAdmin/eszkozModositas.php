@@ -4,7 +4,15 @@ header("Content-Type: application/json");
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-require __DIR__ . "/../../kapcsolat.php";
+require_once __DIR__ . "/../../kapcsolat.php";
+
+if ($_SERVER['REQUEST_METHOD'] !== 'PATCH') {
+    echo json_encode([
+        "success" => false,
+        "message" => "Nem PATCH kérés"
+    ]);
+    exit;
+}
 
 // adat beolvasás
 $data = json_decode(file_get_contents("php://input"), true);

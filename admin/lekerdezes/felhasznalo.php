@@ -14,7 +14,8 @@ SELECT
     o.Elnevezes AS Orszag,
     f.RegisztracioEve,
     f.MegszerzettPontok,
-    sz.Szerep
+    sz.Szerep,
+    f.Torolve
 FROM felhasznalo f
 JOIN orszag o ON f.OrszagID = o.OrszagID
 JOIN szerep sz ON f.SzerepID = sz.SzerepID

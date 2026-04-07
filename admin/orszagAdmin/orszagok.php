@@ -6,18 +6,19 @@
         <h1 class="text-2xl mt-10 md:text-3xl font-bold">Országok - {{orszagok.length}}</h1>
     </header>
 
-    <a href="orszagokUj.php"
-        class="bg-green-600 text-white px-4 py-2 rounded mb-5 inline-block m-2">
+    <button ng-click="createOrszag()"
+        class="bg-[#C0CEB8] text-black px-4 py-2 rounded mb-5 inline-block m-2">
         + Új ország
-    </a>
+    </button>
 
-    <div class="hidden md:block overflow-x-auto">
-        <table class="w-full bg-white shadow rounded">
+    <div class="hidden md:block overflow-x-auto rounded-xl">
+        <table class="w-full bg-white shadow-lg rounded-xl overflow-hidden">
 
             <thead class="bg-gray-200">
                 <tr>
                     <th class="p-3 text-left">ID</th>
                     <th class="p-3 text-left">Név</th>
+                    <th class="p-3 text-left">Törölve</th>
                     <th class="p-3 text-left">Művelet</th>
                 </tr>
             </thead>
@@ -27,18 +28,27 @@
                 <tr class="border-t" ng-repeat="o in orszagok track by o.Id">
                     <td class="p-3">{{o.Id}}</td>
                     <td class="p-3">{{o.Nev}}</td>
+                    <td class="p-3">{{o.Torolve == 0 ? 'Nem' : 'Igen'}}</td>
 
                     <td class="p-3 ">
 
-                        <a href="receptek_szerkeszt.php?id=1"
-                            class="bg-blue-500 text-white mb-5 px-3 py-1 rounded">
+                        <button ng-click="editOrszag(o)"
+                            class="bg-[#C0CEB8] text-black px-3 py-1 rounded">
                             Szerkeszt
-                        </a>
+                        </button>
 
-                        <a href="receptek_torol.php?id=1"
-                            class="bg-red-500 text-white mb-5 px-3 py-1 rounded">
+                        <button
+                            ng-if="o.Torolve == 0"
+                            ng-click="deleteOrszag(o.Id)"
+                            class="bg-red-500 text-white mb-5 px-3 py-1 rounded hover:bg-red-600 transition">
                             Törlés
-                        </a>
+                        </button>
+
+                        <button ng-if="o.Torolve == 1"
+                            ng-click="visszaallitas(o.Id)"
+                            class="bg-green-500 text-white mb-5 px-3 py-1 rounded hover:bg-green-600 transition">
+                            Visszaállítás
+                        </button>
 
                     </td>
                 </tr>
@@ -82,8 +92,11 @@
         </div>
 
     </div>
+    <?php include "orszagSzerkesztModal.php"; ?>
+    <?php include "../layout/feedbackModal.php"; ?>
 </main>
 
 <?php include "../layout/footer.php"; ?>
+
 </div>
 </div>
