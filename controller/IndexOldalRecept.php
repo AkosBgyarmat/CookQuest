@@ -21,6 +21,13 @@ class IndexOldalRecept
             WHERE n.Szint = 1
                             AND NOT EXISTS (
                                     SELECT 1
+                                    FROM alkategoria alk_del
+                                    JOIN kategoria kat_del ON alk_del.KategoriaID = kat_del.KategoriaID
+                                    WHERE alk_del.AlkategoriaID = r.AlkategoriaID
+                                        AND kat_del.Torolve = 1
+                            )
+                            AND NOT EXISTS (
+                                    SELECT 1
                                     FROM recept_hozzavalo rh_del
                                     JOIN hozzavalo h_del ON rh_del.HozzavaloID = h_del.HozzavaloID
                                     WHERE rh_del.ReceptID = r.ReceptID

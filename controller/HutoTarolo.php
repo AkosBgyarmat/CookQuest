@@ -13,6 +13,7 @@ class HutoTarolo
         return $this->pdo->query("
             SELECT HozzavaloID, Elnevezes
             FROM hozzavalo
+            WHERE Torolve = 0
             ORDER BY Elnevezes
         ")->fetchAll();
     }
@@ -39,8 +40,20 @@ class HutoTarolo
                 COUNT(DISTINCT rh.HozzavaloID) AS egyezo_db
             FROM recept r
             JOIN recept_hozzavalo rh ON r.ReceptID = rh.ReceptID
+            JOIN hozzavalo h_match ON rh.HozzavaloID = h_match.HozzavaloID
             JOIN nehezsegiszint n ON r.NehezsegiSzintID = n.NehezsegiSzintID
+            LEFT JOIN alkategoria alk ON r.AlkategoriaID = alk.AlkategoriaID
+            LEFT JOIN kategoria kat ON alk.KategoriaID = kat.KategoriaID
             WHERE rh.HozzavaloID IN ($placeholders)
+              AND h_match.Torolve = 0
+              AND (kat.KategoriaID IS NULL OR kat.Torolve = 0)
+              AND NOT EXISTS (
+                  SELECT 1
+                  FROM recept_hozzavalo rh_del
+                  JOIN hozzavalo h_del ON rh_del.HozzavaloID = h_del.HozzavaloID
+                  WHERE rh_del.ReceptID = r.ReceptID
+                    AND h_del.Torolve = 1
+              )
             GROUP BY r.ReceptID
             HAVING egyezo_db >= ?
             ORDER BY egyezo_db DESC
@@ -71,6 +84,7 @@ class HutoTarolo
             FROM recept_hozzavalo rh
             JOIN hozzavalo h ON rh.HozzavaloID = h.HozzavaloID
             WHERE rh.ReceptID IN ($placeholders)
+              AND h.Torolve = 0
             ORDER BY h.Elnevezes
         ");
         $stmt->execute($receptIdk);

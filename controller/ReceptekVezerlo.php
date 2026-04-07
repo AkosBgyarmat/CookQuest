@@ -85,10 +85,12 @@ class ReceptekVezerlo
     // Lekéri egy recept nehézségi szintjét (ha nincs recept, 0-val tér vissza).
     private function getReceptSzint(int $receptId): int
     {
-        $st = $this->pdo->prepare("SELECT NehezsegiSzintID FROM recept WHERE ReceptID = :rid");
-        $st->execute([':rid' => $receptId]);
-        $szint = $st->fetchColumn();
-        return $szint !== false ? (int)$szint : 0;
+        $recept = $this->receptTarolo->egy($receptId);
+        if (!$recept) {
+            return 0;
+        }
+
+        return (int)($recept['NehezsegiSzintID'] ?? $recept['Szint'] ?? 0);
     }
 
     // A recept-detail visszajelzo uzenet mar nem a view-ban epul fel.

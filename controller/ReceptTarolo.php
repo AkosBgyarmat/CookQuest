@@ -28,6 +28,13 @@ class ReceptTarolo
             LEFT JOIN kategoria kat ON alk.KategoriaID = kat.KategoriaID 
             LEFT JOIN arkategoria a ON r.ArkategoriaID = a.ArkategoriaID 
             WHERE NOT EXISTS (
+                                SELECT 1
+                                FROM alkategoria alk_del
+                                JOIN kategoria kat_del ON alk_del.KategoriaID = kat_del.KategoriaID
+                                WHERE alk_del.AlkategoriaID = r.AlkategoriaID
+                                    AND kat_del.Torolve = 1
+                        )
+                            AND NOT EXISTS (
                 SELECT 1
                 FROM recept_hozzavalo rh_del
                 JOIN hozzavalo h_del ON rh_del.HozzavaloID = h_del.HozzavaloID
@@ -58,6 +65,13 @@ class ReceptTarolo
             LEFT JOIN alkategoria alk ON r.AlkategoriaID = alk.AlkategoriaID 
             LEFT JOIN kategoria kat ON alk.KategoriaID = kat.KategoriaID 
                         WHERE r.ReceptID = ?
+                            AND NOT EXISTS (
+                                    SELECT 1
+                                    FROM alkategoria alk_del
+                                    JOIN kategoria kat_del ON alk_del.KategoriaID = kat_del.KategoriaID
+                                    WHERE alk_del.AlkategoriaID = r.AlkategoriaID
+                                        AND kat_del.Torolve = 1
+                            )
                             AND NOT EXISTS (
                                     SELECT 1
                                     FROM recept_hozzavalo rh_del
