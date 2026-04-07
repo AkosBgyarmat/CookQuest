@@ -19,6 +19,13 @@ class IndexOldalRecept
             FROM recept r
             INNER JOIN nehezsegiszint n ON r.NehezsegiSzintID = n.NehezsegiSzintID
             WHERE n.Szint = 1
+                            AND NOT EXISTS (
+                                    SELECT 1
+                                    FROM recept_hozzavalo rh_del
+                                    JOIN hozzavalo h_del ON rh_del.HozzavaloID = h_del.HozzavaloID
+                                    WHERE rh_del.ReceptID = r.ReceptID
+                                        AND h_del.Torolve = 1
+                            )
             ORDER BY r.Nev ASC
             LIMIT {$biztonsagosLimit}
         ")->fetchAll();
