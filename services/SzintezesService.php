@@ -27,6 +27,7 @@ final class SzintezesService
                 MIN(BegyujthetoPontok) AS minReceptPont,
                 (SUM(BegyujthetoPontok) - MIN(BegyujthetoPontok)) AS kuszobPont
             FROM recept
+            WHERE IFNULL(Torolve, 0) = 0
             GROUP BY NehezsegiSzintID
             ORDER BY NehezsegiSzintID
         ";
@@ -63,6 +64,7 @@ final class SzintezesService
                 WHERE FelhasznaloID = :uid AND Elkeszitette = 1
             ) t
             INNER JOIN recept r ON r.ReceptID = t.ReceptID
+            WHERE IFNULL(r.Torolve, 0) = 0
             GROUP BY r.NehezsegiSzintID
             ORDER BY r.NehezsegiSzintID
         ";
@@ -89,16 +91,17 @@ final class SzintezesService
         if (!$szabalyok) return 1;
 
         $pontok = $this->getFelhasznaloPontSzintenkent($felhasznaloId);
-        $maxSzint = max(array_keys($szabalyok));
+        $szintek = array_map('intval', array_keys($szabalyok));
+        sort($szintek, SORT_NUMERIC);
 
-        for ($szint = 1; $szint <= $maxSzint; $szint++) {
-            $kuszob = $szabalyok[$szint]['kuszobPont'] ?? PHP_INT_MAX;
+        foreach ($szintek as $szint) {
+            $kuszob = (int)($szabalyok[$szint]['kuszobPont'] ?? PHP_INT_MAX);
             $pont = $pontok[$szint] ?? 0;
 
             if ($pont < $kuszob) return $szint;
         }
 
-        return $maxSzint;
+        return (int)max($szintek);
     }
 
     /**
@@ -165,6 +168,7 @@ final class SzintezesService
                 WHERE FelhasznaloID = :uid AND Elkeszitette = 1
             ) t
             INNER JOIN recept r ON r.ReceptID = t.ReceptID
+            WHERE IFNULL(r.Torolve, 0) = 0
         ";
         $st = $this->pdo->prepare($sql);
         $st->execute([':uid' => $felhasznaloId]);
@@ -183,7 +187,7 @@ final class SzintezesService
      */
     public function receptTeljesit(int $felhasznaloId, int $receptId): array
     {
-        $st = $this->pdo->prepare("SELECT NehezsegiSzintID FROM recept WHERE ReceptID = :rid");
+        $st = $this->pdo->prepare("SELECT NehezsegiSzintID FROM recept WHERE ReceptID = :rid AND IFNULL(Torolve, 0) = 0");
         $st->execute([':rid' => $receptId]);
         $recept = $st->fetch();
 
