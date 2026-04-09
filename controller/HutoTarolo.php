@@ -45,6 +45,7 @@ class HutoTarolo
             LEFT JOIN alkategoria alk ON r.AlkategoriaID = alk.AlkategoriaID
             LEFT JOIN kategoria kat ON alk.KategoriaID = kat.KategoriaID
             WHERE rh.HozzavaloID IN ($placeholders)
+                            AND IFNULL(r.Torolve, 0) = 0
               AND h_match.Torolve = 0
               AND (kat.KategoriaID IS NULL OR kat.Torolve = 0)
               AND NOT EXISTS (

@@ -18,7 +18,8 @@ class IndexOldalRecept
                 n.Szint
             FROM recept r
             INNER JOIN nehezsegiszint n ON r.NehezsegiSzintID = n.NehezsegiSzintID
-            WHERE n.Szint = 1
+                WHERE n.Szint = 1
+                        AND IFNULL(r.Torolve, 0) = 0
                             AND NOT EXISTS (
                                     SELECT 1
                                     FROM alkategoria alk_del

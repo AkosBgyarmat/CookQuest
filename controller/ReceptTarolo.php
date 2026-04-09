@@ -27,7 +27,8 @@ class ReceptTarolo
             LEFT JOIN alkategoria alk ON r.AlkategoriaID = alk.AlkategoriaID 
             LEFT JOIN kategoria kat ON alk.KategoriaID = kat.KategoriaID 
             LEFT JOIN arkategoria a ON r.ArkategoriaID = a.ArkategoriaID 
-            WHERE NOT EXISTS (
+            WHERE IFNULL(r.Torolve, 0) = 0
+                            AND NOT EXISTS (
                                 SELECT 1
                                 FROM alkategoria alk_del
                                 JOIN kategoria kat_del ON alk_del.KategoriaID = kat_del.KategoriaID
@@ -65,6 +66,7 @@ class ReceptTarolo
             LEFT JOIN alkategoria alk ON r.AlkategoriaID = alk.AlkategoriaID 
             LEFT JOIN kategoria kat ON alk.KategoriaID = kat.KategoriaID 
                         WHERE r.ReceptID = ?
+                            AND IFNULL(r.Torolve, 0) = 0
                             AND NOT EXISTS (
                                     SELECT 1
                                     FROM alkategoria alk_del
@@ -120,6 +122,7 @@ class ReceptTarolo
             SELECT BegyujthetoPontok 
             FROM recept 
             WHERE ReceptID = ? 
+              AND IFNULL(Torolve, 0) = 0
             LIMIT 1
         ");
 
