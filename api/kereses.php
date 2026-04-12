@@ -9,8 +9,8 @@ $eredmenyek = [];
 
 $keresett = "%" . $q . "%";
 
-// RECEPTEK
-$sql1 = "SELECT ReceptID, Nev, Kep FROM recept WHERE Nev LIKE ?";
+// RECEPTEK (csak nem torolt elemek)
+$sql1 = "SELECT ReceptID, Nev, Kep FROM recept WHERE Nev LIKE ? AND IFNULL(Torolve, 0) = 0";
 $stmt1 = $conn->prepare($sql1);
 $stmt1->bind_param("s", $keresett);
 $stmt1->execute();
@@ -25,8 +25,8 @@ while ($row = $result1->fetch_assoc()) {
     ];
 }
 
-// ESZKÖZÖK
-$sql2 = "SELECT KonyhaiFelszerelesID, Nev, Kep FROM konyhaifelszereles WHERE Nev LIKE ?";
+// ESZKOZOK (csak nem torolt elemek)
+$sql2 = "SELECT KonyhaiFelszerelesID, Nev, Kep FROM konyhaifelszereles WHERE Nev LIKE ? AND IFNULL(Torolve, 0) = 0";
 $stmt2 = $conn->prepare($sql2);
 $stmt2->bind_param("s", $keresett);
 $stmt2->execute();

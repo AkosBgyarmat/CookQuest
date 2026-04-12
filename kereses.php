@@ -1,4 +1,7 @@
-<?php include __DIR__ . '/views/head.php'; ?>
+<?php
+session_start();
+include __DIR__ . '/views/head.php';
+?>
 
 <main class="flex-grow w-full bg-[#90ab8b]">
 
@@ -9,7 +12,7 @@
             <h1 class="text-3xl md:text-4xl font-bold mb-5 text-white">
                 Találatok a "{{ q }}" keresésre
             </h1>
-            <span class="text-white">Találatok száma: {{receptek.legth + eszkozok.length}}</span>
+            <span class="text-white">Találatok száma: {{receptek.length + eszkozok.length}}</span>
         </div>
 
         <div class="bg-white rounded-lg shadow-md p-6">
@@ -40,8 +43,7 @@
                 class="flex items-center gap-4 p-3 hover:bg-gray-100 rounded-lg transition">
 
                 <!-- KÉP -->
-                <img
-                    ng-src="/CookQuest/assets/kepek/{{ item.tipus === 'felszereles' ? 'konyhaiEszkoz' : 'etelek'  }}/{{ item.kep }}"
+                <img ng-src="/CookQuest/assets/kepek/{{ item.tipus === 'felszereles' ? 'konyhaiEszkoz' : 'etelek'  }}/{{ item.kep }}"
                     onerror="this.src='/CookQuest/assets/kepek/Logo.png'"
                     class="w-12 h-12 object-cover rounded-lg shadow-sm">
 
@@ -57,8 +59,7 @@
 
             </div>
 
-            <div ng-if="receptek.length === 0 && eszkozok.length === 0"
-                class="text-center text-white text-xl mt-10">
+            <div ng-if="receptek.length === 0 && eszkozok.length === 0" class="text-center text-white text-xl mt-10">
                 Nincs találat 😢
             </div>
 
