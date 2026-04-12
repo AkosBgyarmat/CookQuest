@@ -53,7 +53,7 @@ angular.module("CookQuestAdmin").controller("orszagController", function ($scope
     };
 
 
-    // 🔹 CREATE
+    //CREATE
     $scope.createOrszag = function () {
         $scope.selectedOrszag = {
             Id: null,
@@ -63,13 +63,13 @@ angular.module("CookQuestAdmin").controller("orszagController", function ($scope
         $scope.isModalOpen = true;
     };
 
-    // 🔹 EDIT
+    //EDIT
     $scope.editOrszag = function (o) {
         $scope.selectedOrszag = angular.copy(o);
         $scope.isModalOpen = true;
     };
 
-    // 🔹 SAVE
+    //SAVE
     $scope.saveOrszag = function () {
 
         if (!$scope.selectedOrszag.Nev) {
@@ -120,7 +120,7 @@ angular.module("CookQuestAdmin").controller("orszagController", function ($scope
             });
     };
 
-    // 🔹 DELETE (soft)
+    //DELETE (soft)
     $scope.deleteOrszag = function (id) {
 
         $scope.openConfirm("Biztosan törölni szeretnéd?", function () {
@@ -141,7 +141,7 @@ angular.module("CookQuestAdmin").controller("orszagController", function ($scope
         });
     };
 
-    // 🔹 VISSZAÁLLÍTÁS
+    //VISSZAÁLLÍTÁS
     $scope.visszaallitas = function (id) {
 
         $http({

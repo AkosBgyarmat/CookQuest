@@ -39,7 +39,7 @@ try {
 
     $result = $stmt->get_result();
 
-    // ❌ Ha nincs ilyen email
+    //Ha nincs ilyen email
     if ($result->num_rows === 0) {
         echo json_encode([
             "success" => false,
@@ -50,7 +50,7 @@ try {
 
     $user = $result->fetch_assoc();
 
-    // ❌ Ha rossz a jelszó
+    //Ha rossz a jelszó
     if (!password_verify($jelszo, $user["Jelszo"])) {
         echo json_encode([
             "success" => false,
@@ -59,7 +59,7 @@ try {
         exit;
     }
 
-    // ✅ Sikeres login
+    // Sikeres login
     $_SESSION["felhasznalo_id"] = $user["FelhasznaloID"];
     $_SESSION["felhasznalo_nev"] = $user["Felhasznalonev"];
     $_SESSION["szerepID"] = $user["SzerepID"];
