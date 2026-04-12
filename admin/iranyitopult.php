@@ -1,7 +1,6 @@
 <?php include "layout/header.php";
 //var_dump($_SESSION);
 ?>
-<?php require_once "lekerdezes/statisztika.php"; ?>
 
 <main class="flex-1 lg:ml-64 p-6">
 
@@ -80,7 +79,7 @@
             ng-controller="felhasznaloController">
             <div>
                 <p class="text-gray-500 text-sm">Felhasználók</p>
-                <h2 class="text-3xl font-bold">{{felhasznalo.length}}</h2>
+                <h2 class="text-3xl font-bold">{{felhasznalok.length}}</h2>
             </div>
 
             <div class="text-3xl border bg-[#5A7863]/40 text-blue-600 w-12 h-12 flex items-center justify-center rounded-full">
