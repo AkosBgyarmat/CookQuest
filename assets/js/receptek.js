@@ -4,7 +4,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const selectAll = (selector, rootElement = document) => Array.from(rootElement.querySelectorAll(selector));
 
   const getRecipeCards = () => selectAll('.recept-kartya');
+  const getSidebarRecipeItems = () => selectAll('.sidebar-recept-item');
   const getLevelBlocks = () => selectAll('.szint-blokk');
+  const getSidebarLevelBlocks = () => selectAll('.sidebar-szint-blokk');
   const levelNavContainer = selectOne('#szintNav');
   const levelNavButtons = levelNavContainer ? selectAll('.szint-nav-gomb', levelNavContainer) : [];
   let activeLevelNav = null;
@@ -54,7 +56,15 @@ document.addEventListener('DOMContentLoaded', () => {
       cardElement.classList.remove('hidden');
       cardElement.style.display = ''; // ha inline display:none volt
     });
+    getSidebarRecipeItems().forEach(itemElement => {
+      itemElement.classList.remove('hidden');
+      itemElement.style.display = '';
+    });
     getLevelBlocks().forEach(levelBlockElement => {
+      levelBlockElement.classList.remove('hidden');
+      levelBlockElement.style.display = '';
+    });
+    getSidebarLevelBlocks().forEach(levelBlockElement => {
       levelBlockElement.classList.remove('hidden');
       levelBlockElement.style.display = '';
     });
@@ -198,7 +208,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function applyFilters() {
     const recipeCards = getRecipeCards();
-    if (!recipeCards.length) return;
+    const sidebarRecipeItems = getSidebarRecipeItems();
+    if (!recipeCards.length && !sidebarRecipeItems.length) return;
 
     // Kiválasztott kategóriák (főkategória + alkategória páros).
     const selectedCategoryPairs = new Set(
@@ -249,6 +260,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const isVisible = categoryMatches && priceMatches && timeMatches;
       recipeCard.classList.toggle('hidden', !isVisible);
+      recipeCard.style.display = isVisible ? '' : 'none';
+    });
+
+    sidebarRecipeItems.forEach((sidebarRecipeItem) => {
+      const mainCategory = normalizeDataValue(sidebarRecipeItem.dataset.fokategoria);
+      const subCategory = normalizeDataValue(sidebarRecipeItem.dataset.alkategoria);
+      const mainCategoryId = getNumericDatasetValue(sidebarRecipeItem, 'fokategoriaId');
+      const subCategoryId = getNumericDatasetValue(sidebarRecipeItem, 'alkategoriaId');
+      const categoryPairKey = buildCategoryKey(mainCategoryId, subCategoryId, mainCategory, subCategory);
+      const priceCategory = normalizeDataValue(sidebarRecipeItem.dataset.arkategoria || 'Nincs');
+      const prepMinutes = parsePreparationTimeToMinutes(sidebarRecipeItem.dataset.elkeszitesiIdo || '');
+
+      const categoryMatches = !hasCategoryFilter || selectedCategoryPairs.has(categoryPairKey);
+      const priceMatches = !hasPriceCategoryFilter || selectedPriceCategories.has(priceCategory);
+      const timeMatches = !hasTimeFilter || (
+        prepMinutes !== null
+        && prepMinutes >= selectedTimeRange.minMinutes
+        && prepMinutes <= selectedTimeRange.maxMinutes
+      );
+
+      const isVisible = categoryMatches && priceMatches && timeMatches;
+      sidebarRecipeItem.classList.toggle('hidden', !isVisible);
+      sidebarRecipeItem.style.display = isVisible ? '' : 'none';
     });
 
     if (filtersActive) {
@@ -310,6 +344,12 @@ document.addEventListener('DOMContentLoaded', () => {
     levelBlocks.forEach((levelBlock) => {
       const levelNumber = parseInt(levelBlock.getAttribute('data-szint') || '0', 10);
       levelBlock.classList.toggle('hidden', (visibleCountByLevel[levelNumber] ?? 0) === 0);
+    });
+
+    getSidebarLevelBlocks().forEach((levelBlock) => {
+      const levelNumber = parseInt(levelBlock.getAttribute('data-szint') || '0', 10);
+      levelBlock.classList.toggle('hidden', (visibleCountByLevel[levelNumber] ?? 0) === 0);
+      levelBlock.style.display = (visibleCountByLevel[levelNumber] ?? 0) === 0 ? 'none' : '';
     });
 
     // Globális "nincs találat" állapot.

@@ -188,7 +188,7 @@ $q = $_GET['q'] ?? '';
                     <?php foreach ($receptekSzintekSzerint as $szint => $lista): ?>
                     <!-- Szintenkénti receptlista -->
                     <?php $szintLocked = ((int)$szint > (int)$aktualisSzint); ?>
-                    <div class="mb-4">
+                    <div class="mb-4 sidebar-szint-blokk" data-szint="<?= (int)$szint ?>">
                         <button type="button"
                             class="w-full text-left flex items-center justify-between py-2 px-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition szint-sav-cim <?= $szintLocked ? 'opacity-60' : '' ?>">
                             <span class="font-semibold text-[#4A7043]">
@@ -207,7 +207,14 @@ $q = $_GET['q'] ?? '';
                             <?php $rSzint = (int)($r['Szint'] ?? $r['NehezsegiSzintID'] ?? $szint); ?>
                             <?php $rLocked = ($rSzint > (int)$aktualisSzint); ?>
 
-                            <li class="sidebar-recept-item" data-recept-id="<?= (int)$r['ReceptID'] ?>">
+                            <li class="sidebar-recept-item" data-recept-id="<?= (int)$r['ReceptID'] ?>"
+                                data-szint="<?= (int)$rSzint ?>"
+                                data-fokategoria="<?= htmlspecialchars($r['FoKategoriaNev'] ?? 'Nem kategorizált') ?>"
+                                data-fokategoria-id="<?= (int)($r['FoKategoriaID'] ?? 0) ?>"
+                                data-alkategoria="<?= htmlspecialchars($r['AlkategoriaNev'] ?? 'Egyéb') ?>"
+                                data-alkategoria-id="<?= (int)($r['AlkategoriaID'] ?? 0) ?>"
+                                data-arkategoria="<?= htmlspecialchars($r['ArkategoriaNev'] ?? 'Nincs') ?>"
+                                data-elkeszitesi-ido="<?= htmlspecialchars((string)($r['ElkeszitesiIdo'] ?? '')) ?>">
                                 <!-- Sidebar elem: nyitott szintnél kattintható, zárt szintnél tiltott -->
                                 <?php if (!$rLocked): ?>
                                 <a href="receptek.php?id=<?= (int)$r['ReceptID'] ?>&szint=<?= $rSzint ?>"
