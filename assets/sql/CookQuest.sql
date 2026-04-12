@@ -158,23 +158,22 @@ CREATE TABLE `felhasznalo` (
 --
 
 INSERT INTO `felhasznalo` (`FelhasznaloID`, `Vezeteknev`, `Keresztnev`, `Felhasznalonev`, `Emailcim`, `Jelszo`, `SzuletesiEv`, `Profilkep`, `OrszagID`, `RegisztracioEve`, `MegszerzettPontok`, `SzerepID`, `Torolve`) VALUES
-(1, 'asd', 'asd', 'TejbeTök', 'asd@gmail.com', '$2y$10$rUJz1e8yZomrGIhFktthse9hhGcrQo.jNdVDlEjAYxPy/uspJfeYa', '1999', '', 20, '2026', 1400, 1, 0),
-(2, 'dsa', 'asd', 'dsaasd', 'dsa@gmail.com', '$2y$10$xl4bnDRU8s3clbYd1MihY.edbheglWECLIk0lwC61dUD8P3RQ3HB2', '2000', '', 15, '2026', 0, 2, 0),
-(3, 'alma', 'fa', 'almafa', 'almafa@gmail.com', '$2y$10$x7f.uVLgnh0Ab2KfhGk/g.4YZMlKb/2PBcjcg3U9.GFGWG7VbedUq', '2000', '', 15, '2026', 65, 2, 0),
-(4, 'zwvd', 'dubw', 'vdzuavwd', 'asdawd@gmail.com', '$2y$10$mYXBogvBPi68GQLFidlnx.amyariOS1Qff8AYzSL8SCXvTGpv0CK.', '2000', '', 1, '2026', 15, 2, 0),
-(5, 'töltött', 'káposzta', 'kapi', 'kapi@gmail.com', '$2y$10$tvVApkfAQKIYOjrJLTh/pO6blVdvtSqtpJdX5M46jliK/DZ9/w3hK', '2000', '', 17, '2026', 25, 2, 0),
+(1, 'Hornyák', 'Ákos', 'Ákos2005', 'hornyak.akos.1020@gmail.com', '$2y$10$rUJz1e8yZomrGIhFktthse9hhGcrQo.jNdVDlEjAYxPy/uspJfeYa', '1999', '', 1, '2026', 1400, 1, 0),
+(2, 'Tóth', 'Béla', 'TBéla', 'tothbela@gmail.com', '$2y$10$xl4bnDRU8s3clbYd1MihY.edbheglWECLIk0lwC61dUD8P3RQ3HB2', '2000', '', 15, '2026', 0, 2, 0),
+(3, 'Kiss', 'Pál', 'Palika', 'palkiss@gmail.com', '$2y$10$x7f.uVLgnh0Ab2KfhGk/g.4YZMlKb/2PBcjcg3U9.GFGWG7VbedUq', '2000', '', 15, '2026', 65, 2, 0),
+(4, 'Zöld', 'Andrea', 'Andika', 'zoldandika@gmail.com', '$2y$10$mYXBogvBPi68GQLFidlnx.amyariOS1Qff8AYzSL8SCXvTGpv0CK.', '2000', '', 1, '2026', 15, 2, 0),
+(5, 'Példa', 'Páter', 'Petike', 'peldapeter@gmail.com', '$2y$10$tvVApkfAQKIYOjrJLTh/pO6blVdvtSqtpJdX5M46jliK/DZ9/w3hK', '2000', '', 17, '2026', 25, 2, 0),
 (6, 'Keresztúri', 'Hanna', 'Kerhanna', 'kerhanna05@gmail.com', '$2y$10$9duKM/SEYlqcOLdJ0crxDe3gQ5tJsmwpSxCVaSfCS1ZA15qMtks0S', '2005', '', 1, '2026', 35, 1, 0),
 (7, 'Busai', 'Danika', 'Danimani', 'dani@gmail.com', '$2y$10$JwniWfFRt9V3Ke1W36Vzne6.6IY4HB26puLBgD5RBN/x1SI77ll46', '2004', '', 18, '2026', 290, 2, 0),
-(8, 'Hús', 'Villa', 'Villacska', 'villacska@gmail.com', '$2y$10$qUkki6wQWPQPYJ4wJE6JR.uIj/143kL6tIWRJRMlOsZrDlbWx3R.W', '2005', '', 9, '2026', 105, 2, 0),
-(9, 'Bódis', 'Boglárka', 'bogibodis6@gmail.com', 'bogibodis6@gmail.com', '$2y$10$t4N4YlVnPjA2QV/ymhgiQ.MTt/cK94i5ZTNo5A00AW/Jnks4hWJVW', '2005', 'assets/kepek/profilKepek/user_13_1772522527.png', 1, '2026', 15, 2, 0),
-(10, 'dfg', 'dfg', 'dfg', 'dfg@gmail.com', '$2y$10$TpMPfAdrbDGmfCtAdXsU/uAI0dzAB1aeCceD.rIngrpAOAeLk.sFu', '2004', '', 17, '2026', 80, 2, 0),
-(11, 'qwert', 'qwert', 'qwert2005', 'qwert@gmail.com', '$2y$10$Gf3xGNOP0iBUjx7e69e/suKWLwU37kU.OxyEZpnVJf9Ba4oEoFSBu', '1967', '', 21, '2026', 0, 2, 0),
+(8, 'Valenta', 'Martin', 'Dunya', 'valentamartin@gmail.com', '$2y$10$qUkki6wQWPQPYJ4wJE6JR.uIj/143kL6tIWRJRMlOsZrDlbWx3R.W', '2005', '', 9, '2026', 105, 2, 0),
+(9, 'Bódis', 'Boglárka', 'Bogesz', 'bogibodis6@gmail.com', '$2y$10$t4N4YlVnPjA2QV/ymhgiQ.MTt/cK94i5ZTNo5A00AW/Jnks4hWJVW', '2005', 'assets/kepek/profilKepek/user_13_1772522527.png', 1, '2026', 15, 2, 0),
+(10, 'Dió', 'Marika', 'Marika', 'diomarika@gmail.com', '$2y$10$TpMPfAdrbDGmfCtAdXsU/uAI0dzAB1aeCceD.rIngrpAOAeLk.sFu', '2004', '', 17, '2026', 80, 2, 0),
+(11, 'Galbács', 'Bence', 'Gallencs', 'galbacs.bence@gmail.com', '$2y$10$Gf3xGNOP0iBUjx7e69e/suKWLwU37kU.OxyEZpnVJf9Ba4oEoFSBu', '1967', '', 21, '2026', 0, 2, 0),
 (12, 'Bíró', 'Benjámin', 'Jogász', 'benjamin.biro.bgy@gmail.com', '$2y$10$pYp8IOrWgGXVsaKNMe.h5uVSbaGkLKEU6/HGz/fYz8HgQwVC0Xq1e', '2005', 'assets/kepek/profilKepek/user_19_1773040494.jpg', 1, '2026', 400, 2, 0),
 (13, 'Visegrádi', 'Tamás', 'Tomika2005', 'tomi@gmail.com', '$2y$10$dfnsEAlaIg2UoVe1C2u89.k3JWS7DxZqhJoZ5qxXmmnetZ8PB8HaG', '2005', '', 13, '2026', 15, 2, 0),
-(14, 'Hornyák', 'Ákos', 'HornyákÁkos', 'hornyakakos@gmail.com', '$2y$10$gr3.9Sr2T4Vfe6V6rHIy8eeyZEtHqdLSR/FWoYjkevmwBjhGF7YXi', '2020', '', 18, '2026', 0, 2, 0),
-(15, 'boss', 'boss', 'boss', 'padarzsolti@gmail.com', '$2y$10$MpMHoiLw6JkgZA4.vtHtD.z8ioRL.pDmQYpTd/kf7orZU/jEssq8q', '0000', 'assets/kepek/profilKepek/user_22_1773903759.png', 1, '2026', 80, 2, 0),
-(16, 'wdwf', 'fawfaw', 'fgf', 'fg@gmail.com', '$2y$10$lFOtqPPeiRBRuSgMsth94eapR5j3vV1UbBlxpSIBtmSuCuMfirDvq', '0000', '', 15, '2026', 0, 2, 0),
-(17, 'cer', 'uza', 'ceruta', 'ceruza@gmail.com', '$2y$10$zQtjqCXfjwgI6T27rTWYje6giZYpno99Mw0d/Hzi.HJ1f2X3W1sXK', '2003', '', 20, '2026', 95, 2, 0);
+(15, 'Pádár', 'Zsolt', 'Boss', 'padarzsolti@gmail.com', '$2y$10$MpMHoiLw6JkgZA4.vtHtD.z8ioRL.pDmQYpTd/kf7orZU/jEssq8q', '0000', 'assets/kepek/profilKepek/user_22_1773903759.png', 1, '2026', 80, 2, 0),
+(16, 'Nagy', 'Kinga', 'Kingácska', 'kinganagy@gmail.com', '$2y$10$lFOtqPPeiRBRuSgMsth94eapR5j3vV1UbBlxpSIBtmSuCuMfirDvq', '2005', '', 15, '2026', 0, 2, 0),
+(17, 'Varga', 'Ottó', 'Ottó', 'ottovarga@gmail.com', '$2y$10$zQtjqCXfjwgI6T27rTWYje6giZYpno99Mw0d/Hzi.HJ1f2X3W1sXK', '2003', '', 20, '2026', 95, 2, 0);
 
 -- --------------------------------------------------------
 
