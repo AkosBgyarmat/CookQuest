@@ -10,7 +10,6 @@
 ![MySQL](https://img.shields.io/badge/MySQL-8%2B-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
 ![XAMPP](https://img.shields.io/badge/XAMPP-aj%C3%A1nlott-FB7A24?style=for-the-badge&logo=xampp&logoColor=white)
 ![Bootstrap](https://img.shields.io/badge/Bootstrap-5-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white)
-![License](https://img.shields.io/badge/licenc-Saj%C3%A1t%20projekt-informational?style=for-the-badge)
 
 [![Skill Icons](https://skillicons.dev/icons?i=php,js,html,css,mysql,bootstrap,git,github,vscode)](https://skillicons.dev)
 
