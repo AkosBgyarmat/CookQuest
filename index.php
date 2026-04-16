@@ -12,8 +12,7 @@ include __DIR__ . '/views/head.php';
 
         <!-- Háttérkép -->
         <div class="absolute inset-0">
-            <img src="<?= BASE_URL ?>assets/kepek/fooldalHero.jpg"
-                alt="Konyha"
+            <img src="<?= BASE_URL ?>assets/kepek/fooldalHero.jpg" alt="Konyha"
                 class="object-cover object-center w-full h-full opacity-60" />
         </div>
 
@@ -50,11 +49,12 @@ include __DIR__ . '/views/head.php';
     <section class="py-10 ">
         <div class="container mx-auto px-4">
             <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">Próbáld ki néhány receptünket</h2>
-            <div id="indexReceptekContainer"
-                data-recipe-page="<?= BASE_URL ?>views/receptek/receptek.php"
+            <div id="indexReceptekContainer" data-recipe-page="<?= BASE_URL ?>views/receptek/receptek.php"
                 class="grid grid-cols-1 md:grid-cols-3 gap-8">
             </div>
-            <script id="indexReceptekData" type="application/json"><?= json_encode($indexReceptek, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?></script>
+            <script id="indexReceptekData" type="application/json">
+            <?= json_encode($indexReceptek, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?>
+            </script>
         </div>
     </section>
 
@@ -65,11 +65,16 @@ include __DIR__ . '/views/head.php';
                 <div class="max-w-2xl">
                     <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">Rólunk</h2>
                     <p class="mt-4 text-gray-600 text-lg text-justify">
-                        Ezt az oldalt ketten készítjük, azzal a céllal, hogy segítsünk azoknak, akik nulláról szeretnének megtanulni főzni. Úgy gondoljuk, hogy a főzés nem kell, hogy bonyolult vagy ijesztő legyen – csak érthető lépésekre és egy kis gyakorlásra van szükség.
+                        Ezt az oldalt ketten készítjük, azzal a céllal, hogy segítsünk azoknak, akik nulláról
+                        szeretnének megtanulni főzni. Úgy gondoljuk, hogy a főzés nem kell, hogy bonyolult vagy ijesztő
+                        legyen – csak érthető lépésekre és egy kis gyakorlásra van szükség.
                         <br>
-                        Az oldalon olyan tartalmakat gyűjtünk össze, amelyek az alapoktól indulnak: egyszerű technikák, jól követhető receptek és hasznos konyhai tippek. Minden leírás úgy készült, hogy könnyű legyen követni akkor is, ha valaki most áll először a tűzhely mellé.
+                        Az oldalon olyan tartalmakat gyűjtünk össze, amelyek az alapoktól indulnak: egyszerű technikák,
+                        jól követhető receptek és hasznos konyhai tippek. Minden leírás úgy készült, hogy könnyű legyen
+                        követni akkor is, ha valaki most áll először a tűzhely mellé.
                         <br>
-                        A célunk egy olyan oldal létrehozása, ahol a tanulás nem stresszes, hanem élvezhető, és ahol a főzés fokozatosan válik magabiztos rutinná.
+                        A célunk egy olyan oldal létrehozása, ahol a tanulás nem stresszes, hanem élvezhető, és ahol a
+                        főzés fokozatosan válik magabiztos rutinná.
                     </p>
                 </div>
                 <div class="mt-12 md:mt-0 ">
@@ -91,8 +96,7 @@ include __DIR__ . '/views/head.php';
                 gap-4 p-4">
 
             <div class="group relative" ng-repeat="image in randomImages | limitTo: (isMobile ? 3 : 6)">
-                <img ng-src="{{image}}"
-                    class="aspect-[2/3] h-80 object-cover rounded-lg 
+                <img ng-src="{{image}}" class="aspect-[2/3] h-80 object-cover rounded-lg 
                        transition-transform transform scale-100 
                        group-hover:scale-105" />
             </div>
@@ -100,8 +104,7 @@ include __DIR__ . '/views/head.php';
         </div>
     </section>
 
-    <div id="cookieBanner"
-        class="fixed left-1/2 -translate-x-1/2 bottom-6
+    <div id="cookieBanner" class="fixed left-1/2 -translate-x-1/2 bottom-6
             bg-black/70 backdrop-blur-md
             text-white
             px-6 py-4
@@ -111,10 +114,10 @@ include __DIR__ . '/views/head.php';
             z-50
             flex items-center gap-4">
 
-        <span>Ez az oldal sütiket használ. Ha kérdése van olvasson tovább a <a class="underline" href="<?= BASE_URL ?>views/jogiInformaciok/sutiTajekoztato.php">Cookie tájékoztató</a> oldalon.</span>
+        <span>Ez az oldal sütiket használ. Ha kérdése van olvasson tovább a <a class="underline"
+                href="<?= BASE_URL ?>views/jogiInformaciok/sutiTajekoztato.php">Cookie tájékoztató</a> oldalon.</span>
 
-        <button onclick="acceptCookies()"
-            class="bg-white text-black px-4 py-2 rounded-lg hover:bg-gray-200 transition">
+        <button onclick="acceptCookies()" class="bg-white text-black px-4 py-2 rounded-lg hover:bg-gray-200 transition">
             Elfogadom
         </button>
     </div>
