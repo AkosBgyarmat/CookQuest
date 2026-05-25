@@ -221,7 +221,7 @@ $q = $_GET['q'] ?? '';
                                     class="block px-3 py-1.5 rounded-lg text-sm transition <?= ($receptId == (int)$r['ReceptID']) ? 'bg-[#6F837B] text-white' : 'hover:bg-[#95A792]/20 text-gray-700' ?>">
                                     <?php else: ?>
                                     <a href="javascript:void(0)"
-                                        onclick="alert('Zárolt recept: Szint <?= $rSzint ?> szükséges.')"
+                                        onclick="showLockedRecipeFeedback(<?= $rSzint ?>, <?= $sessionFelhasznaloId <= 0 ? 'true' : 'false' ?>); return false;"
                                         class="block px-3 py-1.5 rounded-lg text-sm transition text-gray-400 cursor-not-allowed">
                                         <?php endif; ?>
                                         <div class="font-medium"><?= htmlspecialchars($r['Nev']) ?></div>
@@ -320,7 +320,7 @@ $q = $_GET['q'] ?? '';
                         <a href="receptek.php?id=<?= (int)$r['ReceptID'] ?>&szint=<?= $rSzint ?>"
                             class="recept-kartya bg-white rounded-2xl shadow-xl overflow-hidden hover:-translate-y-1 transition block relative"
                             <?php else: ?> <a href="javascript:void(0)"
-                            onclick="alert('Zárolt recept: Szint <?= $rSzint ?> szükséges.')"
+                            onclick="showLockedRecipeFeedback(<?= $rSzint ?>, <?= $sessionFelhasznaloId <= 0 ? 'true' : 'false' ?>); return false;"
                             class="recept-kartya bg-white rounded-2xl shadow-xl overflow-hidden transition block relative cursor-not-allowed opacity-60"
                             <?php endif; ?> data-recept-id="<?= (int)$r['ReceptID'] ?>"
                             data-nev="<?= htmlspecialchars($nevLower) ?>"
@@ -532,6 +532,8 @@ $q = $_GET['q'] ?? '';
         </div>
     </div>
 </main>
+
+<?php include __DIR__ . '/lockedFeedbackModal.php'; ?>
 
 <!-- ===== 12) KONFETTI SZINTLÉPÉS ANIMÁCIÓ ===== -->
 <?php if ($szintLepett): ?>

@@ -142,6 +142,8 @@ include __DIR__ . '/../head.php';
                         <?php foreach ($szurtReceptek as $recept):
                             // Megvan/hiányzik listák összeállítása
                             $receptOsszesHozzavalo = $receptHozzavalok[$recept['ReceptID']] ?? [];
+                            $receptSzint = (int)($recept['Szint'] ?? 1);
+                            $locked = ($receptSzint > (int)$aktualisSzint);
                             $megvanHozzavalok = [];
                             $hianyzoHozzavalok = [];
 
@@ -159,16 +161,25 @@ include __DIR__ . '/../head.php';
                         ?>
 
                             <!-- Receptkártya -->
-                            <a href="receptek.php?id=<?= (int)$recept["ReceptID"] ?>"
-                               class="group bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition transform hover:scale-105">
+                                     <a href="<?= $locked ? 'javascript:void(0)' : 'receptek.php?id=' . (int)$recept['ReceptID'] ?>"
+                                         <?= $locked ? 'onclick="showLockedRecipeFeedback(' . $receptSzint . ', ' . ($sessionFelhasznaloId <= 0 ? 'true' : 'false') . '); return false;"' : '' ?>
+                                         class="group bg-white rounded-2xl shadow-lg overflow-hidden transition transform <?= $locked ? 'cursor-not-allowed opacity-60' : 'hover:shadow-2xl hover:scale-105' ?>">
 
                                 <!-- Kép (PHP állítja elő a teljes útvonalat) -->
                                 <div class="relative h-48">
                                     <img
                                         src="<?= htmlspecialchars(receptKepSrc($recept['Kep'] ?? '')) ?>"
                                         alt=""
-                                        class="w-full h-full object-cover group-hover:scale-110 transition"
+                                        class="w-full h-full object-cover <?= $locked ? '' : 'group-hover:scale-110' ?> transition"
                                     >
+
+                                    <?php if ($locked): ?>
+                                        <div class="absolute inset-0 flex items-center justify-center">
+                                            <div class="bg-black/60 text-white px-3 py-2 rounded-lg text-sm font-semibold">
+                                                🔒 Szint <?= $receptSzint ?> szükséges
+                                            </div>
+                                        </div>
+                                    <?php endif; ?>
 
                                     <?php if ($mindenHozzavaloMegvan): ?>
                                         <div class="absolute top-3 left-3 bg-emerald-600/95 text-white text-xs font-bold px-3 py-1 rounded-full shadow">
@@ -235,6 +246,8 @@ include __DIR__ . '/../head.php';
 
     </div>
 </main>
+
+<?php include __DIR__ . '/lockedFeedbackModal.php'; ?>
 
 <!--hutom.js: kereső (filter), számláló frissítés, összes törlése -->
 <script src="../../assets/js/hutom.js"></script>

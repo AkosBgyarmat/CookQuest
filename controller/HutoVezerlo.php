@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '/HutoTarolo.php';
+require_once __DIR__ . '/../services/SzintezesService.php';
 
 // HutoVezerlo:
 // A hutom oldal vezérlője, ami a kérés feldolgozását és a view adatok előkészítését végzi.
@@ -25,7 +26,22 @@ class HutoVezerlo
             'minMatch' => 3,
             'receptHozzavalok' => [],
             'keresesTortent' => false,
+            'sessionFelhasznaloId' => 0,
+            'aktualisSzint' => 1,
         ];
+    }
+
+    // Kinyeri a bejelentkezett felhasználó ID-ját a sessionből.
+    private function getSessionFelhasznaloId(): int
+    {
+        if (session_status() !== PHP_SESSION_ACTIVE) {
+            session_start();
+        }
+
+        return (int)($_SESSION['felhasznalo_id']
+            ?? $_SESSION['FelhasznaloID']
+            ?? ($_SESSION['user']['FelhasznaloID'] ?? 0)
+        );
     }
 
     private function tisztitottHozzavaloIdk(array $hozzavaloIdk): array
@@ -44,9 +60,22 @@ class HutoVezerlo
 
     public function kezeles(): array
     {
+        if (session_status() !== PHP_SESSION_ACTIVE) {
+            session_start();
+        }
+
         // 1) Alap view adatok + összes hozzávaló lekérése a checkbox listához.
         $viewData = $this->alapViewData();
         $viewData['osszesHozzavalo'] = $this->hutoTarolo->osszesHozzavalo();
+
+        $felhasznaloId = $this->getSessionFelhasznaloId();
+        $viewData['sessionFelhasznaloId'] = $felhasznaloId;
+
+        if ($felhasznaloId > 0) {
+            $szintezes = new SzintezesService($this->pdo);
+            $progress = $szintezes->getProgress($felhasznaloId);
+            $viewData['aktualisSzint'] = (int)($progress['aktualisSzint'] ?? 1);
+        }
 
         // 2) POST állapot és a minimum egyezés beolvasása.
         $viewData['keresesTortent'] = ($_SERVER['REQUEST_METHOD'] === 'POST');
