@@ -5,7 +5,7 @@ header("Content-Type: application/json");
 error_reporting(0);
 ini_set('display_errors', 0);
 
-require_once("../kapcsolat.php");
+require __DIR__ . "/../kapcsolat.php";
 
 if (!isset($_SESSION["felhasznalo_id"])) {
     echo json_encode(["success" => false, "message" => "Nincs bejelentkezve."]);
