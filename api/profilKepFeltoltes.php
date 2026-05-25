@@ -45,7 +45,7 @@ $targetPath = $uploadDir . $newFileName;
 
 if (move_uploaded_file($file["tmp_name"], $targetPath)) {
 
-    $relativePath = "assets/kepek/profilKepek/" . $newFileName;
+    $relativePath = $newFileName;
 
     // Régi kép lekérése
     $oldStmt = $conn->prepare("SELECT ProfilKep FROM felhasznalo WHERE FelhasznaloID = ?");
@@ -54,8 +54,8 @@ if (move_uploaded_file($file["tmp_name"], $targetPath)) {
     $oldResult = $oldStmt->get_result();
     $oldData = $oldResult->fetch_assoc();
 
-    if (!empty($oldData["ProfilKep"]) && file_exists("../" . $oldData["ProfilKep"])) {
-        unlink("../" . $oldData["ProfilKep"]);
+    if (!empty($oldData["ProfilKep"]) && file_exists("../assets/kepek/profilKepek/" . $oldData["ProfilKep"])) {
+    unlink("../assets/kepek/profilKepek/" . $oldData["ProfilKep"]);
     }
 
     $stmt = $conn->prepare("UPDATE felhasznalo SET ProfilKep = ? WHERE FelhasznaloID = ?");
