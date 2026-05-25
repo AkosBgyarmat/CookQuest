@@ -2,7 +2,7 @@
 session_start();
 header("Content-Type: application/json");
 
-require_once("../kapcsolat.php");
+require_once __DIR__ . "/../kapcsolat.php";
 
 $data = json_decode(file_get_contents("php://input"), true);
 

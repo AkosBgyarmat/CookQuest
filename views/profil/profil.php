@@ -117,7 +117,7 @@ include "../head.php";
 
                         <!-- Ha van profilkép -->
                         <img ng-if="user.Profilkep"
-                            ng-src="/CookQuest/{{ user.Profilkep }}"
+                            ng-src="/CookQuest//assets/kepek/profilKepek/{{ user.Profilkep }}"
                             class="w-full h-full object-cover">
 
                         <!-- Ha nincs -->

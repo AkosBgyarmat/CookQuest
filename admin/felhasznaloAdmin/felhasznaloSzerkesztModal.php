@@ -123,9 +123,9 @@
                 </div>
 
                 <div>
-                    <img ng-src="{{selectedFelhasznalo.Profilkep || '/CookQuest/assets/kepek/Logo.png'}}"
-                        alt="{{selectedFelhasznalo.Profilkep ? 'Profilkép' : 'Nincs kép'}}"
-                        title="{{selectedFelhasznalo.Profilkep ? 'Profilkép' : 'Nincs kép'}}"
+                    <img ng-src="{{ selectedFelhasznalo.Profilkep 
+                        ? '/CookQuest/assets/kepek/profilKepek/' + selectedFelhasznalo.Profilkep 
+                        : '/CookQuest/assets/kepek/Logo.png' }}"
                         class="w-32 h-32 object-cover rounded-lg border">
                 </div>
 

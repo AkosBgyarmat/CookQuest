@@ -16,7 +16,10 @@ include __DIR__ . '/views/head.php';
         </div>
 
         <div class="bg-white rounded-lg shadow-md p-6">
-            <h2 class="text-2xl font-bold mb-4">Receptek</h2>
+            <h2 ng-if="receptek.length > 0" class="text-2xl font-bold mb-4">
+                Receptek
+            </h2>
+
 
             <!-- RECEPTEK -->
             <div ng-repeat="item in receptek" class="flex items-center gap-4 p-3 hover:bg-gray-100 rounded-lg">
@@ -36,7 +39,9 @@ include __DIR__ . '/views/head.php';
 
             </div>
 
-            <h2 class="text-2xl font-bold mb-4">Eszközök</h2>
+            <h2 ng-if="eszkozok.length > 0" class="text-2xl font-bold mb-4">
+                Eszközök
+            </h2>
 
             <!-- ESZKÖZÖK -->
             <div ng-repeat="item in eszkozok"
@@ -59,8 +64,8 @@ include __DIR__ . '/views/head.php';
 
             </div>
 
-            <div ng-if="receptek.length === 0 && eszkozok.length === 0" class="text-center text-white text-xl mt-10">
-                Nincs találat 😢
+            <div ng-if="receptek.length === 0 && eszkozok.length === 0" class="text-center text-gray-500 text-xl mt-10">
+                Sajnos a keresett kifejezésre nincs találat
             </div>
 
         </div>
